@@ -1,202 +1,221 @@
 import Link from "next/link";
 import Header from "@/components/Header";
-import { components } from "@/lib/components-data";
+import Footer from "@/components/Footer";
+import { buttonStyles } from "@/ui";
+import ComponentPreview from "@/components/ComponentPreview";
+import { getComponent } from "@/lib/components-data";
+import { statusLabel, statusOrder, tracker, type TrackerStatus } from "@/lib/natuna-tracker";
+import { FIGMA_COMMUNITY_URL, TRACKER_SNAPSHOT } from "@/lib/site";
 
-const REPO_URL = "https://github.com/natunadigilab/WebsiteNatunaDigilab";
-const FIGMA_COMMUNITY_URL =
-  "https://www.figma.com/community/file/1660946308636540525/natuna-digilab-foundation-design-system";
+const counts = Object.fromEntries(
+  statusOrder.map((s) => [s, tracker.filter((t) => t.status === s).length]),
+) as Record<TrackerStatus, number>;
 
-const stableCount = components.filter((c) => c.status === "stable").length;
-const betaCount = components.filter((c) => c.status === "beta").length;
+const barTone: Record<TrackerStatus, string> = {
+  Selesai: "bg-emerald-600",
+  "On Review": "bg-blue-600",
+  OnProgress: "bg-amber-500",
+  Belum: "bg-gray-300",
+};
 
-const stats = [
-  { value: `${components.length}`, label: "Components" },
-  { value: "120+", label: "Design tokens" },
-  { value: "MIT", label: "License" },
-  { value: "React", label: "Built for" },
-];
+const ready = tracker
+  .filter((t) => t.status === "Selesai" && t.slug)
+  .map((t) => getComponent(t.slug!))
+  .filter((c) => c !== undefined);
 
-const featured = [
+const routes = [
   {
-    title: "Brand",
-    color: "bg-blue-100 text-blue-600",
-    desc: "Foundations, resources, and guidelines behind the visual identity of Natuna Digilab.",
-    href: "/docs",
-    cta: "Introduction",
+    href: "/foundation",
+    title: "Foundation",
+    body: "Eight color ramps, the Urbanist type scale, and the radius steps every component is drawn with.",
   },
   {
-    title: "Product",
-    color: "bg-teal-100 text-teal-600",
-    desc: "Components, patterns, and content guidelines for building digital products for Indonesia.",
     href: "/components",
-    cta: "Get started",
+    title: "Components",
+    body: `All ${tracker.length} components on the build plan, with their status, previews, and usage guidance.`,
   },
   {
-    title: "Contribute",
-    color: "bg-violet-100 text-violet-600",
-    desc: "Help us build the open design system that enables Indonesian digital innovation.",
-    href: REPO_URL,
-    cta: "View guidelines",
+    href: "/themes",
+    title: "Themes",
+    body: "The light and dark mode token mapping, shown on real components side by side.",
+  },
+  {
+    href: "/docs",
+    title: "Introduction",
+    body: "What the system covers today, how status works, and how to contribute.",
   },
 ];
+
+function TransferExample() {
+  return (
+    <figure className="w-full max-w-md">
+      <div
+        inert
+        className="rounded-2xl border border-gray-200 bg-surface p-6 sm:p-8"
+      >
+        <div className="text-xl font-bold text-gray-900">Send money</div>
+        <p className="mt-1 text-sm text-gray-600">From your main account</p>
+
+        <div className="mt-6 space-y-5">
+          <div className="flex flex-col gap-1.5">
+            <span className="text-xs font-semibold text-gray-700">Recipient bank</span>
+            <span className="flex items-center justify-between rounded-md border border-gray-300 px-3 py-2.5 text-sm text-gray-900">
+              Bank name
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true" className="text-gray-500">
+                <path d="M6 9l6 6 6-6" />
+              </svg>
+            </span>
+          </div>
+
+          <div className="flex flex-col gap-1.5">
+            <span className="text-xs font-semibold text-gray-700">Amount</span>
+            <span className="flex items-center rounded-md border-2 border-blue-600 px-3 py-2">
+              <span className="text-base font-semibold text-gray-600">Rp</span>
+              <span className="px-2 text-lg font-semibold tabular-nums text-gray-900">250.000</span>
+            </span>
+            <span className="text-xs text-gray-600">Balance shown here</span>
+          </div>
+
+          <fieldset>
+            <legend className="mb-2 text-xs font-semibold text-gray-700">Schedule</legend>
+            <div className="flex gap-2 text-sm">
+              <span className="rounded-md bg-brand px-3 py-1.5 font-medium text-white">Now</span>
+              <span className="rounded-md border border-gray-300 px-3 py-1.5 text-gray-700">Pick a date</span>
+            </div>
+          </fieldset>
+
+          <span className="block rounded-md bg-brand py-2.5 text-center text-sm font-semibold text-white">
+            Review transfer
+          </span>
+        </div>
+      </div>
+      <figcaption className="mt-3 text-center text-xs text-gray-600">
+        Example screen composed from Select, Amount Input, Button Group, and Button.
+      </figcaption>
+    </figure>
+  );
+}
 
 export default function Home() {
-  const explore = components.slice(0, 8);
-
   return (
-    <div className="min-h-screen bg-[#f7f8fa]">
+    <div className="flex min-h-screen flex-col bg-canvas">
       <Header active="" />
 
-      <main className="mx-auto max-w-6xl px-6 pb-24 pt-20 text-center">
-        <span className="mx-auto mb-6 inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-4 py-1.5 text-xs font-medium text-blue-700">
-          <span className="h-1.5 w-1.5 rounded-full bg-blue-500" />
-          v0.1 — Currently in Beta
-        </span>
-
-        <h1 className="mx-auto max-w-4xl text-5xl font-extrabold leading-tight tracking-tight text-gray-900 sm:text-6xl">
-          Design system built for{" "}
-          <span className="text-blue-600">digital products</span>
-        </h1>
-
-        <p className="mx-auto mt-6 max-w-xl text-lg text-gray-500">
-          Open-source components, design tokens, and guidelines built by
-          Natuna Digilab for modern Indonesian digital products.
-        </p>
-
-        <div className="mt-8 flex items-center justify-center gap-3">
-          <Link
-            href="/components"
-            className="rounded-md bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-blue-700"
-          >
-            Browse components →
-          </Link>
-          <Link
-            href="/docs"
-            className="rounded-md border border-gray-300 bg-white px-5 py-2.5 text-sm font-semibold text-gray-700 hover:bg-gray-50"
-          >
-            Read the docs
-          </Link>
-          <a
-            href={FIGMA_COMMUNITY_URL}
-            target="_blank"
-            rel="noreferrer"
-            className="rounded-md border border-gray-300 bg-white px-5 py-2.5 text-sm font-semibold text-gray-700 hover:bg-gray-50"
-          >
-            View in Figma Community
-          </a>
-        </div>
-
-        <div className="mx-auto mt-20 grid max-w-4xl grid-cols-1 gap-6 sm:grid-cols-3">
-          <div className="rounded-xl border border-gray-200 bg-white p-5 text-left shadow-sm">
-            <div className="mb-3 text-[11px] font-mono-code uppercase tracking-wide text-gray-400">Component</div>
-            <div className="mb-3 text-sm font-semibold text-gray-900">Button</div>
-            <div className="flex gap-2">
-              <span className="rounded-md bg-blue-600 px-3 py-1 text-xs font-medium text-white">Primary</span>
-              <span className="rounded-md border border-gray-200 px-3 py-1 text-xs text-gray-600">Ghost</span>
-              <span className="rounded-md border border-gray-200 px-3 py-1 text-xs text-gray-400">Danger</span>
-            </div>
-          </div>
-
-          <div className="rounded-xl border border-gray-200 bg-white p-5 text-left shadow-sm">
-            <div className="mb-3 text-[11px] font-mono-code uppercase tracking-wide text-gray-400">Preview</div>
-            <div className="mb-3 text-sm font-semibold text-gray-900">Card component</div>
-            <div className="flex h-16 items-center justify-center rounded-md bg-blue-50 font-mono-code text-sm text-blue-700">
-              &lt;Card /&gt;
-            </div>
-          </div>
-
-          <div className="rounded-xl border border-gray-200 bg-white p-5 text-left shadow-sm">
-            <div className="mb-3 text-[11px] font-mono-code uppercase tracking-wide text-gray-400">Status</div>
-            <ul className="space-y-2 text-sm text-gray-700">
-              <li className="flex items-center gap-2">
-                <span className="h-2 w-2 rounded-full bg-emerald-500" /> {stableCount} stable
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="h-2 w-2 rounded-full bg-amber-500" /> {betaCount} beta
-              </li>
-            </ul>
-          </div>
-        </div>
-      </main>
-
-      <section className="border-y border-gray-200 bg-white py-10">
-        <div className="mx-auto grid max-w-5xl grid-cols-2 gap-8 px-6 text-center sm:grid-cols-4">
-          {stats.map((s) => (
-            <div key={s.label}>
-              <div className="text-2xl font-extrabold text-gray-900">{s.value}</div>
-              <div className="mt-1 text-sm text-gray-500">{s.label}</div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-6xl px-6 py-16">
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
-          {featured.map((f) => (
-            <div key={f.title} className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-              <div className={`mb-4 flex h-9 w-9 items-center justify-center rounded-lg ${f.color}`}>
-                <span className="h-3 w-3 rounded-sm bg-current" />
-              </div>
-              <h3 className="text-lg font-bold text-gray-900">{f.title}</h3>
-              <p className="mt-2 text-sm text-gray-500">{f.desc}</p>
-              <Link href={f.href} className="mt-4 inline-block text-sm font-medium text-blue-600 hover:underline">
-                {f.cta} →
+      <main className="w-full">
+        <section className="mx-auto grid w-full max-w-6xl items-center gap-14 px-6 pb-20 pt-16 lg:grid-cols-[1.1fr_1fr] lg:pt-24">
+          <div>
+            <h1 className="max-w-xl text-5xl font-extrabold leading-[1.05] tracking-tight text-gray-900 sm:text-6xl">
+              The design system for Indonesian digital products.
+            </h1>
+            <p className="mt-6 max-w-lg text-lg leading-relaxed text-gray-600">
+              Components, design tokens, and usage guidance from Natuna Digilab, drawn for money,
+              identity, and everyday services. Version 0.1, in beta.
+            </p>
+            <div className="mt-9 flex flex-wrap items-center gap-3">
+              <Link
+                href="/components"
+                className={buttonStyles({ size: "lg" })}
+              >
+                Browse the components
+              </Link>
+              <Link
+                href="/docs"
+                className={buttonStyles({ variant: "ghost", size: "lg" })}
+              >
+                Read the introduction
               </Link>
             </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-6xl px-6 pb-24">
-        <div className="mb-6 flex items-center justify-between">
-          <h2 className="text-2xl font-extrabold text-gray-900">Explore components</h2>
-          <Link href="/components" className="text-sm font-medium text-blue-600 hover:underline">
-            View all →
-          </Link>
-        </div>
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-          {explore.map((c) => (
-            <Link
-              key={c.slug}
-              href={`/components/${c.slug}`}
-              className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm transition hover:border-blue-300 hover:shadow-md"
+            <a
+              href={FIGMA_COMMUNITY_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="mt-6 inline-flex min-h-11 items-center text-sm font-medium text-blue-700 underline-offset-4 hover:underline"
             >
-              <div className="mb-4 flex h-20 items-center justify-center rounded-md bg-gray-100 font-mono-code text-xs text-gray-400">
-                &lt;{c.name} /&gt;
-              </div>
-              <div className="text-sm font-semibold text-gray-900">{c.name}</div>
-              <div className="text-xs text-gray-400">{c.category}</div>
-            </Link>
-          ))}
-        </div>
-      </section>
+              Open the Figma library on Figma Community
+            </a>
+          </div>
+          <div className="flex justify-center lg:justify-end">
+            <TransferExample />
+          </div>
+        </section>
 
-      <footer className="border-t border-gray-200 py-6 text-center text-xs text-gray-400">
-        <div className="flex flex-wrap items-center justify-center gap-6">
-          <a
-            href={REPO_URL}
-            target="_blank"
-            rel="noreferrer"
-            className="rounded-sm hover:text-gray-600 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
-          >
-            Page source
-          </a>
-          <a
-            href={REPO_URL}
-            target="_blank"
-            rel="noreferrer"
-            className="rounded-sm hover:text-gray-600 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
-          >
-            Contribute
-          </a>
-          <Link
-            href="/privacy"
-            className="rounded-sm hover:text-gray-600 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
-          >
-            Privacy statement
-          </Link>
-        </div>
-      </footer>
+        <section aria-labelledby="progress" className="border-y border-gray-200 bg-surface">
+          <div className="mx-auto grid w-full max-w-6xl gap-10 px-6 py-14 md:grid-cols-[1fr_1.4fr]">
+            <div>
+              <h2 id="progress" className="text-2xl font-bold text-gray-900">Where the build stands</h2>
+              <p className="mt-3 max-w-sm text-sm leading-relaxed text-gray-600">
+                {counts.Selesai} of {tracker.length} components are ready. The rest are scheduled by build day
+                in the component tracker. Snapshot of {TRACKER_SNAPSHOT}.
+              </p>
+            </div>
+            <div>
+              <div className="flex h-3 overflow-hidden rounded-full bg-gray-100" role="img" aria-label={statusOrder.map((s) => `${counts[s]} ${statusLabel[s]}`).join(", ")}>
+                {statusOrder.map((s) =>
+                  counts[s] ? (
+                    <span key={s} className={barTone[s]} style={{ width: `${(counts[s] / tracker.length) * 100}%` }} />
+                  ) : null,
+                )}
+              </div>
+              <dl className="mt-6 grid grid-cols-2 gap-x-6 gap-y-5 sm:grid-cols-4">
+                {statusOrder.map((s) => (
+                  <div key={s}>
+                    <dt className="flex items-center gap-2 text-sm text-gray-600">
+                      <span aria-hidden="true" className={`h-2.5 w-2.5 rounded-sm ${barTone[s]}`} />
+                      {statusLabel[s]}
+                    </dt>
+                    <dd className="mt-1 text-3xl font-bold tabular-nums text-gray-900">{counts[s]}</dd>
+                  </div>
+                ))}
+              </dl>
+              <Link href="/components" className="mt-6 inline-flex min-h-11 items-center text-sm font-medium text-blue-700 underline-offset-4 hover:underline">
+                See every component and its status
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        <section aria-labelledby="ready" className="mx-auto w-full max-w-6xl px-6 py-20">
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <h2 id="ready" className="text-3xl font-bold tracking-tight text-gray-900">Ready to use</h2>
+              <p className="mt-2 max-w-xl text-gray-600">
+                Components the tracker marks as done. Each one opens its guidance page.
+              </p>
+            </div>
+          </div>
+          <ul className="mt-10 grid grid-cols-1 gap-px overflow-hidden rounded-xl border border-gray-200 bg-gray-200 sm:grid-cols-2 lg:grid-cols-3">
+            {ready.map((c) => (
+              <li key={c.slug} className="bg-surface">
+                <Link href={`/components/${c.slug}`} className="group flex h-full flex-col p-5 transition-colors hover:bg-blue-50/50">
+                  <div aria-hidden="true" inert className="pointer-events-none flex h-36 items-center justify-center overflow-hidden">
+                    <div className="w-full scale-[0.8]">
+                      <ComponentPreview slug={c.slug} />
+                    </div>
+                  </div>
+                  <div className="mt-4 font-semibold text-gray-900 group-hover:text-blue-700">{c.name}</div>
+                  <p className="mt-1 text-sm text-gray-600">{c.summary}</p>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section aria-labelledby="start" className="mx-auto w-full max-w-6xl px-6 pb-24">
+          <h2 id="start" className="text-3xl font-bold tracking-tight text-gray-900">Where to go next</h2>
+          <ul className="mt-8 divide-y divide-gray-200 border-y border-gray-200">
+            {routes.map((r) => (
+              <li key={r.href}>
+                <Link href={r.href} className="group grid gap-1 py-5 sm:grid-cols-[14rem_1fr] sm:gap-8">
+                  <span className="text-lg font-semibold text-gray-900 group-hover:text-blue-700">{r.title}</span>
+                  <span className="text-gray-600">{r.body}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      </main>
+
+      <Footer />
     </div>
   );
 }

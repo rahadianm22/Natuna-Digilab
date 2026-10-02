@@ -1,9 +1,13 @@
-export type ComponentStatus = "stable" | "beta";
+import { tracker, type TrackerStatus } from "./natuna-tracker";
+
+export type ComponentStatus = "stable" | "beta" | "planned";
+
+export type ComponentCategory = "Action" | "Display" | "Form" | "Navigation" | "Overlay" | "Feedback" | "Documentation";
 
 export interface ComponentMeta {
   slug: string;
   name: string;
-  category: "Action" | "Display" | "Form" | "Navigation" | "Overlay" | "Feedback";
+  category: ComponentCategory;
   status: ComponentStatus;
   tags: string[];
   summary: string;
@@ -12,14 +16,15 @@ export interface ComponentMeta {
   dont: string[];
 }
 
-export const categories = [
-  { name: "Action", color: "bg-blue-500", items: ["Button", "Button Group", "Dropdown Menu", "Icon Button", "Link", "More Menu"] },
-  { name: "Display", color: "bg-teal-500", items: ["Avatar", "Badge", "Card", "Code Block", "Divider", "Empty State"] },
-  { name: "Form", color: "bg-violet-500", items: ["Input", "Checkbox", "Select", "Toggle"] },
-  { name: "Navigation", color: "bg-orange-500", items: ["Tabs", "Breadcrumbs", "Pagination"] },
-  { name: "Overlay", color: "bg-pink-500", items: ["Modal", "Tooltip"] },
-  { name: "Feedback", color: "bg-emerald-500", items: ["Alert", "Toast", "Spinner"] },
-] as const;
+export const categories: { name: ComponentCategory }[] = [
+  { name: "Action" },
+  { name: "Display" },
+  { name: "Form" },
+  { name: "Navigation" },
+  { name: "Overlay" },
+  { name: "Feedback" },
+  { name: "Documentation" },
+];
 
 export const components: ComponentMeta[] = [
   {
@@ -37,7 +42,7 @@ export const components: ComponentMeta[] = [
       "Show a loading state for actions that take time, like saving or submitting, so the user knows it is working.",
     ],
     dont: [
-      "Place more than one primary button in the same view — this dilutes the visual hierarchy.",
+      "Place more than one primary button in the same view: this dilutes the visual hierarchy.",
       "Use the destructive variant without a confirmation step for irreversible actions like deleting data.",
       "Use a button for navigation. If it only takes the user to another page, use a link instead.",
     ],
@@ -95,7 +100,7 @@ export const components: ComponentMeta[] = [
     summary: "An overflow menu (kebab / ellipsis) for secondary or less-used actions.",
     usage: "Use in table rows, cards, or toolbars to house actions that don't need to be primary.",
     do: ["Keep the most common action easy to reach even when hidden here.", "Limit to 3-7 items."],
-    dont: ["Hide the primary action of a row inside this menu.", "Use for the only action available — just show it directly."],
+    dont: ["Hide the primary action of a row inside this menu.", "Use for the only action available: just show it directly."],
   },
   {
     slug: "avatar",
@@ -116,8 +121,8 @@ export const components: ComponentMeta[] = [
     tags: ["display"],
     summary: "A small label used to highlight status, category, or count.",
     usage: "Use for statuses (Paid, Pending, Overdue), counts, or tags.",
-    do: ["Use consistent colors for the same meaning across the product.", "Keep badge text short — one or two words."],
-    dont: ["Use more than one badge per item unless necessary.", "Rely on color alone to convey meaning — add text too."],
+    do: ["Use consistent colors for the same meaning across the product.", "Keep badge text short: one or two words."],
+    dont: ["Use more than one badge per item unless necessary.", "Rely on color alone to convey meaning: add text too."],
   },
   {
     slug: "card",
@@ -127,7 +132,7 @@ export const components: ComponentMeta[] = [
     tags: ["display", "layout"],
     summary: "A container that groups related content and actions.",
     usage: "Use to group content into digestible, scannable sections.",
-    do: ["Keep consistent padding and radius across cards.", "Use a clear hierarchy inside — title, body, action."],
+    do: ["Keep consistent padding and radius across cards.", "Use a clear hierarchy inside: title, body, action."],
     dont: ["Nest cards inside cards.", "Overload a single card with unrelated content."],
   },
   {
@@ -150,7 +155,7 @@ export const components: ComponentMeta[] = [
     summary: "A thin line used to separate content into distinct sections.",
     usage: "Use sparingly to group related content without adding a full container.",
     do: ["Use consistent spacing above and below.", "Use as a lighter alternative to a card border."],
-    dont: ["Overuse — too many dividers create visual noise.", "Use as a replacement for proper spacing."],
+    dont: ["Overuse: too many dividers create visual noise.", "Use as a replacement for proper spacing."],
   },
   {
     slug: "empty-state",
@@ -183,7 +188,7 @@ export const components: ComponentMeta[] = [
     summary: "Lets users select one or more options from a set.",
     usage: "Use for multi-select choices or binary settings.",
     do: ["Group related checkboxes with a clear label.", "Support an indeterminate state for partial selection."],
-    dont: ["Use checkboxes for mutually exclusive options — use radio buttons instead.", "Hide the selection state visually."],
+    dont: ["Use checkboxes for mutually exclusive options: use radio buttons instead.", "Hide the selection state visually."],
   },
   {
     slug: "select",
@@ -194,7 +199,7 @@ export const components: ComponentMeta[] = [
     summary: "Lets users choose one option from a list in a dropdown.",
     usage: "Use when there are many options and space is limited.",
     do: ["Sort long lists logically (alphabetical, frequency).", "Support search/filter for long lists."],
-    dont: ["Use for fewer than 3 options — consider a button group or radio instead.", "Pre-select an option that could cause harm if unnoticed."],
+    dont: ["Use for fewer than 3 options: consider a button group or radio instead.", "Pre-select an option that could cause harm if unnoticed."],
   },
   {
     slug: "toggle",
@@ -216,7 +221,7 @@ export const components: ComponentMeta[] = [
     summary: "Organizes content into separate views within the same context.",
     usage: "Use to switch between related views without navigating away from the page.",
     do: ["Keep tab labels short and parallel in structure.", "Limit to a manageable number of tabs (up to ~6-7)."],
-    dont: ["Use tabs for sequential steps — use a stepper instead.", "Hide critical information behind a non-default tab."],
+    dont: ["Use tabs for sequential steps: use a stepper instead.", "Hide critical information behind a non-default tab."],
   },
   {
     slug: "breadcrumbs",
@@ -259,8 +264,8 @@ export const components: ComponentMeta[] = [
     tags: ["overlay"],
     summary: "A small popup that shows brief, supplementary information on hover or focus.",
     usage: "Use to clarify icon-only buttons or provide extra context.",
-    do: ["Keep the text short — a phrase, not a paragraph.", "Ensure it's accessible via keyboard focus, not just hover."],
-    dont: ["Put essential information only in a tooltip.", "Use for content that requires interaction — use a popover instead."],
+    do: ["Keep the text short: a phrase, not a paragraph.", "Ensure it's accessible via keyboard focus, not just hover."],
+    dont: ["Put essential information only in a tooltip.", "Use for content that requires interaction: use a popover instead."],
   },
   {
     slug: "alert",
@@ -271,7 +276,7 @@ export const components: ComponentMeta[] = [
     summary: "A persistent, inline message that communicates important information.",
     usage: "Use for warnings, errors, or important contextual information tied to a section of the page.",
     do: ["Match color and icon to severity (info, success, warning, error).", "Keep messages actionable and specific."],
-    dont: ["Use for transient confirmations — use a toast instead.", "Overuse alerts for low-priority information."],
+    dont: ["Use for transient confirmations: use a toast instead.", "Overuse alerts for low-priority information."],
   },
   {
     slug: "toast",
@@ -282,7 +287,7 @@ export const components: ComponentMeta[] = [
     summary: "A brief, temporary notification that appears and disappears automatically.",
     usage: "Use to confirm the result of an action, like saving or sending.",
     do: ["Auto-dismiss after a few seconds.", "Keep the message short and specific to what just happened."],
-    dont: ["Use for critical errors that require action — use an alert or modal instead.", "Stack too many toasts at once."],
+    dont: ["Use for critical errors that require action: use an alert or modal instead.", "Stack too many toasts at once."],
   },
   {
     slug: "spinner",
@@ -295,7 +300,392 @@ export const components: ComponentMeta[] = [
     do: ["Pair with a label when the wait may be longer than a second or two.", "Use consistent sizing across similar contexts."],
     dont: ["Use a spinner for waits long enough to need progress feedback.", "Leave the user without any indication that something is happening."],
   },
+
+  // Components from the Natuna Component Tracker (Notion). Status follows the tracker:
+  // Selesai = stable, OnProgress = beta, Belum = planned.
+  {
+    slug: "headline",
+    name: "Headline",
+    category: "Display",
+    status: "stable",
+    tags: ["typography"],
+    summary: "A page or section title set in the Urbanist header scale.",
+    usage: "Use one Header 1 per page, then Header 2 and Subheader for the sections below it.",
+    do: ["Follow the scale in order: Header 1, Header 2, Subheader.", "Keep titles short enough to fit on one line on mobile."],
+    dont: ["Pick a heading size for looks: the level must match the document outline.", "Set whole paragraphs in a header style."],
+  },
+  {
+    slug: "label-text",
+    name: "Label Text",
+    category: "Display",
+    status: "planned",
+    tags: ["typography", "form"],
+    summary: "Short text that names a field, value, or group.",
+    usage: "Use above inputs and beside values in summaries, set in Caption 1 semibold.",
+    do: ["Write labels as nouns: \"Account number\", not \"Enter your account number\".", "Connect every form label to its input."],
+    dont: ["Replace a label with placeholder text.", "End labels with a colon when they sit above the field."],
+  },
+  {
+    slug: "separator",
+    name: "Separator",
+    category: "Display",
+    status: "planned",
+    tags: ["display", "layout"],
+    summary: "A small inline mark (dot or bar) between items on the same line.",
+    usage: "Use to split metadata such as date, category, and author in a single row.",
+    do: ["Keep the mark lighter than the text it separates.", "Hide it from screen readers."],
+    dont: ["Use it to split whole sections: use a divider.", "Chain more than four items on one line."],
+  },
+  {
+    slug: "chip",
+    name: "Chip / Tag",
+    category: "Display",
+    status: "planned",
+    tags: ["display", "interactive"],
+    summary: "A compact label for a category, filter, or selected value.",
+    usage: "Use for applied filters, selected options in a multi-select, or content categories.",
+    do: ["Give removable chips a clear remove button with an accessible name.", "Keep chip text to one or two words."],
+    dont: ["Use a chip for status: use a badge.", "Let a row of chips overflow the screen: wrap it."],
+  },
+  {
+    slug: "status",
+    name: "Status",
+    category: "Display",
+    status: "planned",
+    tags: ["display", "feedback"],
+    summary: "Shows the state of a record, such as a payment or request, with color and text.",
+    usage: "Use in lists and detail pages where the user needs to know what state an item is in.",
+    do: ["Map each state to one color and keep it the same across the product.", "Always include the state name in text."],
+    dont: ["Rely on color alone.", "Invent a new color for a state that already has one."],
+  },
+  {
+    slug: "comment",
+    name: "Comment",
+    category: "Display",
+    status: "beta",
+    tags: ["display"],
+    summary: "A single message in a discussion, with author, time, and text.",
+    usage: "Use for review notes, support threads, and activity on a record.",
+    do: ["Show when the comment was posted.", "Use initials when there is no profile photo."],
+    dont: ["Truncate a comment without a way to read the rest.", "Show edit actions to people who cannot edit."],
+  },
+  {
+    slug: "accordion",
+    name: "Accordion",
+    category: "Display",
+    status: "stable",
+    tags: ["display", "interactive"],
+    summary: "Stacked sections that expand to reveal their content.",
+    usage: "Use for long reference content where people look for one section at a time.",
+    do: ["Write headers that describe what is inside.", "Let the whole header row toggle the section."],
+    dont: ["Hide the only important content in a collapsed section.", "Nest accordions inside accordions."],
+  },
+  {
+    slug: "table",
+    name: "Table / Data Table",
+    category: "Display",
+    status: "planned",
+    tags: ["display", "data"],
+    summary: "Rows and columns for comparing many records at once.",
+    usage: "Use when people scan, sort, or compare records. Put the deciding column first.",
+    do: ["Right-align numbers so they line up.", "Show an empty state and a loading state for the table body."],
+    dont: ["Add columns because the component supports them.", "Hide horizontal scroll on mobile: let the table scroll inside its container."],
+  },
+  {
+    slug: "transaction-list-item",
+    name: "Transaction List Item",
+    category: "Display",
+    status: "planned",
+    tags: ["display", "finance"],
+    summary: "One row in a transaction history: counterparty, time, and signed amount.",
+    usage: "Use in account history, wallet activity, and payment lists.",
+    do: ["Show money out and money in with both a sign and color.", "Format amounts in the user's currency and locale."],
+    dont: ["Use color alone to show direction.", "Round amounts in a history list."],
+  },
+  {
+    slug: "qr-code",
+    name: "QR Code Display",
+    category: "Display",
+    status: "planned",
+    tags: ["display", "finance"],
+    summary: "A scannable code with its amount, recipient, and expiry.",
+    usage: "Use for QRIS payments, check-in, and sharing an account.",
+    do: ["Keep a quiet zone around the code and a white background.", "Show who is being paid next to the code."],
+    dont: ["Place the code on a colored or dark background.", "Crop or stretch the code to fit a layout."],
+  },
+  {
+    slug: "radio-button",
+    name: "Radio Button",
+    category: "Form",
+    status: "beta",
+    tags: ["form", "interactive"],
+    summary: "A single option that belongs to a set where only one can be chosen.",
+    usage: "Use inside a radio group. A radio button on its own cannot be unselected.",
+    do: ["Make the label clickable along with the circle.", "Keep the tap area at least 44px tall."],
+    dont: ["Use a single radio button for a yes/no setting: use a checkbox or toggle.", "Style it so it looks like a checkbox."],
+  },
+  {
+    slug: "radio-group",
+    name: "Radio",
+    category: "Form",
+    status: "planned",
+    tags: ["form", "interactive"],
+    summary: "A labelled set of radio buttons for choosing one option.",
+    usage: "Use when there are two to six options and people should see all of them at once.",
+    do: ["Wrap the set in a fieldset with a legend.", "Pre-select the safest option when a default is needed."],
+    dont: ["Use for more than about six options: use a select.", "Leave the group without a legend."],
+  },
+  {
+    slug: "textarea",
+    name: "Textarea",
+    category: "Form",
+    status: "planned",
+    tags: ["form", "interactive"],
+    summary: "A multi-line text field for longer answers.",
+    usage: "Use for notes, descriptions, and messages.",
+    do: ["Size it to the expected length of the answer.", "Show a character count when there is a limit."],
+    dont: ["Use for single-line answers.", "Disable resizing without a reason."],
+  },
+  {
+    slug: "slider",
+    name: "Slider",
+    category: "Form",
+    status: "planned",
+    tags: ["form", "interactive"],
+    summary: "Picks a value from a continuous range by dragging.",
+    usage: "Use when the exact value matters less than its position in the range, such as volume or a price filter.",
+    do: ["Show the current value next to the slider.", "Support arrow keys for fine steps."],
+    dont: ["Use for exact values like an amount to transfer: use an input.", "Make the thumb smaller than a finger."],
+  },
+  {
+    slug: "otp-input",
+    name: "OTP Input",
+    category: "Form",
+    status: "planned",
+    tags: ["form", "security"],
+    summary: "Boxes for entering a one-time code sent by SMS or email.",
+    usage: "Use on verification steps. Accept a pasted code and move focus between boxes automatically.",
+    do: ["Set autocomplete=\"one-time-code\" so phones can fill it.", "Show where the code was sent and a way to resend it."],
+    dont: ["Block paste.", "Clear the whole code when one digit is wrong."],
+  },
+  {
+    slug: "pin-input",
+    name: "PIN Input",
+    category: "Form",
+    status: "planned",
+    tags: ["form", "security"],
+    summary: "Masked boxes for entering a secret PIN.",
+    usage: "Use to authorise a transaction or unlock an app.",
+    do: ["Mask each digit after it is entered.", "Use a numeric keyboard on mobile."],
+    dont: ["Show the PIN in plain text by default.", "Store or log the entered digits."],
+  },
+  {
+    slug: "search",
+    name: "Search",
+    category: "Form",
+    status: "planned",
+    tags: ["form", "navigation"],
+    summary: "A field for finding content by keyword.",
+    usage: "Use at the top of long lists and in the header of content-heavy apps.",
+    do: ["Say what can be searched in the placeholder.", "Show a clear empty state when nothing matches."],
+    dont: ["Hide search behind an icon when it is the main task.", "Search on every keystroke against a slow server without debouncing."],
+  },
+  {
+    slug: "file-input",
+    name: "File Input",
+    category: "Form",
+    status: "planned",
+    tags: ["form", "interactive"],
+    summary: "Lets people choose or drop a file to upload.",
+    usage: "Use for documents such as ID cards, receipts, and attachments.",
+    do: ["State the allowed file types and the size limit before upload.", "Show upload progress and a way to remove the file."],
+    dont: ["Accept a file and reject it only after upload.", "Rely on drag and drop alone: keep a button."],
+  },
+  {
+    slug: "date-picker",
+    name: "Date Picker",
+    category: "Form",
+    status: "planned",
+    tags: ["form", "interactive"],
+    summary: "Chooses a date from a calendar or by typing.",
+    usage: "Use for scheduling and date filters. Let people type the date as well.",
+    do: ["Show the expected format, such as DD/MM/YYYY.", "Disable dates that cannot be chosen and say why."],
+    dont: ["Force a calendar for dates far in the past, like a birth date.", "Mix date formats in the same product."],
+  },
+  {
+    slug: "combobox",
+    name: "Combobox / Autocomplete",
+    category: "Form",
+    status: "planned",
+    tags: ["form", "interactive"],
+    summary: "An input that suggests matching options as the user types.",
+    usage: "Use for long option lists such as banks, cities, or countries.",
+    do: ["Match anywhere in the option name, not only the start.", "Support arrow keys and Enter to pick an option."],
+    dont: ["Use for fewer than about ten options: use a select or radio group.", "Accept free text when only listed values are valid."],
+  },
+  {
+    slug: "amount-input",
+    name: "Amount / Currency Input",
+    category: "Form",
+    status: "planned",
+    tags: ["form", "finance"],
+    summary: "An input for money that formats the value as the user types.",
+    usage: "Use for transfer, top-up, and payment amounts.",
+    do: ["Show the currency (Rp) next to the value.", "Show the limit or balance close to the field."],
+    dont: ["Accept letters or more than one decimal separator.", "Reformat the value in a way that moves the cursor."],
+  },
+  {
+    slug: "rating",
+    name: "Rating",
+    category: "Form",
+    status: "planned",
+    tags: ["form", "feedback"],
+    summary: "Collects or shows a score on a fixed scale, usually five stars.",
+    usage: "Use for reviews and short satisfaction questions.",
+    do: ["Label the ends of the scale.", "Show the score as text for screen readers."],
+    dont: ["Use a rating where a yes/no answer is enough.", "Show an average without the number of ratings."],
+  },
+  {
+    slug: "stepper",
+    name: "Stepper",
+    category: "Navigation",
+    status: "planned",
+    tags: ["navigation"],
+    summary: "Shows progress through a task split into ordered steps.",
+    usage: "Use for multi-step flows such as onboarding, KYC, or checkout.",
+    do: ["Name each step, not just number it.", "Mark completed, current, and upcoming steps differently."],
+    dont: ["Use for content that can be read in any order: use tabs.", "Show more steps than fit on a phone screen."],
+  },
+  {
+    slug: "navigation-bar",
+    name: "Navigation Bar (Top/Bottom)",
+    category: "Navigation",
+    status: "planned",
+    tags: ["navigation"],
+    summary: "The main app navigation: a top bar on desktop, a bottom bar on mobile.",
+    usage: "Use for the three to five destinations people switch between most.",
+    do: ["Pair every icon with a text label.", "Mark the current destination with more than color."],
+    dont: ["Put more than five items in a bottom bar.", "Use the bar for actions: it is for destinations."],
+  },
+  {
+    slug: "drawer",
+    name: "Drawer",
+    category: "Overlay",
+    status: "planned",
+    tags: ["overlay", "interactive"],
+    summary: "A panel that slides in from the edge of the screen over the page.",
+    usage: "Use for filters, details, or a secondary task that keeps the page in context.",
+    do: ["Close it with Escape, the close button, and a backdrop tap.", "Move focus into the drawer when it opens."],
+    dont: ["Open a drawer from inside a drawer.", "Put a whole multi-step flow inside it."],
+  },
+  {
+    slug: "progress-bar",
+    name: "Progress Bars",
+    category: "Feedback",
+    status: "planned",
+    tags: ["feedback"],
+    summary: "Shows how much of a task is complete.",
+    usage: "Use for uploads, processing, and any wait long enough to need a sense of progress.",
+    do: ["Show the percentage or remaining amount in text.", "Use a determinate bar whenever the total is known."],
+    dont: ["Fake progress that is not tied to real work.", "Use for waits under a second."],
+  },
+  {
+    slug: "skeleton",
+    name: "Skeleton",
+    category: "Feedback",
+    status: "planned",
+    tags: ["feedback", "loading"],
+    summary: "A grey placeholder in the shape of content that is still loading.",
+    usage: "Use while the first load of a list or card is in progress.",
+    do: ["Match the skeleton to the real layout it replaces.", "Announce loading to screen readers."],
+    dont: ["Keep a skeleton on screen after an error: show the error state.", "Animate it so strongly it draws the eye."],
+  },
+  {
+    slug: "artboard",
+    name: "Artboard",
+    category: "Documentation",
+    status: "stable",
+    tags: ["figma", "documentation"],
+    summary: "The frame that holds a component's variants in the Figma library.",
+    usage: "Use as the container for every component page in the Figma file, with the component name in its header.",
+    do: ["Name the artboard after the component it holds.", "Keep one component per artboard."],
+    dont: ["Place loose variants outside an artboard.", "Resize artboards so variants overlap."],
+  },
+  {
+    slug: "cover",
+    name: "Cover",
+    category: "Documentation",
+    status: "planned",
+    tags: ["figma", "documentation"],
+    summary: "The first frame of a Figma file: product name, file title, and version.",
+    usage: "Use as the thumbnail frame of every Natuna Digilab Figma file.",
+    do: ["Update the version on every release.", "List only what the file really contains."],
+    dont: ["Leave an old version number on the cover.", "Add decoration that is not part of the brand."],
+  },
+  {
+    slug: "guideline",
+    name: "Guideline",
+    category: "Documentation",
+    status: "stable",
+    tags: ["figma", "documentation"],
+    summary: "A Do and Don't frame that explains how a component should be used.",
+    usage: "Use beside each component artboard to show correct and incorrect usage.",
+    do: ["Pair every Don't with the Do that fixes it.", "Use real content in the examples."],
+    dont: ["Write a guideline that only repeats the component name.", "Use color alone to separate Do from Don't."],
+  },
+  {
+    slug: "document",
+    name: "Document",
+    category: "Documentation",
+    status: "stable",
+    tags: ["figma", "documentation"],
+    summary: "A page layout for written documentation inside the Figma file.",
+    usage: "Use for introductions, foundations, and any page that is mostly text.",
+    do: ["Use the header scale for the page outline.", "Keep line length readable."],
+    dont: ["Paste screenshots of text.", "Mix documentation and component variants on one frame."],
+  },
+  {
+    slug: "changelog",
+    name: "Changelog",
+    category: "Documentation",
+    status: "beta",
+    tags: ["figma", "documentation"],
+    summary: "A dated list of what changed in each release of the design system.",
+    usage: "Use in the Figma file and on this site so teams know what changed before they update.",
+    do: ["Group entries by version and date.", "Say what changed and what teams need to do."],
+    dont: ["Write \"minor fixes\" without saying what was fixed.", "Edit past entries after release."],
+  },
 ];
+
+// The Notion tracker is the source of truth for build status. The statuses written above are only
+// used for components the tracker does not list.
+const trackerStatus: Record<TrackerStatus, ComponentStatus> = {
+  Selesai: "stable",
+  "On Review": "beta",
+  OnProgress: "beta",
+  Belum: "planned",
+};
+
+for (const c of components) {
+  const row = tracker.find((t) => t.slug === c.slug);
+  if (row) c.status = trackerStatus[row.status];
+}
+
+export const statusText: Record<ComponentStatus, string> = {
+  stable: "Ready",
+  beta: "In progress",
+  planned: "Planned",
+};
+
+export const statusTone: Record<ComponentStatus, string> = {
+  stable: "bg-emerald-100 text-emerald-800",
+  beta: "bg-amber-100 text-amber-900",
+  planned: "bg-gray-100 text-gray-700",
+};
+
+export function trackerRow(slug: string) {
+  return tracker.find((t) => t.slug === slug);
+}
 
 export function getComponent(slug: string) {
   return components.find((c) => c.slug === slug);

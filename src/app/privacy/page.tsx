@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "Privacy statement",
@@ -9,11 +10,11 @@ export const metadata: Metadata = {
 
 export default function PrivacyPage() {
   return (
-    <div className="min-h-screen bg-[#f7f8fa]">
+    <div className="flex min-h-screen flex-col bg-canvas">
       <Header active="" />
-      <main className="mx-auto max-w-3xl px-6 py-20">
-        <h1 className="text-4xl font-extrabold text-gray-900">Privacy statement</h1>
-        <p className="mt-4 text-gray-600">
+      <main className="mx-auto w-full max-w-2xl px-6 pb-24 pt-14">
+        <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">Privacy statement</h1>
+        <p className="mt-5 text-lg leading-relaxed text-gray-600">
           This documentation site is a static, open-source project. It does not collect,
           store, or share personal data.
         </p>
@@ -22,7 +23,8 @@ export default function PrivacyPage() {
         <p className="text-gray-600">
           Nothing. There are no accounts, no contact forms, and no analytics or tracking
           scripts. We do not set cookies, and nothing you type into the component search
-          leaves your browser.
+          leaves your browser. Your light or dark mode choice is saved in your browser&rsquo;s local storage
+          and never sent anywhere.
         </p>
 
         <h2 className="mt-10 mb-3 text-xl font-bold text-gray-900">Third parties</h2>
@@ -37,6 +39,7 @@ export default function PrivacyPage() {
           Open an issue on the project repository and we&rsquo;ll respond there in the open.
         </p>
       </main>
+      <Footer />
     </div>
   );
 }

@@ -1,75 +1,120 @@
 import type { ReactElement } from "react";
+import { Accordion, Avatar, Badge, Button, Input } from "@/ui";
+import {
+  ArrowDownLeft,
+  ArrowUpRight,
+  Check,
+  CheckCircle,
+  DotsThree,
+  DownloadSimple,
+  House,
+  List,
+  MagnifyingGlass,
+  PencilSimple,
+  Plus,
+  QrCode,
+  Star,
+  Trash,
+  Tray,
+  UploadSimple,
+  User,
+  Wallet,
+  X,
+  XCircle,
+} from "@phosphor-icons/react/ssr";
 
 const previews: Record<string, () => ReactElement> = {
   button: () => (
-    <div className="flex flex-wrap items-center justify-center gap-3 py-6">
-      <button className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white">Primary</button>
-      <button className="rounded-md bg-gray-100 px-4 py-2 text-sm font-medium text-gray-800">Secondary</button>
-      <button className="rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-800">Ghost</button>
-      <button className="rounded-md bg-red-600 px-4 py-2 text-sm font-medium text-white">Destructive</button>
+    <div className="flex flex-col items-center gap-5 py-4">
+      <div className="flex flex-wrap items-center justify-center gap-3">
+        <Button>Primary</Button>
+        <Button variant="secondary">Secondary</Button>
+        <Button variant="ghost">Ghost</Button>
+        <Button variant="destructive">Destructive</Button>
+      </div>
+      <div className="flex flex-wrap items-center justify-center gap-3">
+        <Button loading>Saving</Button>
+        <Button disabled>Disabled</Button>
+        <Button size="lg">Large</Button>
+      </div>
     </div>
   ),
   "button-group": () => (
     <div className="flex justify-center py-6">
       <div className="inline-flex overflow-hidden rounded-md border border-gray-300">
-        <button className="border-r border-gray-300 bg-blue-600 px-4 py-2 text-sm font-medium text-white">Grid</button>
+        <button className="border-r border-gray-300 bg-brand px-4 py-2 text-sm font-medium text-white">Grid</button>
         <button className="px-4 py-2 text-sm text-gray-700">List</button>
       </div>
     </div>
   ),
   "dropdown-menu": () => (
     <div className="flex justify-center py-6">
-      <div className="w-48 rounded-md border border-gray-200 bg-white shadow-sm">
+      <div className="w-48 rounded-md border border-gray-200 bg-surface shadow-sm">
         <div className="border-b border-gray-100 px-3 py-2 text-sm text-gray-700">Edit</div>
         <div className="border-b border-gray-100 px-3 py-2 text-sm text-gray-700">Duplicate</div>
-        <div className="px-3 py-2 text-sm text-red-600">Delete</div>
+        <div className="px-3 py-2 text-sm text-red-700">Delete</div>
       </div>
     </div>
   ),
   "icon-button": () => (
     <div className="flex justify-center gap-3 py-6">
-      {["+", "✎", "⤓", "🗑"].map((i) => (
-        <span key={i} className="flex h-9 w-9 items-center justify-center rounded-md border border-gray-200 text-gray-600">
-          {i}
+      {[
+        { label: "Add", icon: <Plus size={18} /> },
+        { label: "Edit", icon: <PencilSimple size={18} /> },
+        { label: "Download", icon: <DownloadSimple size={18} /> },
+        { label: "Delete", icon: <Trash size={18} /> },
+      ].map(({ label, icon }) => (
+        <span
+          key={label}
+          role="img"
+          aria-label={label}
+          className="flex h-9 w-9 items-center justify-center rounded-md border border-gray-200 text-gray-600"
+        >
+          {icon}
         </span>
       ))}
     </div>
   ),
   link: () => (
-    <div className="flex justify-center py-6 text-sm text-blue-600 underline">
+    <div className="flex justify-center py-6 text-sm text-blue-700 underline">
       View full documentation
     </div>
   ),
   "more-menu": () => (
-    <div className="flex justify-center py-6 text-2xl text-gray-500">⋯</div>
+    <div className="flex justify-center py-6 text-gray-600">
+      <span role="img" aria-label="More actions">
+        <DotsThree size={28} weight="bold" />
+      </span>
+    </div>
   ),
   avatar: () => (
-    <div className="flex justify-center gap-3 py-6">
-      {["RM", "AI", "DS"].map((i) => (
-        <span key={i} className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-100 text-sm font-semibold text-blue-700">
-          {i}
-        </span>
-      ))}
+    <div className="flex items-end justify-center gap-3 py-6">
+      <Avatar name="Natuna Digilab" size="sm" />
+      <Avatar name="Natuna Digilab" />
+      <Avatar name="Natuna Digilab" size="lg" />
+      <Avatar name="Digilab" />
     </div>
   ),
   badge: () => (
-    <div className="flex justify-center gap-2 py-6">
-      <span className="rounded bg-emerald-100 px-2 py-0.5 text-xs font-medium text-emerald-700">Paid</span>
-      <span className="rounded bg-amber-100 px-2 py-0.5 text-xs font-medium text-amber-700">Pending</span>
-      <span className="rounded bg-red-100 px-2 py-0.5 text-xs font-medium text-red-700">Overdue</span>
+    <div className="flex flex-wrap justify-center gap-2 py-6">
+      <Badge tone="success">Paid</Badge>
+      <Badge tone="warning">Pending</Badge>
+      <Badge tone="danger">Overdue</Badge>
+      <Badge tone="info">Draft</Badge>
+      <Badge>Archived</Badge>
     </div>
   ),
   card: () => (
     <div className="flex justify-center py-6">
-      <div className="w-64 rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+      <div className="w-64 rounded-xl border border-gray-200 bg-surface p-4">
         <div className="mb-2 text-sm font-semibold text-gray-900">Card title</div>
-        <div className="text-xs text-gray-500">Supporting description text goes here.</div>
+        <div className="text-xs text-gray-600">Supporting description text goes here.</div>
       </div>
     </div>
   ),
   "code-block": () => (
     <div className="flex justify-center py-6">
-      <pre className="rounded-md bg-gray-900 px-4 py-3 text-xs text-emerald-300">npm install @natuna/ui</pre>
+      <pre className="rounded-md bg-ink px-4 py-3 text-xs text-emerald-300">npm install @natuna/ui</pre>
     </div>
   ),
   divider: () => (
@@ -77,24 +122,29 @@ const previews: Record<string, () => ReactElement> = {
   ),
   "empty-state": () => (
     <div className="flex flex-col items-center justify-center py-8 text-center">
-      <div className="mb-2 text-2xl">📭</div>
+      <span className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-blue-50 text-blue-700">
+        <Tray size={24} />
+      </span>
       <div className="text-sm font-medium text-gray-700">No results found</div>
-      <div className="text-xs text-gray-400">Try adjusting your search or filters.</div>
+      <div className="text-xs text-gray-600">Try adjusting your search or filters.</div>
     </div>
   ),
   input: () => (
-    <div className="flex justify-center py-6">
-      <input placeholder="Enter your email" className="w-64 rounded-md border border-gray-300 px-3 py-2 text-sm" />
+    <div className="mx-auto grid w-full max-w-xs gap-5 py-4">
+      <Input label="Email" type="email" placeholder="email@example.com" hint="We send the receipt here." />
+      <Input label="Email" type="email" defaultValue="nama.pengguna" error="Enter a valid email address." />
     </div>
   ),
   checkbox: () => (
-    <div className="flex justify-center gap-2 py-6 text-sm text-gray-700">
-      <input type="checkbox" defaultChecked className="h-4 w-4" /> Remember me
+    <div className="flex justify-center py-6">
+      <label className="flex min-h-11 cursor-pointer items-center gap-2 text-sm text-gray-700">
+        <input type="checkbox" defaultChecked className="h-4 w-4 accent-blue-600" /> Remember me
+      </label>
     </div>
   ),
   select: () => (
     <div className="flex justify-center py-6">
-      <select className="w-48 rounded-md border border-gray-300 px-3 py-2 text-sm">
+      <select aria-label="City" className="w-48 rounded-md border border-gray-300 bg-surface px-3 py-2 text-sm">
         <option>Jakarta</option>
         <option>Tangerang</option>
         <option>Bandung</option>
@@ -103,27 +153,27 @@ const previews: Record<string, () => ReactElement> = {
   ),
   toggle: () => (
     <div className="flex justify-center py-6">
-      <span className="inline-flex h-6 w-11 items-center rounded-full bg-blue-600 p-1">
+      <span className="inline-flex h-6 w-11 items-center rounded-full bg-brand p-1">
         <span className="h-4 w-4 translate-x-5 rounded-full bg-white" />
       </span>
     </div>
   ),
   tabs: () => (
     <div className="flex justify-center gap-6 border-b border-gray-200 py-6 text-sm">
-      <span className="border-b-2 border-blue-600 pb-2 font-medium text-blue-600">Overview</span>
-      <span className="pb-2 text-gray-500">Properties</span>
-      <span className="pb-2 text-gray-500">Examples</span>
+      <span className="border-b-2 border-blue-600 pb-2 font-medium text-blue-700">Overview</span>
+      <span className="pb-2 text-gray-600">Properties</span>
+      <span className="pb-2 text-gray-600">Examples</span>
     </div>
   ),
   breadcrumbs: () => (
-    <div className="flex justify-center gap-2 py-6 text-sm text-gray-500">
+    <div className="flex justify-center gap-2 py-6 text-sm text-gray-600">
       <span>natuna.ui</span> / <span>components</span> / <span className="text-gray-900">Button</span>
     </div>
   ),
   pagination: () => (
     <div className="flex justify-center gap-1 py-6 text-sm">
       {[1, 2, 3].map((n) => (
-        <span key={n} className={`flex h-8 w-8 items-center justify-center rounded-md ${n === 1 ? "bg-blue-600 text-white" : "border border-gray-200 text-gray-600"}`}>
+        <span key={n} className={`flex h-8 w-8 items-center justify-center rounded-md ${n === 1 ? "bg-brand text-white" : "border border-gray-200 text-gray-600"}`}>
           {n}
         </span>
       ))}
@@ -131,31 +181,31 @@ const previews: Record<string, () => ReactElement> = {
   ),
   modal: () => (
     <div className="flex justify-center py-6">
-      <div className="w-72 rounded-lg border border-gray-200 bg-white p-4 shadow-lg">
+      <div className="w-72 rounded-lg border border-gray-200 bg-surface p-4 shadow-lg">
         <div className="mb-2 text-sm font-semibold text-gray-900">Delete item?</div>
-        <div className="mb-3 text-xs text-gray-500">This action cannot be undone.</div>
+        <div className="mb-3 text-xs text-gray-600">This action cannot be undone.</div>
         <div className="flex justify-end gap-2">
           <button className="rounded-md border border-gray-300 px-3 py-1.5 text-xs">Cancel</button>
-          <button className="rounded-md bg-red-600 px-3 py-1.5 text-xs text-white">Delete</button>
+          <button className="rounded-md bg-danger px-3 py-1.5 text-xs text-white">Delete</button>
         </div>
       </div>
     </div>
   ),
   tooltip: () => (
     <div className="flex justify-center py-6">
-      <span className="rounded-md bg-gray-900 px-3 py-1.5 text-xs text-white">Save changes</span>
+      <span className="rounded-md bg-ink px-3 py-1.5 text-xs text-white">Save changes</span>
     </div>
   ),
   alert: () => (
     <div className="flex justify-center py-6">
-      <div className="w-72 rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-800">
+      <div className="w-72 rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-900">
         Your session will expire in 5 minutes.
       </div>
     </div>
   ),
   toast: () => (
     <div className="flex justify-center py-6">
-      <div className="w-64 rounded-md bg-gray-900 px-3 py-2 text-xs text-white">Changes saved successfully</div>
+      <div className="w-64 rounded-md bg-ink px-3 py-2 text-xs text-white">Changes saved successfully</div>
     </div>
   ),
   spinner: () => (
@@ -163,12 +213,416 @@ const previews: Record<string, () => ReactElement> = {
       <span className="h-6 w-6 animate-spin rounded-full border-2 border-gray-300 border-t-blue-600" />
     </div>
   ),
+
+  headline: () => (
+    <div className="mx-auto max-w-xs space-y-1 py-6">
+      <div className="text-2xl font-bold leading-9 text-gray-900">Header 1</div>
+      <div className="text-xl font-bold leading-[30px] text-gray-900">Header 2</div>
+      <div className="text-lg font-semibold leading-[26px] text-gray-700">Subheader</div>
+    </div>
+  ),
+  "label-text": () => (
+    <div className="mx-auto flex max-w-xs flex-col gap-4 py-6">
+      <div>
+        <div className="text-xs font-semibold text-gray-600">Account number</div>
+        <div className="text-base font-medium text-gray-900">1234 5678 90</div>
+      </div>
+      <div>
+        <div className="text-xs font-semibold text-gray-600">Bank</div>
+        <div className="text-base font-medium text-gray-900">Bank name</div>
+      </div>
+    </div>
+  ),
+  separator: () => (
+    <div className="flex justify-center py-6 text-sm text-gray-600">
+      <span>30 Sep 2026</span>
+      <span aria-hidden="true" className="mx-2 text-gray-300">•</span>
+      <span>Transfer</span>
+      <span aria-hidden="true" className="mx-2 text-gray-300">•</span>
+      <span>Mobile</span>
+    </div>
+  ),
+  chip: () => (
+    <div className="flex flex-wrap justify-center gap-2 py-6">
+      {["Jakarta", "This month", "Transfer"].map((c) => (
+        <span key={c} className="inline-flex items-center gap-1 rounded-full border border-blue-200 bg-blue-50 py-1 pl-3 pr-1.5 text-xs font-medium text-blue-800">
+          {c}
+          <button type="button" aria-label={`Remove ${c}`} className="rounded-full p-1 hover:bg-blue-100">
+            <X size={12} weight="bold" />
+          </button>
+        </span>
+      ))}
+    </div>
+  ),
+  status: () => (
+    <div className="flex flex-wrap justify-center gap-4 py-6 text-sm font-medium">
+      {[
+        ["Success", "bg-emerald-600", "text-emerald-800"],
+        ["Processing", "bg-amber-500", "text-amber-900"],
+        ["Failed", "bg-danger", "text-red-800"],
+      ].map(([label, dot, text]) => (
+        <span key={label} className={`inline-flex items-center gap-2 ${text}`}>
+          <span aria-hidden="true" className={`h-2 w-2 rounded-full ${dot}`} />
+          {label}
+        </span>
+      ))}
+    </div>
+  ),
+  comment: () => (
+    <div className="flex justify-center py-6">
+      <div className="flex w-72 gap-3">
+        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-100 text-xs font-semibold text-blue-800">R</span>
+        <div>
+          <div className="text-sm">
+            <span className="font-semibold text-gray-900">Reviewer name</span>
+            <span className="ml-2 text-xs text-gray-600">2 hours ago</span>
+          </div>
+          <p className="mt-1 text-sm text-gray-700">Comment text goes here and wraps onto a second line when it is long.</p>
+        </div>
+      </div>
+    </div>
+  ),
+  accordion: () => (
+    <Accordion
+      className="mx-auto w-full max-w-sm"
+      items={[
+        { title: "What does this section cover?", content: "Section content is shown when the header is opened.", defaultOpen: true },
+        { title: "Second section title", content: "Each section opens and closes on its own." },
+      ]}
+    />
+  ),
+  table: () => (
+    <div className="flex justify-center py-6">
+      <div className="w-full max-w-md overflow-x-auto rounded-md border border-gray-200 bg-surface">
+        <table className="w-full text-left text-sm">
+          <thead className="bg-gray-50 text-xs font-semibold text-gray-600">
+            <tr>
+              <th scope="col" className="px-3 py-2">Invoice</th>
+              <th scope="col" className="px-3 py-2">Status</th>
+              <th scope="col" className="px-3 py-2 text-right">Amount</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-100 text-gray-800">
+            <tr>
+              <td className="px-3 py-2 font-mono-code text-xs">INV-0001</td>
+              <td className="px-3 py-2">Paid</td>
+              <td className="px-3 py-2 text-right tabular-nums">Rp 250.000</td>
+            </tr>
+            <tr>
+              <td className="px-3 py-2 font-mono-code text-xs">INV-0002</td>
+              <td className="px-3 py-2">Pending</td>
+              <td className="px-3 py-2 text-right tabular-nums">Rp 1.200.000</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  ),
+  "transaction-list-item": () => (
+    <div className="mx-auto w-full max-w-sm divide-y divide-gray-100 py-4">
+      {[
+        { name: "Merchant name", meta: "Payment, 09:41", amount: "-Rp 125.000", out: true },
+        { name: "Sender name", meta: "Transfer in, 08:10", amount: "+Rp 500.000", out: false },
+      ].map((t) => (
+        <div key={t.name} className="flex items-center gap-3 py-3">
+          <span className={`flex h-9 w-9 items-center justify-center rounded-full ${t.out ? "bg-gray-100 text-gray-700" : "bg-emerald-100 text-emerald-800"}`}>
+            {t.out ? <ArrowUpRight size={18} aria-hidden="true" /> : <ArrowDownLeft size={18} aria-hidden="true" />}
+          </span>
+          <div className="min-w-0 flex-1">
+            <div className="truncate text-sm font-semibold text-gray-900">{t.name}</div>
+            <div className="text-xs text-gray-600">{t.meta}</div>
+          </div>
+          <span className={`text-sm font-semibold tabular-nums ${t.out ? "text-gray-900" : "text-emerald-800"}`}>{t.amount}</span>
+        </div>
+      ))}
+    </div>
+  ),
+  "qr-code": () => (
+    <div className="flex justify-center py-6">
+      <div className="w-48 rounded-md border border-gray-200 bg-surface p-4 text-center">
+        <div className="mx-auto flex h-28 w-28 flex-col items-center justify-center gap-1 rounded-sm border-2 border-dashed border-gray-300 text-gray-600">
+          <QrCode size={32} aria-hidden="true" />
+          <span className="text-[10px] font-medium">[QR CODE]</span>
+        </div>
+        <div className="mt-3 text-sm font-semibold text-gray-900">Merchant name</div>
+        <div className="text-xs text-gray-600">Valid for 15:00</div>
+      </div>
+    </div>
+  ),
+  "radio-button": () => (
+    <div className="flex justify-center py-6">
+      <label className="flex min-h-11 cursor-pointer items-center gap-2 text-sm text-gray-800">
+        <input type="radio" name="preview-radio-single" defaultChecked className="h-4 w-4 accent-blue-600" />
+        Transfer now
+      </label>
+    </div>
+  ),
+  "radio-group": () => (
+    <div className="flex justify-center py-6">
+      <fieldset className="space-y-1">
+        <legend className="mb-2 text-xs font-semibold text-gray-600">Transfer schedule</legend>
+        {["Now", "Later today", "Pick a date"].map((o, i) => (
+          <label key={o} className="flex min-h-11 cursor-pointer items-center gap-2 text-sm text-gray-800">
+            <input type="radio" name="preview-radio-group" defaultChecked={i === 0} className="h-4 w-4 accent-blue-600" />
+            {o}
+          </label>
+        ))}
+      </fieldset>
+    </div>
+  ),
+  textarea: () => (
+    <div className="flex justify-center py-6">
+      <label className="flex w-72 flex-col gap-1.5">
+        <span className="text-xs font-semibold text-gray-700">Note</span>
+        <textarea rows={3} maxLength={120} placeholder="Add a note for the recipient" className="rounded-md border border-gray-300 bg-surface px-3 py-2 text-sm text-gray-900 placeholder:text-gray-500" />
+        <span className="text-right text-xs text-gray-600">Up to 120 characters</span>
+      </label>
+    </div>
+  ),
+  slider: () => (
+    <div className="flex justify-center py-6">
+      <label className="flex w-64 flex-col gap-2">
+        <span className="flex justify-between text-xs font-semibold text-gray-700">
+          Volume <span className="font-normal text-gray-600">0 to 100</span>
+        </span>
+        <input type="range" min={0} max={100} defaultValue={60} className="w-full accent-blue-600" />
+      </label>
+    </div>
+  ),
+  "otp-input": () => (
+    <div className="flex flex-col items-center gap-2 py-6">
+      <span id="otp-preview-label" className="text-xs font-semibold text-gray-700">Code sent to your phone</span>
+      <div role="group" aria-labelledby="otp-preview-label" className="flex gap-2">
+        {Array.from({ length: 6 }, (_, i) => (
+          <input
+            key={i}
+            inputMode="numeric"
+            autoComplete={i === 0 ? "one-time-code" : "off"}
+            maxLength={1}
+            aria-label={`Digit ${i + 1}`}
+            className="h-11 w-10 rounded-md border border-gray-300 bg-surface text-center text-lg font-semibold text-gray-900"
+          />
+        ))}
+      </div>
+    </div>
+  ),
+  "pin-input": () => (
+    <div className="flex flex-col items-center gap-2 py-6">
+      <span id="pin-preview-label" className="text-xs font-semibold text-gray-700">Enter your PIN</span>
+      <div role="group" aria-labelledby="pin-preview-label" className="flex gap-2">
+        {Array.from({ length: 6 }, (_, i) => (
+          <input
+            key={i}
+            type="password"
+            inputMode="numeric"
+            maxLength={1}
+            aria-label={`PIN digit ${i + 1}`}
+            className="h-11 w-10 rounded-md border border-gray-300 bg-surface text-center text-lg font-semibold text-gray-900"
+          />
+        ))}
+      </div>
+    </div>
+  ),
+  search: () => (
+    <div className="flex justify-center py-6">
+      <label className="relative block w-72">
+        <span className="sr-only">Search transactions</span>
+        <MagnifyingGlass size={16} aria-hidden="true" className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-gray-600" />
+        <input type="search" placeholder="Search by name or amount" className="w-full rounded-md border border-gray-300 bg-surface py-2 pl-9 pr-3 text-sm text-gray-900 placeholder:text-gray-500" />
+      </label>
+    </div>
+  ),
+  "file-input": () => (
+    <div className="flex justify-center py-6">
+      <label className="flex w-72 cursor-pointer flex-col items-center gap-2 rounded-md border-2 border-dashed border-gray-300 bg-surface px-4 py-5 text-center hover:border-blue-400">
+        <UploadSimple size={24} aria-hidden="true" className="text-blue-700" />
+        <span className="text-sm font-semibold text-gray-900">Choose a file</span>
+        <span className="text-xs text-gray-600">JPG, PNG, or PDF, up to 5 MB</span>
+        <input type="file" accept=".jpg,.jpeg,.png,.pdf" className="sr-only" />
+      </label>
+    </div>
+  ),
+  "date-picker": () => (
+    <div className="flex justify-center py-6">
+      <label className="flex w-56 flex-col gap-1.5">
+        <span className="text-xs font-semibold text-gray-700">Transfer date</span>
+        <input type="date" className="rounded-md border border-gray-300 bg-surface px-3 py-2 text-sm text-gray-900" />
+      </label>
+    </div>
+  ),
+  combobox: () => (
+    <div className="flex justify-center py-6">
+      <label className="flex w-64 flex-col gap-1.5">
+        <span className="text-xs font-semibold text-gray-700">City</span>
+        <input list="preview-cities" placeholder="Type to search" className="rounded-md border border-gray-300 bg-surface px-3 py-2 text-sm text-gray-900 placeholder:text-gray-500" />
+        <datalist id="preview-cities">
+          {["Bandung", "Jakarta", "Makassar", "Medan", "Natuna", "Surabaya", "Tangerang"].map((c) => (
+            <option key={c} value={c} />
+          ))}
+        </datalist>
+      </label>
+    </div>
+  ),
+  "amount-input": () => (
+    <div className="flex justify-center py-6">
+      <label className="flex w-64 flex-col gap-1.5">
+        <span className="text-xs font-semibold text-gray-700">Amount</span>
+        <span className="flex items-center rounded-md border border-gray-300 bg-surface px-3 focus-within:border-blue-600">
+          <span className="text-base font-semibold text-gray-600">Rp</span>
+          <input inputMode="numeric" placeholder="0" className="w-full bg-transparent px-2 py-2 text-lg font-semibold text-gray-900 outline-none placeholder:text-gray-500" />
+        </span>
+        <span className="text-xs text-gray-600">Balance shown here</span>
+      </label>
+    </div>
+  ),
+  rating: () => (
+    <div className="flex flex-col items-center gap-1 py-6">
+      <div role="img" aria-label="4 out of 5 stars" className="flex gap-1 text-amber-500">
+        {[1, 2, 3, 4, 5].map((n) => (
+          <Star key={n} size={24} weight={n <= 4 ? "fill" : "regular"} className={n <= 4 ? "" : "text-gray-300"} />
+        ))}
+      </div>
+      <span className="text-xs text-gray-600">4 of 5</span>
+    </div>
+  ),
+  stepper: () => (
+    <div className="flex justify-center py-6">
+      <ol className="flex items-center gap-2 text-xs font-medium">
+        {["Identity", "Selfie", "Review"].map((s, i) => (
+          <li key={s} className="flex items-center gap-2">
+            <span
+              aria-current={i === 1 ? "step" : undefined}
+              className={`flex h-7 w-7 items-center justify-center rounded-full ${
+                i === 0 ? "bg-brand text-white" : i === 1 ? "border-2 border-blue-600 text-blue-800" : "border border-gray-300 text-gray-600"
+              }`}
+            >
+              {i === 0 ? <Check size={14} weight="bold" aria-label="Done" /> : i + 1}
+            </span>
+            <span className={i === 2 ? "text-gray-600" : "text-gray-900"}>{s}</span>
+            {i < 2 && <span aria-hidden="true" className="h-px w-6 bg-gray-300" />}
+          </li>
+        ))}
+      </ol>
+    </div>
+  ),
+  "navigation-bar": () => (
+    <div className="flex justify-center py-6">
+      <div className="flex w-72 justify-around rounded-md border border-gray-200 bg-surface py-2 text-[11px] font-medium">
+        {[
+          { label: "Home", icon: <House size={20} weight="fill" aria-hidden="true" />, active: true },
+          { label: "Wallet", icon: <Wallet size={20} aria-hidden="true" /> },
+          { label: "History", icon: <List size={20} aria-hidden="true" /> },
+          { label: "Profile", icon: <User size={20} aria-hidden="true" /> },
+        ].map((n) => (
+          <span key={n.label} className={`flex flex-col items-center gap-0.5 ${n.active ? "text-blue-800" : "text-gray-600"}`}>
+            {n.icon}
+            <span className={n.active ? "font-semibold" : ""}>{n.label}</span>
+          </span>
+        ))}
+      </div>
+    </div>
+  ),
+  drawer: () => (
+    <div className="flex justify-center py-6">
+      <div className="relative h-40 w-72 overflow-hidden rounded-md border border-gray-200 bg-gray-100">
+        <div className="absolute inset-0 bg-ink/50" />
+        <div className="absolute inset-y-0 right-0 w-40 border-l border-gray-200 bg-surface p-3">
+          <div className="flex items-center justify-between">
+            <span className="text-sm font-semibold text-gray-900">Filters</span>
+            <X size={14} aria-hidden="true" className="text-gray-600" />
+          </div>
+          <div className="mt-3 space-y-2">
+            <div className="h-2 w-24 rounded-full bg-gray-200" />
+            <div className="h-2 w-20 rounded-full bg-gray-200" />
+            <div className="h-2 w-28 rounded-full bg-gray-200" />
+          </div>
+        </div>
+      </div>
+    </div>
+  ),
+  "progress-bar": () => (
+    <div className="flex justify-center py-6">
+      <div className="w-64">
+        <div className="mb-1.5 flex justify-between text-xs font-medium text-gray-700">
+          <span>Uploading receipt</span>
+          <span className="tabular-nums">60%</span>
+        </div>
+        <div role="progressbar" aria-valuenow={60} aria-valuemin={0} aria-valuemax={100} aria-label="Upload progress" className="h-2 rounded-full bg-gray-100">
+          <div className="h-2 w-3/5 rounded-full bg-brand" />
+        </div>
+      </div>
+    </div>
+  ),
+  skeleton: () => (
+    <div role="status" aria-label="Loading" className="mx-auto flex w-64 items-center gap-3 py-6">
+      <span className="h-10 w-10 shrink-0 animate-pulse rounded-full bg-gray-200" />
+      <span className="flex-1 space-y-2">
+        <span className="block h-3 w-3/4 animate-pulse rounded bg-gray-200" />
+        <span className="block h-3 w-1/2 animate-pulse rounded bg-gray-200" />
+      </span>
+    </div>
+  ),
+  artboard: () => (
+    <div className="flex justify-center py-6">
+      <div className="w-64 overflow-hidden rounded-md border border-gray-300 bg-surface">
+        <div className="border-b border-gray-200 bg-gray-50 px-3 py-1.5 text-xs font-semibold text-gray-700">Button / Variants</div>
+        <div className="flex gap-2 p-4">
+          <span className="rounded-md bg-brand px-3 py-1 text-xs font-medium text-white">Primary</span>
+          <span className="rounded-md border border-gray-300 px-3 py-1 text-xs font-medium text-gray-700">Ghost</span>
+        </div>
+      </div>
+    </div>
+  ),
+  cover: () => (
+    <div className="flex justify-center py-6">
+      <div className="flex aspect-video w-72 flex-col items-center justify-center rounded-md bg-blue-50 text-center">
+        <span className="text-xs font-semibold text-blue-800">Natuna Digilab</span>
+        <span className="text-2xl font-bold text-gray-900">Foundation</span>
+        <span className="text-xs text-gray-700">Design System, Version 1.0</span>
+      </div>
+    </div>
+  ),
+  guideline: () => (
+    <div className="flex justify-center gap-3 py-6 text-xs">
+      <div className="w-32 rounded-md border border-emerald-200 bg-emerald-50 p-3">
+        <div className="mb-1 flex items-center gap-1 font-semibold text-emerald-800">
+          <CheckCircle size={14} weight="fill" aria-hidden="true" /> Do
+        </div>
+        <span className="text-gray-700">One primary button per view.</span>
+      </div>
+      <div className="w-32 rounded-md border border-red-200 bg-red-50 p-3">
+        <div className="mb-1 flex items-center gap-1 font-semibold text-red-800">
+          <XCircle size={14} weight="fill" aria-hidden="true" /> Don&apos;t
+        </div>
+        <span className="text-gray-700">Two primary buttons side by side.</span>
+      </div>
+    </div>
+  ),
+  document: () => (
+    <div className="flex justify-center py-6">
+      <div className="w-64 rounded-md border border-gray-200 bg-surface p-4">
+        <div className="text-base font-bold text-gray-900">Introduction</div>
+        <p className="mt-1 text-xs leading-5 text-gray-600">Written documentation sits on its own page, set in the body scale with headers for each section.</p>
+      </div>
+    </div>
+  ),
+  changelog: () => (
+    <div className="flex justify-center py-6">
+      <ol className="w-64 border-l-2 border-gray-200 pl-4 text-sm">
+        <li className="relative">
+          <span aria-hidden="true" className="absolute -left-[21px] top-1.5 h-2 w-2 rounded-full bg-brand" />
+          <div className="font-semibold text-gray-900">v1.0</div>
+          <div className="text-xs text-gray-600">Foundation Design System: color, typography, number, effect, and icon variables.</div>
+        </li>
+      </ol>
+    </div>
+  ),
 };
 
 export default function ComponentPreview({ slug }: { slug: string }) {
   const Preview = previews[slug];
   if (!Preview) {
-    return <div className="py-6 text-center text-sm text-gray-400">Preview coming soon</div>;
+    return <div className="py-6 text-center text-sm text-gray-600">Preview coming soon</div>;
   }
   return <Preview />;
 }

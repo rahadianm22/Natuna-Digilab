@@ -1,16 +1,303 @@
 @import "tailwindcss";
 
-:root {
-  --background: #f7f8fa;
-  --foreground: #171717;
+/*
+  Natuna Digilab Foundation Design System v1.0 (Figma community file).
+  The Figma palettes are mapped onto the Tailwind color names the site already uses,
+  so existing classes pick up the brand colors:
+    blue -> Azure Blue, gray -> Slate Gray, emerald -> Jade Green, red -> Imperial Red,
+    orange -> Tomato Red, teal -> Sky Blue, violet -> Amethyst Purple, amber -> Amber Yellow.
+  Brand anchor is step 600 (surfaces, icons, focus). Text and white-on-color fills use 700,
+  because 600 is 4.46:1 on white and misses WCAG AA for small text.
+*/
+
+@theme {
+  --font-sans: var(--font-urbanist), ui-sans-serif, system-ui, sans-serif;
+
+  /* Only Natuna foundation colors: drop the Tailwind default palette. */
+  --color-*: initial;
+  --color-white: #ffffff;
+
+  /* Semantic fills (Color Semantic/Background). These keep white text readable in both modes. */
+  --color-canvas: #ffffff;
+  --color-surface: #ffffff;
+  --color-ink: #19212e;
+  --color-brand: #026acc;
+  --color-brand-hover: #015099;
+  --color-danger: #bb3a3b;
+
+  /* Natuna azure -> blue */
+  --color-blue-50: #e5f3ff;
+  --color-blue-100: #d1e9ff;
+  --color-blue-200: #9aceff;
+  --color-blue-300: #67b6ff;
+  --color-blue-400: #359dff;
+  --color-blue-500: #0285ff;
+  --color-blue-600: #0276e3;
+  --color-blue-700: #026acc;
+  --color-blue-800: #015099;
+  --color-blue-900: #013566;
+  --color-blue-950: #001b33;
+
+  /* Natuna slate -> gray */
+  --color-gray-50: #f1f5f9;
+  --color-gray-100: #ebf0f4;
+  --color-gray-200: #d0d5dd;
+  --color-gray-300: #cdd5df;
+  --color-gray-400: #9aa4b2;
+  --color-gray-500: #697586;
+  --color-gray-600: #4b5565;
+  --color-gray-700: #364152;
+  --color-gray-800: #27303f;
+  --color-gray-900: #19212e;
+  --color-gray-950: #0d121c;
+
+  /* Natuna jade -> emerald */
+  --color-emerald-50: #f7fbf3;
+  --color-emerald-100: #e5f4dd;
+  --color-emerald-200: #d4ecc5;
+  --color-emerald-300: #aad98c;
+  --color-emerald-400: #7dc551;
+  --color-emerald-500: #5db725;
+  --color-emerald-600: #54a522;
+  --color-emerald-700: #4a921e;
+  --color-emerald-800: #386e16;
+  --color-emerald-900: #25490f;
+  --color-emerald-950: #132507;
+
+  /* Natuna amber -> amber */
+  --color-amber-50: #fffbf0;
+  --color-amber-100: #fef2d2;
+  --color-amber-200: #fde5a5;
+  --color-amber-300: #fcd97d;
+  --color-amber-400: #fac233;
+  --color-amber-500: #fab400;
+  --color-amber-600: #e0a200;
+  --color-amber-700: #c89000;
+  --color-amber-800: #966c00;
+  --color-amber-900: #644800;
+  --color-amber-950: #322400;
+
+  /* Natuna imperial -> red */
+  --color-red-50: #fef1f2;
+  --color-red-100: #fbdadb;
+  --color-red-200: #f7b6b7;
+  --color-red-300: #f29192;
+  --color-red-400: #ee6d6e;
+  --color-red-500: #ea484a;
+  --color-red-600: #d64748;
+  --color-red-700: #bb3a3b;
+  --color-red-800: #8c2b2c;
+  --color-red-900: #5e1d1e;
+  --color-red-950: #2f0e0f;
+
+  /* Natuna tomato -> orange */
+  --color-orange-50: #ffe9e5;
+  --color-orange-100: #ffd7d1;
+  --color-orange-200: #ffc1b7;
+  --color-orange-300: #ffa293;
+  --color-orange-400: #ff836f;
+  --color-orange-500: #ff644b;
+  --color-orange-600: #e04b33;
+  --color-orange-700: #cc503c;
+  --color-orange-800: #993c2d;
+  --color-orange-900: #66281e;
+  --color-orange-950: #33140f;
+
+  /* Natuna sky -> teal */
+  --color-teal-50: #f0f9ff;
+  --color-teal-100: #d1edff;
+  --color-teal-200: #b2e2ff;
+  --color-teal-300: #85d0ff;
+  --color-teal-400: #52bdff;
+  --color-teal-500: #24abff;
+  --color-teal-600: #129df3;
+  --color-teal-700: #0091eb;
+  --color-teal-800: #0078c2;
+  --color-teal-900: #00629e;
+  --color-teal-950: #003f66;
+
+  /* Natuna amethyst -> violet */
+  --color-violet-50: #f5edff;
+  --color-violet-100: #dfc6ff;
+  --color-violet-200: #cfaaff;
+  --color-violet-300: #b984ff;
+  --color-violet-400: #ac6cff;
+  --color-violet-500: #9747ff;
+  --color-violet-600: #8941e8;
+  --color-violet-700: #6b32b5;
+  --color-violet-800: #53278c;
+  --color-violet-900: #3f1e6b;
+  --color-violet-950: #261240;
+
+  /* Radius from Semantic/Radius (4, 8, 16, 24, 32) */
+  --radius-xs: 4px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 8px;
+  --radius-xl: 16px;
+  --radius-2xl: 24px;
+  --radius-3xl: 32px;
+}
+
+/*
+  Dark mode mirrors the "Light Mode | Dark Mode" columns of the Figma Color Property collection:
+  the Slate ramp flips, tinted backgrounds move to the dark end of their ramp and tinted text
+  moves to the light end. Fills that carry white text (brand, danger, ink) stay put.
+*/
+:root.dark,
+.theme-dark {
+  color-scheme: dark;
+
+  --color-canvas: #19212e;
+  --color-surface: #27303f;
+  --color-ink: #0d121c;
+
+  --color-gray-50: #27303f;
+  --color-gray-100: #27303f;
+  --color-gray-200: #364152;
+  --color-gray-300: #4b5565;
+  --color-gray-400: #697586;
+  --color-gray-500: #9aa4b2;
+  --color-gray-600: #9aa4b2;
+  --color-gray-700: #d0d5dd;
+  --color-gray-800: #ebf0f4;
+  --color-gray-900: #f1f5f9;
+  --color-gray-950: #ffffff;
+
+  --color-blue-50: #001b33;
+  --color-blue-100: #013566;
+  --color-blue-200: #015099;
+  --color-blue-300: #026acc;
+  --color-blue-700: #67b6ff;
+  --color-blue-800: #9aceff;
+
+  --color-emerald-50: #132507;
+  --color-emerald-100: #25490f;
+  --color-emerald-200: #386e16;
+  --color-emerald-800: #aad98c;
+
+  --color-amber-50: #322400;
+  --color-amber-100: #644800;
+  --color-amber-200: #966c00;
+  --color-amber-900: #fde5a5;
+
+  --color-red-50: #2f0e0f;
+  --color-red-100: #5e1d1e;
+  --color-red-200: #8c2b2c;
+  --color-red-700: #f29192;
+  --color-red-800: #f7b6b7;
+
+  --color-teal-100: #003f66;
+  --color-violet-100: #3f1e6b;
+}
+
+/*
+  Restores the light values inside a subtree, so the Themes page can show both modes side by side
+  whatever mode the site is in. Lists only the tokens that the dark block overrides.
+*/
+.theme-light {
+  color-scheme: light;
+
+  --color-canvas: #ffffff;
+  --color-surface: #ffffff;
+  --color-ink: #19212e;
+
+  --color-gray-50: #f1f5f9;
+  --color-gray-100: #ebf0f4;
+  --color-gray-200: #d0d5dd;
+  --color-gray-300: #cdd5df;
+  --color-gray-400: #9aa4b2;
+  --color-gray-500: #697586;
+  --color-gray-600: #4b5565;
+  --color-gray-700: #364152;
+  --color-gray-800: #27303f;
+  --color-gray-900: #19212e;
+  --color-gray-950: #0d121c;
+
+  --color-blue-50: #e5f3ff;
+  --color-blue-100: #d1e9ff;
+  --color-blue-200: #9aceff;
+  --color-blue-300: #67b6ff;
+  --color-blue-700: #026acc;
+  --color-blue-800: #015099;
+
+  --color-emerald-50: #f7fbf3;
+  --color-emerald-100: #e5f4dd;
+  --color-emerald-200: #d4ecc5;
+  --color-emerald-800: #386e16;
+
+  --color-amber-50: #fffbf0;
+  --color-amber-100: #fef2d2;
+  --color-amber-200: #fde5a5;
+  --color-amber-900: #644800;
+
+  --color-red-50: #fef1f2;
+  --color-red-100: #fbdadb;
+  --color-red-200: #f7b6b7;
+  --color-red-700: #bb3a3b;
+  --color-red-800: #8c2b2c;
+
+  --color-teal-100: #d1edff;
+  --color-violet-100: #dfc6ff;
+}
+
+.theme-light,
+.theme-dark {
+  background: var(--color-canvas);
+  color: var(--color-gray-900);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, Helvetica, sans-serif;
+  background: var(--color-canvas);
+  color: var(--color-gray-900);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
 }
 
 .font-mono-code {
   font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-blue-600);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Slim scrollbar tinted with soft Natuna blue; the track stays transparent. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(103 182 255 / 0.35) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: rgb(103 182 255 / 0.3);
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(103 182 255 / 0.6);
+}
+
+*::-webkit-scrollbar-button {
+  display: none;
 }

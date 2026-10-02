@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import { buttonStyles } from "@/ui";
 
 export const metadata: Metadata = {
   title: "Page not found",
@@ -9,37 +11,33 @@ export const metadata: Metadata = {
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen bg-[#f7f8fa]">
+    <div className="flex min-h-screen flex-col bg-canvas">
       <Header active="" />
-      <main className="mx-auto max-w-2xl px-6 py-24 text-center">
-        <span className="mx-auto mb-6 inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-4 py-1.5 font-mono-code text-xs font-medium text-blue-700">
-          404
-        </span>
-
-        <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">
+      <main className="mx-auto w-full max-w-2xl px-6 pb-24 pt-20">
+        <p className="text-sm font-semibold text-blue-700">Error 404</p>
+        <h1 className="mt-2 text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">
           This page doesn&rsquo;t exist
         </h1>
-
-        <p className="mx-auto mt-4 max-w-md text-gray-500">
-          The page or component you were looking for may have been renamed, moved, or
-          never shipped. Try browsing the component library instead.
+        <p className="mt-5 text-lg leading-relaxed text-gray-600">
+          The page or component may have been renamed, moved, or never shipped. Every component, including the
+          planned ones, is listed on the components page.
         </p>
-
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+        <div className="mt-8 flex flex-wrap gap-3">
           <Link
             href="/components"
-            className="rounded-md bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-blue-700"
+            className={buttonStyles({ size: "lg" })}
           >
-            Browse components →
+            Browse the components
           </Link>
           <Link
             href="/"
-            className="rounded-md border border-gray-300 bg-white px-5 py-2.5 text-sm font-semibold text-gray-700 hover:bg-gray-50"
+            className={buttonStyles({ variant: "ghost", size: "lg" })}
           >
             Back to home
           </Link>
         </div>
       </main>
+      <Footer />
     </div>
   );
 }
