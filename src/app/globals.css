@@ -12,6 +12,7 @@
 
 @theme {
   --font-sans: var(--font-urbanist), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-urbanist), ui-sans-serif, system-ui, sans-serif;
 
   /* Only Natuna foundation colors: drop the Tailwind default palette. */
   --color-*: initial;
@@ -254,8 +255,10 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* Urbanist everywhere, code included. Tabular figures keep columns of numbers aligned. */
 .font-mono-code {
-  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  font-family: var(--font-urbanist), ui-sans-serif, system-ui, sans-serif;
+  font-variant-numeric: tabular-nums;
 }
 
 :focus-visible {

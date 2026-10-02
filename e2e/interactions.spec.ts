@@ -52,23 +52,21 @@ test("component page: live demo, JS/TS tabs, copy, expand", async ({ page }) => 
   expect(copied).not.toContain("useState<number>");
 });
 
-test("home transfer demo validates and reviews", async ({ page }) => {
+test("home component stage: approve flow and stage mode switch", async ({ page }) => {
   await page.goto("/");
   await page.waitForLoadState("networkidle");
-  const amount = page.getByLabel("Amount");
-  await amount.fill("30000000");
-  await expect(amount).toHaveValue("30.000.000");
-  await expect(page.getByText("The limit per transfer is Rp 25.000.000.")).toBeVisible();
-  await expect(page.getByRole("button", { name: "Review transfer" })).toBeDisabled();
-  await amount.fill("150000");
-  await page.getByRole("button", { name: "Pick a date" }).click();
-  await expect(page.getByRole("button", { name: "Review transfer" })).toBeDisabled();
-  await page.getByLabel("Transfer date").fill("2026-10-20");
-  await page.getByRole("button", { name: "Review transfer" }).click();
-  await expect(page.getByText("Ready to send")).toBeVisible();
-  await expect(page.getByText("Rp 150.000")).toBeVisible();
-  await page.getByRole("button", { name: "Edit transfer" }).click();
-  await expect(page.getByLabel("Amount")).toHaveValue("150.000");
+  const stage = page.locator("div.theme-dark, div.theme-light").first();
+  await expect(stage).toHaveClass(/theme-dark/);
+  await page.getByRole("radio", { name: "light" }).click();
+  await expect(page.locator("div.theme-light").first()).toBeVisible();
+
+  await expect(page.getByText("Pending", { exact: true })).toBeVisible();
+  await page.getByRole("button", { name: "Approve", exact: true }).click();
+  await expect(page.getByRole("button", { name: "Approving" })).toBeDisabled();
+  await expect(page.getByText("Approved", { exact: true }).first()).toBeVisible();
+  await page.locator("div.theme-light").first().getByRole("button", { name: "Reset" }).click();
+  await expect(page.getByText("Pending", { exact: true })).toBeVisible();
+  await expect(page.getByText("What is in Foundation v1.0?")).toBeVisible();
 });
 
 test("design-only component has no code tab", async ({ page }) => {

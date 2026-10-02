@@ -4,7 +4,7 @@ import Footer from "@/components/Footer";
 import ComponentPreview from "@/components/ComponentPreview";
 import CodeBlock from "@/components/CodeBlock";
 import Demo from "@/components/demos";
-import TransferDemo from "@/components/home/TransferDemo";
+import ComponentStage from "@/components/home/ComponentStage";
 import Reveal from "@/components/home/Reveal";
 import { buttonStyles } from "@/ui";
 import { getComponent } from "@/lib/components-data";
@@ -86,22 +86,10 @@ export default function Home() {
           </div>
 
           <div className="mx-auto w-full max-w-6xl px-6 pb-24">
-            <div className="relative mx-auto max-w-md">
-              <div className="rounded-[2rem] border border-gray-200 bg-surface/80 p-2 shadow-2xl shadow-blue-900/10 backdrop-blur-xl">
-                <div className="rounded-3xl border border-gray-200 bg-surface p-6 sm:p-8">
-                  <div className="mb-6 flex items-center justify-between">
-                    <div>
-                      <div className="text-xl font-bold text-gray-900">Send money</div>
-                      <div className="text-sm text-gray-600">Try it. This form works.</div>
-                    </div>
-                  </div>
-                  <TransferDemo />
-                </div>
-              </div>
-              <p className="mt-4 text-center text-xs text-gray-600">
-                Built from Select, Amount Input, Button, Badge, and the Azure Blue ramp.
-              </p>
-            </div>
+            <ComponentStage />
+            <p className="mt-5 text-center text-xs text-gray-600">
+              Avatar, Badge, Input, Button, and Accordion from src/ui. Switch the stage between light and dark.
+            </p>
           </div>
         </section>
 
