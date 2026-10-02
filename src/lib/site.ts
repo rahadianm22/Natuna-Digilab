@@ -6,5 +6,8 @@ export const FIGMA_COMMUNITY_URL =
 // Date of the Notion tracker snapshot in natuna-tracker.ts.
 export const TRACKER_SNAPSHOT = "30 September 2026";
 
-// Set NEXT_PUBLIC_SITE_URL to the deployed origin so sitemap and share images get absolute URLs.
-export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+// Public origin for the sitemap and share image. NEXT_PUBLIC_SITE_URL wins; on Vercel the production domain is
+// provided automatically; locally it falls back to localhost.
+export const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ??
+  (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : "http://localhost:3000");

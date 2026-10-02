@@ -69,7 +69,7 @@ Set `PLAYWRIGHT_BASE_URL` to test another address, or `PLAYWRIGHT_CHANNEL=chrome
 
 ## Deploying
 
-The site is a standard Next.js app and deploys to Vercel without extra configuration. Set `NEXT_PUBLIC_SITE_URL` to the public origin so the sitemap and share image use absolute URLs.
+The site is a standard Next.js app and deploys to Vercel without extra configuration. On Vercel the production domain is picked up automatically for the sitemap and share image. Set `NEXT_PUBLIC_SITE_URL` to override it, for example when using a custom domain.
 
 ## Stack
 
