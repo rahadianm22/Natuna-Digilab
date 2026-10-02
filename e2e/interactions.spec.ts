@@ -25,16 +25,50 @@ test("theme toggle switches and remembers the mode", async ({ page }) => {
   expect(after).toBe(!before);
 });
 
-test("component page: code tab, copy, and arrow keys", async ({ page }) => {
+test("component page: live demo, JS/TS tabs, copy, expand", async ({ page }) => {
   await page.goto("/components/button");
-  await expect(page.getByRole("tab", { name: "preview" })).toHaveAttribute("aria-selected", "true");
-  await page.getByRole("tab", { name: "preview" }).press("ArrowRight");
-  await expect(page.getByRole("tab", { name: "code" })).toHaveAttribute("aria-selected", "true");
-  await expect(page.getByRole("tabpanel").filter({ hasText: 'import { Button }' })).toBeVisible();
-  await page.getByRole("button", { name: "Copy code" }).click();
-  await expect(page.getByRole("button", { name: "Copied" })).toBeVisible();
+  await page.waitForLoadState("networkidle");
+  const usage = page.locator("section", { has: page.getByRole("heading", { name: "Usage" }) });
+  await usage.getByRole("button", { name: "Clicked 0" }).click();
+  await expect(usage.getByRole("button", { name: "Clicked 1" })).toBeVisible();
+  await usage.getByRole("button", { name: "Reset" }).click();
+  await expect(usage.getByRole("button", { name: "Clicked 0" })).toBeVisible();
+  await usage.getByRole("button", { name: "Delete" }).click();
+  await expect(usage.getByRole("button", { name: "Deleting" })).toBeDisabled();
+
+  const ts = usage.getByRole("tab", { name: "TS" });
+  await expect(ts).toHaveAttribute("aria-selected", "true");
+  await expect(usage.getByText("useState<number>(0)")).toBeVisible();
+  await ts.press("ArrowRight");
+  await expect(usage.getByRole("tab", { name: "JS" })).toHaveAttribute("aria-selected", "true");
+  await expect(usage.getByText("useState<number>")).toHaveCount(0);
+
+  await usage.getByRole("button", { name: "Expand code" }).click();
+  await expect(usage.getByRole("button", { name: "Collapse code" })).toHaveAttribute("aria-expanded", "true");
+  await usage.getByRole("button", { name: "Copy" }).click();
+  await expect(usage.getByRole("button", { name: "Copied" })).toBeVisible();
   const copied = await page.evaluate(() => navigator.clipboard.readText());
-  expect(copied).toContain('import { Button } from "@/ui"');
+  expect(copied).toContain("useState(0)");
+  expect(copied).not.toContain("useState<number>");
+});
+
+test("home transfer demo validates and reviews", async ({ page }) => {
+  await page.goto("/");
+  await page.waitForLoadState("networkidle");
+  const amount = page.getByLabel("Amount");
+  await amount.fill("30000000");
+  await expect(amount).toHaveValue("30.000.000");
+  await expect(page.getByText("The limit per transfer is Rp 25.000.000.")).toBeVisible();
+  await expect(page.getByRole("button", { name: "Review transfer" })).toBeDisabled();
+  await amount.fill("150000");
+  await page.getByRole("button", { name: "Pick a date" }).click();
+  await expect(page.getByRole("button", { name: "Review transfer" })).toBeDisabled();
+  await page.getByLabel("Transfer date").fill("2026-10-20");
+  await page.getByRole("button", { name: "Review transfer" }).click();
+  await expect(page.getByText("Ready to send")).toBeVisible();
+  await expect(page.getByText("Rp 150.000")).toBeVisible();
+  await page.getByRole("button", { name: "Edit transfer" }).click();
+  await expect(page.getByLabel("Amount")).toHaveValue("150.000");
 });
 
 test("design-only component has no code tab", async ({ page }) => {

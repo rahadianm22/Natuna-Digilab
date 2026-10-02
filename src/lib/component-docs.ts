@@ -1,4 +1,5 @@
-// API docs for components that exist in src/ui. Keep in step with the props in those files.
+// API docs for components that exist in src/ui. Keep the props in step with those files and the
+// usage code in step with the live demos in src/components/demos.tsx.
 
 export interface PropDoc {
   name: string;
@@ -8,24 +9,61 @@ export interface PropDoc {
 }
 
 export interface ComponentDoc {
-  example: string;
+  importCode: { js: string; ts: string };
+  usage: { js: string; ts: string };
   props: PropDoc[];
 }
 
 export const componentDocs: Record<string, ComponentDoc> = {
   button: {
-    example: `import { Button } from "@/ui";
+    importCode: {
+      js: `import { useState } from "react";
+import { Button } from "@/ui";`,
+      ts: `import { useState } from "react";
+import { Button, type ButtonProps } from "@/ui";`,
+    },
+    usage: {
+      js: `export default function ButtonDemo() {
+  const [count, setCount] = useState(0);
+  const [deleting, setDeleting] = useState(false);
 
-export default function Example() {
+  function remove() {
+    setDeleting(true);
+    setTimeout(() => setDeleting(false), 1500);
+  }
+
   return (
     <>
-      <Button>Save changes</Button>
+      <Button onClick={() => setCount(count + 1)}>Clicked {count}</Button>
+      <Button variant="secondary" onClick={() => setCount(0)}>Reset</Button>
       <Button variant="ghost">Cancel</Button>
-      <Button variant="destructive">Delete account</Button>
-      <Button loading>Saving</Button>
+      <Button variant="destructive" loading={deleting} onClick={remove}>
+        {deleting ? "Deleting" : "Delete"}
+      </Button>
     </>
   );
 }`,
+      ts: `export default function ButtonDemo() {
+  const [count, setCount] = useState<number>(0);
+  const [deleting, setDeleting] = useState<boolean>(false);
+
+  function remove(): void {
+    setDeleting(true);
+    setTimeout(() => setDeleting(false), 1500);
+  }
+
+  return (
+    <>
+      <Button onClick={() => setCount(count + 1)}>Clicked {count}</Button>
+      <Button variant="secondary" onClick={() => setCount(0)}>Reset</Button>
+      <Button variant="ghost">Cancel</Button>
+      <Button variant="destructive" loading={deleting} onClick={remove}>
+        {deleting ? "Deleting" : "Delete"}
+      </Button>
+    </>
+  );
+}`,
+    },
     props: [
       { name: "variant", type: '"primary" | "secondary" | "ghost" | "destructive"', default: '"primary"', description: "Visual weight. Use one primary per view." },
       { name: "size", type: '"md" | "lg"', default: '"md"', description: "md is 40px tall, lg is 48px." },
@@ -36,29 +74,95 @@ export default function Example() {
     ],
   },
   badge: {
-    example: `import { Badge } from "@/ui";
+    importCode: {
+      js: `import { useState } from "react";
+import { Badge, Button } from "@/ui";`,
+      ts: `import { useState } from "react";
+import { Badge, Button, type BadgeTone } from "@/ui";`,
+    },
+    usage: {
+      js: `export default function BadgeDemo() {
+  const [paid, setPaid] = useState(false);
 
-export default function Example() {
-  return <Badge tone="success">Paid</Badge>;
+  return (
+    <>
+      <span>Invoice INV-0042</span>
+      <Badge tone={paid ? "success" : "warning"}>{paid ? "Paid" : "Pending"}</Badge>
+      <Button variant="ghost" onClick={() => setPaid(!paid)}>
+        {paid ? "Mark as pending" : "Mark as paid"}
+      </Button>
+    </>
+  );
 }`,
+      ts: `export default function BadgeDemo() {
+  const [paid, setPaid] = useState<boolean>(false);
+  const tone: BadgeTone = paid ? "success" : "warning";
+
+  return (
+    <>
+      <span>Invoice INV-0042</span>
+      <Badge tone={tone}>{paid ? "Paid" : "Pending"}</Badge>
+      <Button variant="ghost" onClick={() => setPaid(!paid)}>
+        {paid ? "Mark as pending" : "Mark as paid"}
+      </Button>
+    </>
+  );
+}`,
+    },
     props: [
       { name: "tone", type: '"neutral" | "info" | "success" | "warning" | "danger"', default: '"neutral"', description: "Color for the meaning. Always pair it with text." },
       { name: "...rest", type: "HTMLAttributes<HTMLSpanElement>", description: "Every native span attribute." },
     ],
   },
   input: {
-    example: `import { Input } from "@/ui";
+    importCode: {
+      js: `import { useState } from "react";
+import { Input } from "@/ui";`,
+      ts: `import { useState, type ChangeEvent } from "react";
+import { Input, type InputProps } from "@/ui";`,
+    },
+    usage: {
+      js: `const EMAIL = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;
 
-export default function Example() {
+export default function InputDemo() {
+  const [email, setEmail] = useState("");
+  const [touched, setTouched] = useState(false);
+  const invalid = touched && !EMAIL.test(email);
+
   return (
     <Input
       label="Email"
       type="email"
+      value={email}
+      placeholder="email@example.com"
+      onChange={(e) => setEmail(e.target.value)}
+      onBlur={() => setTouched(true)}
       hint="We send the receipt here."
       error={invalid ? "Enter a valid email address." : undefined}
     />
   );
 }`,
+      ts: `const EMAIL = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;
+
+export default function InputDemo() {
+  const [email, setEmail] = useState<string>("");
+  const [touched, setTouched] = useState<boolean>(false);
+  const invalid: boolean = touched && !EMAIL.test(email);
+
+  return (
+    <Input
+      label="Email"
+      type="email"
+      value={email}
+      placeholder="email@example.com"
+      onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
+      onBlur={() => setTouched(true)}
+      hint="We send the receipt here."
+      error={invalid ? "Enter a valid email address." : undefined}
+    />
+  );
+}`,
+    },
     props: [
       { name: "label", type: "string", description: "Required visible label, connected to the field." },
       { name: "hint", type: "string", description: "Helper text under the field." },
@@ -67,29 +171,68 @@ export default function Example() {
     ],
   },
   avatar: {
-    example: `import { Avatar } from "@/ui";
+    importCode: {
+      js: `import { useState } from "react";
+import { Avatar, Input } from "@/ui";`,
+      ts: `import { useState } from "react";
+import { Avatar, Input, type AvatarSize } from "@/ui";`,
+    },
+    usage: {
+      js: `export default function AvatarDemo() {
+  const [name, setName] = useState("Natuna Digilab");
 
-export default function Example() {
-  return <Avatar name="Natuna Digilab" size="lg" />;
+  return (
+    <>
+      <Avatar name={name || "?"} size="sm" />
+      <Avatar name={name || "?"} />
+      <Avatar name={name || "?"} size="lg" />
+      <Input label="Name" value={name} onChange={(e) => setName(e.target.value)} />
+    </>
+  );
 }`,
+      ts: `const sizes: AvatarSize[] = ["sm", "md", "lg"];
+
+export default function AvatarDemo() {
+  const [name, setName] = useState<string>("Natuna Digilab");
+
+  return (
+    <>
+      {sizes.map((size) => (
+        <Avatar key={size} name={name || "?"} size={size} />
+      ))}
+      <Input label="Name" value={name} onChange={(e) => setName(e.target.value)} />
+    </>
+  );
+}`,
+    },
     props: [
       { name: "name", type: "string", description: "Full name. Initials come from the first and last word, and the name is the accessible label." },
       { name: "size", type: '"sm" | "md" | "lg"', default: '"md"', description: "32, 40, or 56px." },
     ],
   },
   accordion: {
-    example: `import { Accordion } from "@/ui";
+    importCode: {
+      js: `import { Accordion } from "@/ui";`,
+      ts: `import { Accordion, type AccordionItem } from "@/ui";`,
+    },
+    usage: {
+      js: `const items = [
+  { title: "How long does a transfer take?", content: "Most transfers arrive within a minute.", defaultOpen: true },
+  { title: "What are the limits?", content: "Limits depend on your account type." },
+];
 
-export default function Example() {
-  return (
-    <Accordion
-      items={[
-        { title: "How long does a transfer take?", content: "Most arrive within a minute.", defaultOpen: true },
-        { title: "What are the limits?", content: "Limits depend on your account type." },
-      ]}
-    />
-  );
+export default function AccordionDemo() {
+  return <Accordion items={items} />;
 }`,
+      ts: `const items: AccordionItem[] = [
+  { title: "How long does a transfer take?", content: "Most transfers arrive within a minute.", defaultOpen: true },
+  { title: "What are the limits?", content: "Limits depend on your account type." },
+];
+
+export default function AccordionDemo() {
+  return <Accordion items={items} />;
+}`,
+    },
     props: [
       { name: "items", type: "AccordionItem[]", description: "Each item has a title, content, and optional defaultOpen." },
       { name: "className", type: "string", description: "Extra classes for the outer container." },

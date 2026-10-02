@@ -23,7 +23,7 @@ export default function Header({ active }: { active?: string }) {
       <div className="flex h-16 items-center justify-between gap-4 px-4 sm:px-6">
         <div className="flex items-center gap-8">
           <Link href="/" className="flex items-center gap-2.5 rounded-sm font-bold text-gray-900">
-            <Image src="/natuna-logo.png" alt="" width={28} height={28} loading="eager" className="h-7 w-7" />
+            <Image src="/natuna-logo.svg" alt="" width={28} height={28} loading="eager" className="h-7 w-7" />
             <span>
               Natuna <span className="text-blue-700">Digilab</span>
             </span>

@@ -152,8 +152,8 @@
   --color-surface: #27303f;
   --color-ink: #0d121c;
 
-  --color-gray-50: #27303f;
-  --color-gray-100: #27303f;
+  --color-gray-50: #364152;
+  --color-gray-100: #364152;
   --color-gray-200: #364152;
   --color-gray-300: #4b5565;
   --color-gray-400: #697586;
@@ -300,4 +300,19 @@ body {
 
 *::-webkit-scrollbar-button {
   display: none;
+}
+
+/* Translucent chrome turns solid when the user asks for less transparency. */
+@media (prefers-reduced-transparency: reduce) {
+  header {
+    background: var(--color-surface) !important;
+    backdrop-filter: none !important;
+  }
+}
+
+/* Display type: tighter tracking as size grows, as large letters read too far apart. */
+.display {
+  font-size: clamp(2.75rem, 7vw, 5.75rem);
+  line-height: 1;
+  letter-spacing: -0.035em;
 }

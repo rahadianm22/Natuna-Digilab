@@ -7,8 +7,8 @@ export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 export default async function Image() {
-  const logo = await readFile(join(process.cwd(), "public", "natuna-logo.png"));
-  const src = `data:image/png;base64,${logo.toString("base64")}`;
+  const logo = await readFile(join(process.cwd(), "public", "natuna-logo.svg"));
+  const src = `data:image/svg+xml;base64,${logo.toString("base64")}`;
 
   return new ImageResponse(
     (

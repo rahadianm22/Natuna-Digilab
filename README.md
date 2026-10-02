@@ -14,7 +14,7 @@ The site is built from the [Foundation Design System v1.0](https://www.figma.com
 | Components | 51 components on the build plan, each with status, preview, usage rules, and do and don't |
 | Themes | Light and dark mode shown side by side on the same component |
 
-Components that exist as React code (Button, Badge, Input, Avatar, Accordion) also show a props table and a code example. The rest are design-only for now and say so.
+Components that exist as React code (Button, Badge, Input, Avatar, Accordion) also have an import block, a live demo, the same code in TypeScript and JavaScript with copy, and a props table. The rest are design-only for now and say so.
 
 ## Getting started
 
@@ -63,7 +63,7 @@ Status comes from the tracker snapshot. To update it, re-run the Notion query, r
 npm run test:e2e
 ```
 
-Runs 31 tests against http://localhost:3000 (starts `npm run dev` if nothing is running) in the installed Microsoft Edge: navigation, theme toggle, tabs and copy, sidebar, search, phone layout at 390px with no horizontal overflow, and axe WCAG 2.1 AA scans of every page in light and dark mode.
+Runs 32 tests against http://localhost:3000 (starts `npm run dev` if nothing is running) in the installed Microsoft Edge: navigation, theme toggle, tabs and copy, sidebar, search, phone layout at 390px with no horizontal overflow, and axe WCAG 2.1 AA scans of every page in light and dark mode.
 
 Set `PLAYWRIGHT_BASE_URL` to test another address, or `PLAYWRIGHT_CHANNEL=chrome` to use Chrome.
 

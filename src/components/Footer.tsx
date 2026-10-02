@@ -27,7 +27,7 @@ export default function Footer() {
         <div className="flex flex-col gap-10 md:flex-row md:justify-between">
           <div className="max-w-sm">
             <Link href="/" className="inline-flex items-center gap-3 rounded-sm font-bold text-gray-900">
-              <Image src="/natuna-logo.png" alt="" width={36} height={36} className="h-9 w-9" />
+              <Image src="/natuna-logo.svg" alt="" width={36} height={36} className="h-9 w-9" />
               <span className="text-lg">
                 Natuna <span className="text-blue-700">Digilab</span>
               </span>

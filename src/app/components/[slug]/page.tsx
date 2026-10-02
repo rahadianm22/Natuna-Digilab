@@ -6,7 +6,8 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ComponentSidebar, { ComponentMobileNav } from "@/components/ComponentSidebar";
 import ComponentPreview from "@/components/ComponentPreview";
-import ExampleTabs from "@/components/ExampleTabs";
+import CodeBlock from "@/components/CodeBlock";
+import Demo from "@/components/demos";
 import StatusBadge from "@/components/StatusBadge";
 import { components, getComponent, trackerRow } from "@/lib/components-data";
 import { componentDocs } from "@/lib/component-docs";
@@ -37,9 +38,10 @@ export default async function ComponentDetail({ params }: Props) {
   // Only components built in src/ui have code to show; the rest are design-only so far.
   const doc = componentDocs[component.slug];
   const toc = [
-    { id: "example", label: "Example" },
+    ...(doc ? [{ id: "import", label: "Import" }] : []),
+    { id: "example", label: doc ? "Usage" : "Example" },
     ...(doc ? [{ id: "props", label: "Props" }] : []),
-    { id: "usage", label: "When to use" },
+    { id: "when", label: "When to use" },
     { id: "practices", label: "Do and don't" },
     { id: "related", label: "Related" },
   ];
@@ -97,22 +99,43 @@ export default async function ComponentDetail({ params }: Props) {
                 </p>
               )}
 
-              <section aria-labelledby="example" className="mt-12 scroll-mt-24">
-                <h2 id="example" className="text-2xl font-bold text-gray-900">Example</h2>
-                <p className="mt-2 text-sm text-gray-600">
-                  {doc ? (
-                    <>
+              {doc ? (
+                <>
+                  <section aria-labelledby="import" className="mt-12 scroll-mt-24">
+                    <h2 id="import" className="text-2xl font-bold tracking-tight text-gray-900">Import</h2>
+                    <p className="mt-2 text-sm text-gray-600">
                       Built in <code className="font-mono-code text-[13px]">src/ui</code> of this repository. It is not
                       published to npm yet.
-                    </>
-                  ) : (
-                    codeNote
-                  )}
-                </p>
-                <div className="mt-4">
-                  <ExampleTabs preview={<ComponentPreview slug={component.slug} />} code={doc?.example} />
-                </div>
-              </section>
+                    </p>
+                    <div className="mt-4">
+                      <CodeBlock code={doc.importCode} label="Import" />
+                    </div>
+                  </section>
+
+                  <section aria-labelledby="example" className="mt-12 scroll-mt-24">
+                    <h2 id="example" className="text-2xl font-bold tracking-tight text-gray-900">Usage</h2>
+                    <p className="mt-2 text-sm text-gray-600">This demo is live. The code below it is the same code.</p>
+                    <div className="mt-4 flex min-h-48 items-center justify-center rounded-xl border border-gray-200 bg-surface px-6 py-10">
+                      <div className="w-full">
+                        <Demo slug={component.slug} />
+                      </div>
+                    </div>
+                    <div className="mt-3">
+                      <CodeBlock code={doc.usage} label="Usage" />
+                    </div>
+                  </section>
+                </>
+              ) : (
+                <section aria-labelledby="example" className="mt-12 scroll-mt-24">
+                  <h2 id="example" className="text-2xl font-bold tracking-tight text-gray-900">Example</h2>
+                  <p className="mt-2 text-sm text-gray-600">{codeNote}</p>
+                  <div className="mt-4 flex min-h-48 items-center justify-center rounded-xl border border-gray-200 bg-surface px-6 py-8">
+                    <div className="w-full">
+                      <ComponentPreview slug={component.slug} />
+                    </div>
+                  </div>
+                </section>
+              )}
 
               {doc && (
                 <section aria-labelledby="props" className="mt-14 scroll-mt-24">
@@ -142,8 +165,8 @@ export default async function ComponentDetail({ params }: Props) {
                 </section>
               )}
 
-              <section aria-labelledby="usage" className="mt-14 scroll-mt-24">
-                <h2 id="usage" className="text-2xl font-bold text-gray-900">When to use</h2>
+              <section aria-labelledby="when" className="mt-14 scroll-mt-24">
+                <h2 id="when" className="text-2xl font-bold text-gray-900">When to use</h2>
                 <p className="mt-3 max-w-2xl leading-relaxed text-gray-700">{component.usage}</p>
               </section>
 

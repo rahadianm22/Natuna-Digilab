@@ -29,7 +29,7 @@ export const statusStyle: Record<TrackerStatus, string> = {
   Selesai: "bg-emerald-100 text-emerald-800",
   "On Review": "bg-blue-100 text-blue-800",
   OnProgress: "bg-amber-100 text-amber-900",
-  Belum: "bg-gray-100 text-gray-600",
+  Belum: "bg-gray-100 text-gray-700",
 };
 
 export const trackerGroups: { name: TrackerGroup; description: string }[] = [
