@@ -34,7 +34,7 @@ export default function Home() {
 
       <main id="main" tabIndex={-1} className="w-full overflow-x-clip">
         {/* The first screen says only what Natuna is: the name, one sentence, two ways in. */}
-        <section aria-labelledby="hero" className="mx-auto flex min-h-[calc(100svh-4rem)] w-full max-w-5xl flex-col items-center justify-center px-6 py-20 text-center">
+        <section aria-labelledby="hero" className="hero-recede mx-auto flex min-h-[calc(100svh-4rem)] w-full max-w-5xl flex-col items-center justify-center px-6 py-20 text-center">
           <p className="rise text-sm font-medium text-blue-700">Design system, version 0.1</p>
           <h1 id="hero" className="hero-name rise mt-4 font-extrabold text-gray-900" style={{ "--d": "60ms" } as CSSProperties}>
             Natuna Digilab

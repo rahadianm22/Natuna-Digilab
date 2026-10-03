@@ -392,26 +392,48 @@ body {
 /* Scroll reveal: items rise in sequence, grid cells pop in a quicker run. Set only by Reveal. */
 .reveal [data-reveal-item] {
   opacity: 0;
-  transform: translateY(28px);
+  transform: translateY(56px) scale(0.97);
+  filter: blur(8px);
   transition:
-    opacity 600ms ease,
-    transform 800ms cubic-bezier(0.22, 1, 0.36, 1);
-  transition-delay: calc(var(--i, 0) * 110ms);
+    opacity 900ms ease,
+    transform 1100ms cubic-bezier(0.16, 1, 0.3, 1),
+    filter 900ms ease;
+  transition-delay: calc(var(--i, 0) * 160ms);
 }
 
 .reveal [data-reveal-cell] {
   opacity: 0;
-  transform: scale(0.4);
+  transform: translateY(16px) scale(0.2);
   transition:
-    opacity 300ms ease,
-    transform 450ms cubic-bezier(0.34, 1.4, 0.64, 1);
-  transition-delay: calc(300ms + var(--i, 0) * 18ms);
+    opacity 350ms ease,
+    transform 600ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition-delay: calc(400ms + var(--i, 0) * 28ms);
 }
 
 .reveal.is-shown [data-reveal-item],
 .reveal.is-shown [data-reveal-cell] {
   opacity: 1;
   transform: none;
+  filter: none;
+}
+
+/* The hero name recedes as the page scrolls on, tied to scroll position rather than time. */
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-recede {
+      animation: hero-recede linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 70vh;
+    }
+  }
+}
+
+@keyframes hero-recede {
+  to {
+    opacity: 0.15;
+    transform: translateY(-80px) scale(0.88);
+    filter: blur(4px);
+  }
 }
 
 .rise {
