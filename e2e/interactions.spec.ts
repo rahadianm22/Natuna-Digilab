@@ -78,27 +78,39 @@ test("component page: live demo, JS/TS tabs, copy, expand", async ({ page }) => 
   expect(copied).not.toContain("useState<boolean>");
 });
 
-test("home hero phone: validation, send flow, and screen mode switch", async ({ page }) => {
+test("home specimen: device switch re-types, bills select and pay, mode flips", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
   await page.goto("/");
   await page.waitForLoadState("networkidle");
-  const screen = page.locator("div.theme-dark, div.theme-light").first();
-  await expect(screen).toHaveClass(/theme-light/);
+
+  // Desktop type tokens by default; Phone swaps in the mobile scale and the 440 frame.
+  await expect(page.getByText("W 1440")).toBeVisible();
+  await expect(page.getByText("32 / 44")).toBeVisible();
+  await page.getByRole("button", { name: "Phone", exact: true }).click();
+  await expect(page.getByText("W 440")).toBeVisible();
+  await expect(page.getByText("24 / 36")).toBeVisible();
+
+  // Deselecting a bill updates the total and the pay button.
+  await expect(page.getByRole("button", { name: "Pay Rp 860.500" })).toBeVisible();
+  await page.getByRole("button", { name: /^Water/ }).click();
+  await expect(page.getByRole("button", { name: "Pay Rp 762.500" })).toBeVisible();
+
+  await page.getByRole("button", { name: "Pay Rp 762.500" }).click();
+  await expect(page.getByRole("button", { name: "Pay Rp 762.500" })).toHaveAttribute("aria-busy", "true");
+  await expect(page.getByText("1 due")).toBeVisible();
+
   await page.getByRole("button", { name: "dark", exact: true }).click();
   await expect(page.locator("div.theme-dark").first()).toBeVisible();
+});
 
-  const amount = page.getByLabel("Amount in rupiah");
-  await amount.fill("9999999");
-  await expect(amount).toHaveValue("9.999.999");
-  await page.getByRole("button", { name: "Send Rp 9.999.999" }).click();
-  await expect(page.getByText("That is more than your balance of Rp 2.450.000.")).toBeVisible();
-
-  await page.getByRole("button", { name: "100k" }).click();
-  await expect(amount).toHaveValue("100.000");
-  await page.getByRole("button", { name: "Send Rp 100.000" }).click();
-  await expect(page.getByRole("button", { name: /^Send Rp/ })).toHaveAttribute("aria-busy", "true");
-  await expect(page.getByRole("status").filter({ hasText: "sent to Rina Putri" })).toBeVisible();
-  await page.getByRole("button", { name: "Send another" }).click();
-  await expect(amount).toBeVisible();
+test("home anatomy: a token marks its part and states change the fill", async ({ page }) => {
+  await page.goto("/");
+  await page.waitForLoadState("networkidle");
+  const tokens = page.getByRole("list", { name: "Tokens in this button" });
+  await tokens.getByRole("button", { name: /Corner/ }).click();
+  await expect(tokens.getByRole("button", { name: /Corner/ })).toHaveAttribute("aria-pressed", "true");
+  await page.getByRole("group", { name: "Button state" }).getByRole("button", { name: "hover" }).click();
+  await expect(tokens.getByText("#015099")).toBeVisible();
 });
 
 test("design-only component has no code tab", async ({ page }) => {
