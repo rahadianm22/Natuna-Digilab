@@ -1,6 +1,6 @@
 # Natuna Digilab
 
-Documentation site for the **Natuna Digilab design system**: foundations, components, and usage guidance for Indonesian digital products such as banking, payments, and everyday consumer apps.
+Documentation site for the **Natuna Digilab design system**: foundations, components, and usage guidance for digital products such as banking, payments, and everyday consumer apps.
 
 The site is built from the [Foundation Design System v1.0](https://www.figma.com/community/file/1660946308636540525/natuna-digilab-foundation-design-system) in Figma. Build status for every component comes from the Natuna component tracker, so the site never claims a component is ready before it is.
 

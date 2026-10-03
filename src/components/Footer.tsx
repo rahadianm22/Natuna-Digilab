@@ -33,7 +33,7 @@ export default function Footer() {
               </span>
             </Link>
             <p className="mt-4 text-sm leading-relaxed text-gray-600">
-              Open-source components, design tokens, and guidelines for Indonesian digital
+              Open-source components, design tokens, and guidelines for digital
               products. Currently v0.1, in beta.
             </p>
           </div>

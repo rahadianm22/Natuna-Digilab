@@ -2,7 +2,7 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { ImageResponse } from "next/og";
 
-export const alt = "Natuna Digilab, the design system for Indonesian digital products";
+export const alt = "Natuna Digilab, the design system for digital products";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -47,7 +47,7 @@ export default async function Image() {
         <img src={src} width={96} height={96} alt="" />
         <div style={{ display: "flex", flexDirection: "column" }}>
           <div style={{ fontSize: 76, fontWeight: 800, lineHeight: 1.05, maxWidth: 900, letterSpacing: -2 }}>
-            The design system for Indonesian digital products
+            The design system for digital products
           </div>
           <div style={{ marginTop: 28, fontSize: 30, fontWeight: 500, color: "#9aa4b2" }}>Natuna Digilab</div>
         </div>

@@ -21,11 +21,11 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   openGraph: { siteName: "Natuna Digilab", type: "website" },
   title: {
-    default: "Natuna Digilab: design system for digital Indonesia",
+    default: "Natuna Digilab: design system for digital products",
     template: "%s · Natuna Digilab",
   },
   description:
-    "Open-source components, design tokens, and guidelines built by Natuna Digilab for modern Indonesian digital products.",
+    "Open-source components, design tokens, and guidelines built by Natuna Digilab for modern digital products.",
 };
 
 const themeScript = `try{var t=localStorage.getItem("theme");var d=t?t==="dark":matchMedia("(prefers-color-scheme: dark)").matches;document.documentElement.classList.toggle("dark",d)}catch(e){}`;

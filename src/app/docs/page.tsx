@@ -39,7 +39,7 @@ export default function DocsPage() {
         <main id="main" tabIndex={-1} className="min-w-0 max-w-3xl flex-1">
           <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">Introduction</h1>
           <p className="mt-5 text-lg leading-relaxed text-gray-600">
-            Natuna Digilab is an open design system for Indonesian digital products, from banking and payments to
+            Natuna Digilab is an open design system for digital products, from banking and payments to
             everyday consumer apps. It gives designers and engineers one set of foundations, components, and
             usage rules, so products built by different teams look and behave the same.
           </p>
