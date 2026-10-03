@@ -40,11 +40,12 @@ const RADII = 6;
 const azure = palettes.find((p) => p.token === "blue")!;
 
 // The four places people start. Each tint is a Natuna ramp that flips cleanly in dark mode.
+// Same order as the header nav and the footer, so the three read as one menu.
 const starts = [
+  { href: "/docs", label: "Introduction", note: "How it works", icon: BookOpenText, tone: "bg-amber-100 text-amber-900" },
   { href: "/foundation", label: "Foundation", note: "Color, type, number, effect", icon: Palette, tone: "bg-blue-100 text-blue-800" },
   { href: "/components", label: "Components", note: `${counts.Selesai} of ${tracker.length} ready`, icon: SquaresFour, tone: "bg-emerald-100 text-emerald-800" },
   { href: "/themes", label: "Themes", note: "Light and dark", icon: CircleHalf, tone: "bg-gray-100 text-gray-800" },
-  { href: "/docs", label: "Introduction", note: "How it works", icon: BookOpenText, tone: "bg-amber-100 text-amber-900" },
 ];
 
 // The three shapes that form the N in the Natuna logo, without the tile behind them.
