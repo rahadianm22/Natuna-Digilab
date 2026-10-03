@@ -40,7 +40,7 @@ export default function Home() {
             Natuna Digilab
           </h1>
           <p className="rise mt-6 max-w-xl text-lg leading-relaxed text-gray-600 sm:text-xl" style={{ "--d": "120ms" } as CSSProperties}>
-            Tokens, components, and usage rules for Indonesian digital products, kept the same in Figma and in React.
+            One set of tokens, components, and usage rules for digital products, kept the same in Figma and in React.
           </p>
           <div className="rise mt-10 flex w-full flex-col justify-center gap-3 sm:w-auto sm:flex-row" style={{ "--d": "180ms" } as CSSProperties}>
             <Link href="/components" className={`${buttonStyles({ size: "lg" })} w-full sm:w-auto`}>
