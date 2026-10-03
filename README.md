@@ -8,13 +8,13 @@ The site is built from the [Foundation Design System v1.0](https://www.figma.com
 
 | Page | What it covers |
 | --- | --- |
-| Home | Where the build stands and the components that are ready |
-| Docs | What the system contains, how status works, how to contribute |
-| Foundation | Eight color ramps with contrast ratios, the Urbanist type scale, radius steps |
-| Components | 51 components on the build plan, each with status, preview, usage rules, and do and don't |
+| Home | A live transfer screen with its tokens annotated, where the build stands, and the components that are ready |
+| Introduction | What the system contains, how status works, how to contribute |
+| Foundation | Eight color ramps with contrast ratios, the responsive Urbanist type scale, the number scale and its variables, radius, device frames, shadow and background blur |
+| Components | 51 components on the build plan plus 5 pages not yet in the tracker, each with status, preview, usage rules, and do and don't |
 | Themes | Light and dark mode shown side by side on the same component |
 
-Components that exist as React code (Button, Badge, Input, Avatar, Accordion) also have an import block, a live demo, the same code in TypeScript and JavaScript with copy, and a props table. The rest are design-only for now and say so.
+Components that exist as React code (Button, Badge, Input, Avatar, Accordion) also have a live demo, the same code in TypeScript and JavaScript with its imports and a copy button, and a props table. The rest are design-only for now and say so.
 
 ## Getting started
 
@@ -23,7 +23,7 @@ npm install
 npm run dev
 ```
 
-Open http://localhost:3000. Press `Ctrl K` to search components and pages.
+Open http://localhost:3000. Press `Ctrl K` to search components, pages, and tokens (by name, class, hex, or Figma variable).
 
 ## Scripts
 
@@ -36,7 +36,7 @@ Open http://localhost:3000. Press `Ctrl K` to search components and pages.
 
 ## Project structure
 
-- `src/app`: pages (Home, Docs, Foundation, Components, Themes, Privacy), sitemap, robots, share image
+- `src/app`: pages (Home, Introduction, Foundation, Components, Themes, Privacy), sitemap, robots, share image
 - `src/ui`: the React components themselves. Not published to npm yet
 - `src/components`: site UI (Header, Footer, sidebar, search, previews, example tabs)
 - `src/lib/components-data.ts`: usage guidance for every component
@@ -63,7 +63,7 @@ Status comes from the tracker snapshot. To update it, re-run the Notion query, r
 npm run test:e2e
 ```
 
-Runs 32 tests against http://localhost:3000 (starts `npm run dev` if nothing is running) in the installed Microsoft Edge: navigation, theme toggle, tabs and copy, sidebar, search, phone layout at 390px with no horizontal overflow, and axe WCAG 2.1 AA scans of every page in light and dark mode.
+Runs 33 tests against http://localhost:3000 (starts `npm run dev` if nothing is running) in the installed Microsoft Edge: navigation, theme toggle, the hero transfer flow, tabs and copy, fixed-width loading buttons, the Copy to Figma export, sidebar, search, phone layout at 390px with no horizontal overflow, and axe WCAG 2.1 AA scans of every page in light and dark mode.
 
 Set `PLAYWRIGHT_BASE_URL` to test another address, or `PLAYWRIGHT_CHANNEL=chrome` to use Chrome.
 
@@ -73,4 +73,4 @@ The site is a standard Next.js app and deploys to Vercel without extra configura
 
 ## Stack
 
-Next.js 16, React 19, TypeScript, Tailwind CSS 4, Phosphor Icons, Urbanist.
+Next.js 16, React 19, TypeScript, Tailwind CSS 4, Phosphor Icons, Urbanist, IBM Plex Mono for code.

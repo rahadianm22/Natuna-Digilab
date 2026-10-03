@@ -20,54 +20,58 @@ export const componentDocs: Record<string, ComponentDoc> = {
       js: `import { useState } from "react";
 import { Button } from "@/ui";`,
       ts: `import { useState } from "react";
-import { Button, type ButtonProps } from "@/ui";`,
+import { Button } from "@/ui";`,
     },
     usage: {
       js: `export default function ButtonDemo() {
-  const [count, setCount] = useState(0);
+  const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
 
-  function remove() {
-    setDeleting(true);
-    setTimeout(() => setDeleting(false), 1500);
+  function run(set) {
+    set(true);
+    setTimeout(() => set(false), 1500);
   }
 
   return (
     <>
-      <Button onClick={() => setCount(count + 1)}>Clicked {count}</Button>
-      <Button variant="secondary" onClick={() => setCount(0)}>Reset</Button>
+      <Button loading={saving} onClick={() => run(setSaving)}>Save changes</Button>
+      <Button variant="secondary">Export</Button>
       <Button variant="ghost">Cancel</Button>
-      <Button variant="destructive" loading={deleting} onClick={remove}>
-        {deleting ? "Deleting" : "Delete"}
+      <Button variant="destructive" loading={deleting} onClick={() => run(setDeleting)}>
+        Delete account
       </Button>
+      <Button size="lg">Pay Rp 412.500</Button>
+      <Button disabled>Unavailable</Button>
     </>
   );
 }`,
       ts: `export default function ButtonDemo() {
-  const [count, setCount] = useState<number>(0);
+  const [saving, setSaving] = useState<boolean>(false);
   const [deleting, setDeleting] = useState<boolean>(false);
 
-  function remove(): void {
-    setDeleting(true);
-    setTimeout(() => setDeleting(false), 1500);
+  function run(set: (busy: boolean) => void): void {
+    set(true);
+    setTimeout(() => set(false), 1500);
   }
 
   return (
     <>
-      <Button onClick={() => setCount(count + 1)}>Clicked {count}</Button>
-      <Button variant="secondary" onClick={() => setCount(0)}>Reset</Button>
+      <Button loading={saving} onClick={() => run(setSaving)}>Save changes</Button>
+      <Button variant="secondary">Export</Button>
       <Button variant="ghost">Cancel</Button>
-      <Button variant="destructive" loading={deleting} onClick={remove}>
-        {deleting ? "Deleting" : "Delete"}
+      <Button variant="destructive" loading={deleting} onClick={() => run(setDeleting)}>
+        Delete account
       </Button>
+      <Button size="lg">Pay Rp 412.500</Button>
+      <Button disabled>Unavailable</Button>
     </>
   );
 }`,
     },
     props: [
       { name: "variant", type: '"primary" | "secondary" | "ghost" | "destructive"', default: '"primary"', description: "Visual weight. Use one primary per view." },
-      { name: "size", type: '"md" | "lg"', default: '"md"', description: "md is 40px tall, lg is 48px." },
-      { name: "loading", type: "boolean", default: "false", description: "Shows a spinner, sets aria-busy, and blocks clicks. The label stays so the width does not change." },
+      { name: "size", type: '"md" | "lg"', default: '"md"', description: "md is 40px tall (44px on phones, for touch), lg is 48px." },
+      { name: "loading", type: "boolean", default: "false", description: "Shows a spinner over the label, sets aria-busy, and blocks clicks. The button keeps its size and color." },
       { name: "disabled", type: "boolean", default: "false", description: "Blocks interaction and uses the disabled colors." },
       { name: "type", type: '"button" | "submit" | "reset"', default: '"button"', description: "Defaults to button so a button inside a form does not submit by accident." },
       { name: "...rest", type: "ButtonHTMLAttributes", description: "Every native button attribute, such as onClick and aria-label." },
@@ -119,7 +123,7 @@ import { Badge, Button, type BadgeTone } from "@/ui";`,
       js: `import { useState } from "react";
 import { Input } from "@/ui";`,
       ts: `import { useState, type ChangeEvent } from "react";
-import { Input, type InputProps } from "@/ui";`,
+import { Input } from "@/ui";`,
     },
     usage: {
       js: `const EMAIL = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;
@@ -239,3 +243,10 @@ export default function AccordionDemo() {
     ],
   },
 };
+
+type Snippet = { js: string; ts: string };
+
+/** The demo with every import it needs, so a copied snippet runs as is. */
+export function fullUsage(doc: ComponentDoc): Snippet {
+  return { js: `${doc.importCode.js}\n\n${doc.usage.js}`, ts: `${doc.importCode.ts}\n\n${doc.usage.ts}` };
+}

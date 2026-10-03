@@ -7,22 +7,28 @@ import { useState, type ReactElement } from "react";
 import { Accordion, Avatar, Badge, Button, Input } from "@/ui";
 
 function ButtonDemo() {
-  const [count, setCount] = useState(0);
+  const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
 
-  function remove() {
-    setDeleting(true);
-    setTimeout(() => setDeleting(false), 1500);
+  function run(set: (busy: boolean) => void) {
+    set(true);
+    setTimeout(() => set(false), 1500);
   }
 
   return (
-    <div className="flex flex-wrap items-center justify-center gap-3">
-      <Button onClick={() => setCount(count + 1)}>Clicked {count}</Button>
-      <Button variant="secondary" onClick={() => setCount(0)}>Reset</Button>
-      <Button variant="ghost">Cancel</Button>
-      <Button variant="destructive" loading={deleting} onClick={remove}>
-        {deleting ? "Deleting" : "Delete"}
-      </Button>
+    <div className="flex flex-col items-center gap-4">
+      <div className="flex flex-wrap items-center justify-center gap-3">
+        <Button loading={saving} onClick={() => run(setSaving)}>Save changes</Button>
+        <Button variant="secondary">Export</Button>
+        <Button variant="ghost">Cancel</Button>
+        <Button variant="destructive" loading={deleting} onClick={() => run(setDeleting)}>
+          Delete account
+        </Button>
+      </div>
+      <div className="flex flex-wrap items-center justify-center gap-3">
+        <Button size="lg">Pay Rp&nbsp;412.500</Button>
+        <Button disabled>Unavailable</Button>
+      </div>
     </div>
   );
 }

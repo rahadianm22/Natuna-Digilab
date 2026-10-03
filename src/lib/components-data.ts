@@ -1,6 +1,6 @@
 import { tracker, type TrackerStatus } from "./natuna-tracker";
 
-export type ComponentStatus = "stable" | "beta" | "planned";
+export type ComponentStatus = "stable" | "review" | "beta" | "planned" | "untracked";
 
 export type ComponentCategory = "Action" | "Display" | "Form" | "Navigation" | "Overlay" | "Feedback" | "Documentation";
 
@@ -35,7 +35,7 @@ export const components: ComponentMeta[] = [
     tags: ["interactive", "form"],
     summary: "Trigger an action or event, such as submitting a form or opening a dialog.",
     usage:
-      "Use it for form submissions, confirmations, navigation, or any interaction that needs a clear call to action.",
+      "Use it for actions: submitting a form, confirming a choice, opening a dialog, or starting a process. To move to another page, use a Link, styled as a button only when it is the main call to action.",
     do: [
       "Reserve primary for the single most important action in the view. Use secondary or ghost for everything else.",
       'Write labels that describe the action ("Save changes", "Delete account"). Avoid vague labels like "OK" or "Click here".',
@@ -56,7 +56,7 @@ export const components: ComponentMeta[] = [
     summary: "A set of related buttons, visually grouped together as a single control.",
     usage: "Use for segmented choices like view toggles (grid/list) or grouped filters.",
     do: ["Keep labels short so groups stay compact.", "Use for mutually exclusive choices."],
-    dont: ["Mix unrelated actions in a single group.", "Use more than 4-5 items in a group."],
+    dont: ["Mix unrelated actions in a single group.", "Put more than four options in one group. Two to four reads at a glance."],
   },
   {
     slug: "dropdown-menu",
@@ -83,7 +83,7 @@ export const components: ComponentMeta[] = [
   {
     slug: "link",
     name: "Link",
-    category: "Action",
+    category: "Navigation",
     status: "stable",
     tags: ["navigation"],
     summary: "Navigates the user to another page, section, or resource.",
@@ -131,7 +131,7 @@ export const components: ComponentMeta[] = [
     status: "stable",
     tags: ["display", "layout"],
     summary: "A container that groups related content and actions.",
-    usage: "Use to group content into digestible, scannable sections.",
+    usage: "Use a card for one record the user can act on, such as a bill or a transfer.",
     do: ["Keep consistent padding and radius across cards.", "Use a clear hierarchy inside: title, body, action."],
     dont: ["Nest cards inside cards.", "Overload a single card with unrelated content."],
   },
@@ -220,8 +220,8 @@ export const components: ComponentMeta[] = [
     tags: ["navigation"],
     summary: "Organizes content into separate views within the same context.",
     usage: "Use to switch between related views without navigating away from the page.",
-    do: ["Keep tab labels short and parallel in structure.", "Limit to a manageable number of tabs (up to ~6-7)."],
-    dont: ["Use tabs for sequential steps: use a stepper instead.", "Hide critical information behind a non-default tab."],
+    do: ["Keep tab labels short and parallel in structure.", "Keep it to five tabs or fewer. More than that wraps on a 360px screen."],
+    dont: ["Use tabs for steps that must happen in order. That is a Stepper.", "Hide critical information behind a non-default tab."],
   },
   {
     slug: "breadcrumbs",
@@ -338,10 +338,10 @@ export const components: ComponentMeta[] = [
   },
   {
     slug: "chip",
-    name: "Chip / Tag",
+    name: "Chip",
     category: "Display",
     status: "planned",
-    tags: ["display", "interactive"],
+    tags: ["display", "interactive", "tag"],
     summary: "A compact label for a category, filter, or selected value.",
     usage: "Use for applied filters, selected options in a multi-select, or content categories.",
     do: ["Give removable chips a clear remove button with an accessible name.", "Keep chip text to one or two words."],
@@ -382,10 +382,10 @@ export const components: ComponentMeta[] = [
   },
   {
     slug: "table",
-    name: "Table / Data Table",
+    name: "Table",
     category: "Display",
     status: "planned",
-    tags: ["display", "data"],
+    tags: ["display", "data", "data table"],
     summary: "Rows and columns for comparing many records at once.",
     usage: "Use when people scan, sort, or compare records. Put the deciding column first.",
     do: ["Right-align numbers so they line up.", "Show an empty state and a loading state for the table body."],
@@ -426,7 +426,7 @@ export const components: ComponentMeta[] = [
   },
   {
     slug: "radio-group",
-    name: "Radio",
+    name: "Radio Group",
     category: "Form",
     status: "planned",
     tags: ["form", "interactive"],
@@ -514,10 +514,10 @@ export const components: ComponentMeta[] = [
   },
   {
     slug: "combobox",
-    name: "Combobox / Autocomplete",
+    name: "Combobox",
     category: "Form",
     status: "planned",
-    tags: ["form", "interactive"],
+    tags: ["form", "interactive", "autocomplete"],
     summary: "An input that suggests matching options as the user types.",
     usage: "Use for long option lists such as banks, cities, or countries.",
     do: ["Match anywhere in the option name, not only the start.", "Support arrow keys and Enter to pick an option."],
@@ -525,10 +525,10 @@ export const components: ComponentMeta[] = [
   },
   {
     slug: "amount-input",
-    name: "Amount / Currency Input",
+    name: "Amount Input",
     category: "Form",
     status: "planned",
-    tags: ["form", "finance"],
+    tags: ["form", "finance", "currency"],
     summary: "An input for money that formats the value as the user types.",
     usage: "Use for transfer, top-up, and payment amounts.",
     do: ["Show the currency (Rp) next to the value.", "Show the limit or balance close to the field."],
@@ -558,7 +558,7 @@ export const components: ComponentMeta[] = [
   },
   {
     slug: "navigation-bar",
-    name: "Navigation Bar (Top/Bottom)",
+    name: "Navigation Bar",
     category: "Navigation",
     status: "planned",
     tags: ["navigation"],
@@ -580,7 +580,7 @@ export const components: ComponentMeta[] = [
   },
   {
     slug: "progress-bar",
-    name: "Progress Bars",
+    name: "Progress Bar",
     category: "Feedback",
     status: "planned",
     tags: ["feedback"],
@@ -657,34 +657,51 @@ export const components: ComponentMeta[] = [
   },
 ];
 
-// The Notion tracker is the source of truth for build status. The statuses written above are only
-// used for components the tracker does not list.
+// The Notion tracker is the source of truth for build status. A component it does not list has no
+// sign-off, so it is marked untracked rather than trusting the status written above.
 const trackerStatus: Record<TrackerStatus, ComponentStatus> = {
   Selesai: "stable",
-  "On Review": "beta",
+  "On Review": "review",
   OnProgress: "beta",
   Belum: "planned",
 };
 
 for (const c of components) {
   const row = tracker.find((t) => t.slug === c.slug);
-  if (row) c.status = trackerStatus[row.status];
+  c.status = row ? trackerStatus[row.status] : "untracked";
 }
 
 export const statusText: Record<ComponentStatus, string> = {
   stable: "Ready",
+  review: "In review",
   beta: "In progress",
   planned: "Planned",
+  untracked: "Not tracked",
 };
 
 export const statusTone: Record<ComponentStatus, string> = {
   stable: "bg-emerald-100 text-emerald-800",
+  review: "bg-blue-100 text-blue-800",
   beta: "bg-amber-100 text-amber-900",
   planned: "bg-gray-100 text-gray-700",
+  // Outlined rather than filled: it is outside the plan, not a step in it.
+  untracked: "border border-dashed border-gray-500 text-gray-700",
 };
 
 export function trackerRow(slug: string) {
   return tracker.find((t) => t.slug === slug);
+}
+
+/**
+ * Navigation groups follow the tracker's Atoms and Molecules, the same split the overview and the
+ * Figma file use. Components the tracker does not list get their own group, so they never pass as
+ * part of the plan.
+ */
+export const componentGroups = ["Atoms", "Molecules", "Not tracked"] as const;
+export type ComponentGroup = (typeof componentGroups)[number];
+
+export function componentGroup(slug: string): ComponentGroup {
+  return trackerRow(slug)?.group ?? "Not tracked";
 }
 
 export function getComponent(slug: string) {

@@ -13,7 +13,7 @@ export default function NotFound() {
   return (
     <div className="flex min-h-screen flex-col bg-canvas">
       <Header active="" />
-      <main className="mx-auto w-full max-w-2xl px-6 pb-24 pt-20">
+      <main id="main" tabIndex={-1} className="mx-auto w-full max-w-2xl px-6 pb-24 pt-20">
         <p className="text-sm font-semibold text-blue-700">Error 404</p>
         <h1 className="mt-2 text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">
           This page doesn&rsquo;t exist
@@ -25,13 +25,13 @@ export default function NotFound() {
         <div className="mt-8 flex flex-wrap gap-3">
           <Link
             href="/components"
-            className={buttonStyles({ size: "lg" })}
+            className={`${buttonStyles({ size: "lg" })} w-full sm:w-auto`}
           >
             Browse the components
           </Link>
           <Link
             href="/"
-            className={buttonStyles({ variant: "ghost", size: "lg" })}
+            className={`${buttonStyles({ variant: "ghost", size: "lg" })} w-full sm:w-auto`}
           >
             Back to home
           </Link>

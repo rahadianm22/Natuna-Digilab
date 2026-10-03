@@ -4,6 +4,9 @@ out
 .env*
 .DS_Store
 
+# typescript incremental build cache
+*.tsbuildinfo
+
 # playwright
 /test-results/
 /playwright-report/

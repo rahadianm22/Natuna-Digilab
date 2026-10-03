@@ -4,7 +4,7 @@ import Link from "next/link";
 import { FIGMA_COMMUNITY_URL, ISSUES_URL, REPO_URL } from "@/lib/site";
 
 const siteLinks = [
-  { href: "/docs", label: "Docs" },
+  { href: "/docs", label: "Introduction" },
   { href: "/foundation", label: "Foundation" },
   { href: "/components", label: "Components" },
   { href: "/themes", label: "Themes" },
@@ -23,10 +23,10 @@ const linkClass =
 export default function Footer() {
   return (
     <footer className="mt-auto border-t border-gray-200 bg-surface">
-      <div className="mx-auto max-w-7xl px-6 pb-8 pt-12">
+      <div className="mx-auto w-full max-w-7xl px-6 pb-8 pt-12">
         <div className="flex flex-col gap-10 md:flex-row md:justify-between">
           <div className="max-w-sm">
-            <Link href="/" className="inline-flex items-center gap-3 rounded-sm font-bold text-gray-900">
+            <Link href="/" className="inline-flex min-h-11 items-center gap-3 rounded-sm font-bold text-gray-900">
               <Image src="/natuna-logo.svg" alt="" width={36} height={36} className="h-9 w-9" />
               <span className="text-lg">
                 Natuna <span className="text-blue-700">Digilab</span>

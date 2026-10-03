@@ -1,8 +1,33 @@
 "use client";
 
-import { useId, useState, type KeyboardEvent, type ReactNode } from "react";
+import { useId, useState, useSyncExternalStore, type KeyboardEvent, type ReactNode } from "react";
 
 export type Lang = "js" | "ts";
+
+// One language choice for every code block on the site, remembered per visitor. Storage can be
+// unavailable (private windows, blocked site data), so every access is guarded and TS is the fallback.
+const listeners = new Set<() => void>();
+let current: Lang = "ts";
+try {
+  if (typeof window !== "undefined" && localStorage.getItem("code-lang") === "js") current = "js";
+} catch {}
+
+function setLangEverywhere(next: Lang) {
+  current = next;
+  try {
+    localStorage.setItem("code-lang", next);
+  } catch {}
+  listeners.forEach((l) => l());
+}
+
+function subscribe(listener: () => void) {
+  listeners.add(listener);
+  return () => listeners.delete(listener);
+}
+
+function useLang() {
+  return useSyncExternalStore(subscribe, () => current, () => "ts" as Lang);
+}
 
 // Fixed hex values from the Natuna palette: the code surface is always dark, so these must not
 // follow the light/dark token flip.
@@ -50,7 +75,8 @@ export default function CodeBlock({
 }) {
   const id = useId();
   const variants = typeof code === "string" ? null : code;
-  const [lang, setLang] = useState<Lang>("ts");
+  const lang = useLang();
+  const setLang = setLangEverywhere;
   const [expanded, setExpanded] = useState(false);
   const [copied, setCopied] = useState<"idle" | "done" | "failed">("idle");
 
@@ -91,7 +117,7 @@ export default function CodeBlock({
                 aria-controls={`${id}-panel`}
                 tabIndex={lang === l ? 0 : -1}
                 onClick={() => setLang(l)}
-                className={`min-h-8 rounded-md px-3 text-xs font-semibold transition-colors ${
+                className={`min-h-11 sm:min-h-8 rounded-md px-3 text-xs font-semibold transition-colors ${
                   lang === l ? "bg-[#026acc] text-white" : "text-[#cdd5df] hover:text-white"
                 }`}
               >
@@ -109,7 +135,7 @@ export default function CodeBlock({
               onClick={() => setExpanded((v) => !v)}
               aria-expanded={expanded}
               aria-controls={`${id}-panel`}
-              className="min-h-8 rounded-md px-3 text-xs font-medium text-[#cdd5df] transition-colors hover:bg-white/10 hover:text-white"
+              className="min-h-11 sm:min-h-8 rounded-md px-3 text-xs font-medium text-[#cdd5df] transition-colors hover:bg-white/10 hover:text-white"
             >
               {expanded ? "Collapse code" : "Expand code"}
             </button>
@@ -117,7 +143,7 @@ export default function CodeBlock({
           <button
             type="button"
             onClick={copy}
-            className="min-h-8 rounded-md bg-white/10 px-3 text-xs font-medium text-white transition-colors hover:bg-white/15 active:scale-[0.97]"
+            className="min-h-11 sm:min-h-8 rounded-md bg-white/10 px-3 text-xs font-medium text-white transition-colors hover:bg-white/15 active:scale-[0.97]"
           >
             {copied === "done" ? "Copied" : copied === "failed" ? "Copy failed" : "Copy"}
           </button>

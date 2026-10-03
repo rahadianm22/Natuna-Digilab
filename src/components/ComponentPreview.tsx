@@ -1,5 +1,5 @@
 import type { ReactElement } from "react";
-import { Accordion, Avatar, Badge, Button, Input } from "@/ui";
+import { Accordion, Avatar, Badge, Button, Input, buttonStyles } from "@/ui";
 import {
   ArrowDownLeft,
   ArrowUpRight,
@@ -19,6 +19,7 @@ import {
   UploadSimple,
   User,
   Wallet,
+  Warning,
   X,
   XCircle,
 } from "@phosphor-icons/react/ssr";
@@ -76,9 +77,10 @@ const previews: Record<string, () => ReactElement> = {
     </div>
   ),
   link: () => (
-    <div className="flex justify-center py-6 text-sm text-blue-700 underline">
-      View full documentation
-    </div>
+    <p className="mx-auto max-w-xs py-6 text-center text-sm text-gray-700">
+      Read the <span className="font-medium text-blue-700 underline underline-offset-4">transfer limits</span> before you
+      send.
+    </p>
   ),
   "more-menu": () => (
     <div className="flex justify-center py-6 text-gray-600">
@@ -92,7 +94,6 @@ const previews: Record<string, () => ReactElement> = {
       <Avatar name="Natuna Digilab" size="sm" />
       <Avatar name="Natuna Digilab" />
       <Avatar name="Natuna Digilab" size="lg" />
-      <Avatar name="Digilab" />
     </div>
   ),
   badge: () => (
@@ -107,14 +108,15 @@ const previews: Record<string, () => ReactElement> = {
   card: () => (
     <div className="flex justify-center py-6">
       <div className="w-64 rounded-xl border border-gray-200 bg-surface p-4">
-        <div className="mb-2 text-sm font-semibold text-gray-900">Card title</div>
-        <div className="text-xs text-gray-600">Supporting description text goes here.</div>
+        <div className="mb-2 flex items-center justify-between text-sm font-semibold text-gray-900">Electricity bill <span className="tabular-nums">Rp 412.500</span></div>
+        <div className="text-xs text-gray-600">PLN postpaid, due 12 Oct</div>
+        <span className="mt-3 flex min-h-9 w-full items-center justify-center rounded-md bg-brand text-xs font-medium text-white">Pay now</span>
       </div>
     </div>
   ),
   "code-block": () => (
     <div className="flex justify-center py-6">
-      <pre className="rounded-md bg-ink px-4 py-3 text-xs text-emerald-300">npm install @natuna/ui</pre>
+      <pre className="rounded-md bg-ink px-4 py-3 text-xs text-emerald-300">{`import { Button } from "@/ui";`}</pre>
     </div>
   ),
   divider: () => (
@@ -159,15 +161,18 @@ const previews: Record<string, () => ReactElement> = {
     </div>
   ),
   tabs: () => (
-    <div className="flex justify-center gap-6 border-b border-gray-200 py-6 text-sm">
-      <span className="border-b-2 border-blue-600 pb-2 font-medium text-blue-700">Overview</span>
-      <span className="pb-2 text-gray-600">Properties</span>
-      <span className="pb-2 text-gray-600">Examples</span>
+    <div className="py-6">
+      {/* The active underline overlaps the 1px track, so the indicator sits on the line it belongs to. */}
+      <div className="mx-auto flex max-w-sm justify-center gap-6 border-b border-gray-200 text-sm">
+        <span className="-mb-px border-b-2 border-blue-600 pb-3 font-medium text-blue-700">Bills</span>
+        <span className="-mb-px border-b-2 border-transparent pb-3 text-gray-600">Transfers</span>
+        <span className="-mb-px border-b-2 border-transparent pb-3 text-gray-600">Top up</span>
+      </div>
     </div>
   ),
   breadcrumbs: () => (
     <div className="flex justify-center gap-2 py-6 text-sm text-gray-600">
-      <span>natuna.ui</span> / <span>components</span> / <span className="text-gray-900">Button</span>
+      <span>Home</span> / <span>Transfers</span> / <span className="text-gray-900">Details</span>
     </div>
   ),
   pagination: () => (
@@ -180,13 +185,20 @@ const previews: Record<string, () => ReactElement> = {
     </div>
   ),
   modal: () => (
-    <div className="flex justify-center py-6">
-      <div className="w-72 rounded-lg border border-gray-200 bg-surface p-4 shadow-lg">
-        <div className="mb-2 text-sm font-semibold text-gray-900">Delete item?</div>
-        <div className="mb-3 text-xs text-gray-600">This action cannot be undone.</div>
-        <div className="flex justify-end gap-2">
-          <button className="rounded-md border border-gray-300 px-3 py-1.5 text-xs">Cancel</button>
-          <button className="rounded-md bg-danger px-3 py-1.5 text-xs text-white">Delete</button>
+    // A scrim, a close control, and the system's own button styles, as the guidance on this page asks.
+    // Spans styled as buttons keep the picture inert: nothing here is a focusable control that does nothing.
+    <div className="relative mx-auto flex max-w-md justify-center overflow-hidden rounded-xl bg-ink/40 px-4 py-8">
+      <div className="w-full max-w-xs rounded-xl bg-surface p-5 shadow-lg">
+        <div className="flex items-start justify-between gap-3">
+          <div className="text-base font-semibold text-gray-900">Cancel this transfer?</div>
+          <span aria-hidden="true" className="-m-2 flex h-11 w-11 shrink-0 items-center justify-center rounded-md text-gray-600">
+            <X size={18} />
+          </span>
+        </div>
+        <p className="mt-2 text-sm text-gray-600">Rp&nbsp;500.000 to Budi Santoso will not be sent. You can start it again later.</p>
+        <div className="mt-5 flex justify-end gap-2">
+          <span className={buttonStyles({ variant: "ghost" })}>Keep it</span>
+          <span className={buttonStyles({ variant: "destructive" })}>Cancel transfer</span>
         </div>
       </div>
     </div>
@@ -198,8 +210,9 @@ const previews: Record<string, () => ReactElement> = {
   ),
   alert: () => (
     <div className="flex justify-center py-6">
-      <div className="w-72 rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-900">
-        Your session will expire in 5 minutes.
+      <div role="status" className="flex w-80 items-start gap-2.5 rounded-md border border-amber-200 bg-amber-50 px-3 py-2.5 text-sm text-amber-900">
+        <Warning size={18} weight="fill" aria-hidden="true" className="mt-0.5 shrink-0" />
+        <span>Your session ends in 5 minutes. Save your draft to keep it.</span>
       </div>
     </div>
   ),
@@ -215,7 +228,7 @@ const previews: Record<string, () => ReactElement> = {
   ),
 
   headline: () => (
-    <div className="mx-auto max-w-xs space-y-1 py-6">
+    <div className="mx-auto max-w-xs space-y-1 py-6 text-center">
       <div className="text-2xl font-bold leading-9 text-gray-900">Header 1</div>
       <div className="text-xl font-bold leading-[30px] text-gray-900">Header 2</div>
       <div className="text-lg font-semibold leading-[26px] text-gray-700">Subheader</div>
@@ -228,8 +241,8 @@ const previews: Record<string, () => ReactElement> = {
         <div className="text-base font-medium text-gray-900">1234 5678 90</div>
       </div>
       <div>
-        <div className="text-xs font-semibold text-gray-600">Bank</div>
-        <div className="text-base font-medium text-gray-900">Bank name</div>
+        <div className="text-xs font-semibold text-gray-600">Account holder</div>
+        <div className="text-base font-medium text-gray-900">Rina Putri</div>
       </div>
     </div>
   ),
@@ -274,10 +287,10 @@ const previews: Record<string, () => ReactElement> = {
         <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-100 text-xs font-semibold text-blue-800">R</span>
         <div>
           <div className="text-sm">
-            <span className="font-semibold text-gray-900">Reviewer name</span>
+            <span className="font-semibold text-gray-900">Rina Putri</span>
             <span className="ml-2 text-xs text-gray-600">2 hours ago</span>
           </div>
-          <p className="mt-1 text-sm text-gray-700">Comment text goes here and wraps onto a second line when it is long.</p>
+          <p className="mt-1 text-sm text-gray-700">Please check the daily transfer limit before we release this flow.</p>
         </div>
       </div>
     </div>
@@ -286,8 +299,8 @@ const previews: Record<string, () => ReactElement> = {
     <Accordion
       className="mx-auto w-full max-w-sm"
       items={[
-        { title: "What does this section cover?", content: "Section content is shown when the header is opened.", defaultOpen: true },
-        { title: "Second section title", content: "Each section opens and closes on its own." },
+        { title: "How long does a transfer take?", content: "Most transfers arrive within a minute.", defaultOpen: true },
+        { title: "What are the limits?", content: "Limits depend on your account type." },
       ]}
     />
   ),
@@ -321,8 +334,8 @@ const previews: Record<string, () => ReactElement> = {
   "transaction-list-item": () => (
     <div className="mx-auto w-full max-w-sm divide-y divide-gray-100 py-4">
       {[
-        { name: "Merchant name", meta: "Payment, 09:41", amount: "-Rp 125.000", out: true },
-        { name: "Sender name", meta: "Transfer in, 08:10", amount: "+Rp 500.000", out: false },
+        { name: "Warung Bu Sari", meta: "QRIS payment, 09:41", amount: "-Rp 125.000", out: true },
+        { name: "Budi Santoso", meta: "Transfer in, 08:10", amount: "+Rp 500.000", out: false },
       ].map((t) => (
         <div key={t.name} className="flex items-center gap-3 py-3">
           <span className={`flex h-9 w-9 items-center justify-center rounded-full ${t.out ? "bg-gray-100 text-gray-700" : "bg-emerald-100 text-emerald-800"}`}>
@@ -339,13 +352,15 @@ const previews: Record<string, () => ReactElement> = {
   ),
   "qr-code": () => (
     <div className="flex justify-center py-6">
-      <div className="w-48 rounded-md border border-gray-200 bg-surface p-4 text-center">
-        <div className="mx-auto flex h-28 w-28 flex-col items-center justify-center gap-1 rounded-sm border-2 border-dashed border-gray-300 text-gray-600">
-          <QrCode size={32} aria-hidden="true" />
-          <span className="text-[10px] font-medium">[QR CODE]</span>
+      <div className="w-52 rounded-xl border border-gray-200 bg-surface p-4 text-center">
+        {/* The code always sits on white with a quiet zone, in both modes, as the guidance requires. */}
+        <div className="theme-light mx-auto flex w-fit flex-col items-center rounded-lg border border-gray-200 bg-white p-3">
+          <QrCode size={96} weight="regular" aria-hidden="true" className="text-[#0d121c]" />
+          <span className="mt-1 text-[10px] text-gray-600">Sample, not a scannable code</span>
         </div>
-        <div className="mt-3 text-sm font-semibold text-gray-900">Merchant name</div>
-        <div className="text-xs text-gray-600">Valid for 15:00</div>
+        <div className="mt-3 text-lg font-bold tabular-nums text-gray-900">Rp 25.000</div>
+        <div className="text-sm font-semibold text-gray-900">Warung Bu Sari</div>
+        <div className="text-xs text-gray-600">Expires at 15:00 WIB</div>
       </div>
     </div>
   ),
@@ -383,27 +398,31 @@ const previews: Record<string, () => ReactElement> = {
     <div className="flex justify-center py-6">
       <label className="flex w-64 flex-col gap-2">
         <span className="flex justify-between text-xs font-semibold text-gray-700">
-          Volume <span className="font-normal text-gray-600">0 to 100</span>
+          Daily limit <span className="font-normal text-gray-600">Rp 0 to 10 jt</span>
         </span>
         <input type="range" min={0} max={100} defaultValue={60} className="w-full accent-blue-600" />
       </label>
     </div>
   ),
   "otp-input": () => (
+    // A picture of the pattern, not a working field: three digits entered, focus on the fourth.
     <div className="flex flex-col items-center gap-2 py-6">
-      <span id="otp-preview-label" className="text-xs font-semibold text-gray-700">Code sent to your phone</span>
-      <div role="group" aria-labelledby="otp-preview-label" className="flex gap-2">
-        {Array.from({ length: 6 }, (_, i) => (
-          <input
+      <span className="text-xs font-semibold text-gray-700">Code sent to +62 812 •••• 4821</span>
+      <div role="img" aria-label="Six-digit code, three digits entered" className="flex gap-2">
+        {["4", "8", "2", "", "", ""].map((d, i) => (
+          <span
             key={i}
-            inputMode="numeric"
-            autoComplete={i === 0 ? "one-time-code" : "off"}
-            maxLength={1}
-            aria-label={`Digit ${i + 1}`}
-            className="h-11 w-10 rounded-md border border-gray-300 bg-surface text-center text-lg font-semibold text-gray-900"
-          />
+            className={`flex h-11 w-10 items-center justify-center rounded-md border bg-surface text-lg font-semibold tabular-nums text-gray-900 ${
+              i === 3 ? "border-blue-600 ring-2 ring-blue-600" : "border-gray-500"
+            }`}
+          >
+            {d}
+          </span>
         ))}
       </div>
+      <span className="text-xs text-gray-600">
+        Resend code in <span className="tabular-nums">0:45</span>
+      </span>
     </div>
   ),
   "pin-input": () => (
@@ -471,7 +490,7 @@ const previews: Record<string, () => ReactElement> = {
           <span className="text-base font-semibold text-gray-600">Rp</span>
           <input inputMode="numeric" placeholder="0" className="w-full bg-transparent px-2 py-2 text-lg font-semibold text-gray-900 outline-none placeholder:text-gray-500" />
         </span>
-        <span className="text-xs text-gray-600">Balance shown here</span>
+        <span className="text-xs text-gray-600">Balance Rp 2.450.000</span>
       </label>
     </div>
   ),
@@ -531,11 +550,14 @@ const previews: Record<string, () => ReactElement> = {
             <span className="text-sm font-semibold text-gray-900">Filters</span>
             <X size={14} aria-hidden="true" className="text-gray-600" />
           </div>
-          <div className="mt-3 space-y-2">
-            <div className="h-2 w-24 rounded-full bg-gray-200" />
-            <div className="h-2 w-20 rounded-full bg-gray-200" />
-            <div className="h-2 w-28 rounded-full bg-gray-200" />
-          </div>
+          <ul className="mt-3 space-y-1.5 text-xs text-gray-700">
+            {["Transfer", "Top up", "QRIS payment"].map((f, i) => (
+              <li key={f} className="flex items-center gap-2">
+                <span aria-hidden="true" className={`h-3 w-3 rounded-sm border ${i === 0 ? "border-blue-600 bg-brand" : "border-gray-400"}`} />
+                {f}
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </div>

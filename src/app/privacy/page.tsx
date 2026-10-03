@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { ISSUES_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Privacy statement",
@@ -12,7 +13,7 @@ export default function PrivacyPage() {
   return (
     <div className="flex min-h-screen flex-col bg-canvas">
       <Header active="" />
-      <main className="mx-auto w-full max-w-2xl px-6 pb-24 pt-14">
+      <main id="main" tabIndex={-1} className="mx-auto w-full max-w-2xl px-6 pb-24 pt-14">
         <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">Privacy statement</h1>
         <p className="mt-5 text-lg leading-relaxed text-gray-600">
           This documentation site is a static, open-source project. It does not collect,
@@ -36,7 +37,10 @@ export default function PrivacyPage() {
 
         <h2 className="mt-10 mb-3 text-xl font-bold text-gray-900">Questions</h2>
         <p className="text-gray-600">
-          Open an issue on the project repository and we&rsquo;ll respond there in the open.
+          <a href={ISSUES_URL} target="_blank" rel="noreferrer" className="font-medium text-blue-700 underline underline-offset-4 hover:text-blue-800">
+            Open an issue
+          </a>{" "}
+          on the project repository and we&rsquo;ll respond there in the open.
         </p>
       </main>
       <Footer />

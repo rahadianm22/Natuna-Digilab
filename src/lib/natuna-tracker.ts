@@ -33,9 +33,12 @@ export const statusStyle: Record<TrackerStatus, string> = {
 };
 
 export const trackerGroups: { name: TrackerGroup; description: string }[] = [
-  { name: "Atoms", description: "The smallest building blocks: buttons, badges, inputs, and other single-purpose elements." },
+  { name: "Atoms", description: "The smallest building blocks: buttons, badges, avatars, and other single-purpose elements." },
   { name: "Molecules", description: "Compositions of atoms that work together: forms, navigation, overlays, and data views." },
 ];
+
+/** The highest build day scheduled in the tracker, so "Build day 8" can be read against the whole plan. */
+export const lastBuildDay = (): number => Math.max(...tracker.map((t) => t.buildDay ?? 0));
 
 export const tracker: TrackerItem[] = [
   { no: 1, name: "Tabs", group: "Molecules", status: "Belum", buildDay: 8, slug: "tabs" },

@@ -4,14 +4,18 @@ import { notFound } from "next/navigation";
 import { CheckCircle, XCircle } from "@phosphor-icons/react/ssr";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import OnThisPage from "@/components/OnThisPage";
 import ComponentSidebar, { ComponentMobileNav } from "@/components/ComponentSidebar";
 import ComponentPreview from "@/components/ComponentPreview";
 import CodeBlock from "@/components/CodeBlock";
+import FigmaFrame from "@/components/FigmaFrame";
 import Demo from "@/components/demos";
 import StatusBadge from "@/components/StatusBadge";
-import { components, getComponent, trackerRow } from "@/lib/components-data";
-import { componentDocs } from "@/lib/component-docs";
-import { statusLabel, statusStyle } from "@/lib/natuna-tracker";
+import { componentGroup, components, getComponent, trackerRow } from "@/lib/components-data";
+import { componentDocs, fullUsage } from "@/lib/component-docs";
+import { lastBuildDay, statusLabel, statusStyle } from "@/lib/natuna-tracker";
+
+const LAST_BUILD_DAY = lastBuildDay();
 import { TRACKER_SNAPSHOT } from "@/lib/site";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -33,12 +37,15 @@ export default async function ComponentDetail({ params }: Props) {
   const component = getComponent(slug);
   if (!component) return notFound();
   const row = trackerRow(component.slug);
-  const related = components.filter((c) => c.category === component.category && c.slug !== component.slug);
+  const group = componentGroup(component.slug);
+  // Four neighbours from the same category, the ones teams can use today first. The rest stay one click away.
+  const rank = { stable: 0, review: 1, beta: 2, planned: 3, untracked: 4 } as const;
+  const sameCategory = components.filter((c) => c.category === component.category && c.slug !== component.slug);
+  const related = [...sameCategory].sort((a, b) => rank[a.status] - rank[b.status] || a.name.localeCompare(b.name)).slice(0, 4);
 
   // Only components built in src/ui have code to show; the rest are design-only so far.
   const doc = componentDocs[component.slug];
   const toc = [
-    ...(doc ? [{ id: "import", label: "Import" }] : []),
     { id: "example", label: doc ? "Usage" : "Example" },
     ...(doc ? [{ id: "props", label: "Props" }] : []),
     { id: "when", label: "When to use" },
@@ -48,24 +55,30 @@ export default async function ComponentDetail({ params }: Props) {
   const codeNote =
     component.category === "Documentation"
       ? "This is a Figma documentation frame, so it has no code component."
-      : "The React component is not built yet. The example shows the design only.";
+      : component.status === "untracked"
+        ? "Not in the component tracker, so it has no design sign-off and no code yet. The example is a sketch of the intent."
+        : "The React component is not built yet. The example shows the design only.";
 
   return (
     <div className="flex min-h-screen flex-col bg-canvas">
       <Header active="Components" />
       <ComponentMobileNav />
-      <div className="mx-auto flex w-full max-w-[90rem]">
+      <div className="mx-auto flex w-full max-w-7xl">
         <ComponentSidebar />
-        <main className="min-w-0 flex-1 px-4 pb-20 pt-10 sm:px-10">
+        <main id="main" tabIndex={-1} className="min-w-0 flex-1 px-6 pb-20 pt-10 lg:px-10">
           <div className="mx-auto flex max-w-5xl gap-12">
             <article className="min-w-0 flex-1">
               <nav aria-label="Breadcrumb" className="text-sm text-gray-600">
                 <ol className="flex flex-wrap items-center gap-1.5">
                   <li>
-                    <Link href="/components" className="rounded-sm hover:text-blue-700">Components</Link>
+                    <Link href="/components" className="inline-flex min-h-11 items-center rounded-sm hover:text-blue-700 sm:min-h-0">Components</Link>
                   </li>
                   <li aria-hidden="true">/</li>
-                  <li>{component.category}</li>
+                  <li>
+                    <Link href={`/components#group-${group.replace(/\s+/g, "-")}`} className="inline-flex min-h-11 items-center rounded-sm hover:text-blue-700 sm:min-h-0">
+                      {group}
+                    </Link>
+                  </li>
                 </ol>
               </nav>
 
@@ -83,8 +96,7 @@ export default async function ComponentDetail({ params }: Props) {
                     ) : (
                       <StatusBadge status={component.status} />
                     )}
-                    {row?.buildDay ? <span>Build day {row.buildDay}</span> : null}
-                    {!row && <span className="text-gray-600">Not in the tracker yet</span>}
+                    {row?.buildDay ? <span>Build day {row.buildDay} of {LAST_BUILD_DAY}</span> : null}
                   </dd>
                 </div>
                 <div className="flex items-center gap-2">
@@ -93,55 +105,58 @@ export default async function ComponentDetail({ params }: Props) {
                 </div>
               </dl>
 
-              {component.status === "planned" && (
-                <p role="note" className="mt-6 max-w-2xl rounded-md bg-gray-100 px-4 py-3 text-sm text-gray-700">
-                  Not built yet. The example shows the intended design, not a released component.
-                </p>
-              )}
-
               {doc ? (
                 <>
-                  <section aria-labelledby="import" className="mt-12 scroll-mt-24">
-                    <h2 id="import" className="text-2xl font-bold tracking-tight text-gray-900">Import</h2>
+                  <section aria-labelledby="example" className="mt-14 scroll-mt-24">
+                    <h2 id="example" className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">Usage</h2>
                     <p className="mt-2 text-sm text-gray-600">
-                      Built in <code className="font-mono-code text-[13px]">src/ui</code> of this repository. It is not
-                      published to npm yet.
+                      This demo is live, and the code below it is the same code, imports included. The component lives in{" "}
+                      <code className="font-mono-code text-[13px]">src/ui</code> of this repository and is not published to npm yet.
                     </p>
                     <div className="mt-4">
-                      <CodeBlock code={doc.importCode} label="Import" />
-                    </div>
-                  </section>
-
-                  <section aria-labelledby="example" className="mt-12 scroll-mt-24">
-                    <h2 id="example" className="text-2xl font-bold tracking-tight text-gray-900">Usage</h2>
-                    <p className="mt-2 text-sm text-gray-600">This demo is live. The code below it is the same code.</p>
-                    <div className="mt-4 flex min-h-48 items-center justify-center rounded-xl border border-gray-200 bg-surface px-6 py-10">
-                      <div className="w-full">
-                        <Demo slug={component.slug} />
-                      </div>
+                      <FigmaFrame name={component.name} className="flex min-h-48 items-center justify-center bg-surface px-6 py-10">
+                        <div className="w-full">
+                          <Demo slug={component.slug} />
+                        </div>
+                      </FigmaFrame>
                     </div>
                     <div className="mt-3">
-                      <CodeBlock code={doc.usage} label="Usage" />
+                      <CodeBlock code={fullUsage(doc)} label="Usage" collapseAfter={14} />
                     </div>
                   </section>
                 </>
               ) : (
-                <section aria-labelledby="example" className="mt-12 scroll-mt-24">
-                  <h2 id="example" className="text-2xl font-bold tracking-tight text-gray-900">Example</h2>
+                <section aria-labelledby="example" className="mt-14 scroll-mt-24">
+                  <h2 id="example" className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">Example</h2>
                   <p className="mt-2 text-sm text-gray-600">{codeNote}</p>
-                  <div className="mt-4 flex min-h-48 items-center justify-center rounded-xl border border-gray-200 bg-surface px-6 py-8">
-                    <div className="w-full">
-                      <ComponentPreview slug={component.slug} />
-                    </div>
+                  <div className="mt-4">
+                    <FigmaFrame name={component.name} className="flex min-h-48 items-center justify-center bg-surface px-6 py-8">
+                      <div className="w-full">
+                        <ComponentPreview slug={component.slug} />
+                      </div>
+                    </FigmaFrame>
                   </div>
                 </section>
               )}
 
               {doc && (
                 <section aria-labelledby="props" className="mt-14 scroll-mt-24">
-                  <h2 id="props" className="text-2xl font-bold text-gray-900">Props</h2>
-                  <div className="mt-4 overflow-x-auto rounded-xl border border-gray-200 bg-surface">
-                    <table className="w-full min-w-[40rem] text-left text-sm">
+                  <h2 id="props" className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">Props</h2>
+                  {/* Phones get one block per prop, so the description is never pushed off screen. */}
+                  <dl className="mt-4 divide-y divide-gray-200 rounded-xl border border-gray-200 bg-surface sm:hidden">
+                    {doc.props.map((p) => (
+                      <div key={p.name} className="px-4 py-3">
+                        <dt className="font-mono-code text-[13px] font-semibold text-gray-900">{p.name}</dt>
+                        <dd className="mt-1 break-words font-mono-code text-xs text-gray-700">
+                          {p.type}
+                          <span className="text-gray-600"> · default {p.default ?? "none"}</span>
+                        </dd>
+                        <dd className="mt-1.5 text-sm text-gray-700">{p.description}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                  <div className="mt-4 hidden overflow-x-auto rounded-xl border border-gray-200 bg-surface sm:block">
+                    <table className="w-full text-left text-sm">
                       <thead className="border-b border-gray-200 text-gray-600">
                         <tr>
                           <th scope="col" className="px-4 py-3 font-medium">Prop</th>
@@ -166,12 +181,12 @@ export default async function ComponentDetail({ params }: Props) {
               )}
 
               <section aria-labelledby="when" className="mt-14 scroll-mt-24">
-                <h2 id="when" className="text-2xl font-bold text-gray-900">When to use</h2>
+                <h2 id="when" className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">When to use</h2>
                 <p className="mt-3 max-w-2xl leading-relaxed text-gray-700">{component.usage}</p>
               </section>
 
               <section aria-labelledby="practices" className="mt-14 scroll-mt-24">
-                <h2 id="practices" className="text-2xl font-bold text-gray-900">Do and don&apos;t</h2>
+                <h2 id="practices" className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">Do and don&apos;t</h2>
                 <div className="mt-5 grid gap-6 md:grid-cols-2">
                   <div className="border-t-4 border-emerald-600 pt-4">
                     <h3 className="flex items-center gap-2 font-semibold text-gray-900">
@@ -193,8 +208,12 @@ export default async function ComponentDetail({ params }: Props) {
               </section>
 
               <section aria-labelledby="related" className="mt-14 scroll-mt-24">
-                <h2 id="related" className="text-2xl font-bold text-gray-900">Related</h2>
-                <p className="mt-2 text-sm text-gray-600">Other {component.category.toLowerCase()} components.</p>
+                <h2 id="related" className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">Related</h2>
+                <p className="mt-2 text-sm text-gray-600">
+                  {related.length < sameCategory.length
+                    ? `${related.length} of ${sameCategory.length} other ${component.category.toLowerCase()} components, ready ones first.`
+                    : `Other ${component.category.toLowerCase()} components.`}
+                </p>
                 <ul className="mt-4 divide-y divide-gray-200 border-y border-gray-200">
                   {related.map((c) => (
                     <li key={c.slug}>
@@ -208,23 +227,17 @@ export default async function ComponentDetail({ params }: Props) {
                     </li>
                   ))}
                 </ul>
+                {related.length < sameCategory.length && (
+                  <Link href="/components" className="mt-4 inline-flex min-h-11 items-center text-sm font-medium text-blue-700 underline-offset-4 hover:underline">
+                    See all components
+                  </Link>
+                )}
               </section>
 
               <p className="mt-12 text-xs text-gray-600">Status reflects the component tracker snapshot of {TRACKER_SNAPSHOT}.</p>
             </article>
 
-            <nav aria-label="On this page" className="sticky top-24 hidden h-fit w-44 shrink-0 xl:block">
-              <div className="text-sm font-semibold text-gray-900">On this page</div>
-              <ul className="mt-3 space-y-1 border-l border-gray-200 text-sm">
-                {toc.map((t) => (
-                  <li key={t.id}>
-                    <a href={`#${t.id}`} className="-ml-px block border-l border-transparent py-1 pl-3 text-gray-600 hover:border-gray-400 hover:text-gray-900">
-                      {t.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </nav>
+            <OnThisPage items={toc} className="hidden w-44 xl:block" />
           </div>
         </main>
       </div>

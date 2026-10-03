@@ -3,21 +3,65 @@
 import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from "react";
 import { useRouter } from "next/navigation";
 import { MagnifyingGlass } from "@phosphor-icons/react";
-import { components, statusText } from "@/lib/components-data";
+import { componentGroup, components, statusText } from "@/lib/components-data";
+import { palettes } from "@/lib/natuna-palette";
 
 interface Entry {
   href: string;
   title: string;
   group: string;
   note?: string;
+  /** Extra words that should find this entry, such as an old alias ("tag" finds Chip). */
+  keywords?: string;
 }
 
 const pages: Entry[] = [
   { href: "/docs", title: "Introduction", group: "Page" },
-  { href: "/foundation", title: "Foundation", group: "Page", note: "Color, typography, radius" },
+  { href: "/foundation", title: "Foundation", group: "Page", note: "Color, type, number, effect" },
   { href: "/components", title: "Components overview", group: "Page" },
   { href: "/themes", title: "Themes", group: "Page", note: "Light and dark mode" },
   { href: "/privacy", title: "Privacy statement", group: "Page" },
+];
+
+// Tokens are searchable by every name a designer or engineer might type: the ramp name, the Tailwind
+// class, the hex, or the Figma variable. They come after pages and components, so a word like "blue"
+// still lists components first.
+const tokens: Entry[] = [
+  ...palettes.flatMap((p) =>
+    p.steps.map((s) => ({
+      href: "/foundation#color",
+      title: `${p.label} ${s.step}`,
+      group: "Color token",
+      note: s.hex,
+      keywords: `${p.token}-${s.step} ${s.hex} ${s.hex.slice(1)} color`,
+    })),
+  ),
+  ...[
+    ["sm", 4],
+    ["md", 8],
+    ["xl", 16],
+    ["2xl", 24],
+    ["3xl", 32],
+    ["full", 1920],
+  ].map(([name, px]) => ({
+    href: "/foundation#radius",
+    title: `Rounded/${px}`,
+    group: "Radius token",
+    note: name === "full" ? "rounded-full" : `rounded-${name}, ${px}px`,
+    keywords: `rounded-${name} radius corner`,
+  })),
+  ...["Header 1", "Header 2", "Subheader", "Body 1", "Body 2", "Caption 1", "Caption 2"].map((t) => ({
+    href: "/foundation#typography",
+    title: t,
+    group: "Text style",
+    keywords: "typography type font urbanist",
+  })),
+  ...["sm", "md", "lg", "xl"].map((s) => ({
+    href: "/foundation#effect",
+    title: `shadow-${s}`,
+    group: "Effect token",
+    keywords: "shadow elevation effect",
+  })),
 ];
 
 const entries: Entry[] = [
@@ -25,9 +69,11 @@ const entries: Entry[] = [
   ...components.map((c) => ({
     href: `/components/${c.slug}`,
     title: c.name,
-    group: c.category,
+    group: componentGroup(c.slug),
     note: statusText[c.status],
+    keywords: c.tags.join(" "),
   })),
+  ...tokens,
 ];
 
 export default function CommandSearch() {
@@ -40,13 +86,14 @@ export default function CommandSearch() {
   const results = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!q) return entries.slice(0, 12);
-    return entries.filter((e) => `${e.title} ${e.group}`.toLowerCase().includes(q)).slice(0, 20);
+    return entries.filter((e) => `${e.title} ${e.group} ${e.keywords ?? ""}`.toLowerCase().includes(q)).slice(0, 20);
   }, [query]);
 
   function open() {
     setQuery("");
     setIndex(0);
-    dialog.current?.showModal();
+    // showModal throws on a dialog that is already open, so a second Ctrl K just refocuses the field.
+    if (dialog.current && !dialog.current.open) dialog.current.showModal();
     input.current?.focus();
   }
 
@@ -90,11 +137,11 @@ export default function CommandSearch() {
         type="button"
         onClick={open}
         aria-label="Search the documentation"
-        className="flex h-9 items-center gap-2 rounded-md border border-gray-300 px-2.5 text-sm text-gray-600 transition-colors hover:bg-gray-50 sm:w-52"
+        className="flex h-11 min-w-11 items-center justify-center gap-2 rounded-md border border-gray-300 px-2.5 text-sm text-gray-600 transition-colors hover:bg-gray-50 sm:h-9 sm:min-w-9 lg:w-52 lg:justify-start"
       >
         <MagnifyingGlass size={16} aria-hidden="true" />
-        <span className="hidden flex-1 text-left sm:block">Search</span>
-        <kbd className="hidden rounded border border-gray-300 px-1.5 font-mono-code text-[11px] text-gray-600 sm:block">Ctrl K</kbd>
+        <span className="hidden flex-1 text-left lg:block">Search</span>
+        <kbd className="hidden rounded border border-gray-300 px-1.5 font-mono-code text-[11px] text-gray-600 lg:block">Ctrl K</kbd>
       </button>
 
       <dialog
@@ -114,8 +161,8 @@ export default function CommandSearch() {
               setIndex(0);
             }}
             onKeyDown={onInputKey}
-            placeholder="Search components and pages"
-            aria-label="Search components and pages"
+            placeholder="Search components, pages, and tokens"
+            aria-label="Search components, pages, and tokens"
             role="combobox"
             aria-expanded="true"
             aria-controls="command-results"
@@ -126,7 +173,7 @@ export default function CommandSearch() {
         <ul id="command-results" role="listbox" aria-label="Results" className="max-h-[50vh] overflow-y-auto p-2">
           {results.map((r, i) => (
             <li
-              key={r.href}
+              key={`${r.href}|${r.title}`}
               id={`result-${i}`}
               role="option"
               aria-selected={i === index}
@@ -145,7 +192,7 @@ export default function CommandSearch() {
           ))}
           {results.length === 0 && (
             <li className="px-3 py-6 text-center text-sm text-gray-600">
-              Nothing matches &ldquo;{query.trim()}&rdquo;. Try a component name such as Button or Input.
+              Nothing matches &ldquo;{query.trim()}&rdquo;. Try a component such as Button, or a token such as #026acc.
             </li>
           )}
         </ul>

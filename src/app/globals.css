@@ -12,7 +12,7 @@
 
 @theme {
   --font-sans: var(--font-urbanist), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-urbanist), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-code), ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
   /* Only Natuna foundation colors: drop the Tailwind default palette. */
   --color-*: initial;
@@ -25,6 +25,9 @@
   --color-brand: #026acc;
   --color-brand-hover: #015099;
   --color-danger: #bb3a3b;
+  --color-danger-hover: #8c2b2c;
+  /* Preview wells: a quiet inset that reads in both modes (light #f1f5f9 on white, dark #19212e on #27303f). */
+  --color-well: #f1f5f9;
 
   /* Natuna azure -> blue */
   --color-blue-50: #e5f3ff;
@@ -138,6 +141,12 @@
   --radius-xl: 16px;
   --radius-2xl: 24px;
   --radius-3xl: 32px;
+
+  /* Shadow from the Effect page: two layers of #0d121c, 6 to 15 percent */
+  --shadow-sm: 0 1px 2px 0 rgb(13 18 28 / 0.06), 0 2px 4px 0 rgb(13 18 28 / 0.1);
+  --shadow-md: 0 2px 4px 0 rgb(13 18 28 / 0.08), 0 4px 8px 0 rgb(13 18 28 / 0.12);
+  --shadow-lg: 0 4px 8px 0 rgb(13 18 28 / 0.1), 0 10px 20px 0 rgb(13 18 28 / 0.15);
+  --shadow-xl: 0 8px 16px 0 rgb(13 18 28 / 0.12), 0 20px 40px 0 rgb(13 18 28 / 0.15);
 }
 
 /*
@@ -152,11 +161,13 @@
   --color-canvas: #19212e;
   --color-surface: #27303f;
   --color-ink: #0d121c;
+  --color-well: #19212e;
 
-  --color-gray-50: #364152;
+  /* Spread across the ramp so hover, pressed, and border steps stay distinct, as they are in light. */
+  --color-gray-50: #27303f;
   --color-gray-100: #364152;
-  --color-gray-200: #364152;
-  --color-gray-300: #4b5565;
+  --color-gray-200: #4b5565;
+  --color-gray-300: #697586;
   --color-gray-400: #697586;
   --color-gray-500: #9aa4b2;
   --color-gray-600: #9aa4b2;
@@ -202,6 +213,7 @@
   --color-canvas: #ffffff;
   --color-surface: #ffffff;
   --color-ink: #19212e;
+  --color-well: #f1f5f9;
 
   --color-gray-50: #f1f5f9;
   --color-gray-100: #ebf0f4;
@@ -242,10 +254,13 @@
   --color-violet-100: #dfc6ff;
 }
 
-.theme-light,
-.theme-dark {
-  background: var(--color-canvas);
-  color: var(--color-gray-900);
+/* In the base layer, so a utility such as bg-[#0d121c] on a themed element still wins. */
+@layer base {
+  .theme-light,
+  .theme-dark {
+    background: var(--color-canvas);
+    color: var(--color-gray-900);
+  }
 }
 
 body {
@@ -255,15 +270,36 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Urbanist everywhere, code included. Tabular figures keep columns of numbers aligned. */
+/* Code, hex values, and token names: a monospace face, so characters people copy cannot be misread. */
 .font-mono-code {
-  font-family: var(--font-urbanist), ui-sans-serif, system-ui, sans-serif;
+  font-family: var(--font-code), ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-variant-numeric: tabular-nums;
 }
 
-:focus-visible {
-  outline: 2px solid var(--color-blue-600);
-  outline-offset: 2px;
+/* In the base layer, so a utility like focus-visible:outline-white (on the blue panel) or outline-none
+   (a field whose ring is drawn by its container) can still override it. */
+@layer base {
+  :focus-visible {
+    outline: 2px solid var(--color-blue-600);
+    outline-offset: 2px;
+  }
+
+  /* A landmark focused by "Skip to content" needs no ring; focus moves on from there. */
+  [tabindex="-1"]:focus {
+    outline: none;
+  }
+
+  /* "On this page" links target headings, so the heading itself clears the sticky header. */
+  :where(h2, h3)[id] {
+    scroll-margin-top: 6rem;
+  }
+
+  /* Below lg, Foundation adds a sticky section row under the header. */
+  @media (width < 64rem) {
+    .with-section-row :where(h2, h3)[id] {
+      scroll-margin-top: 10rem;
+    }
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -315,7 +351,53 @@ body {
 
 /* Display type: tighter tracking as size grows, as large letters read too far apart. */
 .display {
-  font-size: clamp(2.75rem, 7vw, 5.75rem);
+  font-size: clamp(2.75rem, 5vw, 4.25rem);
   line-height: 1;
   letter-spacing: -0.035em;
+}
+
+/*
+  Motion. Entrances run once on load, staggered through --d, and only use transform and opacity.
+  The success check gets a small overshoot because it marks a finished action; nothing else bounces.
+*/
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.rise {
+  animation: rise 700ms cubic-bezier(0.22, 1, 0.36, 1) var(--d, 0ms) both;
+}
+
+.screen-in {
+  animation: rise 320ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.pop {
+  animation: pop 420ms cubic-bezier(0.34, 1.45, 0.64, 1) 80ms both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rise,
+  .screen-in,
+  .pop {
+    animation: none;
+  }
 }

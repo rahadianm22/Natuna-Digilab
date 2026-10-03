@@ -1,19 +1,24 @@
 import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { contrast } from "@/lib/contrast";
 
 export const metadata: Metadata = {
   title: "Themes",
   description: "Light and dark mode from the Natuna Digilab Foundation Design System color tokens.",
 };
 
-// Values from the "Color Property" collection in the Natuna Foundation Figma file (Light Mode | Dark Mode).
+// The values the site actually renders, from the light and dark token blocks in globals.css.
+// Keep the two in step: a token page with wrong hex values is worse than none.
 const roles = [
-  { role: "Background", light: "#ffffff", dark: "#19212e" },
-  { role: "Soft gray", light: "#f1f5f9", dark: "#4b5565" },
-  { role: "Text primary", light: "#19212e", dark: "#ffffff" },
-  { role: "Text secondary", light: "#4b5565", dark: "#f1f5f9" },
-  { role: "Main blue", light: "#0276e3", dark: "#0276e3" },
+  { role: "Background", token: "canvas", light: "#ffffff", dark: "#19212e" },
+  { role: "Surface", token: "surface", light: "#ffffff", dark: "#27303f" },
+  { role: "Border", token: "gray-200", light: "#d0d5dd", dark: "#4b5565" },
+  { role: "Text primary", token: "gray-900", light: "#19212e", dark: "#f1f5f9" },
+  { role: "Text secondary", token: "gray-600", light: "#4b5565", dark: "#9aa4b2" },
+  { role: "Brand fill", token: "brand", light: "#026acc", dark: "#026acc" },
+  { role: "Link", token: "blue-700", light: "#026acc", dark: "#67b6ff" },
+  { role: "Danger fill", token: "danger", light: "#bb3a3b", dark: "#bb3a3b" },
 ];
 
 function Specimen({ mode }: { mode: "light" | "dark" }) {
@@ -49,7 +54,7 @@ export default function ThemesPage() {
   return (
     <div className="flex min-h-screen flex-col bg-canvas">
       <Header active="Themes" />
-      <main className="mx-auto w-full max-w-5xl px-6 pb-24 pt-14">
+      <main id="main" tabIndex={-1} className="mx-auto w-full max-w-7xl px-6 pb-24 pt-14">
         <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">Themes</h1>
         <p className="mt-5 max-w-2xl text-lg leading-relaxed text-gray-600">
           Light and dark mode come from the same tokens. Components ask for a role, such as surface or primary
@@ -62,27 +67,32 @@ export default function ThemesPage() {
         </div>
 
         <section aria-labelledby="roles" className="mt-16">
-          <h2 id="roles" className="text-2xl font-bold text-gray-900">Color roles</h2>
+          <h2 id="roles" className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">Color roles</h2>
           <p className="mt-3 max-w-2xl text-gray-700">
-            From the Color Property collection in the Figma file. Main blue stays the same in both modes because
-            it always carries white text.
+            The values each role takes in light and dark. Brand fill and Danger fill stay put in both modes
+            because they carry white text: {contrast("#ffffff", "#026acc").toFixed(2)}:1 and{" "}
+            {contrast("#ffffff", "#bb3a3b").toFixed(2)}:1. Link text lightens in dark mode to stay readable on the
+            dark surface.
           </p>
-          <div className="mt-6 overflow-x-auto rounded-xl border border-gray-200 bg-surface">
-            <table className="w-full min-w-[28rem] text-left text-sm">
+          <div className="mt-6 rounded-xl border border-gray-200 bg-surface">
+            <table className="w-full table-fixed text-left text-sm">
               <thead className="border-b border-gray-200 text-gray-600">
                 <tr>
-                  <th scope="col" className="px-4 py-3 font-medium">Role</th>
-                  <th scope="col" className="px-4 py-3 font-medium">Light</th>
-                  <th scope="col" className="px-4 py-3 font-medium">Dark</th>
+                  <th scope="col" className="w-[38%] px-3 py-3 font-medium sm:px-4">Role</th>
+                  <th scope="col" className="px-3 py-3 font-medium sm:px-4">Light</th>
+                  <th scope="col" className="px-3 py-3 font-medium sm:px-4">Dark</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
                 {roles.map((r) => (
                   <tr key={r.role}>
-                    <th scope="row" className="px-4 py-3 font-medium text-gray-900">{r.role}</th>
+                    <th scope="row" className="px-3 py-3 align-top font-medium text-gray-900 sm:px-4">
+                      {r.role}
+                      <code className="mt-0.5 block font-mono-code text-xs font-normal text-gray-600">{r.token}</code>
+                    </th>
                     {[r.light, r.dark].map((hex, i) => (
-                      <td key={i} className="px-4 py-3">
-                        <span className="flex items-center gap-3">
+                      <td key={i} className="px-3 py-3 align-top sm:px-4">
+                        <span className="flex flex-col items-start gap-1.5 sm:flex-row sm:items-center sm:gap-3">
                           <span aria-hidden="true" className="h-6 w-6 shrink-0 rounded border border-gray-300" style={{ background: hex }} />
                           <code className="font-mono-code text-xs text-gray-700">{hex}</code>
                         </span>
