@@ -349,6 +349,13 @@ body {
   }
 }
 
+/* The name on the home page: the largest type on the site, tracked in as it grows. */
+.hero-name {
+  font-size: clamp(3.25rem, 10vw, 8rem);
+  line-height: 1;
+  letter-spacing: -0.045em;
+}
+
 /* Display type: tighter tracking as size grows, as large letters read too far apart. */
 .display {
   font-size: clamp(2.75rem, 5vw, 4.25rem);
