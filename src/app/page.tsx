@@ -8,8 +8,9 @@ import CodeBlock from "@/components/CodeBlock";
 import Demo from "@/components/demos";
 import HeroPhone from "@/components/home/HeroPhone";
 import Reveal from "@/components/home/Reveal";
+import BuildRoadmap from "@/components/home/BuildRoadmap";
 import { Badge, buttonStyles } from "@/ui";
-import { getComponent } from "@/lib/components-data";
+import { componentGroup, getComponent } from "@/lib/components-data";
 import { componentDocs, fullUsage } from "@/lib/component-docs";
 import { palettes } from "@/lib/natuna-palette";
 import { lastBuildDay, statusLabel, statusOrder, tracker, type TrackerStatus } from "@/lib/natuna-tracker";
@@ -46,6 +47,14 @@ const starts = [
   { href: "/foundation", label: "Foundation", note: "Color, type, number, effect", icon: Palette, tone: "bg-blue-100 text-blue-800" },
   { href: "/components", label: "Components", note: `${counts.Selesai} of ${tracker.length} ready`, icon: SquaresFour, tone: "bg-emerald-100 text-emerald-800" },
   { href: "/themes", label: "Themes", note: "Light and dark", icon: CircleHalf, tone: "bg-gray-100 text-gray-800" },
+];
+
+// How a team starts, in order. Every step ends somewhere real.
+const steps = [
+  { title: "Get the Figma library", body: "Duplicate the Foundation Design System from Figma Community. Its variables and components are the source of truth.", href: FIGMA_COMMUNITY_URL, cta: "Open in Figma Community", external: true },
+  { title: "Use the tokens", body: "Color, type, spacing, radius and shadow come from one set of tokens, in both light and dark mode.", href: "/foundation", cta: "Explore the foundation" },
+  { title: "Build with ready components", body: "Start from components marked Ready. Each page has its usage rules and the do and don't that go with it.", href: "/components", cta: "Browse the components" },
+  { title: "Copy to Figma or code", body: "Paste any preview into Figma as editable layers, or copy the React code that runs the live demo.", href: "/components/button", cta: "Try it on Button" },
 ];
 
 // The three shapes that form the N in the Natuna logo, without the tile behind them.
@@ -220,42 +229,57 @@ export default function Home() {
         </Reveal>
 
         <Reveal>
-          <section aria-labelledby="progress" className="border-y border-gray-200 bg-surface">
-            <div className="mx-auto grid w-full max-w-7xl gap-10 px-6 py-16 sm:py-24 md:grid-cols-[1fr_1.4fr]">
-              <div>
-                <h2 id="progress" className={h2}>Progress</h2>
-                <p className="mt-5 max-w-sm text-lg leading-relaxed text-gray-600">
-                  {counts.Selesai} of {tracker.length} components are ready. The rest are scheduled across{" "}
-                  {lastBuildDay()} build days in the component tracker. Snapshot of {TRACKER_SNAPSHOT}.
-                </p>
-              </div>
-              <div className="self-center">
-                <div
-                  className="flex h-4 overflow-hidden rounded-full bg-gray-100"
-                  role="img"
-                  aria-label={statusOrder.map((s) => `${counts[s]} ${statusLabel[s]}`).join(", ")}
-                >
-                  {statusOrder.map((s) =>
-                    counts[s] ? <span key={s} className={barTone[s]} style={{ width: `${(counts[s] / tracker.length) * 100}%` }} /> : null,
-                  )}
+          <section aria-labelledby="roadmap" className="border-y border-gray-200 bg-surface">
+            <div className="mx-auto w-full max-w-7xl px-6 py-16 sm:py-20">
+              <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+                <div>
+                  <h2 id="roadmap" className={h2}>Roadmap</h2>
+                  <p className="mt-5 max-w-xl text-lg leading-relaxed text-gray-600">
+                    {counts.Selesai} of {tracker.length} components are done. The rest are scheduled across{" "}
+                    {lastBuildDay()} build days in the component tracker. Snapshot of {TRACKER_SNAPSHOT}.
+                  </p>
                 </div>
-                {/* Only statuses that hold components; an empty cell the size of a real number is noise. */}
-                <dl className="mt-8 flex flex-wrap gap-x-10 gap-y-6">
-                  {statusOrder.filter((s) => counts[s] > 0).map((s) => (
-                    <div key={s}>
-                      <dt className="flex items-center gap-2 text-sm text-gray-600">
-                        <span aria-hidden="true" className={`h-2.5 w-2.5 rounded-sm ${barTone[s]}`} />
-                        {statusLabel[s]}
-                      </dt>
-                      <dd className="mt-1 text-4xl font-bold tabular-nums text-gray-900">{counts[s]}</dd>
-                    </div>
-                  ))}
-                </dl>
-                <Link href="/components" className="mt-6 inline-flex min-h-11 items-center text-sm font-medium text-blue-700 underline-offset-4 hover:underline">
-                  See every component and its status
-                </Link>
+                <ul aria-label="Legend" className="flex flex-wrap gap-x-5 gap-y-2 text-sm text-gray-600">
+                  {statusOrder
+                    .filter((s) => counts[s] > 0)
+                    .map((s) => (
+                      <li key={s} className="flex items-center gap-2">
+                        <span aria-hidden="true" className={`h-2.5 w-2.5 rounded-full ${barTone[s]}`} />
+                        {statusLabel[s]} <span className="tabular-nums text-gray-900">{counts[s]}</span>
+                      </li>
+                    ))}
+                </ul>
+              </div>
+              <div className="mt-12">
+                <BuildRoadmap />
               </div>
             </div>
+          </section>
+        </Reveal>
+
+        <Reveal>
+          {/* Numbered steps in a ruled grid: how a team actually starts, each step ending in a real place. */}
+          <section aria-labelledby="start" className="mx-auto w-full max-w-7xl px-6 py-16 sm:py-20">
+            <h2 id="start" className={h2}>Getting started</h2>
+            <p className="mt-4 max-w-xl text-lg text-gray-600">Four steps from an empty file to a screen built on the system.</p>
+            <ol className="mt-10 grid border-t border-gray-200 sm:grid-cols-2 lg:grid-cols-4">
+              {steps.map((s, i) => (
+                <li key={s.title} className="flex flex-col border-b border-gray-200 py-8 sm:px-6 sm:max-lg:[&:nth-child(odd)]:pl-0 lg:border-b-0 lg:border-r lg:px-6 lg:first:pl-0 lg:last:border-r-0">
+                  <span className="text-sm font-medium tabular-nums text-blue-700">{String(i + 1).padStart(2, "0")}</span>
+                  <h3 className="mt-3 text-xl font-bold tracking-tight text-gray-900">{s.title}</h3>
+                  <p className="mt-2 flex-1 text-gray-600">{s.body}</p>
+                  {s.external ? (
+                    <a href={s.href} target="_blank" rel="noreferrer" className="mt-5 inline-flex min-h-11 items-center self-start text-sm font-medium text-blue-700 underline-offset-4 hover:underline">
+                      {s.cta}
+                    </a>
+                  ) : (
+                    <Link href={s.href} className="mt-5 inline-flex min-h-11 items-center self-start text-sm font-medium text-blue-700 underline-offset-4 hover:underline">
+                      {s.cta}
+                    </Link>
+                  )}
+                </li>
+              ))}
+            </ol>
           </section>
         </Reveal>
 
@@ -274,8 +298,9 @@ export default function Home() {
                         <ComponentPreview slug={c.slug} />
                       </div>
                     </div>
-                    <div className="mt-4 flex items-center justify-between gap-3">
-                      <span className="font-semibold text-gray-900 group-hover:text-blue-700">{c.name}</span>
+                    <div className="mt-4 text-xs text-gray-600">{componentGroup(c.slug)}</div>
+                    <div className="mt-1 flex items-center justify-between gap-3">
+                      <span className="text-lg font-semibold text-gray-900 group-hover:text-blue-700">{c.name}</span>
                       {componentDocs[c.slug] && <Badge tone="info">In code</Badge>}
                     </div>
                     <p className="mt-1 text-sm text-gray-600">{c.summary}</p>
