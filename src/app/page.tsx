@@ -33,32 +33,41 @@ export default function Home() {
       <Header active="" />
 
       <main id="main" tabIndex={-1} className="w-full overflow-x-clip">
-        <section aria-labelledby="hero" className="mx-auto w-full max-w-7xl px-6 pt-14 sm:pt-20">
-          <div className="grid gap-8 lg:grid-cols-[1.25fr_1fr] lg:items-end lg:gap-16">
-            <h1 id="hero" className="display rise font-extrabold text-gray-900">
-              Tokens that hold from 440 to 1440.
-            </h1>
-            <div className="rise lg:pb-2" style={{ "--d": "100ms" } as CSSProperties}>
-              <p className="text-lg leading-relaxed text-gray-600">
-                Natuna Digilab is the design system for Indonesian digital products. Type, color, and spacing are
-                set once in Figma and carried by every component, on every screen size and in both modes. The
-                screen below is built from it.
-              </p>
-              <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-                <Link href="/components" className={`${buttonStyles({ size: "lg" })} w-full sm:w-auto`}>
-                  Browse components
-                </Link>
-                <Link href="/docs" className={`${buttonStyles({ variant: "ghost", size: "lg" })} w-full sm:w-auto`}>
-                  Read the introduction
-                </Link>
-              </div>
-            </div>
-          </div>
-
-          <div className="rise mt-12 sm:mt-16" style={{ "--d": "200ms" } as CSSProperties}>
-            <LiveSpecimen />
+        {/* The first screen says only what Natuna is: the name, one sentence, two ways in. */}
+        <section aria-labelledby="hero" className="mx-auto flex min-h-[calc(100svh-4rem)] w-full max-w-5xl flex-col items-center justify-center px-6 py-20 text-center">
+          <p className="rise text-sm font-medium text-blue-700">Design system, version 0.1</p>
+          <h1 id="hero" className="hero-name rise mt-4 font-extrabold text-gray-900" style={{ "--d": "60ms" } as CSSProperties}>
+            Natuna Digilab
+          </h1>
+          <p className="rise mt-6 max-w-xl text-lg leading-relaxed text-gray-600 sm:text-xl" style={{ "--d": "120ms" } as CSSProperties}>
+            Tokens, components, and usage rules for Indonesian digital products, kept the same in Figma and in React.
+          </p>
+          <div className="rise mt-10 flex w-full flex-col justify-center gap-3 sm:w-auto sm:flex-row" style={{ "--d": "180ms" } as CSSProperties}>
+            <Link href="/components" className={`${buttonStyles({ size: "lg" })} w-full sm:w-auto`}>
+              Browse components
+            </Link>
+            <Link href="/docs" className={`${buttonStyles({ variant: "ghost", size: "lg" })} w-full sm:w-auto`}>
+              Read the introduction
+            </Link>
           </div>
         </section>
+
+        <Reveal>
+          <section aria-labelledby="hold" className="mx-auto w-full max-w-7xl px-6 pb-20 sm:pb-28">
+            <div className="max-w-3xl">
+              <h2 id="hold" className={h2}>
+                Tokens that hold from 440 to 1440.
+              </h2>
+              <p className={lead}>
+                This screen is built from Natuna components. Switch the device to swap the type scale, or the mode
+                to flip the colors.
+              </p>
+            </div>
+            <div className="mt-12">
+              <LiveSpecimen />
+            </div>
+          </section>
+        </Reveal>
 
         <Reveal>
           <section aria-labelledby="anatomy" className="mx-auto w-full max-w-7xl px-6 py-20 sm:py-28">
