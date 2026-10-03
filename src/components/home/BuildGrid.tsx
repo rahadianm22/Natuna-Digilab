@@ -33,11 +33,11 @@ function Cell({ item }: { item: TrackerItem }) {
     </span>
   );
   return item.slug ? (
-    <Link href={`/components/${item.slug}`} aria-label={label} className={cls}>
+    <Link href={`/components/${item.slug}`} aria-label={label} data-reveal-cell className={cls}>
       {tip}
     </Link>
   ) : (
-    <span role="img" aria-label={label} className={cls}>
+    <span role="img" aria-label={label} data-reveal-cell className={cls}>
       {tip}
     </span>
   );

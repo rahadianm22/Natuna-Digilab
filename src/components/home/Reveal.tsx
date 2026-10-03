@@ -3,8 +3,9 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 
 /**
- * Fades a section up once as it scrolls into view, to pace a long page. Content is visible
- * without JavaScript and under reduced motion, where it simply appears.
+ * Brings a section in as it scrolls into view. Children marked data-reveal-item rise in one after
+ * another; data-reveal-cell items (the build grid) follow in a quicker run. Without JavaScript, and
+ * under reduced motion, everything is simply there.
  */
 export default function Reveal({ children, className = "" }: { children: ReactNode; className?: string }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -13,7 +14,9 @@ export default function Reveal({ children, className = "" }: { children: ReactNo
   useEffect(() => {
     const el = ref.current;
     if (!el || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    if (el.getBoundingClientRect().top < window.innerHeight) return;
+    el.querySelectorAll<HTMLElement>("[data-reveal-item]").forEach((n, i) => n.style.setProperty("--i", String(i)));
+    el.querySelectorAll<HTMLElement>("[data-reveal-cell]").forEach((n, i) => n.style.setProperty("--i", String(i)));
+    if (el.getBoundingClientRect().top < window.innerHeight * 0.85) return;
     setState("hidden");
     const io = new IntersectionObserver(
       ([entry]) => {
@@ -22,19 +25,14 @@ export default function Reveal({ children, className = "" }: { children: ReactNo
           io.disconnect();
         }
       },
-      { rootMargin: "0px 0px -10% 0px" },
+      { rootMargin: "0px 0px -15% 0px" },
     );
     io.observe(el);
     return () => io.disconnect();
   }, []);
 
   return (
-    <div
-      ref={ref}
-      className={`transition-[opacity,transform] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-        state === "hidden" ? "translate-y-6 opacity-0" : "translate-y-0 opacity-100"
-      } ${className}`}
-    >
+    <div ref={ref} className={`${state === "idle" ? "" : "reveal"} ${state === "shown" ? "is-shown" : ""} ${className}`}>
       {children}
     </div>
   );
