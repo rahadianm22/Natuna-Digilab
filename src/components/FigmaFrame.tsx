@@ -6,7 +6,7 @@ import { useFigmaExport, type FigmaExportStatus } from "@/components/useFigmaExp
 
 const message: Record<FigmaExportStatus, string> = {
   idle: "",
-  copied: "Copied. Paste into Figma with Ctrl V.",
+  copied: "Copied. Paste it into Figma.",
   failed: "Could not copy. Use Download SVG instead.",
   downloaded: "SVG downloaded.",
 };
@@ -33,7 +33,7 @@ export default function FigmaFrame({ name, className = "", children }: { name: s
       </div>
       <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-t border-gray-200 px-3 py-2">
         <p className="px-1 text-xs text-gray-700" aria-hidden={status !== "idle"}>
-          {status === "idle" ? "Pastes as editable layers. Shadows come from Natuna effect styles." : message[status]}
+          {status === "idle" ? "Pastes as editable layers. Shadows are not exported." : message[status]}
         </p>
         <div className="ml-auto flex gap-1.5">
           <button type="button" onClick={copy} onPointerEnter={warm} onFocus={warm} className={`${action} bg-gray-100 text-gray-800 hover:bg-gray-200`}>

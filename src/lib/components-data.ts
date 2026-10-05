@@ -700,3 +700,7 @@ export function componentGroup(slug: string): ComponentGroup {
 export function getComponent(slug: string) {
   return components.find((c) => c.slug === slug);
 }
+
+// Tracker rows that are product components. Documentation frames (covers, artboards) are layouts for the
+// Figma file, so they stay out of every "N components ready" count.
+export const productTracker = tracker.filter((t) => !t.slug || getComponent(t.slug)?.category !== "Documentation");

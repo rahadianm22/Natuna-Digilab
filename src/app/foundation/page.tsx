@@ -138,7 +138,7 @@ const aaa = [
   { rule: "Large text contrast", sc: "1.4.6 Contrast (Enhanced)", min: "4.5:1", how: "Applies at 24px, or 19px bold, and up. Headings meet 7:1 anyway." },
   { rule: "Text on fills", sc: "1.4.6 Contrast (Enhanced)", min: "7:1", how: "Brand fill is blue-800 #015099 (8.0:1 with white) and danger is red-800 #8c2b2c (8.4:1). Lime carries navy text only." },
   { rule: "Non-text contrast", sc: "1.4.11 Non-text Contrast", min: "3:1", how: "Input borders use gray-500 and the focus ring blue-600 (blue-400 in dark), all above 3:1 on their surface." },
-  { rule: "Target size", sc: "2.5.5 Target Size (Enhanced)", min: "44 × 44px", how: "Buttons, links in lists, tabs and toggles are at least 44px tall on touch screens." },
+  { rule: "Target size", sc: "2.5.5 Target Size (Enhanced)", min: "44 × 44px", how: "Buttons, links in lists, tabs and toggles are at least 44px tall at every screen width." },
   { rule: "Focus", sc: "2.4.13 Focus Appearance", min: "2px, 3:1", how: "A 2px outline with a 2px offset on every focusable element: blue-600 in light, blue-400 in dark, so it clears 3:1 on both surfaces." },
   { rule: "Motion", sc: "2.3.3 Animation from Interactions", min: "Can be turned off", how: "Every animation stops under prefers-reduced-motion; nothing essential depends on motion." },
   { rule: "Color alone", sc: "1.4.1 Use of Color", min: "Never", how: "Status always pairs color with a text label or a shape." },

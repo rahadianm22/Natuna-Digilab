@@ -8,10 +8,10 @@ import HeroBento from "@/components/home/HeroBento";
 import StatusBoard, { type Group, type Item } from "@/components/home/StatusBoard";
 import FigmaPanel from "@/components/home/FigmaPanel";
 import { buttonStyles } from "@/ui";
-import { getComponent } from "@/lib/components-data";
+import { getComponent, productTracker } from "@/lib/components-data";
 import { componentDocs } from "@/lib/component-docs";
 import { palettes } from "@/lib/natuna-palette";
-import { lastBuildDay, tracker, type TrackerStatus } from "@/lib/natuna-tracker";
+import { lastBuildDay, type TrackerStatus } from "@/lib/natuna-tracker";
 import { FIGMA_COMMUNITY_URL, REPO_URL, TRACKER_SNAPSHOT } from "@/lib/site";
 
 export const metadata: Metadata = { alternates: { canonical: "/" } };
@@ -19,7 +19,7 @@ export const metadata: Metadata = { alternates: { canonical: "/" } };
 // Everything counted here comes from the tracker snapshot and the palette, never typed in by hand.
 const groupOf: Record<TrackerStatus, Group> = { Selesai: "ready", "On Review": "progress", OnProgress: "progress", Belum: "planned" };
 const rank: Record<Group, number> = { ready: 0, progress: 1, planned: 2 };
-const items: Item[] = tracker
+const items: Item[] = productTracker
   .map((t) => ({ name: (t.slug && getComponent(t.slug)?.name) || t.name, slug: t.slug, group: groupOf[t.status] }))
   .sort((a, b) => rank[a.group] - rank[b.group] || a.name.localeCompare(b.name));
 

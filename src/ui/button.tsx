@@ -11,7 +11,7 @@ const unavailable = "disabled:cursor-not-allowed disabled:bg-gray-100 disabled:t
 
 const variants: Record<ButtonVariant, string> = {
   primary: "bg-brand text-white hover:bg-brand-hover",
-  secondary: "bg-gray-100 text-gray-800 hover:bg-gray-200",
+  secondary: "border border-gray-300 bg-gray-100 text-gray-800 hover:bg-gray-200",
   ghost: "border border-gray-300 text-gray-800 hover:bg-gray-50",
   // Fixed hover tokens: the red ramp flips light in dark mode, which would leave white text on pale pink.
   destructive: "bg-danger text-white hover:bg-danger-hover",

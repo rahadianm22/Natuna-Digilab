@@ -4,7 +4,8 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import OnThisPage from "@/components/OnThisPage";
 import StatusBadge from "@/components/StatusBadge";
-import { statusLabel, statusMeaning, statusOrder, statusStyle, tracker } from "@/lib/natuna-tracker";
+import { statusLabel, statusMeaning, statusOrder, statusStyle } from "@/lib/natuna-tracker";
+import { productTracker } from "@/lib/components-data";
 import { FIGMA_COMMUNITY_URL, ISSUES_URL, REPO_URL, TRACKER_SNAPSHOT } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -24,7 +25,7 @@ const sections = [
 const linkClass = "font-medium text-blue-800 underline underline-offset-4 hover:text-blue-900";
 
 export default function DocsPage() {
-  const ready = tracker.filter((t) => t.status === "Selesai").length;
+  const ready = productTracker.filter((t) => t.status === "Selesai").length;
 
   return (
     <div className="flex min-h-screen flex-col bg-canvas">
@@ -48,7 +49,7 @@ export default function DocsPage() {
                   [
                     "Components",
                     <>
-                      {tracker.length} components on the build plan, {ready} of them ready.{" "}
+                      {productTracker.length} components on the build plan, {ready} of them ready.{" "}
                       <Link href="/naming" className={linkClass}>Naming</Link> explains how their properties are named.
                     </>,
                     "/components",
@@ -78,6 +79,14 @@ export default function DocsPage() {
                 published to npm yet. Button, Badge, Input, Avatar, and Accordion already exist as React code in this
                 repository, and their pages show the exact code that runs each demo. You can copy that code today, but
                 you cannot install it as a package.
+              </p>
+              <p className="mt-4 leading-relaxed text-gray-700">
+                The copied components expect a project that has Tailwind CSS v4, the color and radius tokens from{" "}
+                <code className="font-mono-code text-[15px]">src/app/globals.css</code> in its{" "}
+                <code className="font-mono-code text-[15px]">@theme</code> block, an{" "}
+                <code className="font-mono-code text-[15px]">@/ui</code> path alias for the folder you copy them to, and
+                a global <code className="font-mono-code text-[15px]">:focus-visible</code> outline, because the
+                components draw no focus ring of their own.
               </p>
             </section>
 

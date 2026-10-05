@@ -147,9 +147,9 @@ const previews: Record<string, () => ReactElement> = {
   select: () => (
     <div className="flex justify-center py-6">
       <select aria-label="City" className="w-48 rounded-md border border-gray-300 bg-surface px-3 py-2 text-sm">
-        <option>Jakarta</option>
-        <option>Tangerang</option>
-        <option>Bandung</option>
+        <option>Harbor</option>
+        <option>Meadow</option>
+        <option>Ridgeway</option>
       </select>
     </div>
   ),
@@ -257,7 +257,7 @@ const previews: Record<string, () => ReactElement> = {
   ),
   chip: () => (
     <div className="flex flex-wrap justify-center gap-2 py-6">
-      {["Jakarta", "This month", "Transfer"].map((c) => (
+      {["Harbor", "This month", "Transfer"].map((c) => (
         <span key={c} className="inline-flex items-center gap-1 rounded-full border border-blue-200 bg-blue-50 py-1 pl-3 pr-1.5 text-xs font-medium text-blue-900">
           {c}
           <button type="button" aria-label={`Remove ${c}`} className="rounded-full p-1 hover:bg-blue-100">
@@ -407,7 +407,7 @@ const previews: Record<string, () => ReactElement> = {
   "otp-input": () => (
     // A picture of the pattern, not a working field: three digits entered, focus on the fourth.
     <div className="flex flex-col items-center gap-2 py-6">
-      <span className="text-xs font-semibold text-gray-700">Code sent to +62 812 •••• 4821</span>
+      <span className="text-xs font-semibold text-gray-700">Code sent to ••• •••• 4821</span>
       <div role="img" aria-label="Six-digit code, three digits entered" className="flex gap-2">
         {["4", "8", "2", "", "", ""].map((d, i) => (
           <span
@@ -475,7 +475,7 @@ const previews: Record<string, () => ReactElement> = {
         <span className="text-xs font-semibold text-gray-700">City</span>
         <input list="preview-cities" placeholder="Type to search" className="rounded-md border border-gray-300 bg-surface px-3 py-2 text-sm text-gray-900 placeholder:text-gray-700" />
         <datalist id="preview-cities">
-          {["Bandung", "Jakarta", "Makassar", "Medan", "Natuna", "Surabaya", "Tangerang"].map((c) => (
+          {["Harbor", "Meadow", "Natuna", "Ridgeway", "Summit", "Valley", "Westfield"].map((c) => (
             <option key={c} value={c} />
           ))}
         </datalist>
