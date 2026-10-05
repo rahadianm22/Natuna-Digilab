@@ -43,8 +43,8 @@ export default function Swatch({
         {step}
         {anchor && <span className="ml-1 font-normal text-gray-700">anchor</span>}
       </span>
-      <span className="font-mono-code text-[11px] text-gray-700">{copied ? "Copied" : hex}</span>
-      <span className="text-[11px] tabular-nums text-gray-700">
+      <span className="font-mono-code text-xs text-gray-700">{copied ? "Copied" : hex}</span>
+      <span className="text-xs tabular-nums text-gray-700">
         {onWhite.toFixed(2)}:1{onWhite >= 7 ? " AAA" : onWhite >= 4.5 ? " AA" : ""}
       </span>
     </button>

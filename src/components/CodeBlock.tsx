@@ -106,7 +106,7 @@ export default function CodeBlock({
   }
 
   return (
-    <div className="overflow-hidden rounded-xl border border-gray-200 bg-[#141b26]">
+    <div className="overflow-hidden rounded-xl border border-gray-200 bg-code">
       <div className="flex min-h-12 items-center justify-between gap-3 border-b border-white/10 px-3">
         {variants ? (
           <div role="tablist" aria-label={`${label} language`} onKeyDown={onKey} className="flex rounded-lg bg-white/5 p-0.5">
@@ -161,12 +161,12 @@ export default function CodeBlock({
         <pre
           tabIndex={0}
           aria-label={`${label} code`}
-          className={`overflow-x-auto p-5 font-mono-code text-[13px] leading-6 ${collapsible && !expanded ? "max-h-[18rem] overflow-y-hidden" : ""}`}
+          className={`overflow-x-auto p-5 font-mono-code text-sm leading-6 ${collapsible && !expanded ? "max-h-[18rem] overflow-y-hidden" : ""}`}
         >
           <code className={tone.plain}>{highlight(text)}</code>
         </pre>
         {collapsible && !expanded && (
-          <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[#141b26] to-transparent" />
+          <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-code to-transparent" />
         )}
       </div>
       <span role="status" className="sr-only">

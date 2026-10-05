@@ -42,8 +42,9 @@
   --color-inverse-muted: #cdd5df;
   --color-inverse-subtle: #b7c0cc;
   --color-lime: #c6f432;
-  --color-lime-soft: #e3f7b0;
-  --color-lime-ink: #2b4a00;
+
+  /* Code panel ground, a step between inverse and inverse-raised. */
+  --color-code: #141b26;
 
   --font-display: var(--font-urbanist), ui-sans-serif, system-ui, sans-serif;
   --font-body: var(--font-urbanist), ui-sans-serif, system-ui, sans-serif;
@@ -339,6 +340,12 @@ body {
     text-wrap: balance;
   }
 
+  /* Body paragraphs avoid a one-word last line. */
+  p,
+  li {
+    text-wrap: pretty;
+  }
+
   /* "On this page" links target headings, so the heading itself clears the sticky header. */
   :where(h2, h3)[id] {
     scroll-margin-top: 6rem;
@@ -424,7 +431,7 @@ body {
 
 /*
   Motion. Entrances run once on load, staggered through --d, and only use transform and opacity.
-  The success check gets a small overshoot because it marks a finished action; nothing else bounces.
+  Nothing bounces.
 */
 @keyframes rise {
   from {
@@ -437,80 +444,27 @@ body {
   }
 }
 
-@keyframes pop {
-  from {
-    opacity: 0;
-    transform: scale(0.6);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-/* Scroll reveal: items rise in sequence, grid cells pop in a quicker run. Set only by Reveal. */
+/* Scroll reveal: items rise a short way and fade in, a small stagger capped at six steps so a row settles in about half a second. Set only by Reveal. */
 .reveal [data-reveal-item] {
   opacity: 0;
-  transform: translateY(56px) scale(0.97);
-  filter: blur(8px);
+  transform: translateY(20px);
   transition:
-    opacity 900ms ease,
-    transform 1100ms cubic-bezier(0.16, 1, 0.3, 1),
-    filter 900ms ease;
-  transition-delay: calc(var(--i, 0) * 160ms);
+    opacity 200ms ease-out,
+    transform 240ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: calc(min(var(--i, 0), 5) * 60ms);
 }
 
-.reveal [data-reveal-cell] {
-  opacity: 0;
-  transform: translateY(16px) scale(0.2);
-  transition:
-    opacity 350ms ease,
-    transform 600ms cubic-bezier(0.34, 1.56, 0.64, 1);
-  transition-delay: calc(400ms + var(--i, 0) * 28ms);
-}
-
-.reveal.is-shown [data-reveal-item],
-.reveal.is-shown [data-reveal-cell] {
+.reveal.is-shown [data-reveal-item] {
   opacity: 1;
   transform: none;
-  filter: none;
-}
-
-/* The hero name recedes as the page scrolls on, tied to scroll position rather than time. */
-@supports (animation-timeline: scroll()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .hero-recede {
-      animation: hero-recede linear both;
-      animation-timeline: scroll(root);
-      animation-range: 0 70vh;
-    }
-  }
-}
-
-@keyframes hero-recede {
-  to {
-    opacity: 0.15;
-    transform: translateY(-80px) scale(0.88);
-    filter: blur(4px);
-  }
 }
 
 .rise {
   animation: rise 700ms cubic-bezier(0.22, 1, 0.36, 1) var(--d, 0ms) both;
 }
 
-.screen-in {
-  animation: rise 320ms cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-.pop {
-  animation: pop 420ms cubic-bezier(0.34, 1.45, 0.64, 1) 80ms both;
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .rise,
-  .screen-in,
-  .pop {
+  .rise {
     animation: none;
   }
 }

@@ -4,7 +4,7 @@ import Footer from "@/components/Footer";
 import NextPage from "@/components/NextPage";
 import OnThisPage, { SectionChips } from "@/components/OnThisPage";
 import Swatch from "@/components/Swatch";
-import { palettes } from "@/lib/natuna-palette";
+import { palettes, signal } from "@/lib/natuna-palette";
 import { contrast } from "@/lib/contrast";
 
 export const metadata: Metadata = {
@@ -211,7 +211,7 @@ export default function FoundationPage() {
               Three brand ramps carry identity and five utility ramps carry meaning. Step 600 anchors each ramp.
               The ratio under each swatch is its contrast against white. Text needs 7:1, marked AAA. Steps that reach only 4.5:1 are marked AA and suit large text alone. The
               first AAA step differs per ramp: 800 for Azure and Imperial, 900 for Jade and Amber. Select a swatch to
-              copy its hex.
+              copy its hex. One flat accent, Signal, follows the ramps.
             </p>
             <div className="mt-8 space-y-10">
               {palettes.map((p) => (
@@ -235,6 +235,27 @@ export default function FoundationPage() {
                   </div>
                 </div>
               ))}
+              <div id="signal" className="scroll-mt-40 lg:scroll-mt-24">
+                <div className="mb-3 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                  <h3 className="text-lg font-semibold text-gray-900">Signal</h3>
+                  <span className="text-sm text-gray-700">Accent</span>
+                  <code className="ml-auto font-mono-code text-xs text-gray-700">{signal.token}</code>
+                </div>
+                <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
+                  <span
+                    className="inline-flex min-h-11 items-center rounded-md px-4 text-sm font-semibold"
+                    style={{ background: signal.hex, color: signal.onNavy }}
+                  >
+                    Navy text on Signal
+                  </span>
+                  <p className="max-w-xl text-sm text-gray-700">
+                    <code className="font-mono-code">{signal.hex}</code> is {contrast(signal.hex, signal.onNavy).toFixed(2)}:1
+                    against navy <code className="font-mono-code">{signal.onNavy}</code> and {contrast(signal.hex, "#ffffff").toFixed(2)}:1
+                    against white. Navy text only, never white, and never as text on a light page. Use it sparingly, for
+                    one marked step or state per view on the dark landing sections.
+                  </p>
+                </div>
+              </div>
             </div>
           </section>
 

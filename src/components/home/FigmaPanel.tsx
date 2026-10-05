@@ -38,21 +38,21 @@ export default function FigmaPanel() {
       <div className="flex min-w-0 flex-[1_1_420px] flex-col items-center gap-4 rounded-3xl border border-gray-200 bg-gray-100 p-3 sm:p-8" data-reveal-item>
         <div ref={card} className="flex w-full max-w-[360px] flex-col gap-3.5 rounded-2xl bg-surface p-4 shadow-lg">
           <div className="flex flex-wrap items-center gap-3">
-            <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-lime-soft text-inverse">
+            <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-50 text-blue-800">
               <ArrowUpRight size={20} aria-hidden="true" />
             </span>
             <div className="min-w-0 flex-1">
               <div className="whitespace-nowrap font-semibold text-gray-900">Transfer sent</div>
-              <div className="whitespace-nowrap text-[13px] text-gray-700">To savings •••• 4821</div>
+              <div className="whitespace-nowrap text-sm text-gray-700">To savings •••• 4821</div>
             </div>
-            <span className="rounded-full bg-lime-soft px-2.5 py-1 text-xs font-semibold text-lime-ink">Success</span>
+            <span className="rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-semibold text-emerald-900">Success</span>
           </div>
           <div className="h-px bg-gray-200" />
           <div className="flex flex-wrap items-baseline justify-between gap-x-3">
-            <span className="text-[13px] text-gray-700">Amount</span>
-            <span className="font-display text-[26px] font-bold text-gray-900">Rp&nbsp;250.000</span>
+            <span className="text-sm text-gray-700">Amount</span>
+            <span className="font-display text-2xl font-bold tracking-[-0.01em] text-gray-900">Rp&nbsp;250.000</span>
           </div>
-          <div className="flex flex-wrap justify-between gap-x-3 text-[13px] text-gray-700">
+          <div className="flex flex-wrap justify-between gap-x-3 text-sm text-gray-700">
             <span>5 Oct 2026, 09:41</span>
             <span className="font-label">Ref. 0412 7731</span>
           </div>

@@ -154,3 +154,11 @@ export const palettes: Palette[] = [
     ],
   },
 ];
+
+// The Signal accent: one flat color for a single marked step or state on dark navy. Not a ramp.
+export const signal = {
+  token: "lime",
+  label: "Signal Lime",
+  hex: "#c6f432",
+  onNavy: "#0b1220",
+};

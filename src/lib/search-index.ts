@@ -1,5 +1,5 @@
 import { componentGroup, components, statusText } from "./components-data";
-import { palettes } from "./natuna-palette";
+import { palettes, signal } from "./natuna-palette";
 
 // Built on the server and handed to CommandSearch as a prop, so the browser gets these few fields
 // instead of the whole component catalogue and palette modules.
@@ -30,6 +30,13 @@ const pages: SearchEntry[] = [
 // class, the hex, or the Figma variable. They come after pages and components, so a word like "blue"
 // still lists components first.
 const tokens: SearchEntry[] = [
+  {
+    href: "/foundation#signal",
+    title: signal.label,
+    group: "Color token",
+    note: signal.hex,
+    keywords: `bg-${signal.token} text-${signal.token} ${signal.hex} ${signal.hex.slice(1)} signal accent color`,
+  },
   ...palettes.flatMap((p) =>
     p.steps.map((s) => ({
       href: "/foundation#color",

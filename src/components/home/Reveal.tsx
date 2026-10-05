@@ -4,8 +4,8 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 
 /**
  * Brings a section in as it scrolls into view. Children marked data-reveal-item rise in one after
- * another; data-reveal-cell items (the build grid) follow in a quicker run. Without JavaScript, and
- * under reduced motion, everything is simply there.
+ * another with a short, capped stagger. Without JavaScript, and under reduced motion, everything is
+ * simply there.
  */
 export default function Reveal({ children, className = "" }: { children: ReactNode; className?: string }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -15,7 +15,6 @@ export default function Reveal({ children, className = "" }: { children: ReactNo
     const el = ref.current;
     if (!el || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     el.querySelectorAll<HTMLElement>("[data-reveal-item]").forEach((n, i) => n.style.setProperty("--i", String(i)));
-    el.querySelectorAll<HTMLElement>("[data-reveal-cell]").forEach((n, i) => n.style.setProperty("--i", String(i)));
     if (el.getBoundingClientRect().top < window.innerHeight * 0.85) return;
     setState("hidden");
     const io = new IntersectionObserver(
