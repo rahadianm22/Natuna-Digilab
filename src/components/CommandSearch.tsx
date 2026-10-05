@@ -20,6 +20,7 @@ const pages: Entry[] = [
   { href: "/foundation", title: "Foundation", group: "Page", note: "Color, type, number, effect" },
   { href: "/components", title: "Components overview", group: "Page" },
   { href: "/themes", title: "Themes", group: "Page", note: "Light and dark mode" },
+  { href: "/naming", title: "Naming", group: "Page", note: "Property and page names", keywords: "property properties figma variant boolean show label tone state" },
   { href: "/privacy", title: "Privacy statement", group: "Page" },
 ];
 

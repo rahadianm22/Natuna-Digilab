@@ -51,6 +51,7 @@ export default function DocsPage() {
                 ["Foundation", "Color, typography, radius, number, device, and effect tokens from the Foundation Design System v1.0 in Figma.", "/foundation"],
                 ["Components", `${tracker.length} components on the build plan, ${ready} of them ready.`, "/components"],
                 ["Themes", "A light and a dark mode mapped from the same tokens.", "/themes"],
+                ["Naming", "How component properties and Figma pages are named.", "/naming"],
               ].map(([term, desc, href]) => (
                 <div key={term} className="grid gap-1 py-4 sm:grid-cols-[10rem_1fr] sm:gap-6">
                   <dt>

@@ -173,7 +173,7 @@ test.describe("phone", () => {
   test.use({ viewport: { width: 390, height: 800 } });
 
   test("no horizontal overflow on any page", async ({ page }) => {
-    for (const path of ["/", "/docs", "/foundation", "/components", "/components/button", "/themes", "/templates", "/privacy"]) {
+    for (const path of ["/", "/docs", "/foundation", "/components", "/components/button", "/themes", "/naming", "/templates", "/privacy"]) {
       await page.goto(path);
       const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
       expect(overflow, `${path} overflows by ${overflow}px`).toBeLessThanOrEqual(0);
