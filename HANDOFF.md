@@ -22,8 +22,13 @@ npm run test:e2e     # uses the installed Microsoft Edge locally
 ## Where things are
 
 - Home: `src/app/page.tsx` with its sections in `src/components/home/`
-  (`LiveSpecimen`, `Anatomy`, `BuildGrid`, `LayersDemo`)
-- Copy to Figma: `src/lib/dom-to-svg.ts` and `src/components/FigmaFrame.tsx`
+  (`HeroBento`, `StatusBoard`, `FigmaPanel`, `Reveal`)
+- Header and sidebar are Server Components with small client islands (`HeaderMenu`, `CommandSearch`,
+  `ComponentSidebarNav`); the search index is built on the server in `src/lib/search-index.ts`
+- Copy to Figma: `src/lib/dom-to-svg.ts` (loaded on demand), `src/components/useFigmaExport.ts`, `FigmaFrame.tsx`
+- Coded component pages (Button, Badge, Input, Avatar, Accordion): docs, Figma-to-code map and accessibility notes
+  in `src/lib/component-docs.ts`, state matrices in `src/components/demos.tsx`
+- Color steps: `globals.css` matches the Figma ramp; text uses 700+ (gray) and 800+ (blue, red, jade) for AAA
 - Tokens: `src/app/globals.css` (light and dark), raw palette in `src/lib/natuna-palette.ts`
 - Component status: `src/lib/natuna-tracker.ts` (snapshot of the Notion tracker; update `TRACKER_SNAPSHOT`
   in `src/lib/site.ts` when you refresh it)
