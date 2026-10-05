@@ -21,7 +21,7 @@ export const metadata: Metadata = { alternates: { canonical: "/" } };
 const groupOf: Record<TrackerStatus, Group> = { Selesai: "ready", "On Review": "review", OnProgress: "progress", Belum: "planned" };
 const rank: Record<Group, number> = { ready: 0, review: 1, progress: 2, planned: 3 };
 const items: Item[] = productTracker
-  .map((t) => ({ name: (t.slug && getComponent(t.slug)?.name) || t.name, slug: t.slug, group: groupOf[t.status], code: hasReactCode(t.slug), day: t.buildDay }))
+  .map((t) => ({ name: (t.slug && getComponent(t.slug)?.name) || t.name, slug: t.slug, group: groupOf[t.status], code: hasReactCode(t.slug), kind: t.group === "Atoms" ? "Atom" as const : "Molecule" as const }))
   .sort((a, b) => rank[a.group] - rank[b.group] || a.name.localeCompare(b.name));
 
 const ready = items.filter((i) => i.group === "ready").length;

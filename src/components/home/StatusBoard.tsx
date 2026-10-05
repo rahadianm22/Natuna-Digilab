@@ -13,8 +13,8 @@ export type Item = {
   group: Group;
   /** Has React code in src/ui. Derived on the server from componentDocs. */
   code: boolean;
-  /** Scheduled build day, when the tracker gives one. */
-  day?: number;
+  /** What the component is, from the tracker group. */
+  kind?: "Atom" | "Molecule";
 };
 
 // The same labels and badge colors as /components, read from the tracker so the pages cannot drift.
@@ -141,7 +141,7 @@ export default function StatusBoard({ items }: { items: Item[] }) {
                       <>
                         <span className="min-w-0 flex-1 text-base text-gray-900">{item.name}</span>
                         {item.code && <CodeBadge />}
-                        {item.day && !item.code && <span className="shrink-0 text-sm tabular-nums text-gray-700">Day {item.day}</span>}
+                        {item.kind && !item.code && <span className="shrink-0 text-sm text-gray-700">{item.kind}</span>}
                       </>
                     );
                     const cls = "flex min-h-11 items-center gap-3 py-2";
