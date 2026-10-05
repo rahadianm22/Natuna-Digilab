@@ -42,7 +42,8 @@ export function Button({ variant = "primary", size = "md", loading = false, disa
       disabled={disabled}
       aria-disabled={loading || undefined}
       aria-busy={loading || undefined}
-      onClick={loading ? (e) => e.preventDefault() : onClick}
+      // A loading button with nothing to block gets no handler, so it can render as static server HTML.
+      onClick={loading ? (onClick || type !== "button" ? (e) => e.preventDefault() : undefined) : onClick}
       className={`${buttonStyles({ variant, size })} relative ${loading ? "cursor-progress" : unavailable} ${className}`}
       {...rest}
     >
