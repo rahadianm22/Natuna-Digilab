@@ -39,10 +39,21 @@ export default async function ComponentDetail({ params }: Props) {
   if (!component) return notFound();
   const row = trackerRow(component.slug);
   const group = componentGroup(component.slug);
-  // Four neighbours from the same category, the ones teams can use today first. The rest stay one click away.
+  // Related follows the breadcrumb and sidebar: neighbours come from the same group (Atoms, Molecules).
+  // Documentation frames are not product UI, so they only list each other. Within the pool, the same role
+  // comes first, then the ones teams can use today. The rest stay one click away.
   const rank = { stable: 0, review: 1, beta: 2, planned: 3, untracked: 4 } as const;
-  const sameCategory = components.filter((c) => c.category === component.category && c.slug !== component.slug);
-  const related = [...sameCategory].sort((a, b) => rank[a.status] - rank[b.status] || a.name.localeCompare(b.name)).slice(0, 4);
+  const isFrame = component.category === "Documentation";
+  const pool = components.filter(
+    (c) =>
+      c.slug !== component.slug &&
+      (isFrame ? c.category === "Documentation" : c.category !== "Documentation" && componentGroup(c.slug) === group),
+  );
+  const sameRole = (c: (typeof pool)[number]) => (c.category === component.category ? 0 : 1);
+  const related = [...pool]
+    .sort((a, b) => sameRole(a) - sameRole(b) || rank[a.status] - rank[b.status] || a.name.localeCompare(b.name))
+    .slice(0, 4);
+  const poolName = isFrame ? "documentation frames" : group === "Not tracked" ? "untracked components" : group.toLowerCase();
 
   // Only components built in src/ui have code to show; the rest are design-only so far.
   const doc = componentDocs[component.slug];
@@ -101,7 +112,7 @@ export default async function ComponentDetail({ params }: Props) {
                   </dd>
                 </div>
                 <div className="flex items-center gap-2">
-                  <dt className="text-gray-700">Category</dt>
+                  <dt className="text-gray-700">Role</dt>
                   <dd className="text-gray-900">{component.category}</dd>
                 </div>
               </dl>
@@ -211,9 +222,9 @@ export default async function ComponentDetail({ params }: Props) {
               <section aria-labelledby="related" className="mt-14 scroll-mt-24">
                 <h2 id="related" className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">Related</h2>
                 <p className="mt-2 text-sm text-gray-700">
-                  {related.length < sameCategory.length
-                    ? `${related.length} of ${sameCategory.length} other ${component.category.toLowerCase()} components, ready ones first.`
-                    : `Other ${component.category.toLowerCase()} components.`}
+                  {related.length < pool.length
+                    ? `${related.length} of ${pool.length} other ${poolName}, same role and ready ones first.`
+                    : `Other ${poolName}.`}
                 </p>
                 <ul className="mt-4 divide-y divide-gray-200 border-y border-gray-200">
                   {related.map((c) => (
@@ -228,7 +239,7 @@ export default async function ComponentDetail({ params }: Props) {
                     </li>
                   ))}
                 </ul>
-                {related.length < sameCategory.length && (
+                {related.length < pool.length && (
                   <Link href="/components" className="mt-4 inline-flex min-h-11 items-center text-sm font-medium text-blue-800 underline-offset-4 hover:underline">
                     See all components
                   </Link>
