@@ -9,7 +9,7 @@ import ComponentSidebar, { ComponentMobileNav } from "@/components/ComponentSide
 import ComponentPreview from "@/components/ComponentPreview";
 import CodeBlock from "@/components/CodeBlock";
 import FigmaFrame from "@/components/FigmaFrame";
-import Demo from "@/components/demos";
+import Demo, { StatesMatrix } from "@/components/demos";
 import StatusBadge from "@/components/StatusBadge";
 import { componentGroup, components, getComponent, trackerRow } from "@/lib/components-data";
 import { componentDocs, fullUsage } from "@/lib/component-docs";
@@ -59,11 +59,20 @@ export default async function ComponentDetail({ params }: Props) {
   const doc = componentDocs[component.slug];
   const toc = [
     { id: "example", label: doc ? "Usage" : "Example" },
-    ...(doc ? [{ id: "props", label: "Props" }] : []),
+    ...(doc
+      ? [
+          { id: "states", label: "Variants and states" },
+          { id: "props", label: "Props" },
+          { id: "figma", label: "Figma to code" },
+          { id: "accessibility", label: "Accessibility" },
+        ]
+      : []),
     { id: "when", label: "When to use" },
     { id: "practices", label: "Do and don't" },
     { id: "related", label: "Related" },
   ];
+  // A coded component can replace guidance that describes features its code does not have.
+  const practices = { do: doc?.do ?? component.do, dont: doc?.dont ?? component.dont };
   const codeNote =
     component.category === "Documentation"
       ? "This is a Figma documentation frame, so it has no code component."
@@ -136,6 +145,16 @@ export default async function ComponentDetail({ params }: Props) {
                       <CodeBlock code={fullUsage(doc)} label="Usage" collapseAfter={14} />
                     </div>
                   </section>
+
+                  <section aria-labelledby="states" className="mt-14 scroll-mt-24">
+                    <h2 id="states" className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">Variants and states</h2>
+                    <p className="mt-2 max-w-2xl text-sm text-gray-700">
+                      Every specimen is the real component from <code className="font-mono-code text-[13px]">src/ui</code>, held in one state.
+                    </p>
+                    <div className="mt-4">
+                      <StatesMatrix slug={component.slug} />
+                    </div>
+                  </section>
                 </>
               ) : (
                 <section aria-labelledby="example" className="mt-14 scroll-mt-24">
@@ -192,6 +211,77 @@ export default async function ComponentDetail({ params }: Props) {
                 </section>
               )}
 
+              {doc && (
+                <section aria-labelledby="figma" className="mt-14 scroll-mt-24">
+                  <h2 id="figma" className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">Figma to code</h2>
+                  <p className="mt-2 max-w-2xl text-sm leading-relaxed text-gray-700">
+                    Figma properties by their exact names from{" "}
+                    <Link href="/naming" className="font-medium text-blue-800 underline underline-offset-4">Naming</Link>, and the React prop
+                    that carries each one. The table covers the shared properties that bear on this component; the Figma file decides which
+                    of them its component exposes. None means there is no prop for it yet.
+                  </p>
+                  <dl className="mt-4 divide-y divide-gray-200 rounded-xl border border-gray-200 bg-surface sm:hidden">
+                    {doc.figma.map((f) => (
+                      <div key={f.figma} className="px-4 py-3">
+                        <dt className="text-sm font-semibold text-gray-900">{f.figma}</dt>
+                        <dd className="mt-1 font-mono-code text-[13px] text-gray-900">
+                          {f.prop ?? <span className="text-gray-700">None</span>}
+                        </dd>
+                        <dd className="mt-1.5 text-sm text-gray-700">{f.note}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                  <div className="mt-4 hidden overflow-x-auto rounded-xl border border-gray-200 bg-surface sm:block">
+                    <table className="w-full text-left text-sm">
+                      <thead className="border-b border-gray-200 text-gray-700">
+                        <tr>
+                          <th scope="col" className="px-4 py-3 font-medium">Figma property</th>
+                          <th scope="col" className="whitespace-nowrap px-4 py-3 font-medium">React prop</th>
+                          <th scope="col" className="px-4 py-3 font-medium">Notes</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-gray-200 align-top">
+                        {doc.figma.map((f) => (
+                          <tr key={f.figma}>
+                            <th scope="row" className="px-4 py-3 font-semibold text-gray-900">{f.figma}</th>
+                            <td className="px-4 py-3 font-mono-code text-[13px] text-gray-900">
+                              {f.prop ?? <span className="text-gray-700">None</span>}
+                            </td>
+                            <td className="px-4 py-3 text-gray-700">{f.note}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </section>
+              )}
+
+              {doc && (
+                <section aria-labelledby="accessibility" className="mt-14 scroll-mt-24">
+                  <h2 id="accessibility" className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">Accessibility</h2>
+                  <p className="mt-2 max-w-2xl text-sm text-gray-700">What the code in src/ui does today, and what it leaves to you.</p>
+                  <div className="mt-5 grid gap-8 md:grid-cols-2">
+                    {[
+                      { title: "Keyboard", items: doc.a11y.keyboard },
+                      { title: "Screen readers", items: doc.a11y.screenReader },
+                    ].map((g) => (
+                      <div key={g.title}>
+                        <h3 className="font-semibold text-gray-900">{g.title}</h3>
+                        <ul className="mt-3 list-disc space-y-2 pl-5 text-sm leading-relaxed text-gray-700">
+                          {g.items.map((t) => <li key={t}>{t}</li>)}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="mt-8 rounded-xl border border-gray-200 bg-surface p-5">
+                    <h3 className="font-semibold text-gray-900">What you still need to do</h3>
+                    <ul className="mt-3 list-disc space-y-2 pl-5 text-sm leading-relaxed text-gray-700">
+                      {doc.a11y.youMust.map((t) => <li key={t}>{t}</li>)}
+                    </ul>
+                  </div>
+                </section>
+              )}
+
               <section aria-labelledby="when" className="mt-14 scroll-mt-24">
                 <h2 id="when" className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">When to use</h2>
                 <p className="mt-3 max-w-2xl leading-relaxed text-gray-700">{component.usage}</p>
@@ -205,7 +295,7 @@ export default async function ComponentDetail({ params }: Props) {
                       <CheckCircle size={20} weight="fill" className="text-emerald-700" aria-hidden="true" /> Do
                     </h3>
                     <ul className="mt-3 space-y-3 text-sm leading-relaxed text-gray-700">
-                      {component.do.map((d) => <li key={d}>{d}</li>)}
+                      {practices.do.map((d) => <li key={d}>{d}</li>)}
                     </ul>
                   </div>
                   <div className="border-t-4 border-red-600 pt-4">
@@ -213,7 +303,7 @@ export default async function ComponentDetail({ params }: Props) {
                       <XCircle size={20} weight="fill" className="text-red-800" aria-hidden="true" /> Don&apos;t
                     </h3>
                     <ul className="mt-3 space-y-3 text-sm leading-relaxed text-gray-700">
-                      {component.dont.map((d) => <li key={d}>{d}</li>)}
+                      {practices.dont.map((d) => <li key={d}>{d}</li>)}
                     </ul>
                   </div>
                 </div>
