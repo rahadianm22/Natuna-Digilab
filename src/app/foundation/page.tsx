@@ -6,6 +6,8 @@ import OnThisPage, { SectionChips } from "@/components/OnThisPage";
 import Swatch from "@/components/Swatch";
 import { palettes, signal } from "@/lib/natuna-palette";
 import { contrast } from "@/lib/contrast";
+import { FIGMA_COMMUNITY_URL } from "@/lib/site";
+import { buttonStyles } from "@/ui";
 
 export const metadata: Metadata = {
   title: "Foundation",
@@ -166,6 +168,15 @@ export default function FoundationPage() {
             The tokens every component is drawn with, taken from the Foundation Design System v1.0 in Figma. Change
             a token and every component that uses it follows.
           </p>
+          <a
+            href={FIGMA_COMMUNITY_URL}
+            target="_blank"
+            rel="noreferrer"
+            className={`${buttonStyles({ variant: "primary", size: "lg" })} mt-6`}
+          >
+            Open in Figma Community
+            <span className="sr-only"> (opens in a new tab)</span>
+          </a>
 
           {/* Phones and tablets have no side navigation, so the sections sit in a sticky row instead. */}
           <SectionChips
