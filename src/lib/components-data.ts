@@ -687,10 +687,13 @@ export function trackerRow(slug: string) {
  * Figma file use. Components the tracker does not list get their own group, so they never pass as
  * part of the plan.
  */
-export const componentGroups = ["Atoms", "Molecules", "Not tracked"] as const;
+export const componentGroups = ["Atoms", "Molecules", "Documentation", "Not tracked"] as const;
 export type ComponentGroup = (typeof componentGroups)[number];
 
+// Documentation frames are layouts for the Figma file, not product UI, so they get their own group whatever
+// the tracker files them under.
 export function componentGroup(slug: string): ComponentGroup {
+  if (components.find((c) => c.slug === slug)?.category === "Documentation") return "Documentation";
   return trackerRow(slug)?.group ?? "Not tracked";
 }
 

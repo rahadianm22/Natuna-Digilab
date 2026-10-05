@@ -105,7 +105,7 @@ function SidebarBody({ idPrefix, onNavigate, items: sorted, groups, statusText }
                       >
                         <span className="truncate">{c.name}</span>
                         {c.status !== "stable" && (
-                          <span className="shrink-0 text-[11px] text-gray-700">{statusText[c.status]}</span>
+                          <span className="shrink-0 text-xs text-gray-700">{statusText[c.status]}</span>
                         )}
                       </Link>
                     </li>

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { SquaresFour } from "@phosphor-icons/react/ssr";
 import ComponentPreview from "./ComponentPreview";
 import ComponentOverviewFilter, { type FilterEntry } from "./ComponentOverviewFilter";
-import { components, getComponent, statusText, statusTone } from "@/lib/components-data";
+import { componentGroup, components, getComponent, statusText, statusTone } from "@/lib/components-data";
 import {
   lastBuildDay,
   statusLabel,
@@ -47,7 +47,7 @@ const tracked: Entry[] = [...tracker]
     status: t.status,
     badgeLabel: statusLabel[t.status],
     badgeClass: statusStyle[t.status],
-    group: t.group,
+    group: t.slug ? componentGroup(t.slug) : t.group,
   }));
 
 // Pages the tracker does not list still belong in the index, marked for what they are.
@@ -62,13 +62,14 @@ const untracked: Entry[] = components
     status: "untracked",
     badgeLabel: statusText.untracked,
     badgeClass: statusTone.untracked,
-    group: "Not tracked",
+    group: componentGroup(c.slug),
   }));
 
 const all = [...tracked, ...untracked];
 
 const groups = [
   ...trackerGroups,
+  { name: "Documentation", description: "Layouts for the Figma file itself, such as covers and artboards. They are not product UI." },
   { name: "Not tracked", description: "Pages without a tracker row. They have no design sign-off and no code yet; treat them as sketches." },
 ];
 
