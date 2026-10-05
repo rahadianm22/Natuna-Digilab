@@ -1,9 +1,7 @@
-"use client";
-
-import { useMemo, useState } from "react";
 import Link from "next/link";
-import { MagnifyingGlass, SquaresFour } from "@phosphor-icons/react";
+import { SquaresFour } from "@phosphor-icons/react/ssr";
 import ComponentPreview from "./ComponentPreview";
+import ComponentOverviewFilter, { type FilterEntry } from "./ComponentOverviewFilter";
 import { components, getComponent, statusText, statusTone } from "@/lib/components-data";
 import {
   lastBuildDay,
@@ -76,6 +74,27 @@ const groups = [
 
 type Filter = TrackerStatus | "untracked" | "all";
 
+const counts: Record<string, number> = { all: all.length, untracked: untracked.length };
+for (const s of statusOrder) counts[s] = tracker.filter((t) => t.status === s).length;
+
+// A filter that would lead to an empty page is not offered.
+const filters = (["all", ...statusOrder, "untracked"] as Filter[])
+  .filter((s) => counts[s] > 0)
+  .map((s) => ({
+    value: s,
+    label: s === "all" ? "All" : s === "untracked" ? statusText.untracked : statusLabel[s],
+    count: counts[s],
+  }));
+
+// Only what the filter matches on goes to the browser; the cards and their previews stay server HTML.
+const filterEntries: FilterEntry[] = all.map((e) => ({
+  key: e.key,
+  name: e.name,
+  sourceName: e.sourceName,
+  status: e.status,
+  group: e.group,
+}));
+
 function Thumbnail({ slug }: { slug?: string }) {
   return (
     <div
@@ -132,85 +151,12 @@ function Card({ entry }: { entry: Entry }) {
 }
 
 export default function ComponentOverview() {
-  const [query, setQuery] = useState("");
-  const [status, setStatus] = useState<Filter>("all");
-
-  const counts = useMemo(() => {
-    const c: Record<string, number> = { all: all.length, untracked: untracked.length };
-    for (const s of statusOrder) c[s] = tracker.filter((t) => t.status === s).length;
-    return c;
-  }, []);
-
-  // A filter that would lead to an empty page is not offered.
-  const filters = (["all", ...statusOrder, "untracked"] as Filter[]).filter((s) => counts[s] > 0);
-
-  const q = query.trim().toLowerCase();
-  const visible = all.filter(
-    (e) => (status === "all" || e.status === status) && (!q || `${e.name} ${e.sourceName ?? ""}`.toLowerCase().includes(q)),
-  );
-
   return (
-    <div>
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
-        <label className="relative block flex-1">
-          <span className="sr-only">Search components</span>
-          <MagnifyingGlass size={18} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-gray-700" />
-          <input
-            type="search"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search components"
-            className="min-h-11 w-full rounded-md border border-gray-500 bg-surface py-2.5 pl-10 pr-3 text-sm text-gray-900 placeholder:text-gray-700 focus-visible:border-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
-          />
-        </label>
-        <div role="group" aria-label="Filter by status" className="flex flex-wrap gap-2">
-          {filters.map((s) => (
-            <button
-              key={s}
-              type="button"
-              aria-pressed={status === s}
-              onClick={() => setStatus(s)}
-              className={`min-h-11 rounded-md border px-3 text-xs font-medium transition-colors ${
-                status === s ? "border-blue-600 bg-brand text-white" : "border-gray-300 bg-surface text-gray-700 hover:bg-gray-50"
-              }`}
-            >
-              {s === "all" ? "All" : s === "untracked" ? statusText.untracked : statusLabel[s]}{" "}
-              <span className="tabular-nums">{counts[s]}</span>
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <div role="status" className="sr-only">
-        {visible.length} components shown
-      </div>
-
-      {visible.length === 0 && (
-        <div className="mt-16 text-center">
-          <div className="text-base font-semibold text-gray-900">No components found</div>
-          <p className="mt-1 text-sm text-gray-700">Try a different name or clear the status filter.</p>
-        </div>
-      )}
-
-      {groups.map((g) => {
-        const items = visible.filter((e) => e.group === g.name);
-        if (items.length === 0) return null;
-        const id = `group-${g.name.replace(/\s+/g, "-")}`;
-        return (
-          <section key={g.name} aria-labelledby={id} className="mt-12">
-            <h2 id={id} className="flex scroll-mt-24 items-baseline gap-2 text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
-              {g.name}
-              <span className="text-base font-medium text-gray-700">{items.length}</span>
-            </h2>
-            <p className="mt-1 max-w-2xl text-sm text-gray-700">{g.description}</p>
-            <div className="mt-5 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3 xl:grid-cols-4">
-              {items.map((entry) => (
-                <Card key={entry.key} entry={entry} />
-              ))}
-            </div>
-          </section>
-        );
-      })}
-    </div>
+    <ComponentOverviewFilter
+      entries={filterEntries}
+      cards={Object.fromEntries(all.map((e) => [e.key, <Card key={e.key} entry={e} />]))}
+      filters={filters}
+      groups={groups}
+    />
   );
 }
