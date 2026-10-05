@@ -3,6 +3,7 @@ import { Urbanist } from "next/font/google";
 import "./globals.css";
 import { SITE_URL } from "@/lib/site";
 import RouteFocus from "@/components/RouteFocus";
+import DotCursor from "@/components/DotCursor";
 
 const urbanist = Urbanist({
   subsets: ["latin"],
@@ -36,6 +37,7 @@ export default function RootLayout({
       </head>
       <body className="min-h-full flex flex-col">
         <RouteFocus />
+        <DotCursor />
         {children}
       </body>
     </html>
