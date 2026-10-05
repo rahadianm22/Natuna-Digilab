@@ -95,10 +95,10 @@ const sections = [
 ];
 
 const kindTone: Record<Prop["kind"], string> = {
-  Variant: "bg-blue-100 text-blue-900",
-  Boolean: "bg-emerald-100 text-emerald-900",
-  Text: "bg-amber-100 text-amber-900",
-  "Instance swap": "bg-gray-100 text-gray-700",
+  Variant: "border border-gray-500 text-gray-900",
+  Boolean: "border border-gray-500 text-gray-900",
+  Text: "border border-gray-500 text-gray-900",
+  "Instance swap": "border border-gray-500 text-gray-900",
 };
 
 const h2 = "text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl";

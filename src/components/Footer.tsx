@@ -26,7 +26,7 @@ export default function Footer() {
         <div className="flex flex-[1_1_260px] flex-col gap-3">
           <Link
             href="/"
-            className="self-start font-display text-[clamp(40px,6vw,72px)] font-extrabold leading-[0.9] tracking-[-0.04em] text-gray-900"
+            className="self-start font-display text-[clamp(32px,4.5vw,48px)] font-extrabold leading-none tracking-[-0.035em] text-gray-900"
           >
             Natuna
             <br />
