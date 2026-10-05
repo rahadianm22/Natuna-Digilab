@@ -1,8 +1,8 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { ArrowUpRight, Check, Copy } from "@phosphor-icons/react";
-import { domToSvg } from "@/lib/dom-to-svg";
+import { useFigmaExport } from "@/components/useFigmaExport";
 
 const points = ["Text stays editable text", "Layers are named after their parts", "Borders, corners and icons stay vectors"];
 
@@ -12,18 +12,7 @@ const points = ["Text stays editable text", "Layers are named after their parts"
  */
 export default function FigmaPanel() {
   const card = useRef<HTMLDivElement>(null);
-  const [status, setStatus] = useState<"idle" | "done" | "failed">("idle");
-
-  async function copy() {
-    if (!card.current) return;
-    try {
-      await navigator.clipboard.writeText(domToSvg(card.current, "Transfer sent"));
-      setStatus("done");
-    } catch {
-      setStatus("failed");
-    }
-    setTimeout(() => setStatus("idle"), 2200);
-  }
+  const { status, copy, warm } = useFigmaExport(card, { name: "Transfer sent", resetAfter: 2200 });
 
   return (
     <div className="flex flex-wrap items-center gap-12 rounded-[32px] border border-gray-200 bg-surface p-5 sm:p-14">
@@ -71,13 +60,15 @@ export default function FigmaPanel() {
         <button
           type="button"
           onClick={copy}
+          onPointerEnter={warm}
+          onFocus={warm}
           className="inline-flex min-h-11 items-center gap-2.5 rounded-xl bg-inverse px-4.5 text-sm font-semibold text-inverse-text transition-transform active:scale-[0.97] dark:bg-inverse-text dark:text-inverse"
         >
           <Copy size={16} aria-hidden="true" />
-          {status === "done" ? "Copied. Paste in Figma" : status === "failed" ? "Could not copy" : "Copy to Figma"}
+          {status === "copied" ? "Copied. Paste in Figma" : status === "failed" ? "Could not copy" : "Copy to Figma"}
         </button>
         <span role="status" className="sr-only">
-          {status === "done" ? "Copied to the clipboard" : ""}
+          {status === "copied" ? "Copied to the clipboard" : ""}
         </span>
       </div>
     </div>
