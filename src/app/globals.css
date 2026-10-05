@@ -15,7 +15,7 @@
 
 @theme {
   --font-sans: var(--font-urbanist), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-code), ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --font-mono: var(--font-urbanist), ui-sans-serif, system-ui, sans-serif;
 
   /* Only Natuna foundation colors: drop the Tailwind default palette. */
   --color-*: initial;
@@ -44,9 +44,9 @@
   --color-lime-soft: #e3f7b0;
   --color-lime-ink: #2b4a00;
 
-  --font-display: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
-  --font-body: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
-  --font-label: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-display: var(--font-urbanist), ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-urbanist), ui-sans-serif, system-ui, sans-serif;
+  --font-label: var(--font-urbanist), ui-sans-serif, system-ui, sans-serif;
   /* Preview wells: a quiet inset that reads in both modes (light #f1f5f9 on white, dark #19212e on #27303f). */
   --color-well: #f1f5f9;
 
@@ -295,7 +295,7 @@ body {
 
 /* Code, hex values, and token names: a monospace face, so characters people copy cannot be misread. */
 .font-mono-code {
-  font-family: var(--font-code), ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-family: var(--font-urbanist), ui-sans-serif, system-ui, sans-serif;
   font-variant-numeric: tabular-nums;
 }
 
