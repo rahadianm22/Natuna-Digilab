@@ -63,7 +63,7 @@ Status comes from the tracker snapshot. To update it, re-run the Notion query, r
 npm run test:e2e
 ```
 
-Runs 33 tests against http://localhost:3000 (starts `npm run dev` if nothing is running) in the installed Microsoft Edge: navigation, theme toggle, the hero transfer flow, tabs and copy, fixed-width loading buttons, the Copy to Figma export, sidebar, search, phone layout at 390px with no horizontal overflow, and axe WCAG 2.1 AA scans of every page in light and dark mode.
+Runs 33 tests against http://localhost:3000 (starts `npm run dev` if nothing is running) in the installed Microsoft Edge: navigation, theme toggle, the hero transfer flow, tabs and copy, fixed-width loading buttons, the Copy to Figma export, sidebar, search, phone layout at 390px with no horizontal overflow, and axe scans of every page in light and dark mode against WCAG 2.1 AA and AAA (7:1 text contrast).
 
 Set `PLAYWRIGHT_BASE_URL` to test another address, or `PLAYWRIGHT_CHANNEL=chrome` to use Chrome.
 

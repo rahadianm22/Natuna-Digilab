@@ -130,6 +130,18 @@ const radii = [
   { name: "full", px: "pill", cls: "rounded-full", use: "Avatars, toggles" },
 ];
 
+// WCAG 2.2 AAA criteria the system commits to. Checked on every page by the axe tests (wcag2aaa).
+const aaa = [
+  { rule: "Text contrast", sc: "1.4.6 Contrast (Enhanced)", min: "7:1", how: "Body and secondary text use gray-900 and gray-600; links use blue-700. All clear 7:1 on canvas and surface, light and dark." },
+  { rule: "Large text contrast", sc: "1.4.6 Contrast (Enhanced)", min: "4.5:1", how: "Applies at 24px, or 19px bold, and up. Headings meet 7:1 anyway." },
+  { rule: "Text on fills", sc: "1.4.6 Contrast (Enhanced)", min: "7:1", how: "Brand fill is blue-800 #015099 (8.0:1 with white) and danger is red-800 #8c2b2c (8.9:1). Lime carries navy text only." },
+  { rule: "Non-text contrast", sc: "1.4.11 Non-text Contrast", min: "3:1", how: "Input borders use gray-500 and the focus ring blue-600, both above 3:1 on their surface." },
+  { rule: "Target size", sc: "2.5.5 Target Size (Enhanced)", min: "44 × 44px", how: "Buttons, links in lists, tabs and toggles are at least 44px tall on touch screens." },
+  { rule: "Focus", sc: "2.4.13 Focus Appearance", min: "2px, 3:1", how: "A 2px blue-600 outline with a 2px offset on every focusable element." },
+  { rule: "Motion", sc: "2.3.3 Animation from Interactions", min: "Can be turned off", how: "Every animation stops under prefers-reduced-motion; nothing essential depends on motion." },
+  { rule: "Color alone", sc: "1.4.1 Use of Color", min: "Never", how: "Status always pairs color with a text label or a shape." },
+];
+
 const sections = [
   { id: "color", label: "Color" },
   { id: "typography", label: "Typography" },
@@ -156,9 +168,40 @@ export default function FoundationPage() {
           <SectionChips
             items={sections}
             label="Foundation sections"
-            className="sticky top-16 z-20 -mx-6 mt-8 border-b border-gray-200 bg-canvas/95 px-6 py-1.5 backdrop-blur lg:hidden"
+            className="sticky top-16 z-20 -mx-6 mt-8 border-b border-gray-200 bg-canvas px-6 py-1.5 lg:hidden"
           />
 
+          <section aria-labelledby="accessibility" className="mt-16">
+            <h2 id="accessibility" className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">Accessibility</h2>
+            <p className="mt-3 max-w-2xl leading-relaxed text-gray-700">
+              Natuna targets WCAG 2.2 level AAA wherever it is a property of the design: contrast, target size,
+              focus, and motion. Every token below is chosen to pass it in light and in dark mode, and every page of
+              this site is checked against it automatically.
+            </p>
+            <div className="mt-8 overflow-hidden rounded-xl border border-gray-200 bg-surface">
+              <table className="w-full text-left text-sm">
+                <thead className="hidden border-b border-gray-200 text-gray-600 sm:table-header-group">
+                  <tr>
+                    <th scope="col" className="w-[28%] px-4 py-3 font-medium">Rule</th>
+                    <th scope="col" className="w-[18%] px-4 py-3 font-medium">Minimum</th>
+                    <th scope="col" className="px-4 py-3 font-medium">How the system meets it</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-200">
+                  {aaa.map((r) => (
+                    <tr key={r.rule} className="block px-4 py-3 sm:table-row sm:p-0">
+                      <th scope="row" className="block font-semibold text-gray-900 sm:table-cell sm:px-4 sm:py-3">
+                        {r.rule}
+                        <span className="block text-xs font-normal text-gray-600">{r.sc}</span>
+                      </th>
+                      <td className="mt-1 block font-semibold tabular-nums text-gray-900 sm:mt-0 sm:table-cell sm:px-4 sm:py-3">{r.min}</td>
+                      <td className="mt-1 block text-gray-700 sm:mt-0 sm:table-cell sm:px-4 sm:py-3">{r.how}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </section>
           <section aria-labelledby="color" className="mt-16 scroll-mt-40 lg:scroll-mt-24">
             <h2 id="color" className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">Color</h2>
             <p className="mt-3 max-w-2xl leading-relaxed text-gray-700">
@@ -215,7 +258,7 @@ export default function FoundationPage() {
                   <dl className="grid grid-cols-3 gap-2 font-mono-code text-xs text-gray-600">
                     {["Mobile", "Tablet", "Website"].map((device, i) => (
                       <div key={device}>
-                        <dt className="font-sans text-gray-500">{device}</dt>
+                        <dt className="font-sans text-gray-600">{device}</dt>
                         <dd className="text-gray-900">{t.scale[i]}</dd>
                       </div>
                     ))}

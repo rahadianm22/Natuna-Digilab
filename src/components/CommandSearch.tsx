@@ -168,7 +168,7 @@ export default function CommandSearch() {
             aria-expanded="true"
             aria-controls="command-results"
             aria-activedescendant={results[index] ? `result-${index}` : undefined}
-            className="h-12 w-full bg-transparent text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none"
+            className="h-12 w-full bg-transparent text-sm text-gray-900 placeholder:text-gray-600 focus:outline-none"
           />
         </div>
         <ul id="command-results" role="listbox" aria-label="Results" className="max-h-[50vh] overflow-y-auto p-2">

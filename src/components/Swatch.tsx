@@ -45,7 +45,7 @@ export default function Swatch({
       </span>
       <span className="font-mono-code text-[11px] text-gray-600">{copied ? "Copied" : hex}</span>
       <span className="text-[11px] tabular-nums text-gray-600">
-        {onWhite.toFixed(2)}:1{onWhite >= 4.5 ? " AA" : ""}
+        {onWhite.toFixed(2)}:1{onWhite >= 7 ? " AAA" : onWhite >= 4.5 ? " AA" : ""}
       </span>
     </button>
   );

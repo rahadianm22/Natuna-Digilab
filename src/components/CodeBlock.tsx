@@ -36,7 +36,7 @@ const tone = {
   string: "text-[#aad98c]",
   tag: "text-[#85d0ff]",
   attr: "text-[#fcd97d]",
-  comment: "text-[#9aa4b2] italic",
+  comment: "text-[#b7c0cc] italic",
   number: "text-[#ffa293]",
   plain: "text-[#f1f5f9]",
 };
@@ -118,7 +118,7 @@ export default function CodeBlock({
                 tabIndex={lang === l ? 0 : -1}
                 onClick={() => setLang(l)}
                 className={`min-h-11 sm:min-h-8 rounded-md px-3 text-xs font-semibold transition-colors ${
-                  lang === l ? "bg-[#026acc] text-white" : "text-[#cdd5df] hover:text-white"
+                  lang === l ? "bg-[#015099] text-white" : "text-[#cdd5df] hover:text-white"
                 }`}
               >
                 {l.toUpperCase()}

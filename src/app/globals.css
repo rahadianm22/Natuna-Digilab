@@ -25,10 +25,11 @@
   --color-canvas: #ffffff;
   --color-surface: #ffffff;
   --color-ink: #19212e;
-  --color-brand: #026acc;
-  --color-brand-hover: #015099;
-  --color-danger: #bb3a3b;
-  --color-danger-hover: #8c2b2c;
+  /* AAA: white text on every fill reaches 7:1 (brand 8.0:1, danger 8.9:1). */
+  --color-brand: #015099;
+  --color-brand-hover: #013566;
+  --color-danger: #8c2b2c;
+  --color-danger-hover: #5e1d1e;
 
   /* Landing palette: a cool paper ground, deep navy inverse sections, and a lime signal used sparingly.
      Lime always carries navy text, never white. */
@@ -38,8 +39,8 @@
   --color-inverse-line: #243049;
   --color-inverse-line-strong: #364460;
   --color-inverse-text: #f4f6f8;
-  --color-inverse-muted: #b7c0cc;
-  --color-inverse-subtle: #8d98a8;
+  --color-inverse-muted: #cdd5df;
+  --color-inverse-subtle: #b7c0cc;
   --color-lime: #c6f432;
   --color-lime-soft: #e3f7b0;
   --color-lime-ink: #2b4a00;
@@ -58,8 +59,8 @@
   --color-blue-400: #359dff;
   --color-blue-500: #0285ff;
   --color-blue-600: #0276e3;
-  --color-blue-700: #026acc;
-  --color-blue-800: #015099;
+  --color-blue-700: #015099;
+  --color-blue-800: #013566;
   --color-blue-900: #013566;
   --color-blue-950: #001b33;
 
@@ -70,7 +71,7 @@
   --color-gray-300: #cdd5df;
   --color-gray-400: #9aa4b2;
   --color-gray-500: #697586;
-  --color-gray-600: #4b5565;
+  --color-gray-600: #364152;
   --color-gray-700: #364152;
   --color-gray-800: #27303f;
   --color-gray-900: #19212e;
@@ -85,7 +86,7 @@
   --color-emerald-500: #5db725;
   --color-emerald-600: #54a522;
   --color-emerald-700: #4a921e;
-  --color-emerald-800: #386e16;
+  --color-emerald-800: #25490f;
   --color-emerald-900: #25490f;
   --color-emerald-950: #132507;
 
@@ -110,8 +111,8 @@
   --color-red-400: #ee6d6e;
   --color-red-500: #ea484a;
   --color-red-600: #d64748;
-  --color-red-700: #bb3a3b;
-  --color-red-800: #8c2b2c;
+  --color-red-700: #8c2b2c;
+  --color-red-800: #5e1d1e;
   --color-red-900: #5e1d1e;
   --color-red-950: #2f0e0f;
 
@@ -191,8 +192,8 @@
   --color-gray-200: #4b5565;
   --color-gray-300: #697586;
   --color-gray-400: #697586;
-  --color-gray-500: #9aa4b2;
-  --color-gray-600: #9aa4b2;
+  --color-gray-500: #cdd5df;
+  --color-gray-600: #cdd5df;
   --color-gray-700: #d0d5dd;
   --color-gray-800: #ebf0f4;
   --color-gray-900: #f1f5f9;
@@ -202,24 +203,24 @@
   --color-blue-100: #013566;
   --color-blue-200: #015099;
   --color-blue-300: #026acc;
-  --color-blue-700: #67b6ff;
-  --color-blue-800: #9aceff;
+  --color-blue-700: #9aceff;
+  --color-blue-800: #d1e9ff;
 
   --color-emerald-50: #132507;
   --color-emerald-100: #25490f;
   --color-emerald-200: #386e16;
-  --color-emerald-800: #aad98c;
+  --color-emerald-800: #d4ecc5;
 
   --color-amber-50: #322400;
   --color-amber-100: #644800;
   --color-amber-200: #966c00;
-  --color-amber-900: #fde5a5;
+  --color-amber-900: #fef2d2;
 
   --color-red-50: #2f0e0f;
   --color-red-100: #5e1d1e;
   --color-red-200: #8c2b2c;
-  --color-red-700: #f29192;
-  --color-red-800: #f7b6b7;
+  --color-red-700: #f7b6b7;
+  --color-red-800: #fbdadb;
 
   --color-teal-100: #003f66;
   --color-violet-100: #3f1e6b;
@@ -244,7 +245,7 @@
   --color-gray-300: #cdd5df;
   --color-gray-400: #9aa4b2;
   --color-gray-500: #697586;
-  --color-gray-600: #4b5565;
+  --color-gray-600: #364152;
   --color-gray-700: #364152;
   --color-gray-800: #27303f;
   --color-gray-900: #19212e;
@@ -254,13 +255,13 @@
   --color-blue-100: #d1e9ff;
   --color-blue-200: #9aceff;
   --color-blue-300: #67b6ff;
-  --color-blue-700: #026acc;
-  --color-blue-800: #015099;
+  --color-blue-700: #015099;
+  --color-blue-800: #013566;
 
   --color-emerald-50: #f7fbf3;
   --color-emerald-100: #e5f4dd;
   --color-emerald-200: #d4ecc5;
-  --color-emerald-800: #386e16;
+  --color-emerald-800: #25490f;
 
   --color-amber-50: #fffbf0;
   --color-amber-100: #fef2d2;
@@ -270,8 +271,8 @@
   --color-red-50: #fef1f2;
   --color-red-100: #fbdadb;
   --color-red-200: #f7b6b7;
-  --color-red-700: #bb3a3b;
-  --color-red-800: #8c2b2c;
+  --color-red-700: #8c2b2c;
+  --color-red-800: #5e1d1e;
 
   --color-teal-100: #d1edff;
   --color-violet-100: #dfc6ff;

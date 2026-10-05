@@ -389,7 +389,7 @@ const previews: Record<string, () => ReactElement> = {
     <div className="flex justify-center py-6">
       <label className="flex w-72 flex-col gap-1.5">
         <span className="text-xs font-semibold text-gray-700">Note</span>
-        <textarea rows={3} maxLength={120} placeholder="Add a note for the recipient" className="rounded-md border border-gray-300 bg-surface px-3 py-2 text-sm text-gray-900 placeholder:text-gray-500" />
+        <textarea rows={3} maxLength={120} placeholder="Add a note for the recipient" className="rounded-md border border-gray-300 bg-surface px-3 py-2 text-sm text-gray-900 placeholder:text-gray-600" />
         <span className="text-right text-xs text-gray-600">Up to 120 characters</span>
       </label>
     </div>
@@ -447,7 +447,7 @@ const previews: Record<string, () => ReactElement> = {
       <label className="relative block w-72">
         <span className="sr-only">Search transactions</span>
         <MagnifyingGlass size={16} aria-hidden="true" className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-gray-600" />
-        <input type="search" placeholder="Search by name or amount" className="w-full rounded-md border border-gray-300 bg-surface py-2 pl-9 pr-3 text-sm text-gray-900 placeholder:text-gray-500" />
+        <input type="search" placeholder="Search by name or amount" className="w-full rounded-md border border-gray-300 bg-surface py-2 pl-9 pr-3 text-sm text-gray-900 placeholder:text-gray-600" />
       </label>
     </div>
   ),
@@ -473,7 +473,7 @@ const previews: Record<string, () => ReactElement> = {
     <div className="flex justify-center py-6">
       <label className="flex w-64 flex-col gap-1.5">
         <span className="text-xs font-semibold text-gray-700">City</span>
-        <input list="preview-cities" placeholder="Type to search" className="rounded-md border border-gray-300 bg-surface px-3 py-2 text-sm text-gray-900 placeholder:text-gray-500" />
+        <input list="preview-cities" placeholder="Type to search" className="rounded-md border border-gray-300 bg-surface px-3 py-2 text-sm text-gray-900 placeholder:text-gray-600" />
         <datalist id="preview-cities">
           {["Bandung", "Jakarta", "Makassar", "Medan", "Natuna", "Surabaya", "Tangerang"].map((c) => (
             <option key={c} value={c} />
@@ -488,7 +488,7 @@ const previews: Record<string, () => ReactElement> = {
         <span className="text-xs font-semibold text-gray-700">Amount</span>
         <span className="flex items-center rounded-md border border-gray-300 bg-surface px-3 focus-within:border-blue-600">
           <span className="text-base font-semibold text-gray-600">Rp</span>
-          <input inputMode="numeric" placeholder="0" className="w-full bg-transparent px-2 py-2 text-lg font-semibold text-gray-900 outline-none placeholder:text-gray-500" />
+          <input inputMode="numeric" placeholder="0" className="w-full bg-transparent px-2 py-2 text-lg font-semibold text-gray-900 outline-none placeholder:text-gray-600" />
         </span>
         <span className="text-xs text-gray-600">Balance Rp 2.450.000</span>
       </label>

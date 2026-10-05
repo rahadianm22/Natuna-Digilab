@@ -160,7 +160,7 @@ export default function ComponentOverview() {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search components"
-            className="min-h-11 w-full rounded-md border border-gray-500 bg-surface py-2.5 pl-10 pr-3 text-sm text-gray-900 placeholder:text-gray-500 focus-visible:border-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
+            className="min-h-11 w-full rounded-md border border-gray-500 bg-surface py-2.5 pl-10 pr-3 text-sm text-gray-900 placeholder:text-gray-600 focus-visible:border-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
           />
         </label>
         <div role="group" aria-label="Filter by status" className="flex flex-wrap gap-2">

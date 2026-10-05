@@ -15,10 +15,10 @@ const roles = [
   { role: "Surface", token: "surface", light: "#ffffff", dark: "#27303f" },
   { role: "Border", token: "gray-200", light: "#d0d5dd", dark: "#4b5565" },
   { role: "Text primary", token: "gray-900", light: "#19212e", dark: "#f1f5f9" },
-  { role: "Text secondary", token: "gray-600", light: "#4b5565", dark: "#9aa4b2" },
-  { role: "Brand fill", token: "brand", light: "#026acc", dark: "#026acc" },
-  { role: "Link", token: "blue-700", light: "#026acc", dark: "#67b6ff" },
-  { role: "Danger fill", token: "danger", light: "#bb3a3b", dark: "#bb3a3b" },
+  { role: "Text secondary", token: "gray-600", light: "#364152", dark: "#cdd5df" },
+  { role: "Brand fill", token: "brand", light: "#015099", dark: "#015099" },
+  { role: "Link", token: "blue-700", light: "#015099", dark: "#9aceff" },
+  { role: "Danger fill", token: "danger", light: "#8c2b2c", dark: "#8c2b2c" },
 ];
 
 function Specimen({ mode }: { mode: "light" | "dark" }) {
@@ -36,7 +36,7 @@ function Specimen({ mode }: { mode: "light" | "dark" }) {
         <div className="mt-4 text-2xl font-bold tabular-nums text-gray-900">Rp 412.500</div>
         <div className="mt-5 flex flex-col gap-1.5">
           <span className="text-xs font-semibold text-gray-700">Note</span>
-          <span className="rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-500">Add a note</span>
+          <span className="rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-600">Add a note</span>
         </div>
         <div className="mt-5 flex gap-2">
           <span className="rounded-md bg-brand px-4 py-2 text-sm font-medium text-white">Pay now</span>
@@ -70,8 +70,8 @@ export default function ThemesPage() {
           <h2 id="roles" className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">Color roles</h2>
           <p className="mt-3 max-w-2xl text-gray-700">
             The values each role takes in light and dark. Brand fill and Danger fill stay put in both modes
-            because they carry white text: {contrast("#ffffff", "#026acc").toFixed(2)}:1 and{" "}
-            {contrast("#ffffff", "#bb3a3b").toFixed(2)}:1. Link text lightens in dark mode to stay readable on the
+            because they carry white text: {contrast("#ffffff", "#015099").toFixed(2)}:1 and{" "}
+            {contrast("#ffffff", "#8c2b2c").toFixed(2)}:1. Link text lightens in dark mode to stay readable on the
             dark surface.
           </p>
           <div className="mt-6 rounded-xl border border-gray-200 bg-surface">

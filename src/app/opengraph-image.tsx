@@ -49,7 +49,7 @@ export default async function Image() {
           <div style={{ fontSize: 76, fontWeight: 800, lineHeight: 1.05, maxWidth: 900, letterSpacing: -2 }}>
             The design system for digital products
           </div>
-          <div style={{ marginTop: 28, fontSize: 30, fontWeight: 500, color: "#9aa4b2" }}>Natuna Digilab</div>
+          <div style={{ marginTop: 28, fontSize: 30, fontWeight: 500, color: "#cdd5df" }}>Natuna Digilab</div>
         </div>
       </div>
     ),

@@ -4,34 +4,13 @@ State of the `redesign-docs-site` branch, written so the next session can pick i
 
 ## Status
 
-- All work is committed on `redesign-docs-site`. **It is not pushed yet.**
-- Checks pass: `npx tsc --noEmit`, `npm run lint`, `npm run build`, and `npm run test:e2e` (34 tests, including
-  axe WCAG 2.1 AA in light and dark, phone layout at 390px, and the Copy to Figma export).
-
-## To push (one-time setup on this machine)
-
-The remote uses an SSH alias, `git@github-natuna:natunadigilab/WebsiteNatunaDigilab.git`. The Windows
-user that created the repo has that alias; the user `RM22` does not. Pick one:
-
-1. Push from the Windows account that owns the repo: `git push -u origin redesign-docs-site`
-2. Or, in `C:\Users\RM22\.ssh\config`, add the alias with a key registered on the `natunadigilab` GitHub account:
-
-   ```
-   Host github-natuna
-     HostName github.com
-     User git
-     IdentityFile ~/.ssh/<your-key>
-   ```
-
-   Then run `git push -u origin redesign-docs-site`.
-
-If git says "dubious ownership", run commands with
-`git -c safe.directory="F:/ALLL/=== Test Project/natuna-digilab" ...`, or add that path once with
-`git config --global --add safe.directory "F:/ALLL/=== Test Project/natuna-digilab"`.
-
-After pushing, open a pull request into `main`. CI (`.github/workflows/ci.yml`) runs lint, types, build, and
-the Playwright suite on it.
-
+- Code lives at `https://github.com/rahadianm22/Natuna-Digilab` (git remote `personal`).
+- Branch `main` there deploys to production on Vercel: https://natunadigilab.vercel.app/. Other branches get a
+  preview URL. To ship: `git push personal redesign-docs-site:main`.
+- Checks pass: `npx tsc --noEmit`, `npm run lint`, `npm run build`, and `npm run test:e2e` (36 tests, including
+  axe WCAG AA and AAA in light and dark, phone layout, and the Copy to Figma export).
+- If git says "dubious ownership", run `git config --global --add safe.directory "F:/ALLL/=== Test Project/natuna-digilab"`.
+- If a commit fails with "Author identity unknown", set `user.name` and `user.email` for this repo.
 ## Run and test
 
 ```bash
@@ -56,12 +35,11 @@ npm run test:e2e     # uses the installed Microsoft Edge locally
 2. Build the next components in `src/ui` by tracker build day: Checkbox and Radio Button (day 1), Badge is done,
    Label Text (day 2). Add each to `src/lib/component-docs.ts` and `src/components/demos.tsx`.
 3. Generate `globals.css`, the Themes table, and the Foundation page from one token file, so they cannot drift.
-4. Deploy to Vercel (works without configuration; see README).
 
 ## Notes for the next session
 
 - This Next.js version differs from older ones; read `node_modules/next/dist/docs/` before changing framework
   code (see `AGENTS.md`).
 - House rules from the design reviews: no em dashes, no invented numbers, no decorative gradients or glows,
-  44px tap targets on phones, AA contrast, motion that respects reduced motion.
+  44px tap targets on phones, WCAG AAA contrast (7:1 for text; the axe tests enforce it), motion that respects reduced motion.
 - Site copy is English and does not mention a region. Demo content (Rp amounts, sample names) is deliberate.
