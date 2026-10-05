@@ -35,9 +35,9 @@ export default function DocsPage() {
           <div className="max-w-3xl">
             <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">Introduction</h1>
             <p className="mt-5 text-lg leading-relaxed text-gray-700">
-              Natuna Digilab is an open design system for banking and payments apps, with tokens, components, and
-              usage rules kept the same in Figma and React, so products built by different teams look and behave the
-              same.
+              Natuna Digilab is an open design system for digital products, from banking and payments to everyday
+              consumer apps. Figma is the source of truth, and React code follows component by component, so products
+              built by different teams look and behave the same.
             </p>
 
             <section aria-labelledby="contents" className="mt-14 scroll-mt-24">

@@ -6,8 +6,8 @@ const docsLinks = [
   { href: "/docs", label: "Introduction" },
   { href: "/foundation", label: "Foundation" },
   { href: "/components", label: "Components" },
-  { href: "/themes", label: "Themes" },
   { href: "/naming", label: "Naming" },
+  { href: "/themes", label: "Themes" },
 ];
 
 const projectLinks = [
