@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -26,6 +27,16 @@ export default function ComponentsOverview() {
           {TRACKER_SNAPSHOT}. {untracked} more pages exist that the tracker does not list yet; they are shown last, marked
           Not tracked.
         </p>
+        <Link
+          href="/naming"
+          className="mt-5 flex max-w-2xl items-center justify-between gap-4 rounded-xl border border-gray-200 bg-surface px-5 py-4 transition-colors hover:border-gray-500"
+        >
+          <span>
+            <span className="block font-semibold text-gray-900">Naming</span>
+            <span className="block text-sm text-gray-600">How component properties and Figma pages are named.</span>
+          </span>
+          <span aria-hidden="true" className="text-gray-600">→</span>
+        </Link>
         <div className="mt-8">
           <ComponentOverview />
         </div>

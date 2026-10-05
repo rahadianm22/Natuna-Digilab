@@ -31,16 +31,24 @@ function SidebarBody({ idPrefix, onNavigate }: { idPrefix: string; onNavigate?: 
         />
       </label>
 
-      <Link
-        href="/components"
-        onClick={onNavigate}
-        aria-current={pathname === "/components" ? "page" : undefined}
-        className={`mb-3 flex min-h-11 items-center rounded-md px-3 text-sm font-medium lg:min-h-9 ${
-          pathname === "/components" ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-100"
-        }`}
-      >
-        Overview
-      </Link>
+      <div className="mb-3 space-y-0.5">
+        {[
+          { href: "/components", label: "Overview" },
+          { href: "/naming", label: "Naming" },
+        ].map((l) => (
+          <Link
+            key={l.href}
+            href={l.href}
+            onClick={onNavigate}
+            aria-current={pathname === l.href ? "page" : undefined}
+            className={`flex min-h-11 items-center rounded-md px-3 text-sm font-medium lg:min-h-9 ${
+              pathname === l.href ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-100"
+            }`}
+          >
+            {l.label}
+          </Link>
+        ))}
+      </div>
 
       <nav aria-label="Components" className="space-y-1">
         {componentGroups.map((name) => {

@@ -102,7 +102,7 @@ const h2 = "text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl";
 export default function NamingPage() {
   return (
     <div className="flex min-h-screen flex-col bg-canvas">
-      <Header active="Introduction" />
+      <Header active="Components" />
       <div className="mx-auto flex w-full max-w-7xl gap-16 px-6 pb-24 pt-14">
         <main id="main" tabIndex={-1} className="min-w-0 flex-1">
           <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">Naming</h1>
