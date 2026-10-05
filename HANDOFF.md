@@ -28,7 +28,9 @@ npm run test:e2e     # uses the installed Microsoft Edge locally
 - Copy to Figma: `src/lib/dom-to-svg.ts` (loaded on demand), `src/components/useFigmaExport.ts`, `FigmaFrame.tsx`
 - Coded component pages (Button, Badge, Input, Avatar, Accordion): docs, Figma-to-code map and accessibility notes
   in `src/lib/component-docs.ts`, state matrices in `src/components/demos.tsx`
-- Color steps: `globals.css` matches the Figma ramp; text uses 700+ (gray) and 800+ (blue, red, jade) for AAA
+- Color: `globals.css` primitives match the Figma ramp; components use the 32 `--color-role-*` tokens (list and values
+  in `src/lib/color-roles.ts`, shown on /themes); type styles are `type-*` utilities; lime is the documented Signal accent
+- Status has two axes: design status (tracker) and code availability (`hasReactCode`, derived from `componentDocs`)
 - Tokens: `src/app/globals.css` (light and dark), raw palette in `src/lib/natuna-palette.ts`
 - Component status: `src/lib/natuna-tracker.ts` (snapshot of the Notion tracker; update `TRACKER_SNAPSHOT`
   in `src/lib/site.ts` when you refresh it)
