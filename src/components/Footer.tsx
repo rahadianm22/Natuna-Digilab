@@ -32,6 +32,13 @@ export default function Footer() {
             Digilab
           </Link>
           <p className="text-sm text-gray-600">&copy; {new Date().getFullYear()} Natuna Digilab. Version 0.1, in beta.</p>
+          <a
+            href="#main"
+            className="inline-flex min-h-11 items-center gap-2 self-start rounded-full border border-gray-300 px-4 text-sm font-medium text-gray-900 transition-colors hover:border-gray-500"
+          >
+            <span aria-hidden="true">↑</span>
+            Back to top
+          </a>
         </div>
 
         <div className="flex flex-wrap gap-x-16 gap-y-8">
