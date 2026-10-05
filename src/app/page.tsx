@@ -239,11 +239,9 @@ export default function Home() {
         </Reveal>
 
         <Reveal>
-          {/* FigmaPanel draws its own bordered panel. Here it is flattened so the 03 eyebrow and heading sit on the
-              same left edge and at the same size as 01, 02 and 04; the demo keeps its own well beside the copy. */}
           <section
             aria-labelledby="figma"
-            className="mx-auto w-full max-w-7xl px-6 pb-24 [&>div]:rounded-none [&>div]:border-0 [&>div]:bg-transparent [&>div]:p-0 [&>div>div:first-child>span:first-child]:text-sm [&>div>div:first-child>span:first-child]:font-medium [&>div>div:last-child]:border [&>div>div:last-child]:border-gray-200 [&>div>div:last-child]:bg-gray-100 [&_h2]:text-[clamp(36px,4.4vw,56px)] [&_h2]:leading-[1.02] [&_p]:text-lg [&_ul]:text-base"
+            className="mx-auto w-full max-w-7xl px-6 pb-24"
           >
             <FigmaPanel />
           </section>

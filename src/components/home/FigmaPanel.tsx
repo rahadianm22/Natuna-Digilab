@@ -15,17 +15,17 @@ export default function FigmaPanel() {
   const { status, copy, warm } = useFigmaExport(card, { name: "Transfer sent", resetAfter: 2200 });
 
   return (
-    <div className="flex flex-wrap items-center gap-12 rounded-[32px] border border-gray-200 bg-surface p-5 sm:p-14">
+    <div className="flex flex-wrap items-center gap-12">
       <div className="flex min-w-0 flex-[1_1_380px] flex-col gap-4.5" data-reveal-item>
-        <span className="font-label text-[13px] text-blue-800">03 · Copy to Figma</span>
-        <h2 id="figma" className="font-display text-[clamp(32px,3.6vw,46px)] font-extrabold leading-[1.04] tracking-[-0.03em] text-gray-900">
+        <span className="font-label text-sm font-medium text-blue-800">03 · Copy to Figma</span>
+        <h2 id="figma" className="font-display text-[clamp(36px,4.4vw,56px)] font-extrabold leading-[1.02] tracking-[-0.03em] text-gray-900">
           Paste layers, not screenshots.
         </h2>
-        <p className="max-w-[460px] text-[17px] text-gray-700">
+        <p className="max-w-[460px] text-lg text-gray-700">
           Copy any example from the docs and paste it into Figma as editable layers, named after the parts they came
           from.
         </p>
-        <ul className="flex flex-col gap-2.5 text-[15px] text-gray-900">
+        <ul className="flex flex-col gap-2.5 text-base text-gray-900">
           {points.map((p) => (
             <li key={p} className="flex items-center gap-2.5">
               <Check size={18} weight="bold" aria-hidden="true" />
@@ -35,8 +35,8 @@ export default function FigmaPanel() {
         </ul>
       </div>
 
-      <div className="flex min-w-0 flex-[1_1_420px] flex-col items-center gap-4 rounded-3xl bg-paper p-3 sm:p-8" data-reveal-item>
-        <div ref={card} className="flex w-full max-w-[360px] flex-col gap-3.5 rounded-[20px] bg-surface p-4 shadow-[0_20px_40px_-24px_rgba(11,18,32,0.35)]">
+      <div className="flex min-w-0 flex-[1_1_420px] flex-col items-center gap-4 rounded-3xl border border-gray-200 bg-gray-100 p-3 sm:p-8" data-reveal-item>
+        <div ref={card} className="flex w-full max-w-[360px] flex-col gap-3.5 rounded-2xl bg-surface p-4 shadow-lg">
           <div className="flex flex-wrap items-center gap-3">
             <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-lime-soft text-inverse">
               <ArrowUpRight size={20} aria-hidden="true" />
