@@ -32,15 +32,9 @@ export default function Footer() {
             Digilab
           </Link>
           <p className="text-sm text-gray-600">&copy; {new Date().getFullYear()} Natuna Digilab. Version 0.1, in beta.</p>
-          <a
-            href="#main"
-            className="inline-flex min-h-11 items-center gap-2 self-start rounded-full border border-gray-300 px-4 text-sm font-medium text-gray-900 transition-colors hover:border-gray-500"
-          >
-            <span aria-hidden="true">↑</span>
-            Back to top
-          </a>
         </div>
 
+        <div className="flex flex-col items-start gap-8 sm:items-end">
         <div className="flex flex-wrap gap-x-16 gap-y-8">
           <nav aria-label="Docs" className="flex flex-col gap-1.5">
             <h2 className="font-label text-xs font-normal text-gray-600">Docs</h2>
@@ -64,6 +58,14 @@ export default function Footer() {
               ),
             )}
           </nav>
+        </div>
+          <a
+            href="#main"
+            className="inline-flex min-h-11 items-center gap-2 rounded-full border border-gray-300 px-4 text-sm font-medium text-gray-900 transition-colors hover:border-gray-500"
+          >
+            <span aria-hidden="true">↑</span>
+            Back to top
+          </a>
         </div>
       </div>
     </footer>
