@@ -7,7 +7,7 @@ import { Button } from "@/ui";
 type Bill = { id: string; code: string; tint: string; name: string; due: string; amount: number; selected: boolean; paid: boolean };
 
 const start: Bill[] = [
-  { id: "power", code: "PWR", tint: "bg-lime", name: "Electricity", due: "Due 8 Oct", amount: 412_500, selected: true, paid: false },
+  { id: "power", code: "PWR", tint: "bg-[#aad98c]", name: "Electricity", due: "Due 8 Oct", amount: 412_500, selected: true, paid: false },
   { id: "water", code: "H2O", tint: "bg-[#9bc6f5]", name: "Water", due: "Due 10 Oct", amount: 98_000, selected: true, paid: false },
   { id: "net", code: "NET", tint: "bg-[#ffd089]", name: "Internet", due: "Due 12 Oct", amount: 350_000, selected: true, paid: false },
   { id: "health", code: "INS", tint: "bg-[#e1e5eb]", name: "Health insurance", due: "Due 15 Oct", amount: 150_000, selected: false, paid: false },
@@ -62,10 +62,12 @@ export default function HeroBento() {
   }
 
   return (
+    // From 1024 to 1279 the hero is two columns but this side is too narrow for two card columns,
+    // so the bills card spans the top and the two small cards sit side by side under it.
     <div className="grid min-w-0 gap-4 sm:grid-cols-2">
       {/* Bills: starts in the site theme; the switch flips only this card, through the same light and dark tokens. */}
       <div
-        className={`${mode ? `theme-${mode}` : ""} flex flex-col gap-4 rounded-[28px] border border-gray-200 bg-surface p-5 text-gray-900 shadow-[0_1px_0_rgba(11,18,32,0.04),0_24px_48px_-24px_rgba(11,18,32,0.25)] transition-colors duration-300 sm:row-span-2`}
+        className={`${mode ? `theme-${mode}` : ""} flex flex-col gap-4 rounded-3xl border border-gray-200 bg-surface p-5 text-gray-900 shadow-lg transition-colors duration-300 sm:row-span-2 lg:col-span-2 lg:row-span-1 xl:col-span-1 xl:row-span-2`}
       >
         <div className="flex items-center justify-between gap-3">
           <span className="font-label text-xs text-gray-700">preview / bill-payment</span>
@@ -99,8 +101,8 @@ export default function HeroBento() {
         </div>
 
         <div>
-          <div className="text-[13px] text-gray-700">October bills</div>
-          <div aria-live="polite" className="font-display text-[22px] font-bold tracking-[-0.01em]">
+          <div className="text-sm text-gray-700">October bills</div>
+          <div aria-live="polite" className="font-display text-2xl font-bold tracking-[-0.01em]">
             {open.length ? `${open.length} bill${open.length === 1 ? "" : "s"} due this week` : "All bills paid"}
           </div>
         </div>
@@ -113,11 +115,11 @@ export default function HeroBento() {
                 disabled={b.paid || paying}
                 aria-pressed={b.paid ? undefined : b.selected}
                 onClick={() => toggle(b.id)}
-                className={`flex min-h-14 w-full items-center gap-3 rounded-[14px] border p-3 text-left transition-colors ${
+                className={`flex min-h-14 w-full items-center gap-3 rounded-xl border p-3 text-left transition-colors ${
                   b.selected ? "border-blue-600 bg-blue-50" : "border-gray-200 bg-canvas"
                 } enabled:hover:border-gray-500 disabled:cursor-default`}
               >
-                <span aria-hidden="true" className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-[10px] font-label text-[11px] font-medium text-inverse ${b.tint}`}>
+                <span aria-hidden="true" className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-md font-label text-xs font-semibold text-inverse ${b.tint}`}>
                   {b.code}
                 </span>
                 <span className="min-w-0 flex-1">
@@ -131,18 +133,18 @@ export default function HeroBento() {
         </ul>
 
         <div className="mt-auto flex flex-col gap-2.5">
-          <div className="flex justify-between text-[13px] text-gray-700">
+          <div className="flex justify-between text-sm text-gray-700">
             <span>Selected total</span>
             <span className="font-semibold tabular-nums text-gray-900">
               {rupiah(total)}
             </span>
           </div>
           {open.length ? (
-            <Button size="lg" className="w-full rounded-[14px]" loading={paying} disabled={!total} onClick={pay}>
+            <Button size="lg" className="w-full" loading={paying} disabled={!total} onClick={pay}>
               {total ? `Pay ${rupiah(total)}` : "Select a bill"}
             </Button>
           ) : (
-            <Button size="lg" variant="ghost" className="w-full rounded-[14px]" onClick={reset}>
+            <Button size="lg" variant="ghost" className="w-full" onClick={reset}>
               Reset the demo
             </Button>
           )}
@@ -155,22 +157,22 @@ export default function HeroBento() {
           {states.map((s) => (
             <li key={s.label} className="flex items-center justify-between gap-3">
               <span inert className="pointer-events-none">
-                <Button {...s.props} className={`min-h-9! px-3.5 text-[13px] ${s.className}`} tabIndex={-1}>
+                <Button {...s.props} className={`min-h-9! px-3.5 text-sm ${s.className}`} tabIndex={-1}>
                   Pay
                 </Button>
               </span>
-              <span className="font-label text-[11px] text-gray-700">{s.label}</span>
+              <span className="font-label text-xs text-gray-700">{s.label}</span>
             </li>
           ))}
         </ul>
       </div>
 
-      <div className="flex flex-col gap-3 rounded-3xl bg-lime p-5 text-inverse">
-        <span className="font-label text-xs">type / scale</span>
+      <div className="flex flex-col gap-3 rounded-3xl border border-gray-200 bg-surface p-5 text-gray-900">
+        <span className="font-label text-xs text-gray-700">type / scale</span>
         {scale.map((t, i) => (
-          <div key={t.name} className={`flex items-baseline justify-between gap-2 ${i < scale.length - 1 ? "border-b border-inverse/20 pb-2" : ""}`}>
+          <div key={t.name} className={`flex items-baseline justify-between gap-2 ${i < scale.length - 1 ? "border-b border-gray-200 pb-2" : ""}`}>
             <span className={t.cls}>{t.name}</span>
-            <span className="font-label text-xs">{t.spec}</span>
+            <span className="font-label text-xs text-gray-700">{t.spec}</span>
           </div>
         ))}
       </div>
