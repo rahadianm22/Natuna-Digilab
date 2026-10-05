@@ -1,4 +1,4 @@
-import { componentGroup, components, statusText } from "./components-data";
+import { componentGroup, components, hasReactCode, statusText } from "./components-data";
 import { palettes } from "./natuna-palette";
 
 // Built on the server and handed to CommandSearch as a prop, so the browser gets these few fields
@@ -22,7 +22,7 @@ const pages: SearchEntry[] = [
   { href: "/foundation#accessibility", title: "Accessibility", group: "Section", note: "WCAG 2.2 AAA rules", keywords: "wcag aaa contrast a11y focus target size motion" },
   { href: "/themes", title: "Dark mode", group: "Section", note: "Themes", keywords: "dark light theme mode color roles" },
   { href: "/docs#use", title: "Using it today", group: "Section", note: "Figma file and React code", keywords: "install npm package react figma duplicate start setup" },
-  { href: "/docs#status", title: "Component status", group: "Section", note: "Ready, In review, In progress, Planned", keywords: "status ready review progress planned tracker" },
+  { href: "/docs#status", title: "Component status", group: "Section", note: "Design status and In React", keywords: "status ready review progress planned tracker react code" },
   { href: "/docs#contribute", title: "Contributing", group: "Section", keywords: "issue bug github pull request contribute" },
 ];
 
@@ -73,8 +73,8 @@ export const searchIndex: SearchEntry[] = [
     href: `/components/${c.slug}`,
     title: c.name,
     group: componentGroup(c.slug),
-    note: statusText[c.status],
-    keywords: c.tags.join(" "),
+    note: hasReactCode(c.slug) ? `${statusText[c.status]}, In React` : statusText[c.status],
+    keywords: hasReactCode(c.slug) ? `${c.tags.join(" ")} react code` : c.tags.join(" "),
   })),
   ...tokens,
 ];

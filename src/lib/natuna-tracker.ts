@@ -23,13 +23,19 @@ export const statusLabel: Record<TrackerStatus, string> = {
   Belum: "Planned",
 };
 
-// One definition for every page that explains a status. "Ready" is a design sign-off, not a promise of code.
+// One definition for every page that explains a status. Status is the design axis only: it says where the Figma
+// design stands. Whether React code exists is a second axis, marked "In React" (see codeMeaning).
 export const statusMeaning: Record<TrackerStatus, string> = {
-  Selesai: "Designed, documented, and signed off in Figma. Safe to design with. Check the component page for React code: only some Ready components have it.",
-  "On Review": "Designed and waiting for review. Expect small changes.",
-  OnProgress: "Being designed now. Do not depend on its details yet.",
+  Selesai: "The Figma design is documented and signed off. Safe to design with. This says nothing about code.",
+  "On Review": "The Figma design is finished and waiting for review. Expect small changes.",
+  OnProgress: "The Figma design is being drawn now. Do not depend on its details yet, even if React code already exists.",
   Belum: "Scheduled on a build day but not started. The page shows the intended design.",
 };
+
+/** The second axis. "In React" is derived from the code in src/ui, so it never needs updating by hand. */
+export const codeLabel = "In React";
+export const codeMeaning =
+  "React code for this component exists in src/ui of this repository, with a props table and an accessibility contract. It is independent of design status: a component can be In progress in Figma and already be In React, or Ready in Figma and not yet In React.";
 
 export const statusOrder: TrackerStatus[] = ["Selesai", "On Review", "OnProgress", "Belum"];
 

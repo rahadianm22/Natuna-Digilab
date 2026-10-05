@@ -2,7 +2,8 @@ import Link from "next/link";
 import { SquaresFour } from "@phosphor-icons/react/ssr";
 import ComponentPreview from "./ComponentPreview";
 import ComponentOverviewFilter, { type FilterEntry } from "./ComponentOverviewFilter";
-import { componentGroup, components, getComponent, statusText, statusTone } from "@/lib/components-data";
+import CodeBadge from "./CodeBadge";
+import { componentGroup, components, getComponent, hasReactCode, statusText, statusTone } from "@/lib/components-data";
 import {
   lastBuildDay,
   statusLabel,
@@ -29,6 +30,8 @@ interface Entry {
   badgeLabel: string;
   badgeClass: string;
   group: string;
+  /** Has React code in src/ui. */
+  code: boolean;
 }
 
 // The page title wins over the Notion row name ("Cards" is the Card page), so a component has one name everywhere.
@@ -48,6 +51,7 @@ const tracked: Entry[] = [...tracker]
     badgeLabel: statusLabel[t.status],
     badgeClass: statusStyle[t.status],
     group: t.slug ? componentGroup(t.slug) : t.group,
+    code: hasReactCode(t.slug),
   }));
 
 // Pages the tracker does not list still belong in the index, marked for what they are.
@@ -63,6 +67,7 @@ const untracked: Entry[] = components
     badgeLabel: statusText.untracked,
     badgeClass: statusTone.untracked,
     group: componentGroup(c.slug),
+    code: hasReactCode(c.slug),
   }));
 
 const all = [...tracked, ...untracked];
@@ -87,6 +92,8 @@ const filters = (["all", ...statusOrder, "untracked"] as Filter[])
     count: counts[s],
   }));
 
+const codeCount = all.filter((e) => e.code).length;
+
 // Only what the filter matches on goes to the browser; the cards and their previews stay server HTML.
 const filterEntries: FilterEntry[] = all.map((e) => ({
   key: e.key,
@@ -94,6 +101,7 @@ const filterEntries: FilterEntry[] = all.map((e) => ({
   sourceName: e.sourceName,
   status: e.status,
   group: e.group,
+  code: e.code,
 }));
 
 function Thumbnail({ slug }: { slug?: string }) {
@@ -118,7 +126,7 @@ function Card({ entry }: { entry: Entry }) {
   const body = (
     <>
       <Thumbnail slug={entry.slug} />
-      <div className="mt-3 flex flex-col gap-1.5 sm:flex-row sm:items-start sm:justify-between sm:gap-2">
+      <div className="mt-3 flex flex-col gap-2">
         <div className="min-w-0">
           <div
             className="truncate text-sm font-semibold text-gray-900 group-hover:text-blue-800"
@@ -128,7 +136,10 @@ function Card({ entry }: { entry: Entry }) {
           </div>
           <div className="text-xs text-gray-700">{entry.meta}</div>
         </div>
-        <span className={`shrink-0 self-start rounded px-2 py-0.5 text-xs font-medium ${entry.badgeClass}`}>{entry.badgeLabel}</span>
+        <div className="flex flex-wrap items-center gap-1.5">
+          <span className={`rounded px-2 py-0.5 text-xs font-medium ${entry.badgeClass}`}>{entry.badgeLabel}</span>
+          {entry.code && <CodeBadge />}
+        </div>
       </div>
     </>
   );
@@ -157,6 +168,7 @@ export default function ComponentOverview() {
       entries={filterEntries}
       cards={Object.fromEntries(all.map((e) => [e.key, <Card key={e.key} entry={e} />]))}
       filters={filters}
+      codeCount={codeCount}
       groups={groups}
     />
   );

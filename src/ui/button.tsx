@@ -1,6 +1,6 @@
 import type { ButtonHTMLAttributes } from "react";
 
-export type ButtonVariant = "primary" | "secondary" | "ghost" | "destructive";
+export type ButtonVariant = "primary" | "secondary" | "ghost" | "destructive" | "inverse";
 export type ButtonSize = "md" | "lg";
 
 const base =
@@ -15,6 +15,8 @@ const variants: Record<ButtonVariant, string> = {
   ghost: "border border-gray-500 text-gray-800 hover:bg-gray-50 hover:text-gray-950",
   // Fixed hover tokens: the red ramp flips light in dark mode, which would leave white text on pale pink.
   destructive: "bg-danger text-white hover:bg-danger-hover",
+  // The page-ink fill: navy in light mode, near white in dark. For the main action on a landing page, where brand blue is kept for in-product use.
+  inverse: "bg-inverse text-inverse-text hover:bg-gray-800 dark:bg-inverse-text dark:text-inverse",
 };
 
 const sizes: Record<ButtonSize, string> = {
