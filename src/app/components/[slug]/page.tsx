@@ -21,6 +21,9 @@ const LAST_BUILD_DAY = lastBuildDay();
 
 type Props = { params: Promise<{ slug: string }> };
 
+// Only the 56 known slugs exist; anything else is a full 404 page, not an empty one.
+export const dynamicParams = false;
+
 export function generateStaticParams() {
   return components.map((c) => ({ slug: c.slug }));
 }

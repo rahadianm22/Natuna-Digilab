@@ -69,23 +69,22 @@ function SidebarBody({ idPrefix, onNavigate, items: sorted, groups, statusText }
       </p>
       <nav aria-label="Components" className="space-y-1">
         {groups.map((name) => {
-          const cat = { name };
           const items = matches.filter((c) => c.group === name);
           if (items.length === 0) return null;
           // The current page's category starts open; a search opens every category with a match.
-          const isOpen = q ? true : (toggled[cat.name] ?? cat.name === activeCategory);
-          const listId = `${idPrefix}-${cat.name.replace(/\s+/g, "-")}`;
+          const isOpen = q ? true : (toggled[name] ?? name === activeCategory);
+          const listId = `${idPrefix}-${name.replace(/\s+/g, "-")}`;
 
           return (
-            <div key={cat.name}>
+            <div key={name}>
               <button
                 type="button"
-                onClick={() => setToggled((t) => ({ ...t, [cat.name]: !isOpen }))}
+                onClick={() => setToggled((t) => ({ ...t, [name]: !isOpen }))}
                 aria-expanded={isOpen}
                 aria-controls={listId}
                 className="flex min-h-11 w-full items-center justify-between rounded-md px-3 text-sm font-semibold text-gray-900 hover:bg-gray-100"
               >
-                {cat.name}
+                {name}
                 <span className="flex items-center gap-2 text-xs font-normal text-gray-700">
                   <span className="tabular-nums">{items.length}</span>
                   <CaretDown size={12} weight="bold" aria-hidden="true" className={`transition-transform ${isOpen ? "rotate-180" : ""}`} />

@@ -42,7 +42,7 @@ export default function ComponentOverviewFilter({
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
         <label className="relative block flex-1">
           <span className="sr-only">Search components</span>
-          <MagnifyingGlass size={18} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-gray-700" />
+          <MagnifyingGlass size={18} aria-hidden="true" className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-gray-700" />
           <input
             type="search"
             value={query}

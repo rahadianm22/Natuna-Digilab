@@ -136,7 +136,7 @@ function Card({ entry }: { entry: Entry }) {
 
   if (entry.slug) {
     return (
-      <Link href={`/components/${entry.slug}`} className={`${base} transition-colors hover:border-blue-400`}>
+      <Link href={`/components/${entry.slug}`} prefetch={false} className={`${base} transition-colors hover:border-blue-400`}>
         {body}
       </Link>
     );
