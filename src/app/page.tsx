@@ -257,11 +257,17 @@ export default function Home() {
                   Duplicate the Foundation Design System from Figma Community. Tokens, components and usage notes come
                   with it.
                 </p>
+                {/* The Azure ramp this card is drawn from, so the empty middle carries the system instead of air. */}
+                <div aria-hidden="true" className="mt-auto grid h-14 grid-cols-7 gap-1">
+                  {azure.steps.slice(0, 7).map((s) => (
+                    <span key={s.step} className="rounded-sm" style={{ background: s.hex }} />
+                  ))}
+                </div>
                 <a
                   href={FIGMA_COMMUNITY_URL}
                   target="_blank"
                   rel="noreferrer"
-                  className={`${buttonStyles({ variant: "secondary", size: "lg" })} mt-auto self-start focus-visible:outline-white`}
+                  className={`${buttonStyles({ variant: "secondary", size: "lg" })} self-start focus-visible:outline-white`}
                 >
                   Open in Figma Community
                 </a>

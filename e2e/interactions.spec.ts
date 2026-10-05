@@ -197,7 +197,7 @@ test.describe("phone", () => {
     await page.goto("/components/button");
     await page.getByRole("button", { name: /All components/ }).click();
     await page.locator("#mobile-components").getByRole("button", { name: /^Molecules/ }).click();
-    await page.locator("#mobile-components").getByRole("link", { name: "Input", exact: true }).click();
+    await page.locator("#mobile-components").getByRole("link", { name: /^Input( In React)?$/ }).click();
     await expect(page).toHaveURL(/\/components\/input$/);
   });
 });

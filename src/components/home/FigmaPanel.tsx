@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { ArrowUpRight, Check, Copy } from "@phosphor-icons/react";
 import { useFigmaExport } from "@/components/useFigmaExport";
+import { buttonStyles } from "@/ui";
 
 const points = ["Text stays editable text", "Layers are named after their parts", "Borders, corners and icons stay vectors"];
 
@@ -17,7 +18,7 @@ export default function FigmaPanel() {
   return (
     <div className="flex flex-wrap items-center gap-12">
       <div className="flex min-w-0 flex-[1_1_380px] flex-col gap-4.5" data-reveal-item>
-        <span className="font-label text-sm font-medium text-blue-800">03 · Copy to Figma</span>
+        <span className="font-label text-sm font-medium text-blue-800">Copy to Figma</span>
         <h2 id="figma" className="font-display text-[clamp(36px,4.4vw,56px)] font-extrabold leading-[1.02] tracking-[-0.03em] text-gray-900">
           Paste layers, not screenshots.
         </h2>
@@ -62,7 +63,7 @@ export default function FigmaPanel() {
           onClick={copy}
           onPointerEnter={warm}
           onFocus={warm}
-          className="inline-flex min-h-11 items-center gap-2.5 rounded-xl bg-inverse px-4.5 text-sm font-semibold text-inverse-text transition-transform active:scale-[0.97] dark:bg-inverse-text dark:text-inverse"
+          className={buttonStyles({ variant: "inverse" })}
         >
           <Copy size={16} aria-hidden="true" />
           {status === "copied" ? "Copied. Paste in Figma" : status === "failed" ? "Could not copy" : "Copy to Figma"}
