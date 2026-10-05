@@ -78,39 +78,30 @@ test("component page: live demo, JS/TS tabs, copy, expand", async ({ page }) => 
   expect(copied).not.toContain("useState<boolean>");
 });
 
-test("home specimen: device switch re-types, bills select and pay, mode flips", async ({ page }) => {
-  await page.setViewportSize({ width: 1280, height: 900 });
+test("home bills card: select, pay, and its own theme switch", async ({ page }) => {
   await page.goto("/");
   await page.waitForLoadState("networkidle");
-
-  // Desktop type tokens by default; Phone swaps in the mobile scale and the 440 frame.
-  await expect(page.getByText("W 1440")).toBeVisible();
-  await expect(page.getByText("32 / 44")).toBeVisible();
-  await page.getByRole("button", { name: "Phone", exact: true }).click();
-  await expect(page.getByText("W 440")).toBeVisible();
-  await expect(page.getByText("24 / 36")).toBeVisible();
-
-  // Deselecting a bill updates the total and the pay button.
   await expect(page.getByRole("button", { name: "Pay Rp 860.500" })).toBeVisible();
-  await page.getByRole("button", { name: /^Water/ }).click();
+  await page.getByRole("button", { name: /Water/ }).click();
   await expect(page.getByRole("button", { name: "Pay Rp 762.500" })).toBeVisible();
-
   await page.getByRole("button", { name: "Pay Rp 762.500" }).click();
-  await expect(page.getByRole("button", { name: "Pay Rp 762.500" })).toHaveAttribute("aria-busy", "true");
-  await expect(page.getByText("1 due")).toBeVisible();
+  await expect(page.getByText("2 bills due this week")).toBeVisible();
 
-  await page.getByRole("button", { name: "dark", exact: true }).click();
+  await page.getByRole("button", { name: "Show the bills card in dark mode" }).click();
   await expect(page.locator("div.theme-dark").first()).toBeVisible();
 });
 
-test("home anatomy: a token marks its part and states change the fill", async ({ page }) => {
+test("home status filter: tabs filter the list and follow the arrow keys", async ({ page }) => {
   await page.goto("/");
   await page.waitForLoadState("networkidle");
-  const tokens = page.getByRole("list", { name: "Tokens in this button" });
-  await tokens.getByRole("button", { name: /Corner/ }).click();
-  await expect(tokens.getByRole("button", { name: /Corner/ })).toHaveAttribute("aria-pressed", "true");
-  await page.getByRole("group", { name: "Button state" }).getByRole("button", { name: "hover" }).click();
-  await expect(tokens.getByText("#015099")).toBeVisible();
+  const tabs = page.getByRole("tablist", { name: "Filter by status" });
+  await tabs.getByRole("tab", { name: /^Ready/ }).click();
+  const panel = page.getByRole("tabpanel");
+  await expect(panel.getByRole("link", { name: /Button/ })).toBeVisible();
+  await expect(panel.getByText("Tooltip")).toHaveCount(0);
+  await page.keyboard.press("ArrowRight");
+  await expect(tabs.getByRole("tab", { name: /^In progress/ })).toHaveAttribute("aria-selected", "true");
+  await expect(tabs.getByRole("tab", { name: /^In progress/ })).toBeFocused();
 });
 
 test("design-only component has no code tab", async ({ page }) => {

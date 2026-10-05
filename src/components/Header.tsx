@@ -15,11 +15,11 @@ const nav = [
   { href: "/themes", label: "Themes" },
 ];
 
-export default function Header({ active }: { active?: string }) {
+export default function Header({ active, tone = "surface" }: { active?: string; tone?: "surface" | "paper" }) {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-30 border-b border-gray-200 bg-surface/90 backdrop-blur">
+    <header className={`sticky top-0 z-30 border-b border-gray-200 backdrop-blur-md ${tone === "paper" ? "bg-paper/90" : "bg-surface/90"}`}>
       {/* First stop for keyboard users, so they can pass the header and sidebar in one key press. */}
       <a
         href="#main"

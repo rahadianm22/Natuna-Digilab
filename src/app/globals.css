@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* dark: follows the site theme switch (the .dark class) and themed scopes, not only the OS setting. */
+@custom-variant dark (&:where(.dark, .dark *, .theme-dark, .theme-dark *));
+
 /*
   Natuna Digilab Foundation Design System v1.0 (Figma community file).
   The Figma palettes are mapped onto the Tailwind color names the site already uses,
@@ -26,6 +29,24 @@
   --color-brand-hover: #015099;
   --color-danger: #bb3a3b;
   --color-danger-hover: #8c2b2c;
+
+  /* Landing palette: a cool paper ground, deep navy inverse sections, and a lime signal used sparingly.
+     Lime always carries navy text, never white. */
+  --color-paper: #f4f6f8;
+  --color-inverse: #0b1220;
+  --color-inverse-raised: #131c2e;
+  --color-inverse-line: #243049;
+  --color-inverse-line-strong: #364460;
+  --color-inverse-text: #f4f6f8;
+  --color-inverse-muted: #b7c0cc;
+  --color-inverse-subtle: #8d98a8;
+  --color-lime: #c6f432;
+  --color-lime-soft: #e3f7b0;
+  --color-lime-ink: #2b4a00;
+
+  --font-display: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  --font-label: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
   /* Preview wells: a quiet inset that reads in both modes (light #f1f5f9 on white, dark #19212e on #27303f). */
   --color-well: #f1f5f9;
 
@@ -162,6 +183,7 @@
   --color-surface: #27303f;
   --color-ink: #0d121c;
   --color-well: #19212e;
+  --color-paper: #19212e;
 
   /* Spread across the ramp so hover, pressed, and border steps stay distinct, as they are in light. */
   --color-gray-50: #27303f;
@@ -214,6 +236,7 @@
   --color-surface: #ffffff;
   --color-ink: #19212e;
   --color-well: #f1f5f9;
+  --color-paper: #f4f6f8;
 
   --color-gray-50: #f1f5f9;
   --color-gray-100: #ebf0f4;
@@ -347,6 +370,15 @@ body {
     background: var(--color-surface) !important;
     backdrop-filter: none !important;
   }
+}
+
+/* In progress on the build bar: navy hatching, so it reads apart from Ready without relying on color. */
+.hatch {
+  background: repeating-linear-gradient(45deg, var(--color-inverse) 0 3px, transparent 3px 7px);
+}
+
+:root.dark .hatch {
+  background: repeating-linear-gradient(45deg, var(--color-inverse-text) 0 3px, transparent 3px 7px);
 }
 
 /* The name on the home page: the largest type on the site, tracked in as it grows. */

@@ -140,7 +140,7 @@ export default function CommandSearch() {
         className="flex h-11 min-w-11 items-center justify-center gap-2 rounded-md border border-gray-300 px-2.5 text-sm text-gray-600 transition-colors hover:bg-gray-50 sm:h-9 sm:min-w-9 lg:w-52 lg:justify-start"
       >
         <MagnifyingGlass size={16} aria-hidden="true" />
-        <span className="hidden flex-1 text-left lg:block">Search</span>
+        <span className="hidden flex-1 text-left lg:block">Search docs</span>
         <kbd className="hidden rounded border border-gray-300 px-1.5 font-mono-code text-[11px] text-gray-600 lg:block">Ctrl K</kbd>
       </button>
 
