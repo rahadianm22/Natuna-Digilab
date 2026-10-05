@@ -5,7 +5,9 @@ import Footer from "@/components/Footer";
 import NextPage from "@/components/NextPage";
 import OnThisPage from "@/components/OnThisPage";
 import ComponentSidebar, { ComponentMobileNav } from "@/components/ComponentSidebar";
-import { statusLabel, statusStyle, type TrackerStatus } from "@/lib/natuna-tracker";
+import { statusLabel, type TrackerStatus } from "@/lib/natuna-tracker";
+import { trackerTone } from "@/lib/status-tone";
+import { Badge } from "@/ui";
 
 export const metadata: Metadata = {
   title: "Naming",
@@ -101,7 +103,7 @@ const kindTone: Record<Prop["kind"], string> = {
   "Instance swap": "border border-gray-500 text-gray-900",
 };
 
-const h2 = "text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl";
+const h2 = "type-h2 font-bold tracking-tight text-gray-900";
 
 export default function NamingPage() {
   return (
@@ -198,7 +200,7 @@ export default function NamingPage() {
                       <div className="flex items-baseline justify-between gap-3">
                         <span className="text-2xl font-bold tabular-nums text-gray-900">{p.progress}</span>
                         {p.status ? (
-                          <span className={`rounded px-2 py-0.5 text-xs font-medium ${statusStyle[p.status]}`}>{statusLabel[p.status]}</span>
+                          <Badge tone={trackerTone[p.status]}>{statusLabel[p.status]}</Badge>
                         ) : (
                           <span className="rounded border border-dashed border-gray-500 px-2 py-0.5 text-xs font-medium text-gray-700">Not in tracker</span>
                         )}

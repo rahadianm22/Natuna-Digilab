@@ -14,7 +14,9 @@ import StatusBadge from "@/components/StatusBadge";
 import CodeBadge from "@/components/CodeBadge";
 import { componentGroup, components, getComponent, trackerRow } from "@/lib/components-data";
 import { componentDocs, fullUsage } from "@/lib/component-docs";
-import { lastBuildDay, statusLabel, statusStyle } from "@/lib/natuna-tracker";
+import { lastBuildDay, statusLabel } from "@/lib/natuna-tracker";
+import { trackerTone } from "@/lib/status-tone";
+import { Badge } from "@/ui";
 
 import { TRACKER_SNAPSHOT } from "@/lib/site";
 
@@ -117,9 +119,7 @@ export default async function ComponentDetail({ params }: Props) {
                   <dt className="text-gray-700">Status</dt>
                   <dd className="flex items-center gap-2 text-gray-900">
                     {row ? (
-                      <span className={`inline-flex rounded px-2 py-0.5 text-xs font-medium ${statusStyle[row.status]}`}>
-                        {statusLabel[row.status]}
-                      </span>
+                      <Badge tone={trackerTone[row.status]}>{statusLabel[row.status]}</Badge>
                     ) : (
                       <StatusBadge status={component.status} />
                     )}
@@ -154,7 +154,7 @@ export default async function ComponentDetail({ params }: Props) {
               {doc ? (
                 <>
                   <section aria-labelledby="example" className="mt-14 scroll-mt-24">
-                    <h2 id="example" className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">Usage</h2>
+                    <h2 id="example" className="type-h2 font-bold tracking-tight text-gray-900">Usage</h2>
                     <p className="mt-2 text-sm text-gray-700">
                       This demo is live, and the code below it is the same code, imports included. The component lives in{" "}
                       <code className="font-mono-code text-[13px]">src/ui</code> of this repository and is not published to npm yet.
@@ -172,7 +172,7 @@ export default async function ComponentDetail({ params }: Props) {
                   </section>
 
                   <section aria-labelledby="states" className="mt-14 scroll-mt-24">
-                    <h2 id="states" className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">Variants and states</h2>
+                    <h2 id="states" className="type-h2 font-bold tracking-tight text-gray-900">Variants and states</h2>
                     <p className="mt-2 max-w-2xl text-sm text-gray-700">
                       Every specimen is the real component from <code className="font-mono-code text-[13px]">src/ui</code>, held in one state.
                     </p>
@@ -183,7 +183,7 @@ export default async function ComponentDetail({ params }: Props) {
                 </>
               ) : (
                 <section aria-labelledby="example" className="mt-14 scroll-mt-24">
-                  <h2 id="example" className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">Example</h2>
+                  <h2 id="example" className="type-h2 font-bold tracking-tight text-gray-900">Example</h2>
                   <p className="mt-2 text-sm text-gray-700">{codeNote}</p>
                   <div className="mt-4">
                     <FigmaFrame name={component.name} className="flex min-h-48 items-center justify-center bg-surface px-6 py-8">
@@ -197,7 +197,7 @@ export default async function ComponentDetail({ params }: Props) {
 
               {doc && (
                 <section aria-labelledby="props" className="mt-14 scroll-mt-24">
-                  <h2 id="props" className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">Props</h2>
+                  <h2 id="props" className="type-h2 font-bold tracking-tight text-gray-900">Props</h2>
                   {/* Phones get one block per prop, so the description is never pushed off screen. */}
                   <dl className="mt-4 divide-y divide-gray-200 rounded-xl border border-gray-200 bg-surface sm:hidden">
                     {doc.props.map((p) => (
@@ -238,7 +238,7 @@ export default async function ComponentDetail({ params }: Props) {
 
               {doc && (
                 <section aria-labelledby="figma" className="mt-14 scroll-mt-24">
-                  <h2 id="figma" className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">Figma to code</h2>
+                  <h2 id="figma" className="type-h2 font-bold tracking-tight text-gray-900">Figma to code</h2>
                   <p className="mt-2 max-w-2xl text-sm leading-relaxed text-gray-700">
                     Figma properties by their exact names from{" "}
                     <Link href="/naming" className="font-medium text-blue-800 underline underline-offset-4">Naming</Link>, and the React prop
@@ -283,7 +283,7 @@ export default async function ComponentDetail({ params }: Props) {
 
               {doc && (
                 <section aria-labelledby="accessibility" className="mt-14 scroll-mt-24">
-                  <h2 id="accessibility" className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">Accessibility</h2>
+                  <h2 id="accessibility" className="type-h2 font-bold tracking-tight text-gray-900">Accessibility</h2>
                   <p className="mt-2 max-w-2xl text-sm text-gray-700">What the code in src/ui does today, and what it leaves to you.</p>
                   <div className="mt-5 grid gap-8 md:grid-cols-2">
                     {[
@@ -308,12 +308,12 @@ export default async function ComponentDetail({ params }: Props) {
               )}
 
               <section aria-labelledby="when" className="mt-14 scroll-mt-24">
-                <h2 id="when" className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">When to use</h2>
+                <h2 id="when" className="type-h2 font-bold tracking-tight text-gray-900">When to use</h2>
                 <p className="mt-3 max-w-2xl leading-relaxed text-gray-700">{component.usage}</p>
               </section>
 
               <section aria-labelledby="practices" className="mt-14 scroll-mt-24">
-                <h2 id="practices" className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">Do and don&apos;t</h2>
+                <h2 id="practices" className="type-h2 font-bold tracking-tight text-gray-900">Do and don&apos;t</h2>
                 <div className="mt-5 grid gap-6 md:grid-cols-2">
                   <div className="border-t-4 border-emerald-600 pt-4">
                     <h3 className="flex items-center gap-2 font-semibold text-gray-900">
@@ -335,7 +335,7 @@ export default async function ComponentDetail({ params }: Props) {
               </section>
 
               <section aria-labelledby="related" className="mt-14 scroll-mt-24">
-                <h2 id="related" className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">Related</h2>
+                <h2 id="related" className="type-h2 font-bold tracking-tight text-gray-900">Related</h2>
                 <p className="mt-2 text-sm text-gray-700">
                   {related.length < pool.length
                     ? `${related.length} of ${pool.length} other ${poolName}, same role and ready ones first.`

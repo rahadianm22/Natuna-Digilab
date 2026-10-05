@@ -7,14 +7,14 @@ const base =
   "inline-flex items-center justify-center gap-2 rounded-md font-medium transition-[color,background-color,border-color,transform] duration-100 ease-out active:scale-[0.97] disabled:active:scale-100";
 
 // Unavailable reads as gray. A loading button is busy, not unavailable, so it keeps its variant color.
-const unavailable = "disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-gray-500 disabled:border-transparent";
+const unavailable = "disabled:cursor-not-allowed disabled:bg-role-bg-subtle disabled:text-role-text-disabled disabled:border-transparent";
 
 const variants: Record<ButtonVariant, string> = {
-  primary: "bg-brand text-white hover:bg-brand-hover",
-  secondary: "border border-gray-500 bg-gray-100 text-gray-800 hover:bg-gray-200 hover:text-gray-950",
-  ghost: "border border-gray-500 text-gray-800 hover:bg-gray-50 hover:text-gray-950",
-  // Fixed hover tokens: the red ramp flips light in dark mode, which would leave white text on pale pink.
-  destructive: "bg-danger text-white hover:bg-danger-hover",
+  primary: "bg-role-bg-brand text-role-text-on-brand hover:bg-role-bg-brand-hover",
+  secondary: "border border-role-border-input bg-role-bg-subtle text-role-text-strong hover:bg-role-bg-subtle-hover hover:text-role-text-strong-hover",
+  ghost: "border border-role-border-input text-role-text-strong hover:bg-role-bg-hover hover:text-role-text-strong-hover",
+  // Fills that carry white text keep the same value in both modes.
+  destructive: "bg-role-bg-danger text-role-text-on-brand hover:bg-role-bg-danger-hover",
   // The page-ink fill: navy in light mode, near white in dark. For the main action on a landing page, where brand blue is kept for in-product use.
   inverse: "bg-inverse text-inverse-text hover:bg-gray-800 dark:bg-inverse-text dark:text-inverse",
 };

@@ -5,7 +5,9 @@ import Footer from "@/components/Footer";
 import OnThisPage from "@/components/OnThisPage";
 import StatusBadge from "@/components/StatusBadge";
 import CodeBadge from "@/components/CodeBadge";
-import { codeMeaning, statusLabel, statusMeaning, statusOrder, statusStyle } from "@/lib/natuna-tracker";
+import { codeMeaning, statusLabel, statusMeaning, statusOrder } from "@/lib/natuna-tracker";
+import { trackerTone } from "@/lib/status-tone";
+import { Badge } from "@/ui";
 import { hasReactCode, productTracker } from "@/lib/components-data";
 import { FIGMA_COMMUNITY_URL, ISSUES_URL, REPO_URL, TRACKER_SNAPSHOT } from "@/lib/site";
 
@@ -44,7 +46,7 @@ export default function DocsPage() {
             </p>
 
             <section aria-labelledby="contents" className="mt-14 scroll-mt-24">
-              <h2 id="contents" className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">What is in it</h2>
+              <h2 id="contents" className="type-h2 font-bold tracking-tight text-gray-900">What is in it</h2>
               <dl className="mt-5 divide-y divide-gray-200 border-y border-gray-200">
                 {([
                   ["Foundation", "Color, typography, radius, number, device, and effect tokens from the Foundation Design System v1.0 in Figma.", "/foundation"],
@@ -69,7 +71,7 @@ export default function DocsPage() {
             </section>
 
             <section aria-labelledby="use" className="mt-14 scroll-mt-24">
-              <h2 id="use" className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">Using it today</h2>
+              <h2 id="use" className="type-h2 font-bold tracking-tight text-gray-900">Using it today</h2>
               <p className="mt-4 leading-relaxed text-gray-700">
                 The Figma library is the source of truth. Duplicate it from{" "}
                 <a href={FIGMA_COMMUNITY_URL} target="_blank" rel="noreferrer" className={linkClass}>Figma Community</a>{" "}
@@ -93,7 +95,7 @@ export default function DocsPage() {
             </section>
 
             <section aria-labelledby="status" className="mt-14 scroll-mt-24">
-              <h2 id="status" className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">Component status</h2>
+              <h2 id="status" className="type-h2 font-bold tracking-tight text-gray-900">Component status</h2>
               <p className="mt-4 leading-relaxed text-gray-700">
                 Two separate things are tracked for every component. <strong className="font-semibold text-gray-900">Design status</strong>{" "}
                 is one of four values and says where the Figma design stands. <strong className="font-semibold text-gray-900">Code</strong>{" "}
@@ -106,7 +108,7 @@ export default function DocsPage() {
                 {statusOrder.map((s) => (
                   <div key={s} className="grid gap-2 sm:grid-cols-[8rem_1fr] sm:gap-6">
                     <dt>
-                      <span className={`inline-flex rounded px-2 py-0.5 text-xs font-medium ${statusStyle[s]}`}>{statusLabel[s]}</span>
+                      <Badge tone={trackerTone[s]}>{statusLabel[s]}</Badge>
                     </dt>
                     <dd className="text-gray-700">{statusMeaning[s]}</dd>
                   </div>
@@ -136,7 +138,7 @@ export default function DocsPage() {
             </section>
 
             <section aria-labelledby="contribute" className="mt-14 scroll-mt-24">
-              <h2 id="contribute" className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">Contributing</h2>
+              <h2 id="contribute" className="type-h2 font-bold tracking-tight text-gray-900">Contributing</h2>
               <p className="mt-4 leading-relaxed text-gray-700">
                 Found a gap, a wrong rule, or a bug on this site?{" "}
                 <a href={ISSUES_URL} target="_blank" rel="noreferrer" className={linkClass}>Open an issue</a> and

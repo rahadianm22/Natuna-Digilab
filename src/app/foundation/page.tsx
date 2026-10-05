@@ -17,43 +17,43 @@ export const metadata: Metadata = {
 const type = [
   {
     token: "Header 1",
-    cls: "text-[24px] leading-[36px] md:text-[28px] md:leading-[40px] lg:text-[32px] lg:leading-[44px] font-bold",
+    cls: "type-h1 font-bold",
     scale: ["24 / 36", "28 / 40", "32 / 44"],
     use: "One per page, the page title.",
   },
   {
     token: "Header 2",
-    cls: "text-[20px] leading-[30px] md:text-[24px] md:leading-[36px] lg:text-[28px] lg:leading-[40px] font-bold",
+    cls: "type-h2 font-bold",
     scale: ["20 / 30", "24 / 36", "28 / 40"],
     use: "Section titles.",
   },
   {
     token: "Subheader",
-    cls: "text-[18px] leading-[26px] md:text-[20px] md:leading-[30px] lg:text-[24px] lg:leading-[36px] font-semibold",
+    cls: "type-subheader font-semibold",
     scale: ["18 / 26", "20 / 30", "24 / 36"],
     use: "Group titles inside a section.",
   },
   {
     token: "Body 1",
-    cls: "text-[16px] leading-[24px] md:text-[18px] md:leading-[26px] font-medium",
+    cls: "type-body-1 font-medium",
     scale: ["16 / 24", "18 / 26", "18 / 26"],
     use: "Default reading text.",
   },
   {
     token: "Body 2",
-    cls: "text-[14px] leading-[20px] font-medium",
+    cls: "type-body-2 font-medium",
     scale: ["14 / 20", "14 / 20", "14 / 20"],
     use: "Dense UI text and table cells.",
   },
   {
     token: "Caption 1",
-    cls: "text-[12px] leading-[16px] lg:text-[14px] lg:leading-[20px] font-medium",
+    cls: "type-caption-1 font-medium",
     scale: ["12 / 16", "12 / 16", "14 / 20"],
     use: "Labels, helper text, metadata.",
   },
   {
     token: "Caption 2",
-    cls: "text-[10px] leading-[12px] lg:text-[12px] lg:leading-[16px] font-medium",
+    cls: "type-caption-2 font-medium",
     scale: ["10 / 12", "10 / 12", "12 / 16"],
     use: "Smallest metadata. Avoid for anything users must read.",
   },
@@ -175,7 +175,7 @@ export default function FoundationPage() {
           />
 
           <section aria-labelledby="accessibility" className="mt-16 scroll-mt-40 lg:scroll-mt-24">
-            <h2 id="accessibility" className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">Accessibility</h2>
+            <h2 id="accessibility" className="type-h2 font-bold tracking-tight text-gray-900">Accessibility</h2>
             <p className="mt-3 max-w-2xl leading-relaxed text-gray-700">
               Natuna targets WCAG 2.2 level AAA wherever it is a property of the design: contrast, target size,
               focus, and motion. Every token below is chosen to pass it in light and in dark mode, and every page of
@@ -206,7 +206,7 @@ export default function FoundationPage() {
             </div>
           </section>
           <section aria-labelledby="color" className="mt-16 scroll-mt-40 lg:scroll-mt-24">
-            <h2 id="color" className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">Color</h2>
+            <h2 id="color" className="type-h2 font-bold tracking-tight text-gray-900">Color</h2>
             <p className="mt-3 max-w-2xl leading-relaxed text-gray-700">
               Three brand ramps carry identity and five utility ramps carry meaning. Step 600 anchors each ramp.
               The ratio under each swatch is its contrast against white. Text needs 7:1, marked AAA. Steps that reach only 4.5:1 are marked AA and suit large text alone. The
@@ -260,11 +260,11 @@ export default function FoundationPage() {
           </section>
 
           <section aria-labelledby="typography" className="mt-20 scroll-mt-40 lg:scroll-mt-24">
-            <h2 id="typography" className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">Typography</h2>
+            <h2 id="typography" className="type-h2 font-bold tracking-tight text-gray-900">Typography</h2>
             <p className="mt-3 max-w-2xl leading-relaxed text-gray-700">
               Urbanist, a geometric sans with open forms that stays legible at caption sizes. Each style has a
               size and line height for mobile, tablet, and website; line height opens up on larger screens. The
-              samples below resize with your window. Four weights give emphasis without changing the size.
+              samples below resize with your window, and each one is a class (type-h1 to type-caption-2) built from the --text-* tokens. Four weights give emphasis without changing the size.
             </p>
             <ul className="mt-6 flex flex-wrap gap-x-6 gap-y-2" aria-label="Font weights">
               {weights.map((w) => (
@@ -278,7 +278,7 @@ export default function FoundationPage() {
                 <div key={t.token} className="grid gap-3 py-5 md:grid-cols-[1fr_16rem] md:items-baseline md:gap-8">
                   <div>
                     <div className={`${t.cls} text-gray-900`}>{t.token}: Send money to any account</div>
-                    <div className="mt-1 text-sm text-gray-700">{t.use}</div>
+                    <div className="mt-1 text-sm text-gray-700">{t.use} Class <code className="font-mono-code text-xs">{t.cls.split(" ")[0]}</code>.</div>
                   </div>
                   <dl className="grid grid-cols-3 gap-2 font-mono-code text-xs text-gray-700">
                     {["Mobile", "Tablet", "Website"].map((device, i) => (
@@ -291,10 +291,13 @@ export default function FoundationPage() {
                 </div>
               ))}
             </div>
+            <p className="mt-6 max-w-2xl text-sm leading-relaxed text-gray-700">
+              Two sizes sit above this scale. Page titles on the docs pages are 36 px on phones and 48 px from the sm breakpoint (text-4xl and text-5xl) and the home page headings are larger display sizes. Section headings on the docs pages use Header 2.
+            </p>
           </section>
 
           <section aria-labelledby="number" className="mt-20 scroll-mt-40 lg:scroll-mt-24">
-            <h2 id="number" className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">Number</h2>
+            <h2 id="number" className="type-h2 font-bold tracking-tight text-gray-900">Number</h2>
             <p className="mt-3 max-w-2xl leading-relaxed text-gray-700">
               One numeric scale for spacing, sizing, and layout widths, so every gap is a value someone already
               named. Each step is given in px and rem, where 1rem is 16px.
@@ -334,7 +337,7 @@ export default function FoundationPage() {
           </section>
 
           <section aria-labelledby="variants" className="mt-20 scroll-mt-40 lg:scroll-mt-24">
-            <h2 id="variants" className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">Number variables</h2>
+            <h2 id="variants" className="type-h2 font-bold tracking-tight text-gray-900">Number variables</h2>
             <p className="mt-3 max-w-2xl leading-relaxed text-gray-700">
               The scale is published in Figma as three variable sets, each with only the steps that purpose needs.
               The token name is what you pick in the variable list.
@@ -358,7 +361,7 @@ export default function FoundationPage() {
           </section>
 
           <section aria-labelledby="radius" className="mt-20 scroll-mt-40 lg:scroll-mt-24">
-            <h2 id="radius" className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">Radius</h2>
+            <h2 id="radius" className="type-h2 font-bold tracking-tight text-gray-900">Radius</h2>
             <p className="mt-3 max-w-2xl leading-relaxed text-gray-700">
               Larger surfaces take larger radii, so nesting stays visually consistent: an 8px button sits inside a
               16px card.
@@ -381,7 +384,7 @@ export default function FoundationPage() {
           </section>
 
           <section aria-labelledby="device" className="mt-20 scroll-mt-40 lg:scroll-mt-24">
-            <h2 id="device" className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">Device</h2>
+            <h2 id="device" className="type-h2 font-bold tracking-tight text-gray-900">Device</h2>
             <p className="mt-3 max-w-2xl leading-relaxed text-gray-700">
               Frame sizes the system is designed against. Padding and layout are set per device so content has room
               to breathe on every screen. All frames share one scale, so their sizes compare directly.
@@ -411,7 +414,7 @@ export default function FoundationPage() {
           </section>
 
           <section aria-labelledby="effect" className="mt-20 scroll-mt-40 lg:scroll-mt-24">
-            <h2 id="effect" className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">Effect</h2>
+            <h2 id="effect" className="type-h2 font-bold tracking-tight text-gray-900">Effect</h2>
             <p className="mt-3 max-w-2xl leading-relaxed text-gray-700">
               Shadow lifts cards, modals, and floating buttons off the page. Each level stacks two soft layers of
               the ink color at 6 to 15 percent opacity, so depth reads without a hard edge. Background blur
