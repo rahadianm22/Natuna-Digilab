@@ -11,6 +11,7 @@ import { buttonStyles } from "@/ui";
 import { getComponent, productTracker } from "@/lib/components-data";
 import { componentDocs } from "@/lib/component-docs";
 import { palettes } from "@/lib/natuna-palette";
+import { roleByToken } from "@/lib/color-roles";
 import { lastBuildDay, type TrackerStatus } from "@/lib/natuna-tracker";
 import { FIGMA_COMMUNITY_URL, REPO_URL, TRACKER_SNAPSHOT } from "@/lib/site";
 
@@ -35,12 +36,10 @@ const eyebrow = "font-label text-sm font-medium";
 const h2 = "font-display text-[clamp(36px,4.4vw,56px)] font-extrabold leading-[1.02] tracking-[-0.03em]";
 
 // The three layers every component draws from, with the names they carry in Figma.
-const semantic = [
-  { token: "bg/brand", swatch: "bg-[#015099]", to: "blue/800" },
-  { token: "text/on-brand", swatch: "bg-white", to: "white" },
-  { token: "text/danger", swatch: "bg-[#8c2b2c]", to: "red/800" },
-  { token: "border/focus", swatch: "border-2 border-[#0276e3] bg-transparent", to: "blue/600" },
-];
+const semantic = (["role-bg-brand", "role-text-on-brand", "role-text-danger", "role-border-focus"] as const).map((t) => ({
+  role: roleByToken[t],
+  swatch: t === "role-border-focus" ? { border: `2px solid var(--color-${t})` } : { background: `var(--color-${t})` },
+}));
 const dimension = [
   { token: "Padding/16", value: "16", mark: <span className="h-4 w-4 rounded-sm bg-inverse-muted" /> },
   { token: "Padding/24", value: "24", mark: <span className="h-4 w-6 rounded-sm bg-inverse-muted" /> },
@@ -155,10 +154,10 @@ export default function Home() {
                   </div>
                   <ul className="flex flex-col gap-2 font-label text-sm">
                     {semantic.map((s) => (
-                      <li key={s.token} className="flex items-center gap-2.5 rounded-xl bg-inverse px-3 py-2.5">
-                        <span aria-hidden="true" className={`h-4.5 w-4.5 rounded-sm ${s.swatch}`} />
-                        <span className="flex-1">{s.token}</span>
-                        <span className="text-inverse-subtle">to {s.to}</span>
+                      <li key={s.role.token} className="flex items-center gap-2.5 rounded-xl bg-inverse px-3 py-2.5">
+                        <span aria-hidden="true" className="h-4.5 w-4.5 rounded-sm" style={s.swatch} />
+                        <span className="flex-1">{s.role.figma}</span>
+                        <span className="text-inverse-subtle">to {s.role.from.light}{s.role.from.dark !== s.role.from.light && `, ${s.role.from.dark} in dark`}</span>
                       </li>
                     ))}
                   </ul>

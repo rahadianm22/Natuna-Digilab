@@ -172,6 +172,82 @@
 }
 
 /*
+  Semantic roles. Components ask for a role, never for a ramp step, so a copied component keeps its
+  focus, danger and brand colors whatever the primitives do in dark mode. Each value is a literal hex,
+  taken from the fixed ramp step named beside it. Dark values are in the .dark block below; the same list
+  is in src/lib/color-roles.ts and on the Themes page. Named role-* so they never meet a Tailwind namespace.
+  Static, so the variables exist even on a page that uses none of the classes.
+*/
+@theme static {
+  --color-role-bg-canvas: #ffffff; /* white */
+  --color-role-bg-surface: #ffffff; /* white */
+  --color-role-bg-subtle: #ebf0f4; /* gray/100 */
+  --color-role-bg-subtle-hover: #d0d5dd; /* gray/200 */
+  --color-role-bg-hover: #f1f5f9; /* gray/50 */
+  --color-role-bg-brand: #015099; /* blue/800 */
+  --color-role-bg-brand-hover: #013566; /* blue/900 */
+  --color-role-bg-danger: #8c2b2c; /* red/800 */
+  --color-role-bg-danger-hover: #5e1d1e; /* red/900 */
+  --color-role-text-primary: #19212e; /* gray/900 */
+  --color-role-text-secondary: #364152; /* gray/700 */
+  --color-role-text-strong: #27303f; /* gray/800 */
+  --color-role-text-strong-hover: #0d121c; /* gray/950 */
+  --color-role-text-disabled: #697586; /* gray/500 */
+  --color-role-text-on-brand: #ffffff; /* white */
+  --color-role-text-danger: #8c2b2c; /* red/800 */
+  --color-role-text-link: #015099; /* blue/800 */
+  --color-role-border-default: #d0d5dd; /* gray/200 */
+  --color-role-border-input: #697586; /* gray/500 */
+  --color-role-border-disabled: #cdd5df; /* gray/300 */
+  --color-role-border-focus: #0276e3; /* blue/600 */
+  --color-role-border-danger: #8c2b2c; /* red/800 */
+  --color-role-bg-tone-neutral: #ebf0f4; /* gray/100 */
+  --color-role-text-tone-neutral: #364152; /* gray/700 */
+  --color-role-bg-tone-info: #d1e9ff; /* blue/100 */
+  --color-role-text-tone-info: #013566; /* blue/900 */
+  --color-role-bg-tone-success: #e5f4dd; /* emerald/100 */
+  --color-role-text-tone-success: #25490f; /* emerald/900 */
+  --color-role-bg-tone-warning: #fef2d2; /* amber/100 */
+  --color-role-text-tone-warning: #644800; /* amber/900 */
+  --color-role-bg-tone-danger: #fbdadb; /* red/100 */
+  --color-role-text-tone-danger: #5e1d1e; /* red/900 */
+
+  /* Type scale (Foundation Typography). Size at mobile, then the tablet (md) and website (lg) steps. */
+  --text-h1: 1.5rem;
+  --text-h1--line-height: 2.25rem;
+  --text-h1-md: 1.75rem;
+  --text-h1-md--line-height: 2.5rem;
+  --text-h1-lg: 2rem;
+  --text-h1-lg--line-height: 2.75rem;
+  --text-h2: 1.25rem;
+  --text-h2--line-height: 1.875rem;
+  --text-h2-md: 1.5rem;
+  --text-h2-md--line-height: 2.25rem;
+  --text-h2-lg: 1.75rem;
+  --text-h2-lg--line-height: 2.5rem;
+  --text-subheader: 1.125rem;
+  --text-subheader--line-height: 1.625rem;
+  --text-subheader-md: 1.25rem;
+  --text-subheader-md--line-height: 1.875rem;
+  --text-subheader-lg: 1.5rem;
+  --text-subheader-lg--line-height: 2.25rem;
+  --text-body-1: 1rem;
+  --text-body-1--line-height: 1.5rem;
+  --text-body-1-md: 1.125rem;
+  --text-body-1-md--line-height: 1.625rem;
+  --text-body-2: 0.875rem;
+  --text-body-2--line-height: 1.25rem;
+  --text-caption-1: 0.75rem;
+  --text-caption-1--line-height: 1rem;
+  --text-caption-1-lg: 0.875rem;
+  --text-caption-1-lg--line-height: 1.25rem;
+  --text-caption-2: 0.625rem;
+  --text-caption-2--line-height: 0.75rem;
+  --text-caption-2-lg: 0.75rem;
+  --text-caption-2-lg--line-height: 1rem;
+}
+
+/*
   Dark mode mirrors the "Light Mode | Dark Mode" columns of the Figma Color Property collection:
   the Slate ramp flips, tinted backgrounds move to the dark end of their ramp and tinted text
   moves to the light end. Fills that carry white text (brand, danger, ink) stay put.
@@ -229,6 +305,40 @@
 
   --color-teal-100: #003f66;
   --color-violet-100: #3f1e6b;
+
+  /* Semantic roles */
+  --color-role-bg-canvas: #19212e; /* gray/900 */
+  --color-role-bg-surface: #27303f; /* gray/800 */
+  --color-role-bg-subtle: #364152; /* gray/700 */
+  --color-role-bg-subtle-hover: #4b5565; /* gray/600 */
+  --color-role-bg-hover: #27303f; /* gray/800 */
+  --color-role-bg-brand: #015099; /* blue/800 */
+  --color-role-bg-brand-hover: #013566; /* blue/900 */
+  --color-role-bg-danger: #8c2b2c; /* red/800 */
+  --color-role-bg-danger-hover: #5e1d1e; /* red/900 */
+  --color-role-text-primary: #f1f5f9; /* gray/50 */
+  --color-role-text-secondary: #d0d5dd; /* gray/200 */
+  --color-role-text-strong: #ebf0f4; /* gray/100 */
+  --color-role-text-strong-hover: #ffffff; /* white */
+  --color-role-text-disabled: #cdd5df; /* gray/300 */
+  --color-role-text-on-brand: #ffffff; /* white */
+  --color-role-text-danger: #f7b6b7; /* red/200 */
+  --color-role-text-link: #9aceff; /* blue/200 */
+  --color-role-border-default: #4b5565; /* gray/600 */
+  --color-role-border-input: #cdd5df; /* gray/300 */
+  --color-role-border-disabled: #697586; /* gray/500 */
+  --color-role-border-focus: #359dff; /* blue/400 */
+  --color-role-border-danger: #f7b6b7; /* red/200 */
+  --color-role-bg-tone-neutral: #364152; /* gray/700 */
+  --color-role-text-tone-neutral: #d0d5dd; /* gray/200 */
+  --color-role-bg-tone-info: #013566; /* blue/900 */
+  --color-role-text-tone-info: #d1e9ff; /* blue/100 */
+  --color-role-bg-tone-success: #25490f; /* emerald/900 */
+  --color-role-text-tone-success: #d4ecc5; /* emerald/200 */
+  --color-role-bg-tone-warning: #644800; /* amber/900 */
+  --color-role-text-tone-warning: #fef2d2; /* amber/100 */
+  --color-role-bg-tone-danger: #5e1d1e; /* red/900 */
+  --color-role-text-tone-danger: #fbdadb; /* red/100 */
 }
 
 /*
@@ -285,6 +395,112 @@
 
   --color-teal-100: #d1edff;
   --color-violet-100: #dfc6ff;
+
+  /* Semantic roles */
+  --color-role-bg-canvas: #ffffff; /* white */
+  --color-role-bg-surface: #ffffff; /* white */
+  --color-role-bg-subtle: #ebf0f4; /* gray/100 */
+  --color-role-bg-subtle-hover: #d0d5dd; /* gray/200 */
+  --color-role-bg-hover: #f1f5f9; /* gray/50 */
+  --color-role-bg-brand: #015099; /* blue/800 */
+  --color-role-bg-brand-hover: #013566; /* blue/900 */
+  --color-role-bg-danger: #8c2b2c; /* red/800 */
+  --color-role-bg-danger-hover: #5e1d1e; /* red/900 */
+  --color-role-text-primary: #19212e; /* gray/900 */
+  --color-role-text-secondary: #364152; /* gray/700 */
+  --color-role-text-strong: #27303f; /* gray/800 */
+  --color-role-text-strong-hover: #0d121c; /* gray/950 */
+  --color-role-text-disabled: #697586; /* gray/500 */
+  --color-role-text-on-brand: #ffffff; /* white */
+  --color-role-text-danger: #8c2b2c; /* red/800 */
+  --color-role-text-link: #015099; /* blue/800 */
+  --color-role-border-default: #d0d5dd; /* gray/200 */
+  --color-role-border-input: #697586; /* gray/500 */
+  --color-role-border-disabled: #cdd5df; /* gray/300 */
+  --color-role-border-focus: #0276e3; /* blue/600 */
+  --color-role-border-danger: #8c2b2c; /* red/800 */
+  --color-role-bg-tone-neutral: #ebf0f4; /* gray/100 */
+  --color-role-text-tone-neutral: #364152; /* gray/700 */
+  --color-role-bg-tone-info: #d1e9ff; /* blue/100 */
+  --color-role-text-tone-info: #013566; /* blue/900 */
+  --color-role-bg-tone-success: #e5f4dd; /* emerald/100 */
+  --color-role-text-tone-success: #25490f; /* emerald/900 */
+  --color-role-bg-tone-warning: #fef2d2; /* amber/100 */
+  --color-role-text-tone-warning: #644800; /* amber/900 */
+  --color-role-bg-tone-danger: #fbdadb; /* red/100 */
+  --color-role-text-tone-danger: #5e1d1e; /* red/900 */
+}
+
+/* Foundation type styles with their responsive steps. Weight is set where used. */
+@utility type-h1 {
+  font-size: var(--text-h1);
+  line-height: var(--text-h1--line-height);
+  @media (width >= 48rem) {
+    font-size: var(--text-h1-md);
+    line-height: var(--text-h1-md--line-height);
+  }
+  @media (width >= 64rem) {
+    font-size: var(--text-h1-lg);
+    line-height: var(--text-h1-lg--line-height);
+  }
+}
+
+@utility type-h2 {
+  font-size: var(--text-h2);
+  line-height: var(--text-h2--line-height);
+  @media (width >= 48rem) {
+    font-size: var(--text-h2-md);
+    line-height: var(--text-h2-md--line-height);
+  }
+  @media (width >= 64rem) {
+    font-size: var(--text-h2-lg);
+    line-height: var(--text-h2-lg--line-height);
+  }
+}
+
+@utility type-subheader {
+  font-size: var(--text-subheader);
+  line-height: var(--text-subheader--line-height);
+  @media (width >= 48rem) {
+    font-size: var(--text-subheader-md);
+    line-height: var(--text-subheader-md--line-height);
+  }
+  @media (width >= 64rem) {
+    font-size: var(--text-subheader-lg);
+    line-height: var(--text-subheader-lg--line-height);
+  }
+}
+
+@utility type-body-1 {
+  font-size: var(--text-body-1);
+  line-height: var(--text-body-1--line-height);
+  @media (width >= 48rem) {
+    font-size: var(--text-body-1-md);
+    line-height: var(--text-body-1-md--line-height);
+  }
+}
+
+@utility type-body-2 {
+  font-size: var(--text-body-2);
+  line-height: var(--text-body-2--line-height);
+}
+
+@utility type-caption-1 {
+  font-size: var(--text-caption-1);
+  line-height: var(--text-caption-1--line-height);
+  @media (width >= 64rem) {
+    font-size: var(--text-caption-1-lg);
+    line-height: var(--text-caption-1-lg--line-height);
+  }
+}
+
+@utility type-caption-2 {
+  font-size: var(--text-caption-2);
+  line-height: var(--text-caption-2--line-height);
+  @media (width >= 64rem) {
+    font-size: var(--text-caption-2-lg);
+    line-height: var(--text-caption-2-lg--line-height);
+  }
 }
 
 /* In the base layer, so a utility such as bg-[#0d121c] on a themed element still wins. */
@@ -313,7 +529,7 @@ body {
    (a field whose ring is drawn by its container) can still override it. */
 @layer base {
   :focus-visible {
-    outline: 2px solid var(--color-blue-600);
+    outline: 2px solid var(--color-role-border-focus);
     outline-offset: 2px;
   }
 
@@ -406,20 +622,6 @@ body {
 
 :root.dark .hatch {
   background: repeating-linear-gradient(45deg, var(--color-inverse-text) 0 3px, transparent 3px 7px);
-}
-
-/* The name on the home page: the largest type on the site, tracked in as it grows. */
-.hero-name {
-  font-size: clamp(3.25rem, 10vw, 8rem);
-  line-height: 1;
-  letter-spacing: -0.045em;
-}
-
-/* Display type: tighter tracking as size grows, as large letters read too far apart. */
-.display {
-  font-size: clamp(2.75rem, 5vw, 4.25rem);
-  line-height: 1;
-  letter-spacing: -0.035em;
 }
 
 /*

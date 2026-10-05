@@ -26,7 +26,7 @@ export function Avatar({ name, size = "md", className = "", ...rest }: AvatarPro
     <span
       role="img"
       aria-label={name}
-      className={`inline-flex shrink-0 items-center justify-center rounded-full bg-blue-100 font-semibold text-blue-900 ${sizes[size]} ${className}`}
+      className={`inline-flex shrink-0 items-center justify-center rounded-full bg-role-bg-tone-info font-semibold text-role-text-tone-info ${sizes[size]} ${className}`}
       {...rest}
     >
       <span aria-hidden="true">{initials(name)}</span>

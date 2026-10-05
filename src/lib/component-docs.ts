@@ -38,7 +38,7 @@ export interface ComponentDoc {
 // The site draws focus with a global :focus-visible rule in globals.css. Components that do not draw their own
 // focus indicator rely on it, and an app that copies them needs the same rule.
 const FOCUS_RULE =
-  "This component draws no focus indicator of its own. On this site a global :focus-visible rule draws a 2px blue-600 outline. Copy that rule, or an equivalent, into your app.";
+  "This component draws no focus indicator of its own. On this site a global :focus-visible rule draws a 2px outline in the border/focus role (--color-role-border-focus). Copy the role tokens and that rule, or an equivalent, into your app.";
 
 export const componentDocs: Record<string, ComponentDoc> = {
   button: {
@@ -262,7 +262,7 @@ export default function InputDemo() {
       keyboard: [
         "A native input: Tab focuses it, and typing and editing keys work as usual.",
         "A disabled field uses the native disabled attribute, so Tab skips it.",
-        "The component draws its own focus ring: 2px blue-600, or red-800 while there is an error.",
+        "The component draws its own focus ring: 2px in the border/focus role, or the border/danger role while there is an error.",
       ],
       screenReader: [
         "The label is linked with for and a generated id, so it is the field's accessible name. Clicking the label focuses the field.",
