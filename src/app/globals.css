@@ -9,8 +9,8 @@
   so existing classes pick up the brand colors:
     blue -> Azure Blue, gray -> Slate Gray, emerald -> Jade Green, red -> Imperial Red,
     orange -> Tomato Red, teal -> Sky Blue, violet -> Amethyst Purple, amber -> Amber Yellow.
-  Brand anchor is step 600 (surfaces, icons, focus). Text and white-on-color fills use 700,
-  because 600 is 4.46:1 on white and misses WCAG AA for small text.
+  Brand anchor is step 600 (surfaces, icons, focus). Text and white-on-color fills use 800 (700 for gray),
+  because 600 is 4.47:1 on white and misses even AA for small text, and 700 reaches only 5.3:1 (AAA needs 7:1).
 */
 
 @theme {
@@ -25,7 +25,7 @@
   --color-canvas: #ffffff;
   --color-surface: #ffffff;
   --color-ink: #19212e;
-  /* AAA: white text on every fill reaches 7:1 (brand 8.0:1, danger 8.9:1). */
+  /* AAA: white text on every fill reaches 7:1 (brand 8.0:1, danger 8.4:1). */
   --color-brand: #015099;
   --color-brand-hover: #013566;
   --color-danger: #8c2b2c;

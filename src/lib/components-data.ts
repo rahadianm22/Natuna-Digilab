@@ -276,7 +276,7 @@ export const components: ComponentMeta[] = [
     tags: ["feedback"],
     summary: "A brief, temporary notification that appears and disappears automatically.",
     usage: "Use to confirm the result of an action, like saving or sending.",
-    do: ["Auto-dismiss after a few seconds.", "Keep the message short and specific to what just happened."],
+    do: ["Keep it on screen until the reader dismisses it, or let them turn auto-dismiss off (WCAG 2.2.3 No Timing).", "Keep the message short and specific to what just happened."],
     dont: ["Use for critical errors that require action: use an alert or modal instead.", "Stack too many toasts at once."],
   },
   {
@@ -641,7 +641,7 @@ export const components: ComponentMeta[] = [
     status: "beta",
     tags: ["figma", "documentation"],
     summary: "A dated list of what changed in each release of the design system.",
-    usage: "Use in the Figma file and on this site so teams know what changed before they update.",
+    usage: "Use in the Figma file so teams know what changed before they update.",
     do: ["Group entries by version and date.", "Say what changed and what teams need to do."],
     dont: ["Write \"minor fixes\" without saying what was fixed.", "Edit past entries after release."],
   },
