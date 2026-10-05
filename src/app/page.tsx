@@ -30,7 +30,8 @@ const days = lastBuildDay();
 const inCode = Object.keys(componentDocs).length;
 const azure = palettes.find((p) => p.token === "blue")!;
 
-const eyebrow = "font-label text-[13px]";
+const eyebrow = "font-label text-sm font-medium";
+// One heading size and one left edge for all four numbered sections.
 const h2 = "font-display text-[clamp(36px,4.4vw,56px)] font-extrabold leading-[1.02] tracking-[-0.03em]";
 
 // The three layers every component draws from, with the names they carry in Figma.
@@ -41,9 +42,9 @@ const semantic = [
   { token: "border/focus", swatch: "border-2 border-[#0276e3] bg-transparent", to: "blue/600" },
 ];
 const dimension = [
-  { token: "Padding/16", value: "16", mark: <span className="h-4 w-4 rounded-[3px] bg-lime" /> },
-  { token: "Padding/24", value: "24", mark: <span className="h-4 w-6 rounded-[3px] bg-lime" /> },
-  { token: "Rounded/8", value: "8", mark: <span className="h-6 w-6 rounded-tl-lg border-l-2 border-t-2 border-lime" /> },
+  { token: "Padding/16", value: "16", mark: <span className="h-4 w-4 rounded-sm bg-inverse-muted" /> },
+  { token: "Padding/24", value: "24", mark: <span className="h-4 w-6 rounded-sm bg-inverse-muted" /> },
+  { token: "Rounded/8", value: "8", mark: <span className="h-6 w-6 rounded-tl-lg border-l-2 border-t-2 border-inverse-muted" /> },
   { token: "Width & Height/48", value: "48", mark: <span className="h-6 w-6 rounded-md border-2 border-dashed border-inverse-subtle" /> },
 ];
 const breakpoints = [440, 1024, 1280, 1440];
@@ -55,8 +56,11 @@ export default function Home() {
 
       <main id="main" tabIndex={-1} className="w-full overflow-x-clip">
         {/* Hero: what Natuna is, where the build stands, and the system working on the right. */}
-        <section aria-labelledby="hero" className="mx-auto flex w-full max-w-7xl flex-wrap items-center gap-14 px-6 pb-22 pt-18">
-          <div className="flex min-w-0 flex-[1_1_460px] flex-col gap-7">
+        <section
+          aria-labelledby="hero"
+          className="mx-auto grid w-full max-w-7xl items-center gap-12 px-6 pb-22 pt-18 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:gap-14"
+        >
+          <div className="flex min-w-0 flex-col gap-7">
             <p className="rise text-sm text-gray-700">
               <span className="font-semibold tabular-nums text-gray-900">{ready} of {total}</span> components ready.
               The {days}-day build is in progress.
@@ -68,39 +72,40 @@ export default function Home() {
               <br />
               <span className="text-blue-800">built in React.</span>
             </h1>
-            <p className="rise max-w-[520px] text-[19px] leading-[1.55] text-gray-700" style={{ "--d": "120ms" } as CSSProperties}>
+            <p className="rise max-w-[520px] text-lg leading-[1.55] text-gray-700 md:text-xl" style={{ "--d": "120ms" } as CSSProperties}>
               Tokens, components, and usage rules for digital products, from banking and payments to everyday consumer
               apps. Figma is the source of truth; {inCode} components are in React so far, and more arrive each build day.
             </p>
             <div className="rise flex flex-wrap gap-3" style={{ "--d": "180ms" } as CSSProperties}>
               <Link
                 href="/components"
-                className="inline-flex min-h-13 w-full items-center justify-center rounded-[14px] bg-inverse px-6 font-semibold text-inverse-text transition-transform active:scale-[0.97] sm:w-auto dark:bg-inverse-text dark:text-inverse"
+                className="inline-flex min-h-13 w-full items-center justify-center rounded-md bg-inverse px-6 font-semibold text-inverse-text transition-transform active:scale-[0.97] sm:w-auto dark:bg-inverse-text dark:text-inverse"
               >
                 Browse components
               </Link>
               <Link
                 href="/docs"
-                className="inline-flex min-h-13 w-full items-center justify-center rounded-[14px] border border-gray-300 bg-surface px-6 font-semibold text-gray-900 transition-colors hover:border-gray-500 sm:w-auto"
+                className="inline-flex min-h-13 w-full items-center justify-center rounded-md border border-gray-300 bg-surface px-6 font-semibold text-gray-900 transition-colors hover:border-gray-500 sm:w-auto"
               >
                 Read the introduction
               </Link>
             </div>
-            <dl className="rise flex flex-wrap gap-7 pt-2 text-sm text-gray-700" style={{ "--d": "240ms" } as CSSProperties}>
+            {/* Three equal columns on phones, so no stat is left alone on a second row. */}
+            <dl className="rise grid grid-cols-3 gap-4 pt-2 text-sm text-gray-700 sm:flex sm:flex-wrap sm:gap-7" style={{ "--d": "240ms" } as CSSProperties}>
               {[
                 [String(palettes.length), "color ramps"],
                 [String(total), "components tracked"],
                 ["440–1440", "responsive range"],
               ].map(([v, k]) => (
-                <div key={k} className="flex flex-col-reverse gap-0.5">
+                <div key={k} className="flex flex-col-reverse justify-end gap-0.5">
                   <dt>{k}</dt>
-                  <dd className="font-display text-[28px] font-bold text-gray-900">{v}</dd>
+                  <dd className="whitespace-nowrap font-display text-xl font-bold text-gray-900 sm:text-[28px]">{v}</dd>
                 </div>
               ))}
             </dl>
           </div>
 
-          <div className="rise min-w-0 flex-[1_1_520px]" style={{ "--d": "160ms" } as CSSProperties}>
+          <div className="rise min-w-0" style={{ "--d": "160ms" } as CSSProperties}>
             <HeroBento />
           </div>
         </section>
@@ -116,7 +121,7 @@ export default function Home() {
                     Every pixel traces back to a token.
                   </h2>
                 </div>
-                <p className="max-w-[440px] flex-[1_1_360px] text-[17px] text-inverse-muted" data-reveal-item>
+                <p className="max-w-[440px] flex-[1_1_360px] text-lg text-inverse-muted" data-reveal-item>
                   Three layers feed every component: raw primitives, semantic colors that flip between light and dark,
                   and the number scale for space, radius and size.
                 </p>
@@ -137,7 +142,7 @@ export default function Home() {
                       />
                     ))}
                   </div>
-                  <div className="flex justify-between font-label text-[13px]">
+                  <div className="flex justify-between font-label text-sm">
                     <span>blue/800</span>
                     <span className="text-inverse-subtle">#015099</span>
                   </div>
@@ -148,10 +153,10 @@ export default function Home() {
                     <span className="font-semibold">2. Color</span>
                     <span className="font-label text-xs text-inverse-subtle">semantic alias</span>
                   </div>
-                  <ul className="flex flex-col gap-2 font-label text-[13px]">
+                  <ul className="flex flex-col gap-2 font-label text-sm">
                     {semantic.map((s) => (
                       <li key={s.token} className="flex items-center gap-2.5 rounded-xl bg-inverse px-3 py-2.5">
-                        <span aria-hidden="true" className={`h-4.5 w-4.5 rounded-[5px] ${s.swatch}`} />
+                        <span aria-hidden="true" className={`h-4.5 w-4.5 rounded-sm ${s.swatch}`} />
                         <span className="flex-1">{s.token}</span>
                         <span className="text-inverse-subtle">to {s.to}</span>
                       </li>
@@ -164,7 +169,7 @@ export default function Home() {
                     <span className="font-semibold">3. Number</span>
                     <span className="font-label text-xs text-inverse-subtle">space · radius · size</span>
                   </div>
-                  <ul className="flex flex-col gap-3 font-label text-[13px]">
+                  <ul className="flex flex-col gap-3 font-label text-sm">
                     {dimension.map((d) => (
                       <li key={d.token} className="flex items-center gap-3">
                         <span aria-hidden="true" className="flex w-6 justify-center">
@@ -180,20 +185,20 @@ export default function Home() {
 
               <div id="themes" className="flex flex-wrap items-center gap-6 rounded-3xl border border-dashed border-inverse-line-strong p-7" data-reveal-item>
                 <div className="flex flex-[1_1_320px] flex-col gap-2">
-                  <span className="font-label text-[13px] text-lime">= Button / Primary / Large</span>
-                  <span className="font-display text-[26px] font-bold tracking-[-0.01em]">Tokens that hold from 440 to 1440.</span>
-                  <span className="text-[15px] text-inverse-muted">
+                  <span className="font-label text-sm text-inverse-muted">= Button / Primary / Large</span>
+                  <span className="font-display text-2xl font-bold tracking-[-0.01em]">Tokens that hold from 440 to 1440.</span>
+                  <span className="text-base text-inverse-muted">
                     The same bindings on every device frame, with light and dark modes for every color.
                   </span>
                 </div>
-                <ul className="flex flex-wrap gap-2 font-label text-[13px]" aria-label="Device frame widths">
+                <ul className="flex flex-wrap gap-2 font-label text-sm" aria-label="Device frame widths">
                   {breakpoints.map((b) => (
                     <li key={b} className={`rounded-full px-3 py-2 ${b === 1440 ? "bg-lime text-inverse" : "border border-inverse-line-strong"}`}>
                       {b}
                     </li>
                   ))}
                 </ul>
-                <span aria-hidden="true" className={`${buttonStyles({ size: "lg" })} outline-2 outline-offset-3 outline-[#5fa3ec]`}>
+                <span aria-hidden="true" className={`${buttonStyles({ size: "lg" })} outline-2 outline-offset-3 outline-blue-300`}>
                   Pay Rp&nbsp;860.500
                 </span>
               </div>
@@ -234,7 +239,12 @@ export default function Home() {
         </Reveal>
 
         <Reveal>
-          <section aria-labelledby="figma" className="mx-auto w-full max-w-7xl px-6 pb-24">
+          {/* FigmaPanel draws its own bordered panel. Here it is flattened so the 03 eyebrow and heading sit on the
+              same left edge and at the same size as 01, 02 and 04; the demo keeps its own well beside the copy. */}
+          <section
+            aria-labelledby="figma"
+            className="mx-auto w-full max-w-7xl px-6 pb-24 [&>div]:rounded-none [&>div]:border-0 [&>div]:bg-transparent [&>div]:p-0 [&>div>div:first-child>span:first-child]:text-sm [&>div>div:first-child>span:first-child]:font-medium [&>div>div:last-child]:border [&>div>div:last-child]:border-gray-200 [&>div>div:last-child]:bg-gray-100 [&_h2]:text-[clamp(36px,4.4vw,56px)] [&_h2]:leading-[1.02] [&_p]:text-lg [&_ul]:text-base"
+          >
             <FigmaPanel />
           </section>
         </Reveal>
@@ -243,12 +253,13 @@ export default function Home() {
           <section id="intro" aria-labelledby="start-title" className="mx-auto flex w-full max-w-7xl flex-col gap-8 px-6 pb-24">
             <div className="flex flex-col gap-4" data-reveal-item>
               <span className={`${eyebrow} text-blue-800`}>04 · Get started</span>
-              <h2 id="start-title" className="font-display text-[clamp(32px,3.6vw,46px)] font-extrabold leading-[1.04] tracking-[-0.03em]">
+              <h2 id="start-title" className={h2}>
                 Pick your starting point.
               </h2>
             </div>
-            <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-4">
-              <div className="flex flex-col gap-4.5 rounded-[28px] bg-lime p-8 text-inverse" data-reveal-item>
+            <div className="grid grid-cols-[repeat(auto-fit,minmax(min(300px,100%),1fr))] gap-4">
+              {/* Brand blue gets its own surface here, paired with the navy "In code" card. White on #015099 is 8.0:1. */}
+              <div className="flex flex-col gap-4.5 rounded-3xl bg-brand p-8 text-white" data-reveal-item>
                 <span className="font-display text-[28px] font-bold">In Figma</span>
                 <p className="max-w-[420px]">
                   Duplicate the Foundation Design System from Figma Community. Tokens, components and usage notes come
@@ -258,12 +269,12 @@ export default function Home() {
                   href={FIGMA_COMMUNITY_URL}
                   target="_blank"
                   rel="noreferrer"
-                  className="mt-auto inline-flex min-h-12 items-center self-start rounded-xl bg-inverse px-5 font-semibold text-inverse-text transition-transform active:scale-[0.97]"
+                  className="mt-auto inline-flex min-h-12 items-center self-start rounded-md bg-white px-5 font-semibold text-brand transition-transform focus-visible:outline-white active:scale-[0.97]"
                 >
                   Open in Figma Community
                 </a>
               </div>
-              <div className="flex flex-col gap-4.5 rounded-[28px] bg-inverse p-8 text-inverse-text" data-reveal-item>
+              <div className="flex flex-col gap-4.5 rounded-3xl bg-inverse p-8 text-inverse-text" data-reveal-item>
                 <div className="flex flex-wrap items-center justify-between gap-3">
                   <span className="font-display text-[28px] font-bold">In code</span>
                   <span className="rounded-full border border-inverse-line-strong px-2.5 py-1 font-label text-xs text-inverse-muted">
@@ -271,22 +282,29 @@ export default function Home() {
                   </span>
                 </div>
                 <p className="max-w-[440px] text-inverse-muted">
-                  {inCode} React components live in <code className="font-label text-lime">src/ui</code>. Copy them into
+                  {inCode} React components live in <code className="font-label text-inverse-text">src/ui</code>. Copy them into
                   your project while the package is on its way.
                 </p>
-                <pre tabIndex={0} aria-label="Importing Button from src/ui" className="overflow-x-auto rounded-[14px] border border-inverse-line bg-inverse-raised p-4.5 font-label text-[13px] leading-[1.7] text-[#dce3ec]">
-                  <span className="text-inverse-subtle">{"// src/ui"}</span>
+                {/* Same token colors as the docs CodeBlock: violet keywords, green strings, sky tags, amber attributes. */}
+                <pre tabIndex={0} aria-label="Importing Button from src/ui" className="overflow-x-auto rounded-xl border border-inverse-line bg-inverse-raised p-4.5 font-label text-sm leading-[1.7] text-[#f1f5f9]">
+                  <span className="italic text-[#b7c0cc]">{"// src/ui"}</span>
                   {"\n"}
-                  <span className="text-lime">import</span> {"{ Button } "}
-                  <span className="text-lime">from</span> {'"@/ui"'}
+                  <span className="text-[#cfaaff]">import</span> {"{ Button } "}
+                  <span className="text-[#cfaaff]">from</span> <span className="text-[#aad98c]">{'"@/ui"'}</span>
                   {"\n\n"}
-                  {'<Button size="lg">Pay Rp 860.500</Button>'}
+                  {"<"}
+                  <span className="text-[#85d0ff]">Button</span> <span className="text-[#fcd97d]">size</span>
+                  {"="}
+                  <span className="text-[#aad98c]">{'"lg"'}</span>
+                  {">Pay Rp 860.500</"}
+                  <span className="text-[#85d0ff]">Button</span>
+                  {">"}
                 </pre>
                 <a
                   href={REPO_URL}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex min-h-12 items-center self-start rounded-xl bg-inverse-text px-5 font-semibold text-inverse transition-transform active:scale-[0.97]"
+                  className="inline-flex min-h-12 items-center self-start rounded-md bg-inverse-text px-5 font-semibold text-inverse transition-transform active:scale-[0.97]"
                 >
                   View source on GitHub
                 </a>
