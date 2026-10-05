@@ -64,6 +64,9 @@ function SidebarBody({ idPrefix, onNavigate, items: sorted, groups, statusText }
         ))}
       </div>
 
+      <p role="status" className="sr-only">
+        {q ? `${matches.length} component${matches.length === 1 ? "" : "s"} found` : ""}
+      </p>
       <nav aria-label="Components" className="space-y-1">
         {groups.map((name) => {
           const cat = { name };

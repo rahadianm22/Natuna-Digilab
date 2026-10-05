@@ -47,6 +47,11 @@ export default function CommandSearch({ entries }: { entries: Entry[] }) {
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
+  // Arrowing past the visible part of the list keeps the highlighted option on screen.
+  useEffect(() => {
+    document.getElementById(`result-${index}`)?.scrollIntoView({ block: "nearest" });
+  }, [index]);
+
   function onInputKey(e: KeyboardEvent) {
     if (e.key === "ArrowDown") {
       e.preventDefault();

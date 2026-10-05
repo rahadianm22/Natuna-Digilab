@@ -28,7 +28,8 @@ export function MenuProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (!open) return;
     function onKey(e: KeyboardEvent) {
-      if (e.key !== "Escape") return;
+      // Esc inside the search dialog belongs to the dialog; it must not also close the menu behind it.
+      if (e.key !== "Escape" || document.querySelector("dialog[open]")) return;
       setOpen(false);
       button.current?.focus();
     }

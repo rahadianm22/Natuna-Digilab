@@ -26,6 +26,7 @@ export default function StatusBoard({ items }: { items: Item[] }) {
   const [filter, setFilter] = useState<Group | "all">("all");
   // Phones show the first few rows of a long list; the rest are one tap away. Wider screens show everything.
   const [expanded, setExpanded] = useState(false);
+  const toggle = useRef<HTMLButtonElement>(null);
   const PHONE_ROWS = 12;
   const refs = useRef<(HTMLButtonElement | null)[]>([]);
   const shown = items.filter((i) => filter === "all" || i.group === filter);
@@ -109,7 +110,12 @@ export default function StatusBoard({ items }: { items: Item[] }) {
         <button
           type="button"
           aria-expanded={expanded}
-          onClick={() => setExpanded((v) => !v)}
+          ref={toggle}
+          onClick={() => {
+            setExpanded((v) => !v);
+            // Collapsing a long list leaves the toggle far below the viewport; bring it back.
+            if (expanded) requestAnimationFrame(() => toggle.current?.scrollIntoView({ block: "nearest" }));
+          }}
           className="mt-3 flex min-h-11 w-full items-center justify-center rounded-md border border-gray-300 bg-surface text-sm font-semibold text-gray-900 hover:border-gray-500 sm:hidden"
         >
           {expanded ? "Show fewer" : `Show all ${shown.length}`}

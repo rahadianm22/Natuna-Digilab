@@ -37,6 +37,7 @@ export default function HeroBento() {
   const [bills, setBills] = useState(start);
   const [paying, setPaying] = useState(false);
   const timer = useRef<ReturnType<typeof setTimeout>>(undefined);
+  const summary = useRef<HTMLDivElement>(null);
 
   const open = bills.filter((b) => !b.paid);
   const total = open.filter((b) => b.selected).reduce((n, b) => n + b.amount, 0);
@@ -52,6 +53,8 @@ export default function HeroBento() {
     timer.current = setTimeout(() => {
       setBills((bs) => bs.map((b) => (b.selected ? { ...b, paid: true, selected: false } : b)));
       setPaying(false);
+      // The Pay button turns into a disabled or Reset button, so focus moves to the result instead of the page body.
+      summary.current?.focus();
     }, 900);
   }
 
@@ -59,6 +62,7 @@ export default function HeroBento() {
     clearTimeout(timer.current);
     setPaying(false);
     setBills(start);
+    summary.current?.focus();
   }
 
   return (
@@ -102,7 +106,7 @@ export default function HeroBento() {
 
         <div>
           <div className="text-sm text-gray-700">October bills</div>
-          <div aria-live="polite" className="font-display text-2xl font-bold tracking-[-0.01em]">
+          <div ref={summary} tabIndex={-1} aria-live="polite" className="font-display text-2xl font-bold tracking-[-0.01em] focus-visible:outline-none">
             {open.length ? `${open.length} bill${open.length === 1 ? "" : "s"} due this week` : "All bills paid"}
           </div>
         </div>

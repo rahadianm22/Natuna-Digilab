@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useState, useSyncExternalStore, type KeyboardEvent, type ReactNode } from "react";
+import { useId, useRef, useState, useSyncExternalStore, type KeyboardEvent, type ReactNode } from "react";
 
 export type Lang = "js" | "ts";
 
@@ -79,6 +79,7 @@ export default function CodeBlock({
   const setLang = setLangEverywhere;
   const [expanded, setExpanded] = useState(false);
   const [copied, setCopied] = useState<"idle" | "done" | "failed">("idle");
+  const resetTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   const text = variants ? variants[lang] : (code as string);
   const lines = text.split("\n").length;
@@ -91,7 +92,8 @@ export default function CodeBlock({
     } catch {
       setCopied("failed");
     }
-    setTimeout(() => setCopied("idle"), 1800);
+    clearTimeout(resetTimer.current);
+    resetTimer.current = setTimeout(() => setCopied("idle"), 1800);
   }
 
   function onKey(e: KeyboardEvent) {

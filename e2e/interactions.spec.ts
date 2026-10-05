@@ -88,6 +88,8 @@ test("home bills card: select, pay, and its own theme switch", async ({ page }) 
   await expect(page.getByRole("button", { name: "Pay Rp 762.500" })).toBeVisible();
   await page.getByRole("button", { name: "Pay Rp 762.500" }).click();
   await expect(page.getByText("2 bills due this week")).toBeVisible();
+  // The Pay button becomes disabled once nothing is selected, so focus lands on the result, not the page body.
+  await expect(page.getByText("2 bills due this week")).toBeFocused();
 
   // The card starts in the site theme (light here), and its switch pins it to the other mode.
   await page.getByRole("button", { name: "Bills card theme: Light" }).click();
