@@ -11,6 +11,7 @@ import CodeBlock from "@/components/CodeBlock";
 import FigmaFrame from "@/components/FigmaFrame";
 import Demo, { StatesMatrix } from "@/components/demos";
 import StatusBadge from "@/components/StatusBadge";
+import CodeBadge from "@/components/CodeBadge";
 import { componentGroup, components, getComponent, trackerRow } from "@/lib/components-data";
 import { componentDocs, fullUsage } from "@/lib/component-docs";
 import { lastBuildDay, statusLabel, statusStyle } from "@/lib/natuna-tracker";
@@ -76,6 +77,8 @@ export default async function ComponentDetail({ params }: Props) {
   ];
   // A coded component can replace guidance that describes features its code does not have.
   const practices = { do: doc?.do ?? component.do, dont: doc?.dont ?? component.dont };
+  // Ready in Figma but no React code: the thin pages. Say so up front instead of leaving it to the example caption.
+  const figmaOnly = !doc && row?.status === "Selesai" && !isFrame;
   const codeNote =
     component.category === "Documentation"
       ? "This is a Figma documentation frame, so it has no code component."
@@ -123,11 +126,30 @@ export default async function ComponentDetail({ params }: Props) {
                     {row?.buildDay ? <span>Build day {row.buildDay} of {LAST_BUILD_DAY}</span> : null}
                   </dd>
                 </div>
+                {isFrame ? null : (
+                  <div className="flex items-center gap-2">
+                    <dt className="text-gray-700">Code</dt>
+                    <dd className="text-gray-900">{doc ? <CodeBadge /> : "Not in React yet"}</dd>
+                  </div>
+                )}
                 <div className="flex items-center gap-2">
                   <dt className="text-gray-700">Role</dt>
                   <dd className="text-gray-900">{component.category}</dd>
                 </div>
               </dl>
+
+              {figmaOnly && (
+                <p role="note" className="mt-4 max-w-2xl rounded-md border border-gray-300 bg-surface px-4 py-3 text-sm text-gray-900">
+                  <strong className="font-semibold">Figma only today: no React code yet.</strong> The design is signed off, so build from the
+                  Figma component and the guidance below. Property names are on the{" "}
+                  <Link href="/naming" className="font-medium text-blue-800 underline underline-offset-4 hover:text-blue-900">Naming</Link> page.
+                </p>
+              )}
+              {doc && row && row.status !== "Selesai" && (
+                <p role="note" className="mt-4 max-w-2xl text-sm text-gray-700">
+                  Code exists in <code className="font-mono-code text-[13px]">src/ui</code>, but the Figma design is still {row.status === "On Review" ? "in review" : "changing"}.
+                </p>
+              )}
 
               {doc ? (
                 <>

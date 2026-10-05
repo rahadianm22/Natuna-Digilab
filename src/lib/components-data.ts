@@ -1,4 +1,8 @@
 import { tracker, type TrackerStatus } from "./natuna-tracker";
+import { componentDocs } from "./component-docs";
+
+/** True when the component has React code in src/ui. Derived from componentDocs, so it cannot drift from the code. */
+export const hasReactCode = (slug?: string): boolean => !!slug && slug in componentDocs;
 
 export type ComponentStatus = "stable" | "review" | "beta" | "planned" | "untracked";
 

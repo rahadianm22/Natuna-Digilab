@@ -127,7 +127,7 @@ function Specimen({ label, detail, children, className = "" }: { label: string; 
   );
 }
 
-const buttonVariants: ButtonVariant[] = ["primary", "secondary", "ghost", "destructive"];
+const buttonVariants: ButtonVariant[] = ["primary", "secondary", "ghost", "destructive", "inverse"];
 const capitalize = (s: string) => s[0].toUpperCase() + s.slice(1);
 
 function ButtonMatrix() {
@@ -180,7 +180,7 @@ function ButtonMatrix() {
         <li>These buttons are live but do nothing. Hover one, or Tab to it to see the focus outline.</li>
         <li>
           Hover changes the fill: <code className={code}>brand-hover</code> for primary, <code className={code}>gray-200</code> for
-          secondary, <code className={code}>gray-50</code> for ghost, <code className={code}>danger-hover</code> for destructive.
+          secondary, <code className={code}>gray-50</code> for ghost, <code className={code}>danger-hover</code> for destructive, <code className={code}>gray-800</code> for inverse.
         </li>
         <li>
           Disabled looks the same for every variant: a <code className={code}>gray-100</code> fill with <code className={code}>gray-500</code>{" "}

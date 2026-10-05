@@ -95,7 +95,7 @@ import { Button } from "@/ui";`,
 }`,
     },
     props: [
-      { name: "variant", type: '"primary" | "secondary" | "ghost" | "destructive"', default: '"primary"', description: "Visual weight. Use one primary per view." },
+      { name: "variant", type: '"primary" | "secondary" | "ghost" | "destructive" | "inverse"', default: '"primary"', description: "Visual weight. Use one primary per view. Inverse is the near-black page-ink fill (near white in dark mode) for the main action on marketing and landing pages." },
       { name: "size", type: '"md" | "lg"', default: '"md"', description: "md is at least 44px tall, lg at least 48px. Both clear the 44px touch target." },
       { name: "children", type: "ReactNode", description: "The label. An icon goes here too, before or after the text, and is spaced 8px from it." },
       { name: "loading", type: "boolean", default: "false", description: "Shows a spinner over the label, sets aria-busy and aria-disabled, and blocks clicks. The button keeps its size, its color, and keyboard focus." },

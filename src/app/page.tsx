@@ -8,7 +8,7 @@ import HeroBento from "@/components/home/HeroBento";
 import StatusBoard, { type Group, type Item } from "@/components/home/StatusBoard";
 import FigmaPanel from "@/components/home/FigmaPanel";
 import { buttonStyles } from "@/ui";
-import { getComponent, productTracker } from "@/lib/components-data";
+import { getComponent, hasReactCode, productTracker } from "@/lib/components-data";
 import { componentDocs } from "@/lib/component-docs";
 import { palettes } from "@/lib/natuna-palette";
 import { lastBuildDay, type TrackerStatus } from "@/lib/natuna-tracker";
@@ -17,14 +17,14 @@ import { FIGMA_COMMUNITY_URL, REPO_URL, TRACKER_SNAPSHOT } from "@/lib/site";
 export const metadata: Metadata = { alternates: { canonical: "/" } };
 
 // Everything counted here comes from the tracker snapshot and the palette, never typed in by hand.
-const groupOf: Record<TrackerStatus, Group> = { Selesai: "ready", "On Review": "progress", OnProgress: "progress", Belum: "planned" };
-const rank: Record<Group, number> = { ready: 0, progress: 1, planned: 2 };
+const groupOf: Record<TrackerStatus, Group> = { Selesai: "ready", "On Review": "review", OnProgress: "progress", Belum: "planned" };
+const rank: Record<Group, number> = { ready: 0, review: 1, progress: 2, planned: 3 };
 const items: Item[] = productTracker
-  .map((t) => ({ name: (t.slug && getComponent(t.slug)?.name) || t.name, slug: t.slug, group: groupOf[t.status] }))
+  .map((t) => ({ name: (t.slug && getComponent(t.slug)?.name) || t.name, slug: t.slug, group: groupOf[t.status], code: hasReactCode(t.slug), day: t.buildDay }))
   .sort((a, b) => rank[a.group] - rank[b.group] || a.name.localeCompare(b.name));
 
 const ready = items.filter((i) => i.group === "ready").length;
-const progress = items.filter((i) => i.group === "progress").length;
+const progress = items.filter((i) => i.group === "progress" || i.group === "review").length;
 const total = items.length;
 const days = lastBuildDay();
 const inCode = Object.keys(componentDocs).length;
@@ -62,7 +62,7 @@ export default function Home() {
         >
           <div className="flex min-w-0 flex-col gap-7">
             <p className="rise text-sm text-gray-700">
-              <span className="font-semibold tabular-nums text-gray-900">{ready} of {total}</span> components ready.
+              <span className="font-semibold tabular-nums text-gray-900">{ready} of {total}</span> components ready in Figma.
               The {days}-day build is in progress.
             </p>
             <h1 id="hero" className="rise font-display text-[clamp(42px,5vw,68px)] font-extrabold leading-[0.98] tracking-[-0.035em]" style={{ "--d": "60ms" } as CSSProperties}>
@@ -74,19 +74,13 @@ export default function Home() {
             </h1>
             <p className="rise max-w-[520px] text-lg leading-[1.55] text-gray-700 md:text-xl" style={{ "--d": "120ms" } as CSSProperties}>
               Tokens, components, and usage rules for digital products, from banking and payments to everyday consumer
-              apps. Figma is the source of truth; {inCode} components are in React so far, and more arrive each build day.
+              apps. Figma is the source of truth. Components move to Ready in Figma on the build schedule; React code follows separately, with {inCode} components so far.
             </p>
             <div className="rise flex flex-wrap gap-3" style={{ "--d": "180ms" } as CSSProperties}>
-              <Link
-                href="/components"
-                className="inline-flex min-h-13 w-full items-center justify-center rounded-md bg-inverse px-6 font-semibold text-inverse-text transition-transform active:scale-[0.97] sm:w-auto dark:bg-inverse-text dark:text-inverse"
-              >
+              <Link href="/components" className={`${buttonStyles({ variant: "inverse", size: "lg" })} w-full sm:w-auto`}>
                 Browse components
               </Link>
-              <Link
-                href="/docs"
-                className="inline-flex min-h-13 w-full items-center justify-center rounded-md border border-gray-300 bg-surface px-6 font-semibold text-gray-900 transition-colors hover:border-gray-500 sm:w-auto"
-              >
+              <Link href="/docs" className={`${buttonStyles({ variant: "ghost", size: "lg" })} w-full sm:w-auto`}>
                 Read the introduction
               </Link>
             </div>
@@ -116,7 +110,7 @@ export default function Home() {
             <div className="mx-auto flex w-full max-w-7xl flex-col gap-12 px-6 py-24">
               <div className="flex flex-wrap items-end justify-between gap-x-16 gap-y-6">
                 <div className="flex flex-[1_1_520px] flex-col gap-4" data-reveal-item>
-                  <span className={`${eyebrow} text-lime`}>01 · Foundation</span>
+                  <span className={`${eyebrow} text-lime`}>Foundation</span>
                   <h2 id="foundation-title" className={h2}>
                     Every pixel traces back to a token.
                   </h2>
@@ -210,7 +204,7 @@ export default function Home() {
           <section id="components" aria-labelledby="components-title" className="mx-auto flex w-full max-w-7xl flex-col gap-9 px-6 py-24">
             <div className="flex flex-wrap items-end justify-between gap-x-16 gap-y-6">
               <div className="flex flex-[1_1_520px] flex-col gap-4" data-reveal-item>
-                <span className={`${eyebrow} text-blue-800`}>02 · Components</span>
+                <span className={`${eyebrow} text-blue-800`}>Components</span>
                 <h2 id="components-title" className={h2}>
                   Built in public, one day at a time.
                 </h2>
@@ -218,7 +212,7 @@ export default function Home() {
               <div className="flex max-w-[440px] flex-[1_1_360px] flex-col gap-2.5" data-reveal-item>
                 <div className="flex justify-between text-sm">
                   <span className="font-semibold">
-                    {ready} of {total} ready
+                    {ready} of {total} ready in Figma
                   </span>
                   <span className="text-gray-700">Snapshot of {TRACKER_SNAPSHOT}</span>
                 </div>
@@ -250,7 +244,7 @@ export default function Home() {
         <Reveal>
           <section id="intro" aria-labelledby="start-title" className="mx-auto flex w-full max-w-7xl flex-col gap-8 px-6 pb-24">
             <div className="flex flex-col gap-4" data-reveal-item>
-              <span className={`${eyebrow} text-blue-800`}>04 · Get started</span>
+              <span className={`${eyebrow} text-blue-800`}>Get started</span>
               <h2 id="start-title" className={h2}>
                 Pick your starting point.
               </h2>
@@ -267,17 +261,15 @@ export default function Home() {
                   href={FIGMA_COMMUNITY_URL}
                   target="_blank"
                   rel="noreferrer"
-                  className="mt-auto inline-flex min-h-12 items-center self-start rounded-md bg-white px-5 font-semibold text-brand transition-transform focus-visible:outline-white active:scale-[0.97]"
+                  className={`${buttonStyles({ variant: "secondary", size: "lg" })} mt-auto self-start focus-visible:outline-white`}
                 >
                   Open in Figma Community
                 </a>
               </div>
               <div className="flex flex-col gap-4.5 rounded-3xl bg-inverse p-8 text-inverse-text" data-reveal-item>
-                <div className="flex flex-wrap items-center justify-between gap-3">
+                <div className="flex flex-col gap-1">
                   <span className="font-display text-[28px] font-bold">In code</span>
-                  <span className="rounded-full border border-inverse-line-strong px-2.5 py-1 font-label text-xs text-inverse-muted">
-                    npm package not released yet
-                  </span>
+                  <span className="text-sm text-inverse-muted">Not on npm yet</span>
                 </div>
                 <p className="max-w-[440px] text-inverse-muted">
                   {inCode} React components live in <code className="font-label text-inverse-text">src/ui</code>. Copy them into
@@ -302,7 +294,7 @@ export default function Home() {
                   href={REPO_URL}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex min-h-12 items-center self-start rounded-md bg-inverse-text px-5 font-semibold text-inverse transition-transform active:scale-[0.97]"
+                  className={`${buttonStyles({ variant: "secondary", size: "lg" })} self-start`}
                 >
                   View source on GitHub
                 </a>

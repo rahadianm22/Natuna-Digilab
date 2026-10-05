@@ -4,8 +4,9 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import OnThisPage from "@/components/OnThisPage";
 import StatusBadge from "@/components/StatusBadge";
-import { statusLabel, statusMeaning, statusOrder, statusStyle } from "@/lib/natuna-tracker";
-import { productTracker } from "@/lib/components-data";
+import CodeBadge from "@/components/CodeBadge";
+import { codeMeaning, statusLabel, statusMeaning, statusOrder, statusStyle } from "@/lib/natuna-tracker";
+import { hasReactCode, productTracker } from "@/lib/components-data";
 import { FIGMA_COMMUNITY_URL, ISSUES_URL, REPO_URL, TRACKER_SNAPSHOT } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -26,6 +27,7 @@ const linkClass = "font-medium text-blue-800 underline underline-offset-4 hover:
 
 export default function DocsPage() {
   const ready = productTracker.filter((t) => t.status === "Selesai").length;
+  const inReact = productTracker.filter((t) => hasReactCode(t.slug)).length;
 
   return (
     <div className="flex min-h-screen flex-col bg-canvas">
@@ -49,7 +51,7 @@ export default function DocsPage() {
                   [
                     "Components",
                     <>
-                      {productTracker.length} components on the build plan, {ready} of them ready.{" "}
+                      {productTracker.length} components on the build plan, {ready} of them ready in Figma.{" "}
                       <Link href="/naming" className={linkClass}>Naming</Link> explains how their properties are named.
                     </>,
                     "/components",
@@ -93,9 +95,13 @@ export default function DocsPage() {
             <section aria-labelledby="status" className="mt-14 scroll-mt-24">
               <h2 id="status" className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">Component status</h2>
               <p className="mt-4 leading-relaxed text-gray-700">
-                Every component in the tracker carries one of four statuses. This site uses the snapshot of{" "}
-                {TRACKER_SNAPSHOT}. A component the tracker does not list is marked Not tracked.
+                Two separate things are tracked for every component. <strong className="font-semibold text-gray-900">Design status</strong>{" "}
+                is one of four values and says where the Figma design stands. <strong className="font-semibold text-gray-900">Code</strong>{" "}
+                says whether React code exists. Read them together: Ready does not mean there is code, and having code does not
+                mean the design is final. This site uses the tracker snapshot of {TRACKER_SNAPSHOT}. A component the tracker does
+                not list is marked Not tracked.
               </p>
+              <h3 className="mt-8 text-lg font-bold text-gray-900">Design status</h3>
               <dl className="mt-5 space-y-4">
                 {statusOrder.map((s) => (
                   <div key={s} className="grid gap-2 sm:grid-cols-[8rem_1fr] sm:gap-6">
@@ -112,6 +118,18 @@ export default function DocsPage() {
                   <dd className="text-gray-700">
                     Not in the component tracker. No design sign-off and no code, so treat the page as a sketch of the
                     intent.
+                  </dd>
+                </div>
+              </dl>
+              <h3 className="mt-10 text-lg font-bold text-gray-900">Code</h3>
+              <dl className="mt-5">
+                <div className="grid gap-2 sm:grid-cols-[8rem_1fr] sm:gap-6">
+                  <dt>
+                    <CodeBadge />
+                  </dt>
+                  <dd className="text-gray-700">
+                    {codeMeaning} Today {inReact} of the {productTracker.length} components are In React. Every other page shows the
+                    design only.
                   </dd>
                 </div>
               </dl>
