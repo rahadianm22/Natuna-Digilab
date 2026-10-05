@@ -22,6 +22,11 @@ const pages: Entry[] = [
   { href: "/themes", title: "Themes", group: "Page", note: "Light and dark mode" },
   { href: "/naming", title: "Naming", group: "Page", note: "Property and page names", keywords: "property properties figma variant boolean show label tone state" },
   { href: "/privacy", title: "Privacy statement", group: "Page" },
+  { href: "/foundation#accessibility", title: "Accessibility", group: "Section", note: "WCAG 2.2 AAA rules", keywords: "wcag aaa contrast a11y focus target size motion" },
+  { href: "/themes", title: "Dark mode", group: "Section", note: "Themes", keywords: "dark light theme mode color roles" },
+  { href: "/docs#use", title: "Using it today", group: "Section", note: "Figma file and React code", keywords: "install npm package react figma duplicate start setup" },
+  { href: "/docs#status", title: "Component status", group: "Section", note: "Ready, In review, In progress, Planned", keywords: "status ready review progress planned tracker" },
+  { href: "/docs#contribute", title: "Contributing", group: "Section", keywords: "issue bug github pull request contribute" },
 ];
 
 // Tokens are searchable by every name a designer or engineer might type: the ramp name, the Tailwind
@@ -87,7 +92,7 @@ export default function CommandSearch() {
   const results = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!q) return entries.slice(0, 12);
-    return entries.filter((e) => `${e.title} ${e.group} ${e.keywords ?? ""}`.toLowerCase().includes(q)).slice(0, 20);
+    return entries.filter((e) => `${e.title} ${e.group} ${e.note ?? ""} ${e.keywords ?? ""}`.toLowerCase().includes(q)).slice(0, 20);
   }, [query]);
 
   function open() {
@@ -129,6 +134,10 @@ export default function CommandSearch() {
     } else if (e.key === "Enter") {
       e.preventDefault();
       go(results[index]);
+    } else if (e.key === "Escape") {
+      // A search field clears itself on the first Esc; here Esc should close the dialog in one press.
+      e.preventDefault();
+      close();
     }
   }
 
@@ -138,11 +147,11 @@ export default function CommandSearch() {
         type="button"
         onClick={open}
         aria-label="Search the documentation"
-        className="flex h-11 min-w-11 items-center justify-center gap-2 rounded-md border border-gray-300 px-2.5 text-sm text-gray-600 transition-colors hover:bg-gray-50 sm:h-9 sm:min-w-9 lg:w-52 lg:justify-start"
+        className="flex h-11 min-w-11 items-center justify-center gap-2 rounded-md border border-gray-300 px-2.5 text-sm text-gray-700 transition-colors hover:bg-gray-50 lg:w-52 lg:justify-start"
       >
         <MagnifyingGlass size={16} aria-hidden="true" />
         <span className="hidden flex-1 text-left lg:block">Search docs</span>
-        <kbd className="hidden rounded border border-gray-300 px-1.5 font-mono-code text-[11px] text-gray-600 lg:block">Ctrl K</kbd>
+        <kbd className="hidden rounded border border-gray-300 px-1.5 font-mono-code text-[11px] text-gray-700 lg:block">Ctrl K</kbd>
       </button>
 
       <dialog
@@ -151,7 +160,7 @@ export default function CommandSearch() {
         onClick={(e) => e.target === dialog.current && close()}
         className="m-auto mt-[12vh] w-[min(36rem,calc(100vw-2rem))] rounded-xl border border-gray-200 bg-surface p-0 text-gray-900 backdrop:bg-ink/60"
       >
-        <div className="flex items-center gap-3 border-b border-gray-200 px-4">
+        <div className="flex items-center gap-3 border-b border-gray-200 px-4 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-blue-600">
           <MagnifyingGlass size={18} aria-hidden="true" className="text-gray-500" />
           <input
             ref={input}
@@ -168,7 +177,7 @@ export default function CommandSearch() {
             aria-expanded="true"
             aria-controls="command-results"
             aria-activedescendant={results[index] ? `result-${index}` : undefined}
-            className="h-12 w-full bg-transparent text-sm text-gray-900 placeholder:text-gray-600 focus:outline-none"
+            className="h-12 w-full bg-transparent text-sm text-gray-900 placeholder:text-gray-700 focus:outline-none"
           />
         </div>
         <ul id="command-results" role="listbox" aria-label="Results" className="max-h-[50vh] overflow-y-auto p-2">
@@ -181,23 +190,26 @@ export default function CommandSearch() {
               onMouseMove={() => setIndex(i)}
               onClick={() => go(r)}
               className={`flex min-h-11 cursor-pointer items-center justify-between gap-3 rounded-md px-3 text-sm ${
-                i === index ? "bg-blue-50 text-blue-800" : "text-gray-800"
+                i === index ? "bg-blue-50 text-blue-900" : "text-gray-800"
               }`}
             >
               <span className="truncate font-medium">{r.title}</span>
-              <span className="flex shrink-0 items-center gap-2 text-xs text-gray-600">
-                {r.note && <span>{r.note}</span>}
+              <span className="flex shrink-0 items-center gap-2 text-xs text-gray-700">
+                {r.note && r.note !== r.group && <span>{r.note}</span>}
                 <span>{r.group}</span>
               </span>
             </li>
           ))}
           {results.length === 0 && (
-            <li className="px-3 py-6 text-center text-sm text-gray-600">
-              Nothing matches &ldquo;{query.trim()}&rdquo;. Try a component such as Button, or a token such as #026acc.
+            <li className="px-3 py-6 text-center text-sm text-gray-700">
+              Nothing matches &ldquo;{query.trim()}&rdquo;. Try a component such as Button, or a token such as #015099.
             </li>
           )}
         </ul>
-        <div className="border-t border-gray-200 px-4 py-2 text-xs text-gray-600">
+        <p role="status" className="sr-only">
+          {query.trim() ? `${results.length} result${results.length === 1 ? "" : "s"}` : ""}
+        </p>
+        <div className="border-t border-gray-200 px-4 py-2 text-xs text-gray-700">
           Arrow keys to move, Enter to open, Esc to close.
         </div>
       </dialog>

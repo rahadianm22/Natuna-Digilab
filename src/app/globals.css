@@ -59,8 +59,8 @@
   --color-blue-400: #359dff;
   --color-blue-500: #0285ff;
   --color-blue-600: #0276e3;
-  --color-blue-700: #015099;
-  --color-blue-800: #013566;
+  --color-blue-700: #026acc;
+  --color-blue-800: #015099;
   --color-blue-900: #013566;
   --color-blue-950: #001b33;
 
@@ -71,7 +71,7 @@
   --color-gray-300: #cdd5df;
   --color-gray-400: #9aa4b2;
   --color-gray-500: #697586;
-  --color-gray-600: #364152;
+  --color-gray-600: #4b5565;
   --color-gray-700: #364152;
   --color-gray-800: #27303f;
   --color-gray-900: #19212e;
@@ -86,7 +86,7 @@
   --color-emerald-500: #5db725;
   --color-emerald-600: #54a522;
   --color-emerald-700: #4a921e;
-  --color-emerald-800: #25490f;
+  --color-emerald-800: #386e16;
   --color-emerald-900: #25490f;
   --color-emerald-950: #132507;
 
@@ -111,8 +111,8 @@
   --color-red-400: #ee6d6e;
   --color-red-500: #ea484a;
   --color-red-600: #d64748;
-  --color-red-700: #8c2b2c;
-  --color-red-800: #5e1d1e;
+  --color-red-700: #bb3a3b;
+  --color-red-800: #8c2b2c;
   --color-red-900: #5e1d1e;
   --color-red-950: #2f0e0f;
 
@@ -203,13 +203,17 @@
   --color-blue-100: #013566;
   --color-blue-200: #015099;
   --color-blue-300: #026acc;
-  --color-blue-700: #9aceff;
-  --color-blue-800: #d1e9ff;
+  /* Focus rings: #0276e3 is under 3:1 on the dark surface, #359dff clears it. */
+  --color-blue-600: #359dff;
+  --color-blue-700: #67b6ff;
+  --color-blue-800: #9aceff;
+  --color-blue-900: #d1e9ff;
 
   --color-emerald-50: #132507;
   --color-emerald-100: #25490f;
   --color-emerald-200: #386e16;
-  --color-emerald-800: #d4ecc5;
+  --color-emerald-800: #aad98c;
+  --color-emerald-900: #d4ecc5;
 
   --color-amber-50: #322400;
   --color-amber-100: #644800;
@@ -219,8 +223,9 @@
   --color-red-50: #2f0e0f;
   --color-red-100: #5e1d1e;
   --color-red-200: #8c2b2c;
-  --color-red-700: #f7b6b7;
-  --color-red-800: #fbdadb;
+  --color-red-700: #f29192;
+  --color-red-800: #f7b6b7;
+  --color-red-900: #fbdadb;
 
   --color-teal-100: #003f66;
   --color-violet-100: #3f1e6b;
@@ -245,7 +250,7 @@
   --color-gray-300: #cdd5df;
   --color-gray-400: #9aa4b2;
   --color-gray-500: #697586;
-  --color-gray-600: #364152;
+  --color-gray-600: #4b5565;
   --color-gray-700: #364152;
   --color-gray-800: #27303f;
   --color-gray-900: #19212e;
@@ -255,13 +260,16 @@
   --color-blue-100: #d1e9ff;
   --color-blue-200: #9aceff;
   --color-blue-300: #67b6ff;
-  --color-blue-700: #015099;
-  --color-blue-800: #013566;
+  --color-blue-600: #0276e3;
+  --color-blue-700: #026acc;
+  --color-blue-800: #015099;
+  --color-blue-900: #013566;
 
   --color-emerald-50: #f7fbf3;
   --color-emerald-100: #e5f4dd;
   --color-emerald-200: #d4ecc5;
-  --color-emerald-800: #25490f;
+  --color-emerald-800: #386e16;
+  --color-emerald-900: #25490f;
 
   --color-amber-50: #fffbf0;
   --color-amber-100: #fef2d2;
@@ -271,8 +279,9 @@
   --color-red-50: #fef1f2;
   --color-red-100: #fbdadb;
   --color-red-200: #f7b6b7;
-  --color-red-700: #8c2b2c;
-  --color-red-800: #5e1d1e;
+  --color-red-700: #bb3a3b;
+  --color-red-800: #8c2b2c;
+  --color-red-900: #5e1d1e;
 
   --color-teal-100: #d1edff;
   --color-violet-100: #dfc6ff;
@@ -294,7 +303,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Code, hex values, and token names: a monospace face, so characters people copy cannot be misread. */
+/* Code, hex values, and token names: Urbanist like the rest of the site, with tabular figures so hex values line up. */
 .font-mono-code {
   font-family: var(--font-urbanist), ui-sans-serif, system-ui, sans-serif;
   font-variant-numeric: tabular-nums;
@@ -311,6 +320,16 @@ body {
   /* A landmark focused by "Skip to content" needs no ring; focus moves on from there. */
   [tabindex="-1"]:focus {
     outline: none;
+  }
+
+  /* Keyboard focus and in-page jumps clear the sticky header (65px), so a focused control is never hidden under it. */
+  html {
+    scroll-padding-top: 5rem;
+  }
+  @media (width < 64rem) {
+    html:has(.with-section-row) {
+      scroll-padding-top: 8.5rem;
+    }
   }
 
   /* "On this page" links target headings, so the heading itself clears the sticky header. */

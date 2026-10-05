@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import NextPage from "@/components/NextPage";
 import OnThisPage from "@/components/OnThisPage";
 import { statusLabel, statusStyle, type TrackerStatus } from "@/lib/natuna-tracker";
 
 export const metadata: Metadata = {
   title: "Naming",
+  alternates: { canonical: "/naming" },
   description: "How Natuna Digilab names component properties and Figma pages, and how page names map to tracker status.",
 };
 
@@ -68,10 +70,10 @@ const groups: { title: string; props: Prop[] }[] = [
 
 // Figma page names carry the build stage, and each stage matches a tracker status.
 const pages: { progress: string; figma: string; meaning: string; status?: TrackerStatus }[] = [
-  { progress: "0%", figma: "🟥 Under Construction", meaning: "The component is under development.", status: "Belum" },
-  { progress: "30%", figma: "🟧 Concepting", meaning: "The component is being concepted.", status: "OnProgress" },
-  { progress: "60%", figma: "🟨 Documentation", meaning: "The component is crafted and needs documentation.", status: "On Review" },
-  { progress: "100%", figma: "🟩 Finish Component", meaning: "The component is complete.", status: "Selesai" },
+  { progress: "0%", figma: "🟥 Under Construction", meaning: "Not started yet.", status: "Belum" },
+  { progress: "30%", figma: "🟧 Concepting", meaning: "Being concepted and designed.", status: "OnProgress" },
+  { progress: "60%", figma: "🟨 Documentation", meaning: "Designed, being documented and reviewed.", status: "On Review" },
+  { progress: "100%", figma: "🟩 Finish Component", meaning: "Signed off in Figma.", status: "Selesai" },
   { progress: "Pending", figma: "🟦 Pending", meaning: "Work on the component is paused." },
   { progress: "Takedown", figma: "⬛ Takedown", meaning: "The component was taken down after it was crafted." },
 ];
@@ -91,8 +93,8 @@ const sections = [
 ];
 
 const kindTone: Record<Prop["kind"], string> = {
-  Variant: "bg-blue-100 text-blue-800",
-  Boolean: "bg-emerald-100 text-emerald-800",
+  Variant: "bg-blue-100 text-blue-900",
+  Boolean: "bg-emerald-100 text-emerald-900",
   Text: "bg-amber-100 text-amber-900",
   "Instance swap": "bg-gray-100 text-gray-700",
 };
@@ -106,9 +108,10 @@ export default function NamingPage() {
       <div className="mx-auto flex w-full max-w-7xl gap-16 px-6 pb-24 pt-14">
         <main id="main" tabIndex={-1} className="min-w-0 flex-1">
           <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">Naming</h1>
-          <p className="mt-5 max-w-2xl text-lg leading-relaxed text-gray-600">
+          <p className="mt-5 max-w-2xl text-lg leading-relaxed text-gray-700">
             Every component in the Figma file uses the same property names, so a designer can pick up any component
-            and an engineer can map it to props without guessing. Figma pages are named by build stage, and each stage
+            and an engineer reading the file knows what each property controls. The React props on each component page
+            follow the same ideas, but their names are written in code style. Figma pages are named by build stage, and each stage
             matches a status in the component tracker.
           </p>
 
@@ -117,7 +120,7 @@ export default function NamingPage() {
             <ol className="mt-5 max-w-3xl space-y-3">
               {rules.map((r, i) => (
                 <li key={r} className="flex gap-4 text-gray-700">
-                  <span className="w-6 shrink-0 font-semibold tabular-nums text-blue-700">{i + 1}</span>
+                  <span className="w-6 shrink-0 font-semibold tabular-nums text-blue-800">{i + 1}</span>
                   {r}
                 </li>
               ))}
@@ -136,7 +139,7 @@ export default function NamingPage() {
                   <h3 className="text-lg font-semibold text-gray-900">{g.title}</h3>
                   <div className="mt-3 overflow-hidden rounded-xl border border-gray-200 bg-surface">
                     <table className="w-full text-left text-sm">
-                      <thead className="hidden border-b border-gray-200 text-gray-600 sm:table-header-group">
+                      <thead className="hidden border-b border-gray-200 text-gray-700 sm:table-header-group">
                         <tr>
                           <th scope="col" className="w-[26%] px-4 py-3 font-medium">Figma name</th>
                           <th scope="col" className="w-[16%] px-4 py-3 font-medium">Kind</th>
@@ -181,11 +184,12 @@ export default function NamingPage() {
                     )}
                   </div>
                   <div className="font-semibold text-gray-900">{p.figma}</div>
-                  <p className="text-sm text-gray-600">{p.meaning}</p>
+                  <p className="text-sm text-gray-700">{p.meaning}</p>
                 </li>
               ))}
             </ol>
           </section>
+          <NextPage href="/components" title="Components" note="The components these names apply to, by status." />
         </main>
 
         <OnThisPage items={sections} className="hidden w-40 lg:block" />

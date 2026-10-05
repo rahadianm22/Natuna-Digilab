@@ -56,7 +56,9 @@ test("component page: live demo, JS/TS tabs, copy, expand", async ({ page }) => 
   const before = await remove.boundingBox();
   await remove.click();
   await expect(remove).toHaveAttribute("aria-busy", "true");
-  await expect(remove).toBeDisabled();
+  await expect(remove).toHaveAttribute("aria-disabled", "true");
+  // Busy, not disabled: keyboard focus stays on the button while it works.
+  await expect(remove).toBeFocused();
   expect((await remove.boundingBox())?.width).toBe(before?.width);
   await expect(remove).not.toHaveAttribute("aria-busy", "true", { timeout: 4000 });
   await expect(usage.getByRole("button", { name: "Unavailable" })).toBeDisabled();
@@ -87,8 +89,10 @@ test("home bills card: select, pay, and its own theme switch", async ({ page }) 
   await page.getByRole("button", { name: "Pay Rp 762.500" }).click();
   await expect(page.getByText("2 bills due this week")).toBeVisible();
 
-  await page.getByRole("button", { name: "Show the bills card in dark mode" }).click();
+  // The card starts in the site theme (light here), and its switch pins it to the other mode.
+  await page.getByRole("button", { name: "Bills card theme: Light" }).click();
   await expect(page.locator("div.theme-dark").first()).toBeVisible();
+  await expect(page.getByRole("button", { name: "Bills card theme: Dark" })).toBeVisible();
 });
 
 test("home status filter: tabs filter the list and follow the arrow keys", async ({ page }) => {

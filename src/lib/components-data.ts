@@ -16,16 +16,6 @@ export interface ComponentMeta {
   dont: string[];
 }
 
-export const categories: { name: ComponentCategory }[] = [
-  { name: "Action" },
-  { name: "Display" },
-  { name: "Form" },
-  { name: "Navigation" },
-  { name: "Overlay" },
-  { name: "Feedback" },
-  { name: "Documentation" },
-];
-
 export const components: ComponentMeta[] = [
   {
     slug: "button",
@@ -680,8 +670,8 @@ export const statusText: Record<ComponentStatus, string> = {
 };
 
 export const statusTone: Record<ComponentStatus, string> = {
-  stable: "bg-emerald-100 text-emerald-800",
-  review: "bg-blue-100 text-blue-800",
+  stable: "bg-emerald-100 text-emerald-900",
+  review: "bg-blue-100 text-blue-900",
   beta: "bg-amber-100 text-amber-900",
   planned: "bg-gray-100 text-gray-700",
   // Outlined rather than filled: it is outside the plan, not a step in it.
@@ -706,8 +696,4 @@ export function componentGroup(slug: string): ComponentGroup {
 
 export function getComponent(slug: string) {
   return components.find((c) => c.slug === slug);
-}
-
-export function componentsByCategory(category: string) {
-  return components.filter((c) => c.category === category);
 }

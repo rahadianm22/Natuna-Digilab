@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import Header from "@/components/Header";
@@ -12,6 +13,8 @@ import { componentDocs } from "@/lib/component-docs";
 import { palettes } from "@/lib/natuna-palette";
 import { lastBuildDay, tracker, type TrackerStatus } from "@/lib/natuna-tracker";
 import { FIGMA_COMMUNITY_URL, REPO_URL, TRACKER_SNAPSHOT } from "@/lib/site";
+
+export const metadata: Metadata = { alternates: { canonical: "/" } };
 
 // Everything counted here comes from the tracker snapshot and the palette, never typed in by hand.
 const groupOf: Record<TrackerStatus, Group> = { Selesai: "ready", "On Review": "progress", OnProgress: "progress", Belum: "planned" };
@@ -32,9 +35,9 @@ const h2 = "font-display text-[clamp(36px,4.4vw,56px)] font-extrabold leading-[1
 
 // The three layers every component draws from, with the names they carry in Figma.
 const semantic = [
-  { token: "bg/brand", swatch: "bg-[#026acc]", to: "blue/700" },
+  { token: "bg/brand", swatch: "bg-[#015099]", to: "blue/800" },
   { token: "text/on-brand", swatch: "bg-white", to: "white" },
-  { token: "text/danger", swatch: "bg-[#bb3a3b]", to: "red/700" },
+  { token: "text/danger", swatch: "bg-[#8c2b2c]", to: "red/800" },
   { token: "border/focus", swatch: "border-2 border-[#0276e3] bg-transparent", to: "blue/600" },
 ];
 const dimension = [
@@ -52,24 +55,22 @@ export default function Home() {
 
       <main id="main" tabIndex={-1} className="w-full overflow-x-clip">
         {/* Hero: what Natuna is, where the build stands, and the system working on the right. */}
-        <section aria-labelledby="hero" className="mx-auto flex w-full max-w-[1240px] flex-wrap items-center gap-14 px-6 pb-22 pt-18">
+        <section aria-labelledby="hero" className="mx-auto flex w-full max-w-7xl flex-wrap items-center gap-14 px-6 pb-22 pt-18">
           <div className="flex min-w-0 flex-[1_1_460px] flex-col gap-7">
-            <p className="rise inline-flex items-center gap-2.5 self-start rounded-full border border-gray-200 bg-surface py-1.5 pl-1.5 pr-3.5 text-sm font-medium">
-              <span className="rounded-full bg-lime px-2.5 py-0.5 font-label text-xs text-inverse">
-                {ready} / {total}
-              </span>
-              components ready, {days}-day build in progress
+            <p className="rise text-sm text-gray-700">
+              <span className="font-semibold tabular-nums text-gray-900">{ready} of {total}</span> components ready.
+              The {days}-day build is in progress.
             </p>
             <h1 id="hero" className="rise font-display text-[clamp(42px,5vw,68px)] font-extrabold leading-[0.98] tracking-[-0.035em]" style={{ "--d": "60ms" } as CSSProperties}>
               One system.
               <br />
-              Figma and React,
+              Designed in Figma,
               <br />
-              <span className="text-blue-700">kept in sync.</span>
+              <span className="text-blue-800">built in React.</span>
             </h1>
             <p className="rise max-w-[520px] text-[19px] leading-[1.55] text-gray-700" style={{ "--d": "120ms" } as CSSProperties}>
-              One set of tokens, components, and usage rules for digital products, built for fintech and banking flows
-              and kept the same in Figma and in React.
+              Tokens, components, and usage rules for digital products, from banking and payments to everyday consumer
+              apps. Figma is the source of truth; {inCode} components are in React so far, and more arrive each build day.
             </p>
             <div className="rise flex flex-wrap gap-3" style={{ "--d": "180ms" } as CSSProperties}>
               <Link
@@ -85,7 +86,7 @@ export default function Home() {
                 Read the introduction
               </Link>
             </div>
-            <dl className="rise flex flex-wrap gap-7 pt-2 text-sm text-gray-600" style={{ "--d": "240ms" } as CSSProperties}>
+            <dl className="rise flex flex-wrap gap-7 pt-2 text-sm text-gray-700" style={{ "--d": "240ms" } as CSSProperties}>
               {[
                 [String(palettes.length), "color ramps"],
                 [String(total), "components tracked"],
@@ -107,7 +108,7 @@ export default function Home() {
         {/* Foundation: always navy, so the tokens read as a layer under everything else. */}
         <Reveal>
           <section id="foundation" aria-labelledby="foundation-title" className="bg-inverse text-inverse-text">
-            <div className="mx-auto flex w-full max-w-[1240px] flex-col gap-12 px-6 py-24">
+            <div className="mx-auto flex w-full max-w-7xl flex-col gap-12 px-6 py-24">
               <div className="flex flex-wrap items-end justify-between gap-x-16 gap-y-6">
                 <div className="flex flex-[1_1_520px] flex-col gap-4" data-reveal-item>
                   <span className={`${eyebrow} text-lime`}>01 · Foundation</span>
@@ -131,14 +132,14 @@ export default function Home() {
                     {azure.steps.map((s) => (
                       <span
                         key={s.step}
-                        className={`rounded-md ${s.step === "700" ? "outline-2 outline-offset-2 outline-lime" : ""}`}
+                        className={`rounded-md ${s.step === "800" ? "outline-2 outline-offset-2 outline-lime" : ""}`}
                         style={{ background: s.hex }}
                       />
                     ))}
                   </div>
                   <div className="flex justify-between font-label text-[13px]">
-                    <span>blue/700</span>
-                    <span className="text-inverse-subtle">#026ACC</span>
+                    <span>blue/800</span>
+                    <span className="text-inverse-subtle">#015099</span>
                   </div>
                 </div>
 
@@ -201,10 +202,10 @@ export default function Home() {
         </Reveal>
 
         <Reveal>
-          <section id="components" aria-labelledby="components-title" className="mx-auto flex w-full max-w-[1240px] flex-col gap-9 px-6 py-24">
+          <section id="components" aria-labelledby="components-title" className="mx-auto flex w-full max-w-7xl flex-col gap-9 px-6 py-24">
             <div className="flex flex-wrap items-end justify-between gap-x-16 gap-y-6">
               <div className="flex flex-[1_1_520px] flex-col gap-4" data-reveal-item>
-                <span className={`${eyebrow} text-blue-700`}>02 · Components</span>
+                <span className={`${eyebrow} text-blue-800`}>02 · Components</span>
                 <h2 id="components-title" className={h2}>
                   Built in public, one day at a time.
                 </h2>
@@ -214,7 +215,7 @@ export default function Home() {
                   <span className="font-semibold">
                     {ready} of {total} ready
                   </span>
-                  <span className="text-gray-600">Snapshot of {TRACKER_SNAPSHOT}</span>
+                  <span className="text-gray-700">Snapshot of {TRACKER_SNAPSHOT}</span>
                 </div>
                 <div
                   className="flex h-3 overflow-hidden rounded-full bg-gray-200"
@@ -233,15 +234,15 @@ export default function Home() {
         </Reveal>
 
         <Reveal>
-          <section aria-labelledby="figma" className="mx-auto w-full max-w-[1240px] px-6 pb-24">
+          <section aria-labelledby="figma" className="mx-auto w-full max-w-7xl px-6 pb-24">
             <FigmaPanel />
           </section>
         </Reveal>
 
         <Reveal>
-          <section id="intro" aria-labelledby="start-title" className="mx-auto flex w-full max-w-[1240px] flex-col gap-8 px-6 pb-24">
+          <section id="intro" aria-labelledby="start-title" className="mx-auto flex w-full max-w-7xl flex-col gap-8 px-6 pb-24">
             <div className="flex flex-col gap-4" data-reveal-item>
-              <span className={`${eyebrow} text-blue-700`}>04 · Get started</span>
+              <span className={`${eyebrow} text-blue-800`}>04 · Get started</span>
               <h2 id="start-title" className="font-display text-[clamp(32px,3.6vw,46px)] font-extrabold leading-[1.04] tracking-[-0.03em]">
                 Pick your starting point.
               </h2>
@@ -273,7 +274,7 @@ export default function Home() {
                   {inCode} React components live in <code className="font-label text-lime">src/ui</code>. Copy them into
                   your project while the package is on its way.
                 </p>
-                <pre className="overflow-x-auto rounded-[14px] border border-inverse-line bg-inverse-raised p-4.5 font-label text-[13px] leading-[1.7] text-[#dce3ec]">
+                <pre tabIndex={0} aria-label="Importing Button from src/ui" className="overflow-x-auto rounded-[14px] border border-inverse-line bg-inverse-raised p-4.5 font-label text-[13px] leading-[1.7] text-[#dce3ec]">
                   <span className="text-inverse-subtle">{"// src/ui"}</span>
                   {"\n"}
                   <span className="text-lime">import</span> {"{ Button } "}

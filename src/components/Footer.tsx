@@ -17,12 +17,12 @@ const projectLinks = [
   { href: "/privacy", label: "Privacy", external: false },
 ];
 
-const linkClass = "inline-flex min-h-11 items-center text-[15px] text-gray-900 transition-colors hover:text-blue-700 sm:min-h-0 sm:py-1";
+const linkClass = "inline-flex min-h-11 items-center text-[15px] text-gray-900 transition-colors hover:text-blue-800 sm:py-1";
 
 export default function Footer() {
   return (
     <footer className="mt-auto border-t border-gray-200">
-      <div className="mx-auto flex w-full max-w-[1240px] flex-wrap justify-between gap-x-16 gap-y-8 px-6 pb-10 pt-12">
+      <div className="mx-auto flex w-full max-w-7xl flex-wrap justify-between gap-x-16 gap-y-8 px-6 pb-10 pt-12">
         <div className="flex flex-[1_1_260px] flex-col gap-3">
           <Link
             href="/"
@@ -32,13 +32,13 @@ export default function Footer() {
             <br />
             Digilab
           </Link>
-          <p className="text-sm text-gray-600">&copy; {new Date().getFullYear()} Natuna Digilab. Version 0.1, in beta.</p>
+          <p className="text-sm text-gray-700">&copy; {new Date().getFullYear()} Natuna Digilab. Site in beta, built on Foundation Design System v1.0.</p>
         </div>
 
         <div className="flex flex-col items-start gap-8 sm:items-end">
         <div className="flex flex-wrap gap-x-16 gap-y-8">
           <nav aria-label="Docs" className="flex flex-col gap-1.5">
-            <h2 className="font-label text-xs font-normal text-gray-600">Docs</h2>
+            <h2 className="font-label text-xs font-normal text-gray-700">Docs</h2>
             {docsLinks.map((l) => (
               <Link key={l.href} href={l.href} className={linkClass}>
                 {l.label}
@@ -46,7 +46,7 @@ export default function Footer() {
             ))}
           </nav>
           <nav aria-label="Project" className="flex flex-col gap-1.5">
-            <h2 className="font-label text-xs font-normal text-gray-600">Project</h2>
+            <h2 className="font-label text-xs font-normal text-gray-700">Project</h2>
             {projectLinks.map((l) =>
               l.external ? (
                 <a key={l.href} href={l.href} target="_blank" rel="noreferrer" className={linkClass}>

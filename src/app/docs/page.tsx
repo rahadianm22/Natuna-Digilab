@@ -4,20 +4,14 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import OnThisPage from "@/components/OnThisPage";
 import StatusBadge from "@/components/StatusBadge";
-import { statusLabel, statusOrder, statusStyle, tracker, type TrackerStatus } from "@/lib/natuna-tracker";
+import { statusLabel, statusMeaning, statusOrder, statusStyle, tracker } from "@/lib/natuna-tracker";
 import { FIGMA_COMMUNITY_URL, ISSUES_URL, REPO_URL, TRACKER_SNAPSHOT } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Introduction",
+  alternates: { canonical: "/docs" },
   description:
     "What the Natuna Digilab design system contains today, how to use it, how component status works, and how to contribute.",
-};
-
-const statusMeaning: Record<TrackerStatus, string> = {
-  Selesai: "Designed, documented, and signed off. Safe to use in product work.",
-  "On Review": "Built and waiting for review. Expect small changes.",
-  OnProgress: "Being designed or built now. Do not depend on its details yet.",
-  Belum: "Scheduled on a build day but not started. The page shows the intended design.",
 };
 
 const sections = [
@@ -27,7 +21,7 @@ const sections = [
   { id: "contribute", label: "Contributing" },
 ];
 
-const linkClass = "font-medium text-blue-700 underline underline-offset-4 hover:text-blue-800";
+const linkClass = "font-medium text-blue-800 underline underline-offset-4 hover:text-blue-900";
 
 export default function DocsPage() {
   const ready = tracker.filter((t) => t.status === "Selesai").length;
@@ -38,7 +32,7 @@ export default function DocsPage() {
       <div className="mx-auto flex w-full max-w-7xl gap-16 px-6 pb-24 pt-14">
         <main id="main" tabIndex={-1} className="min-w-0 max-w-3xl flex-1">
           <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">Introduction</h1>
-          <p className="mt-5 text-lg leading-relaxed text-gray-600">
+          <p className="mt-5 text-lg leading-relaxed text-gray-700">
             Natuna Digilab is an open design system for digital products, from banking and payments to
             everyday consumer apps. It gives designers and engineers one set of foundations, components, and
             usage rules, so products built by different teams look and behave the same.

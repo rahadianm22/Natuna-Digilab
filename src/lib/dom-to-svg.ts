@@ -43,9 +43,8 @@ function intersect(c: Clip, r: DOMRect): Clip {
   return { l: Math.max(c.l, r.left), t: Math.max(c.t, r.top), r: Math.min(c.r, r.right), b: Math.min(c.b, r.bottom) };
 }
 
-// Figma resolves the first family it has; Urbanist and IBM Plex Mono both ship with Figma's Google Fonts.
+// Figma resolves the first family it has; Urbanist ships with Figma's Google Fonts.
 const FONT = "Urbanist, sans-serif";
-const MONO = "IBM Plex Mono, monospace";
 
 const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 const n = (v: number) => Math.round(v * 100) / 100;
@@ -160,7 +159,7 @@ export function domToSvg(root: HTMLElement, name = "Natuna component"): string {
     const size = parseFloat(cs.fontSize);
     const transform = cs.textTransform;
     const tracking = cs.letterSpacing === "normal" ? 0 : parseFloat(cs.letterSpacing);
-    const family = /mono/i.test(cs.fontFamily) ? MONO : FONT;
+    const family = FONT;
 
     // Group words by the line they landed on, so wrapped text keeps its line breaks.
     const lines: { x: number; top: number; h: number; words: string[] }[] = [];

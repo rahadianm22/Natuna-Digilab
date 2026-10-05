@@ -31,7 +31,7 @@ export default function Swatch({
       type="button"
       onClick={copy}
       aria-label={`${step}${anchor ? ", anchor" : ""}, ${hex}, ${onWhite.toFixed(2)} to 1 on white. Copy hex`}
-      className="group flex flex-col rounded-md text-left"
+      className="group flex w-18 shrink-0 flex-col rounded-md text-left sm:w-auto"
     >
       <span
         className={`block h-14 w-full rounded-md transition-transform group-hover:-translate-y-0.5 ${
@@ -41,10 +41,10 @@ export default function Swatch({
       />
       <span className="mt-2 text-xs font-semibold text-gray-900">
         {step}
-        {anchor && <span className="ml-1 font-normal text-gray-600">anchor</span>}
+        {anchor && <span className="ml-1 font-normal text-gray-700">anchor</span>}
       </span>
-      <span className="font-mono-code text-[11px] text-gray-600">{copied ? "Copied" : hex}</span>
-      <span className="text-[11px] tabular-nums text-gray-600">
+      <span className="font-mono-code text-[11px] text-gray-700">{copied ? "Copied" : hex}</span>
+      <span className="text-[11px] tabular-nums text-gray-700">
         {onWhite.toFixed(2)}:1{onWhite >= 7 ? " AAA" : onWhite >= 4.5 ? " AA" : ""}
       </span>
     </button>

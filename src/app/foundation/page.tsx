@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import NextPage from "@/components/NextPage";
 import OnThisPage, { SectionChips } from "@/components/OnThisPage";
 import Swatch from "@/components/Swatch";
 import { palettes } from "@/lib/natuna-palette";
@@ -8,6 +9,7 @@ import { contrast } from "@/lib/contrast";
 
 export const metadata: Metadata = {
   title: "Foundation",
+  alternates: { canonical: "/foundation" },
   description: "Color, typography, radius, number, and effect tokens from the Natuna Digilab Foundation Design System v1.0.",
 };
 
@@ -132,17 +134,18 @@ const radii = [
 
 // WCAG 2.2 AAA criteria the system commits to. Checked on every page by the axe tests (wcag2aaa).
 const aaa = [
-  { rule: "Text contrast", sc: "1.4.6 Contrast (Enhanced)", min: "7:1", how: "Body and secondary text use gray-900 and gray-600; links use blue-700. All clear 7:1 on canvas and surface, light and dark." },
+  { rule: "Text contrast", sc: "1.4.6 Contrast (Enhanced)", min: "7:1", how: "Body and secondary text use gray-900 and gray-700; links use blue-800. All clear 7:1 on canvas and surface, light and dark." },
   { rule: "Large text contrast", sc: "1.4.6 Contrast (Enhanced)", min: "4.5:1", how: "Applies at 24px, or 19px bold, and up. Headings meet 7:1 anyway." },
-  { rule: "Text on fills", sc: "1.4.6 Contrast (Enhanced)", min: "7:1", how: "Brand fill is blue-800 #015099 (8.0:1 with white) and danger is red-800 #8c2b2c (8.9:1). Lime carries navy text only." },
-  { rule: "Non-text contrast", sc: "1.4.11 Non-text Contrast", min: "3:1", how: "Input borders use gray-500 and the focus ring blue-600, both above 3:1 on their surface." },
+  { rule: "Text on fills", sc: "1.4.6 Contrast (Enhanced)", min: "7:1", how: "Brand fill is blue-800 #015099 (8.0:1 with white) and danger is red-800 #8c2b2c (8.4:1). Lime carries navy text only." },
+  { rule: "Non-text contrast", sc: "1.4.11 Non-text Contrast", min: "3:1", how: "Input borders use gray-500 and the focus ring blue-600 (blue-400 in dark), all above 3:1 on their surface." },
   { rule: "Target size", sc: "2.5.5 Target Size (Enhanced)", min: "44 × 44px", how: "Buttons, links in lists, tabs and toggles are at least 44px tall on touch screens." },
-  { rule: "Focus", sc: "2.4.13 Focus Appearance", min: "2px, 3:1", how: "A 2px blue-600 outline with a 2px offset on every focusable element." },
+  { rule: "Focus", sc: "2.4.13 Focus Appearance", min: "2px, 3:1", how: "A 2px outline with a 2px offset on every focusable element: blue-600 in light, blue-400 in dark, so it clears 3:1 on both surfaces." },
   { rule: "Motion", sc: "2.3.3 Animation from Interactions", min: "Can be turned off", how: "Every animation stops under prefers-reduced-motion; nothing essential depends on motion." },
   { rule: "Color alone", sc: "1.4.1 Use of Color", min: "Never", how: "Status always pairs color with a text label or a shape." },
 ];
 
 const sections = [
+  { id: "accessibility", label: "Accessibility" },
   { id: "color", label: "Color" },
   { id: "typography", label: "Typography" },
   { id: "number", label: "Number" },
@@ -159,7 +162,7 @@ export default function FoundationPage() {
       <div className="mx-auto flex w-full max-w-7xl gap-16 px-6 pb-24 pt-14">
         <main id="main" tabIndex={-1} className="with-section-row min-w-0 flex-1">
           <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">Foundation</h1>
-          <p className="mt-5 max-w-2xl text-lg leading-relaxed text-gray-600">
+          <p className="mt-5 max-w-2xl text-lg leading-relaxed text-gray-700">
             The tokens every component is drawn with, taken from the Foundation Design System v1.0 in Figma. Change
             a token and every component that uses it follows.
           </p>
@@ -171,7 +174,7 @@ export default function FoundationPage() {
             className="sticky top-16 z-20 -mx-6 mt-8 border-b border-gray-200 bg-canvas px-6 py-1.5 lg:hidden"
           />
 
-          <section aria-labelledby="accessibility" className="mt-16">
+          <section aria-labelledby="accessibility" className="mt-16 scroll-mt-40 lg:scroll-mt-24">
             <h2 id="accessibility" className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">Accessibility</h2>
             <p className="mt-3 max-w-2xl leading-relaxed text-gray-700">
               Natuna targets WCAG 2.2 level AAA wherever it is a property of the design: contrast, target size,
@@ -180,7 +183,7 @@ export default function FoundationPage() {
             </p>
             <div className="mt-8 overflow-hidden rounded-xl border border-gray-200 bg-surface">
               <table className="w-full text-left text-sm">
-                <thead className="hidden border-b border-gray-200 text-gray-600 sm:table-header-group">
+                <thead className="hidden border-b border-gray-200 text-gray-700 sm:table-header-group">
                   <tr>
                     <th scope="col" className="w-[28%] px-4 py-3 font-medium">Rule</th>
                     <th scope="col" className="w-[18%] px-4 py-3 font-medium">Minimum</th>
@@ -192,7 +195,7 @@ export default function FoundationPage() {
                     <tr key={r.rule} className="block px-4 py-3 sm:table-row sm:p-0">
                       <th scope="row" className="block font-semibold text-gray-900 sm:table-cell sm:px-4 sm:py-3">
                         {r.rule}
-                        <span className="block text-xs font-normal text-gray-600">{r.sc}</span>
+                        <span className="block text-xs font-normal text-gray-700">{r.sc}</span>
                       </th>
                       <td className="mt-1 block font-semibold tabular-nums text-gray-900 sm:mt-0 sm:table-cell sm:px-4 sm:py-3">{r.min}</td>
                       <td className="mt-1 block text-gray-700 sm:mt-0 sm:table-cell sm:px-4 sm:py-3">{r.how}</td>
@@ -206,8 +209,8 @@ export default function FoundationPage() {
             <h2 id="color" className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">Color</h2>
             <p className="mt-3 max-w-2xl leading-relaxed text-gray-700">
               Three brand ramps carry identity and five utility ramps carry meaning. Step 600 anchors each ramp.
-              The ratio under each swatch is its contrast against white. Small text needs 4.5:1, marked AA, and the
-              step that reaches it differs per ramp: 700 for Azure, 800 for Jade and Amber. Select a swatch to
+              The ratio under each swatch is its contrast against white. Text needs 7:1, marked AAA. Steps that reach only 4.5:1 are marked AA and suit large text alone. The
+              first AAA step differs per ramp: 800 for Azure and Imperial, 900 for Jade and Amber. Select a swatch to
               copy its hex.
             </p>
             <div className="mt-8 space-y-10">
@@ -215,10 +218,11 @@ export default function FoundationPage() {
                 <div key={p.token}>
                   <div className="mb-3 flex flex-wrap items-baseline gap-x-3 gap-y-1">
                     <h3 className="text-lg font-semibold text-gray-900">{p.label}</h3>
-                    <span className="text-sm text-gray-600">{p.group}</span>
-                    <code className="ml-auto font-mono-code text-xs text-gray-600">{p.token}-50 … {p.token}-950</code>
+                    <span className="text-sm text-gray-700">{p.group}</span>
+                    <code className="ml-auto font-mono-code text-xs text-gray-700">{p.token}-50 … {p.token}-950</code>
                   </div>
-                  <div className="grid grid-cols-4 gap-x-2 gap-y-5 sm:grid-cols-6 lg:grid-cols-11">
+                  {/* Phones get one scrolling row per ramp instead of three stacked rows. */}
+                  <div className="-mx-6 flex gap-2 overflow-x-auto px-6 pb-2 sm:mx-0 sm:grid sm:grid-cols-6 sm:gap-x-2 sm:gap-y-5 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-11">
                     {p.steps.map(({ step, hex }) => (
                       <Swatch
                         key={step}
@@ -253,12 +257,12 @@ export default function FoundationPage() {
                 <div key={t.token} className="grid gap-3 py-5 md:grid-cols-[1fr_16rem] md:items-baseline md:gap-8">
                   <div>
                     <div className={`${t.cls} text-gray-900`}>{t.token}: Send money to any account</div>
-                    <div className="mt-1 text-sm text-gray-600">{t.use}</div>
+                    <div className="mt-1 text-sm text-gray-700">{t.use}</div>
                   </div>
-                  <dl className="grid grid-cols-3 gap-2 font-mono-code text-xs text-gray-600">
+                  <dl className="grid grid-cols-3 gap-2 font-mono-code text-xs text-gray-700">
                     {["Mobile", "Tablet", "Website"].map((device, i) => (
                       <div key={device}>
-                        <dt className="font-sans text-gray-600">{device}</dt>
+                        <dt className="font-sans text-gray-700">{device}</dt>
                         <dd className="text-gray-900">{t.scale[i]}</dd>
                       </div>
                     ))}
@@ -277,29 +281,29 @@ export default function FoundationPage() {
             <div className="mt-8 grid gap-x-12 gap-y-10 lg:grid-cols-2">
               <div>
                 <h3 className="text-lg font-semibold text-gray-900">Spacing and sizing</h3>
-                <p className="mt-1 text-sm text-gray-600">0 to 160px. Bars are drawn at true size.</p>
+                <p className="mt-1 text-sm text-gray-700">0 to 160px. Bars are drawn at true size.</p>
                 <ul className="mt-4 divide-y divide-gray-200 border-y border-gray-200">
                   {numbers
                     .filter((px) => px <= 160)
                     .map((px) => (
                       <li key={px} className="grid grid-cols-[3.5rem_4.5rem_1fr] items-center gap-3 py-1.5 text-sm">
                         <code className="font-mono-code text-gray-900">{px}px</code>
-                        <span className="tabular-nums text-gray-600">{px / 16} rem</span>
-                        <span aria-hidden="true" className="h-2.5 rounded-sm bg-blue-600" style={{ width: Math.max(px, 1) }} />
+                        <span className="tabular-nums text-gray-700">{px / 16} rem</span>
+                        <span aria-hidden="true" className="h-2.5 max-w-full rounded-sm bg-blue-600" style={{ width: Math.max(px, 1) }} />
                       </li>
                     ))}
                 </ul>
               </div>
               <div>
                 <h3 className="text-lg font-semibold text-gray-900">Layout widths</h3>
-                <p className="mt-1 text-sm text-gray-600">178 to 1920px. Bars are relative to 1920px.</p>
+                <p className="mt-1 text-sm text-gray-700">178 to 1920px. Bars are relative to 1920px.</p>
                 <ul className="mt-4 divide-y divide-gray-200 border-y border-gray-200">
                   {numbers
                     .filter((px) => px > 160)
                     .map((px) => (
                       <li key={px} className="grid grid-cols-[3.5rem_4.5rem_1fr] items-center gap-3 py-1.5 text-sm">
                         <code className="font-mono-code text-gray-900">{px}px</code>
-                        <span className="tabular-nums text-gray-600">{px / 16} rem</span>
+                        <span className="tabular-nums text-gray-700">{px / 16} rem</span>
                         <span aria-hidden="true" className="h-2.5 rounded-sm bg-gray-400" style={{ width: `${(px / 1920) * 100}%` }} />
                       </li>
                     ))}
@@ -318,8 +322,8 @@ export default function FoundationPage() {
               {variants.map((v) => (
                 <div key={v.name}>
                   <h3 className="text-lg font-semibold text-gray-900">{v.name}</h3>
-                  <p className="mt-1 max-w-2xl text-sm text-gray-600">{v.body}</p>
-                  <code className="mt-2 block font-mono-code text-xs text-gray-600">{v.token}/{"{value}"}</code>
+                  <p className="mt-1 max-w-2xl text-sm text-gray-700">{v.body}</p>
+                  <code className="mt-2 block font-mono-code text-xs text-gray-700">{v.token}/{"{value}"}</code>
                   <ul className="mt-4 flex flex-wrap gap-2">
                     {v.values.map((n) => (
                       <li key={n} className="rounded-md border border-gray-200 bg-surface px-2.5 py-1 font-mono-code text-xs text-gray-900">
@@ -343,13 +347,13 @@ export default function FoundationPage() {
                 <li key={r.name}>
                   <div className={`h-20 w-20 border-2 border-blue-600 bg-blue-50 ${r.cls}`} />
                   <div className="mt-3 text-sm font-semibold text-gray-900">
-                    {r.name} <span className="font-normal text-gray-600">{r.px}</span>
+                    {r.name} <span className="font-normal text-gray-700">{r.px}</span>
                   </div>
                   {/* The Figma variable name, so a token seen in a design or a hero callout can be found here. */}
-                  <code className="block font-mono-code text-xs text-gray-600">
+                  <code className="block font-mono-code text-xs text-gray-700">
                     Rounded/{r.px === "pill" ? "1920" : r.px.replace("px", "")}
                   </code>
-                  <div className="text-sm text-gray-600">{r.use}</div>
+                  <div className="text-sm text-gray-700">{r.use}</div>
                 </li>
               ))}
             </ul>
@@ -371,13 +375,13 @@ export default function FoundationPage() {
                       className="flex max-w-full items-center justify-center rounded-xl border-2 border-gray-300 bg-surface"
                       style={{ width: f.w / 6, aspectRatio: `${f.w} / ${f.h}` }}
                     >
-                      <span className="text-xs tabular-nums text-gray-600">
+                      <span className="text-xs tabular-nums text-gray-700">
                         {f.w} × {f.h}
                       </span>
                     </div>
                     <figcaption className="mt-3 text-sm">
                       <span className="font-semibold text-gray-900">{d.name}</span>{" "}
-                      <span className="text-gray-600">{f.label.toLowerCase()}</span>
+                      <span className="text-gray-700">{f.label.toLowerCase()}</span>
                     </figcaption>
                   </figure>
                 )),
@@ -394,7 +398,7 @@ export default function FoundationPage() {
             </p>
 
             <h3 className="mt-8 text-lg font-semibold text-gray-900">Shadow</h3>
-            <p className="mt-1 max-w-2xl text-sm text-gray-600">
+            <p className="mt-1 max-w-2xl text-sm text-gray-700">
               Shadows are specified on light surfaces, so these samples stay light in both modes. In dark mode,
               elevation comes from a lighter surface instead.
             </p>
@@ -407,7 +411,7 @@ export default function FoundationPage() {
                   <div className="border-t border-gray-200 px-4 py-3">
                     <code className="font-mono-code text-sm font-semibold text-gray-900">{s.name}</code>
                     {s.layers.map((l) => (
-                      <div key={l} className="mt-1 text-xs text-gray-600">{l}</div>
+                      <div key={l} className="mt-1 text-xs text-gray-700">{l}</div>
                     ))}
                   </div>
                 </li>
@@ -422,8 +426,8 @@ export default function FoundationPage() {
                   <div aria-hidden="true" className="relative h-32 overflow-hidden bg-canvas">
                     <ul className="space-y-2 p-3 text-xs">
                       {[
-                        ["Indomaret Cikini", "-Rp 125.000", "bg-red-100 text-red-800"],
-                        ["Budi Santoso", "+Rp 500.000", "bg-emerald-100 text-emerald-800"],
+                        ["Indomaret Cikini", "-Rp 125.000", "bg-red-100 text-red-900"],
+                        ["Budi Santoso", "+Rp 500.000", "bg-emerald-100 text-emerald-900"],
                         ["PLN Token", "-Rp 200.000", "bg-amber-100 text-amber-900"],
                       ].map(([who, amount, tone]) => (
                         <li key={who} className="flex items-center gap-2">
@@ -442,12 +446,13 @@ export default function FoundationPage() {
                   </div>
                   <div className="p-4 text-sm">
                     <span className="font-semibold text-gray-900">{b.name}</span>{" "}
-                    <span className="text-gray-600">{b.px}px, fill 10%</span>
+                    <span className="text-gray-700">{b.px}px, fill 10%</span>
                   </div>
                 </li>
               ))}
             </ul>
           </section>
+          <NextPage href="/components" title="Components" note="Every component built from these tokens, with its status and usage rules." />
         </main>
 
         <OnThisPage items={sections} className="hidden w-40 lg:block" />

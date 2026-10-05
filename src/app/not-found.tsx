@@ -14,11 +14,11 @@ export default function NotFound() {
     <div className="flex min-h-screen flex-col bg-canvas">
       <Header active="" />
       <main id="main" tabIndex={-1} className="mx-auto w-full max-w-2xl px-6 pb-24 pt-20">
-        <p className="text-sm font-semibold text-blue-700">Error 404</p>
+        <p className="text-sm font-semibold text-blue-800">Error 404</p>
         <h1 className="mt-2 text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">
           This page doesn&rsquo;t exist
         </h1>
-        <p className="mt-5 text-lg leading-relaxed text-gray-600">
+        <p className="mt-5 text-lg leading-relaxed text-gray-700">
           The page or component may have been renamed, moved, or never shipped. Every component, including the
           planned ones, is listed on the components page.
         </p>

@@ -23,11 +23,19 @@ export const statusLabel: Record<TrackerStatus, string> = {
   Belum: "Planned",
 };
 
+// One definition for every page that explains a status. "Ready" is a design sign-off, not a promise of code.
+export const statusMeaning: Record<TrackerStatus, string> = {
+  Selesai: "Designed, documented, and signed off in Figma. Safe to design with. Check the component page for React code: only some Ready components have it.",
+  "On Review": "Designed and waiting for review. Expect small changes.",
+  OnProgress: "Being designed now. Do not depend on its details yet.",
+  Belum: "Scheduled on a build day but not started. The page shows the intended design.",
+};
+
 export const statusOrder: TrackerStatus[] = ["Selesai", "On Review", "OnProgress", "Belum"];
 
 export const statusStyle: Record<TrackerStatus, string> = {
-  Selesai: "bg-emerald-100 text-emerald-800",
-  "On Review": "bg-blue-100 text-blue-800",
+  Selesai: "bg-emerald-100 text-emerald-900",
+  "On Review": "bg-blue-100 text-blue-900",
   OnProgress: "bg-amber-100 text-amber-900",
   Belum: "bg-gray-100 text-gray-700",
 };

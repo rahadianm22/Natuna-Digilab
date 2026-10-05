@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Moon, Sun } from "@phosphor-icons/react";
 import { Button } from "@/ui";
 
@@ -32,13 +32,16 @@ const scale = [
 
 /** The hero's right side: a bills screen that works, the Button in every state, and the type scale. */
 export default function HeroBento() {
-  const [dark, setDark] = useState(false);
+  // null follows the site theme; a click pins this card to the other mode.
+  const [mode, setMode] = useState<"light" | "dark" | null>(null);
   const [bills, setBills] = useState(start);
   const [paying, setPaying] = useState(false);
   const timer = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   const open = bills.filter((b) => !b.paid);
   const total = open.filter((b) => b.selected).reduce((n, b) => n + b.amount, 0);
+
+  useEffect(() => () => clearTimeout(timer.current), []);
 
   function toggle(id: string) {
     setBills((bs) => bs.map((b) => (b.id === id ? { ...b, selected: !b.selected } : b)));
@@ -60,26 +63,44 @@ export default function HeroBento() {
 
   return (
     <div className="grid min-w-0 gap-4 sm:grid-cols-2">
-      {/* Bills: the theme switch flips only this card, through the same light and dark tokens as the site. */}
+      {/* Bills: starts in the site theme; the switch flips only this card, through the same light and dark tokens. */}
       <div
-        className={`${dark ? "theme-dark" : "theme-light"} flex flex-col gap-4 rounded-[28px] border border-gray-200 bg-surface p-5 text-gray-900 shadow-[0_1px_0_rgba(11,18,32,0.04),0_24px_48px_-24px_rgba(11,18,32,0.25)] transition-colors duration-300 sm:row-span-2`}
+        className={`${mode ? `theme-${mode}` : ""} flex flex-col gap-4 rounded-[28px] border border-gray-200 bg-surface p-5 text-gray-900 shadow-[0_1px_0_rgba(11,18,32,0.04),0_24px_48px_-24px_rgba(11,18,32,0.25)] transition-colors duration-300 sm:row-span-2`}
       >
         <div className="flex items-center justify-between gap-3">
-          <span className="font-label text-xs text-gray-600">preview / bill-payment</span>
+          <span className="font-label text-xs text-gray-700">preview / bill-payment</span>
           <button
             type="button"
-            onClick={() => setDark((v) => !v)}
-            aria-label={dark ? "Show the bills card in light mode" : "Show the bills card in dark mode"}
-            className="flex min-h-11 items-center gap-1.5 rounded-full border border-gray-200 bg-canvas px-3 text-xs font-medium sm:min-h-8"
+            onClick={() => {
+              const current = mode ?? (document.documentElement.classList.contains("dark") ? "dark" : "light");
+              setMode(current === "dark" ? "light" : "dark");
+            }}
+            className="flex min-h-11 items-center gap-1.5 rounded-full border border-gray-200 bg-canvas px-3 text-xs font-medium"
           >
-            {dark ? <Moon size={14} aria-hidden="true" /> : <Sun size={14} aria-hidden="true" />}
-            {dark ? "Dark" : "Light"}
+            <span className="sr-only">Bills card theme: </span>
+            {mode ? (
+              <>
+                {mode === "dark" ? <Moon size={14} aria-hidden="true" /> : <Sun size={14} aria-hidden="true" />}
+                {mode === "dark" ? "Dark" : "Light"}
+              </>
+            ) : (
+              <>
+                <span className="inline-flex items-center gap-1.5 dark:hidden">
+                  <Sun size={14} aria-hidden="true" />
+                  Light
+                </span>
+                <span className="hidden items-center gap-1.5 dark:inline-flex">
+                  <Moon size={14} aria-hidden="true" />
+                  Dark
+                </span>
+              </>
+            )}
           </button>
         </div>
 
         <div>
-          <div className="text-[13px] text-gray-600">October bills</div>
-          <div className="font-display text-[22px] font-bold tracking-[-0.01em]">
+          <div className="text-[13px] text-gray-700">October bills</div>
+          <div aria-live="polite" className="font-display text-[22px] font-bold tracking-[-0.01em]">
             {open.length ? `${open.length} bill${open.length === 1 ? "" : "s"} due this week` : "All bills paid"}
           </div>
         </div>
@@ -101,18 +122,18 @@ export default function HeroBento() {
                 </span>
                 <span className="min-w-0 flex-1">
                   <span className="block truncate text-sm font-semibold">{b.name}</span>
-                  <span className="block text-xs text-gray-600">{b.paid ? "Paid" : b.selected ? b.due : "Not selected"}</span>
+                  <span className="block text-xs text-gray-700">{b.paid ? "Paid" : b.selected ? b.due : "Not selected"}</span>
                 </span>
-                <span className={`text-sm font-semibold tabular-nums ${b.paid ? "text-gray-600 line-through" : ""}`}>{rupiah(b.amount)}</span>
+                <span className={`text-sm font-semibold tabular-nums ${b.paid ? "text-gray-700 line-through" : ""}`}>{rupiah(b.amount)}</span>
               </button>
             </li>
           ))}
         </ul>
 
         <div className="mt-auto flex flex-col gap-2.5">
-          <div className="flex justify-between text-[13px] text-gray-600">
+          <div className="flex justify-between text-[13px] text-gray-700">
             <span>Selected total</span>
-            <span className="font-semibold tabular-nums text-gray-900" aria-live="polite">
+            <span className="font-semibold tabular-nums text-gray-900">
               {rupiah(total)}
             </span>
           </div>
@@ -129,7 +150,7 @@ export default function HeroBento() {
       </div>
 
       <div className="flex flex-col gap-3.5 rounded-3xl border border-gray-200 bg-surface p-5">
-        <span className="font-label text-xs text-gray-600">button / states</span>
+        <span className="font-label text-xs text-gray-700">button / states</span>
         <ul className="flex flex-col gap-2" aria-label="Button states">
           {states.map((s) => (
             <li key={s.label} className="flex items-center justify-between gap-3">
@@ -138,7 +159,7 @@ export default function HeroBento() {
                   Pay
                 </Button>
               </span>
-              <span className="font-label text-[11px] text-gray-600">{s.label}</span>
+              <span className="font-label text-[11px] text-gray-700">{s.label}</span>
             </li>
           ))}
         </ul>

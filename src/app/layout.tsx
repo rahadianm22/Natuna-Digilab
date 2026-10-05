@@ -1,20 +1,13 @@
 import type { Metadata } from "next";
-import { IBM_Plex_Mono, Urbanist } from "next/font/google";
+import { Urbanist } from "next/font/google";
 import "./globals.css";
 import { SITE_URL } from "@/lib/site";
+import RouteFocus from "@/components/RouteFocus";
 
 const urbanist = Urbanist({
   subsets: ["latin"],
   variable: "--font-urbanist",
   weight: ["400", "500", "600", "700", "800"],
-});
-
-// Code and hex values only. Plex Mono keeps 1, l, I and 0, O apart, which Urbanist does not, and its
-// open shapes sit comfortably next to Urbanist's geometric forms.
-const plexMono = IBM_Plex_Mono({
-  subsets: ["latin"],
-  variable: "--font-code",
-  weight: ["400", "500", "600"],
 });
 
 export const metadata: Metadata = {
@@ -36,12 +29,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${urbanist.variable} ${plexMono.variable} h-full antialiased`} suppressHydrationWarning>
+    <html lang="en" className={`${urbanist.variable} h-full antialiased`} suppressHydrationWarning>
       <head>
         {/* Runs before paint so a saved or system dark preference never flashes light first. */}
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <RouteFocus />
+        {children}
+      </body>
     </html>
   );
 }

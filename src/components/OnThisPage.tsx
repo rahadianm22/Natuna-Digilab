@@ -51,8 +51,8 @@ export default function OnThisPage({ items, className = "" }: { items: Item[]; c
                 aria-current={current ? "location" : undefined}
                 className={`-ml-px block border-l py-1 pl-3 transition-colors ${
                   current
-                    ? "border-blue-700 font-medium text-blue-700"
-                    : "border-transparent text-gray-600 hover:border-gray-400 hover:text-gray-900"
+                    ? "border-blue-800 font-medium text-blue-800"
+                    : "border-transparent text-gray-700 hover:border-gray-400 hover:text-gray-900"
                 }`}
               >
                 {item.label}
@@ -94,7 +94,7 @@ export function SectionChips({ items, label, className = "" }: { items: Item[]; 
             href={`#${s.id}`}
             aria-current={current ? "location" : undefined}
             className={`inline-flex min-h-11 shrink-0 items-center rounded-md px-3 text-sm font-medium transition-colors ${
-              current ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+              current ? "bg-blue-50 text-blue-900" : "text-gray-700 hover:bg-gray-100 hover:text-gray-900"
             }`}
           >
             {s.label}

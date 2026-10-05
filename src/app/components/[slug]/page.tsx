@@ -15,8 +15,9 @@ import { componentGroup, components, getComponent, trackerRow } from "@/lib/comp
 import { componentDocs, fullUsage } from "@/lib/component-docs";
 import { lastBuildDay, statusLabel, statusStyle } from "@/lib/natuna-tracker";
 
-const LAST_BUILD_DAY = lastBuildDay();
 import { TRACKER_SNAPSHOT } from "@/lib/site";
+
+const LAST_BUILD_DAY = lastBuildDay();
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -28,7 +29,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const component = getComponent(slug);
   if (!component) return { title: "Component not found" };
-  return { title: component.name, description: component.summary };
+  return { title: component.name, description: component.summary, alternates: { canonical: `/components/${slug}` } };
 }
 
 
@@ -68,14 +69,14 @@ export default async function ComponentDetail({ params }: Props) {
         <main id="main" tabIndex={-1} className="min-w-0 flex-1 px-6 pb-20 pt-10 lg:px-10">
           <div className="mx-auto flex max-w-5xl gap-12">
             <article className="min-w-0 flex-1">
-              <nav aria-label="Breadcrumb" className="text-sm text-gray-600">
+              <nav aria-label="Breadcrumb" className="text-sm text-gray-700">
                 <ol className="flex flex-wrap items-center gap-1.5">
                   <li>
-                    <Link href="/components" className="inline-flex min-h-11 items-center rounded-sm hover:text-blue-700 sm:min-h-0">Components</Link>
+                    <Link href="/components" className="inline-flex min-h-11 items-center rounded-sm hover:text-blue-800">Components</Link>
                   </li>
                   <li aria-hidden="true">/</li>
                   <li>
-                    <Link href={`/components#group-${group.replace(/\s+/g, "-")}`} className="inline-flex min-h-11 items-center rounded-sm hover:text-blue-700 sm:min-h-0">
+                    <Link href={`/components#group-${group.replace(/\s+/g, "-")}`} className="inline-flex min-h-11 items-center rounded-sm hover:text-blue-800">
                       {group}
                     </Link>
                   </li>
@@ -83,11 +84,11 @@ export default async function ComponentDetail({ params }: Props) {
               </nav>
 
               <h1 className="mt-3 text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">{component.name}</h1>
-              <p className="mt-4 max-w-2xl text-lg leading-relaxed text-gray-600">{component.summary}</p>
+              <p className="mt-4 max-w-2xl text-lg leading-relaxed text-gray-700">{component.summary}</p>
 
               <dl className="mt-6 flex flex-wrap gap-x-8 gap-y-3 border-y border-gray-200 py-4 text-sm">
                 <div className="flex items-center gap-2">
-                  <dt className="text-gray-600">Status</dt>
+                  <dt className="text-gray-700">Status</dt>
                   <dd className="flex items-center gap-2 text-gray-900">
                     {row ? (
                       <span className={`inline-flex rounded px-2 py-0.5 text-xs font-medium ${statusStyle[row.status]}`}>
@@ -100,7 +101,7 @@ export default async function ComponentDetail({ params }: Props) {
                   </dd>
                 </div>
                 <div className="flex items-center gap-2">
-                  <dt className="text-gray-600">Category</dt>
+                  <dt className="text-gray-700">Category</dt>
                   <dd className="text-gray-900">{component.category}</dd>
                 </div>
               </dl>
@@ -109,7 +110,7 @@ export default async function ComponentDetail({ params }: Props) {
                 <>
                   <section aria-labelledby="example" className="mt-14 scroll-mt-24">
                     <h2 id="example" className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">Usage</h2>
-                    <p className="mt-2 text-sm text-gray-600">
+                    <p className="mt-2 text-sm text-gray-700">
                       This demo is live, and the code below it is the same code, imports included. The component lives in{" "}
                       <code className="font-mono-code text-[13px]">src/ui</code> of this repository and is not published to npm yet.
                     </p>
@@ -128,7 +129,7 @@ export default async function ComponentDetail({ params }: Props) {
               ) : (
                 <section aria-labelledby="example" className="mt-14 scroll-mt-24">
                   <h2 id="example" className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">Example</h2>
-                  <p className="mt-2 text-sm text-gray-600">{codeNote}</p>
+                  <p className="mt-2 text-sm text-gray-700">{codeNote}</p>
                   <div className="mt-4">
                     <FigmaFrame name={component.name} className="flex min-h-48 items-center justify-center bg-surface px-6 py-8">
                       <div className="w-full">
@@ -149,7 +150,7 @@ export default async function ComponentDetail({ params }: Props) {
                         <dt className="font-mono-code text-[13px] font-semibold text-gray-900">{p.name}</dt>
                         <dd className="mt-1 break-words font-mono-code text-xs text-gray-700">
                           {p.type}
-                          <span className="text-gray-600"> · default {p.default ?? "none"}</span>
+                          <span className="text-gray-700"> · default {p.default ?? "none"}</span>
                         </dd>
                         <dd className="mt-1.5 text-sm text-gray-700">{p.description}</dd>
                       </div>
@@ -157,7 +158,7 @@ export default async function ComponentDetail({ params }: Props) {
                   </dl>
                   <div className="mt-4 hidden overflow-x-auto rounded-xl border border-gray-200 bg-surface sm:block">
                     <table className="w-full text-left text-sm">
-                      <thead className="border-b border-gray-200 text-gray-600">
+                      <thead className="border-b border-gray-200 text-gray-700">
                         <tr>
                           <th scope="col" className="px-4 py-3 font-medium">Prop</th>
                           <th scope="col" className="px-4 py-3 font-medium">Type</th>
@@ -198,7 +199,7 @@ export default async function ComponentDetail({ params }: Props) {
                   </div>
                   <div className="border-t-4 border-red-600 pt-4">
                     <h3 className="flex items-center gap-2 font-semibold text-gray-900">
-                      <XCircle size={20} weight="fill" className="text-red-700" aria-hidden="true" /> Don&apos;t
+                      <XCircle size={20} weight="fill" className="text-red-800" aria-hidden="true" /> Don&apos;t
                     </h3>
                     <ul className="mt-3 space-y-3 text-sm leading-relaxed text-gray-700">
                       {component.dont.map((d) => <li key={d}>{d}</li>)}
@@ -209,7 +210,7 @@ export default async function ComponentDetail({ params }: Props) {
 
               <section aria-labelledby="related" className="mt-14 scroll-mt-24">
                 <h2 id="related" className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">Related</h2>
-                <p className="mt-2 text-sm text-gray-600">
+                <p className="mt-2 text-sm text-gray-700">
                   {related.length < sameCategory.length
                     ? `${related.length} of ${sameCategory.length} other ${component.category.toLowerCase()} components, ready ones first.`
                     : `Other ${component.category.toLowerCase()} components.`}
@@ -217,10 +218,10 @@ export default async function ComponentDetail({ params }: Props) {
                 <ul className="mt-4 divide-y divide-gray-200 border-y border-gray-200">
                   {related.map((c) => (
                     <li key={c.slug}>
-                      <Link href={`/components/${c.slug}`} className="group flex min-h-12 items-center justify-between gap-4 py-3">
+                      <Link href={`/components/${c.slug}`} prefetch={false} className="group flex min-h-12 items-center justify-between gap-4 py-3">
                         <span className="min-w-0">
-                          <span className="font-medium text-gray-900 group-hover:text-blue-700">{c.name}</span>
-                          <span className="block truncate text-sm text-gray-600">{c.summary}</span>
+                          <span className="font-medium text-gray-900 group-hover:text-blue-800">{c.name}</span>
+                          <span className="block truncate text-sm text-gray-700">{c.summary}</span>
                         </span>
                         <StatusBadge status={c.status} />
                       </Link>
@@ -228,13 +229,13 @@ export default async function ComponentDetail({ params }: Props) {
                   ))}
                 </ul>
                 {related.length < sameCategory.length && (
-                  <Link href="/components" className="mt-4 inline-flex min-h-11 items-center text-sm font-medium text-blue-700 underline-offset-4 hover:underline">
+                  <Link href="/components" className="mt-4 inline-flex min-h-11 items-center text-sm font-medium text-blue-800 underline-offset-4 hover:underline">
                     See all components
                   </Link>
                 )}
               </section>
 
-              <p className="mt-12 text-xs text-gray-600">Status reflects the component tracker snapshot of {TRACKER_SNAPSHOT}.</p>
+              <p className="mt-12 text-xs text-gray-700">Status reflects the component tracker snapshot of {TRACKER_SNAPSHOT}.</p>
             </article>
 
             <OnThisPage items={toc} className="hidden w-44 xl:block" />

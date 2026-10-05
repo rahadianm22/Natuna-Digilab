@@ -18,7 +18,7 @@ const variants: Record<ButtonVariant, string> = {
 };
 
 const sizes: Record<ButtonSize, string> = {
-  md: "min-h-11 px-4 text-sm sm:min-h-10",
+  md: "min-h-11 px-4 text-sm",
   lg: "min-h-12 px-6 text-base",
 };
 
@@ -34,12 +34,15 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   loading?: boolean;
 }
 
-export function Button({ variant = "primary", size = "md", loading = false, disabled, className = "", children, type = "button", ...rest }: ButtonProps) {
+export function Button({ variant = "primary", size = "md", loading = false, disabled, className = "", children, type = "button", onClick, ...rest }: ButtonProps) {
   return (
     <button
       type={type}
-      disabled={disabled || loading}
+      // Loading uses aria-disabled, not disabled: a natively disabled button drops keyboard focus to the page.
+      disabled={disabled}
+      aria-disabled={loading || undefined}
       aria-busy={loading || undefined}
+      onClick={loading ? (e) => e.preventDefault() : onClick}
       className={`${buttonStyles({ variant, size })} relative ${loading ? "cursor-progress" : unavailable} ${className}`}
       {...rest}
     >

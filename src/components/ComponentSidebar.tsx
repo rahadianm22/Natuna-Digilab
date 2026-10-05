@@ -27,7 +27,7 @@ function SidebarBody({ idPrefix, onNavigate }: { idPrefix: string; onNavigate?: 
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Filter components"
-          className="min-h-11 w-full rounded-md border border-gray-500 bg-surface py-2 pl-9 pr-3 text-sm text-gray-900 placeholder:text-gray-600 focus-visible:border-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 lg:min-h-10"
+          className="min-h-11 w-full rounded-md border border-gray-500 bg-surface py-2 pl-9 pr-3 text-sm text-gray-900 placeholder:text-gray-700 focus-visible:border-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
         />
       </label>
 
@@ -41,8 +41,8 @@ function SidebarBody({ idPrefix, onNavigate }: { idPrefix: string; onNavigate?: 
             href={l.href}
             onClick={onNavigate}
             aria-current={pathname === l.href ? "page" : undefined}
-            className={`flex min-h-11 items-center rounded-md px-3 text-sm font-medium lg:min-h-9 ${
-              pathname === l.href ? "bg-blue-50 text-blue-800" : "text-gray-700 hover:bg-gray-100"
+            className={`flex min-h-11 items-center rounded-md px-3 text-sm font-medium ${
+              pathname === l.href ? "bg-blue-50 text-blue-900" : "text-gray-700 hover:bg-gray-100"
             }`}
           >
             {l.label}
@@ -66,10 +66,10 @@ function SidebarBody({ idPrefix, onNavigate }: { idPrefix: string; onNavigate?: 
                 onClick={() => setToggled((t) => ({ ...t, [cat.name]: !isOpen }))}
                 aria-expanded={isOpen}
                 aria-controls={listId}
-                className="flex min-h-11 w-full items-center justify-between rounded-md px-3 text-sm font-semibold text-gray-900 hover:bg-gray-100 lg:min-h-9"
+                className="flex min-h-11 w-full items-center justify-between rounded-md px-3 text-sm font-semibold text-gray-900 hover:bg-gray-100"
               >
                 {cat.name}
-                <span className="flex items-center gap-2 text-xs font-normal text-gray-600">
+                <span className="flex items-center gap-2 text-xs font-normal text-gray-700">
                   <span className="tabular-nums">{items.length}</span>
                   <CaretDown size={12} weight="bold" aria-hidden="true" className={`transition-transform ${isOpen ? "rotate-180" : ""}`} />
                 </span>
@@ -82,15 +82,16 @@ function SidebarBody({ idPrefix, onNavigate }: { idPrefix: string; onNavigate?: 
                     <li key={c.slug}>
                       <Link
                         href={href}
+                        prefetch={false}
                         onClick={onNavigate}
                         aria-current={isActive ? "page" : undefined}
-                        className={`flex min-h-11 items-center justify-between gap-2 rounded-md px-3 text-sm lg:min-h-8 ${
-                          isActive ? "bg-blue-50 font-medium text-blue-800" : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+                        className={`flex min-h-11 items-center justify-between gap-2 rounded-md px-3 text-sm ${
+                          isActive ? "bg-blue-50 font-medium text-blue-900" : "text-gray-700 hover:bg-gray-100 hover:text-gray-900"
                         }`}
                       >
                         <span className="truncate">{c.name}</span>
                         {c.status !== "stable" && (
-                          <span className="shrink-0 text-[11px] text-gray-600">{statusText[c.status]}</span>
+                          <span className="shrink-0 text-[11px] text-gray-700">{statusText[c.status]}</span>
                         )}
                       </Link>
                     </li>
@@ -101,9 +102,9 @@ function SidebarBody({ idPrefix, onNavigate }: { idPrefix: string; onNavigate?: 
           );
         })}
         {matches.length === 0 && (
-          <p className="px-3 py-2 text-sm text-gray-600">
+          <p className="px-3 py-2 text-sm text-gray-700">
             No component named &ldquo;{query.trim()}&rdquo;. Check the spelling or browse the{" "}
-            <Link href="/components" onClick={onNavigate} className="text-blue-700 underline">overview</Link>.
+            <Link href="/components" onClick={onNavigate} className="text-blue-800 underline">overview</Link>.
           </p>
         )}
       </nav>
@@ -135,7 +136,7 @@ export function ComponentMobileNav() {
         className="flex min-h-12 w-full items-center justify-between gap-3 px-6 text-left text-sm font-medium text-gray-900"
       >
         <span>All components</span>
-        <span className="flex items-center gap-2 text-gray-600">
+        <span className="flex items-center gap-2 text-gray-700">
           {current?.name}
           <CaretDown size={14} weight="bold" aria-hidden="true" className={`transition-transform ${open ? "rotate-180" : ""}`} />
         </span>

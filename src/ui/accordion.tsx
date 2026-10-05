@@ -15,9 +15,9 @@ export function Accordion({ items, className = "" }: { items: AccordionItem[]; c
         <details key={item.title} open={item.defaultOpen} className="group">
           <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-3 px-4 py-3 font-semibold text-gray-900">
             {item.title}
-            <CaretDown size={16} aria-hidden="true" className="shrink-0 text-gray-600 transition-transform group-open:rotate-180" />
+            <CaretDown size={16} aria-hidden="true" className="shrink-0 text-gray-700 transition-transform group-open:rotate-180" />
           </summary>
-          <div className="px-4 pb-4 text-gray-600">{item.content}</div>
+          <div className="px-4 pb-4 text-gray-700">{item.content}</div>
         </details>
       ))}
     </div>

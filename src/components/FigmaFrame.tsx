@@ -50,7 +50,7 @@ export default function FigmaFrame({ name, className = "", children }: { name: s
   }
 
   const action =
-    "inline-flex min-h-11 sm:min-h-9 items-center gap-1.5 rounded-md px-3 text-xs font-medium transition-[background-color,color,transform] duration-100 active:scale-[0.97]";
+    "inline-flex min-h-11 items-center gap-1.5 rounded-md px-3 text-xs font-medium transition-[background-color,color,transform] duration-100 active:scale-[0.97]";
 
   return (
     <div className="overflow-hidden rounded-xl border border-gray-200 bg-surface">
@@ -58,7 +58,7 @@ export default function FigmaFrame({ name, className = "", children }: { name: s
         {children}
       </div>
       <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-t border-gray-200 px-3 py-2">
-        <p className="px-1 text-xs text-gray-600" aria-hidden={status !== "idle"}>
+        <p className="px-1 text-xs text-gray-700" aria-hidden={status !== "idle"}>
           {status === "idle" ? "Pastes as editable layers. Shadows come from Natuna effect styles." : message[status]}
         </p>
         <div className="ml-auto flex gap-1.5">

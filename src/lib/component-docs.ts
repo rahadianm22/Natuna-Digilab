@@ -71,7 +71,7 @@ import { Button } from "@/ui";`,
     props: [
       { name: "variant", type: '"primary" | "secondary" | "ghost" | "destructive"', default: '"primary"', description: "Visual weight. Use one primary per view." },
       { name: "size", type: '"md" | "lg"', default: '"md"', description: "md is 40px tall (44px on phones, for touch), lg is 48px." },
-      { name: "loading", type: "boolean", default: "false", description: "Shows a spinner over the label, sets aria-busy, and blocks clicks. The button keeps its size and color." },
+      { name: "loading", type: "boolean", default: "false", description: "Shows a spinner over the label, sets aria-busy and aria-disabled, and blocks clicks. The button keeps its size, its color, and keyboard focus." },
       { name: "disabled", type: "boolean", default: "false", description: "Blocks interaction and uses the disabled colors." },
       { name: "type", type: '"button" | "submit" | "reset"', default: '"button"', description: "Defaults to button so a button inside a form does not submit by accident." },
       { name: "...rest", type: "ButtonHTMLAttributes", description: "Every native button attribute, such as onClick and aria-label." },

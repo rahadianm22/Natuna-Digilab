@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import NextPage from "@/components/NextPage";
 import { contrast } from "@/lib/contrast";
 
 export const metadata: Metadata = {
   title: "Themes",
+  alternates: { canonical: "/themes" },
   description: "Light and dark mode from the Natuna Digilab Foundation Design System color tokens.",
 };
 
@@ -15,9 +17,9 @@ const roles = [
   { role: "Surface", token: "surface", light: "#ffffff", dark: "#27303f" },
   { role: "Border", token: "gray-200", light: "#d0d5dd", dark: "#4b5565" },
   { role: "Text primary", token: "gray-900", light: "#19212e", dark: "#f1f5f9" },
-  { role: "Text secondary", token: "gray-600", light: "#364152", dark: "#cdd5df" },
+  { role: "Text secondary", token: "gray-700", light: "#364152", dark: "#d0d5dd" },
   { role: "Brand fill", token: "brand", light: "#015099", dark: "#015099" },
-  { role: "Link", token: "blue-700", light: "#015099", dark: "#9aceff" },
+  { role: "Link", token: "blue-800", light: "#015099", dark: "#9aceff" },
   { role: "Danger fill", token: "danger", light: "#8c2b2c", dark: "#8c2b2c" },
 ];
 
@@ -29,21 +31,21 @@ function Specimen({ mode }: { mode: "light" | "dark" }) {
         <div className="flex items-start justify-between gap-3">
           <div>
             <div className="font-semibold text-gray-900">Electricity bill</div>
-            <div className="text-sm text-gray-600">Due 12 Oct</div>
+            <div className="text-sm text-gray-700">Due 12 Oct</div>
           </div>
           <span className="rounded bg-amber-100 px-2 py-0.5 text-xs font-medium text-amber-900">Pending</span>
         </div>
         <div className="mt-4 text-2xl font-bold tabular-nums text-gray-900">Rp 412.500</div>
         <div className="mt-5 flex flex-col gap-1.5">
           <span className="text-xs font-semibold text-gray-700">Note</span>
-          <span className="rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-600">Add a note</span>
+          <span className="rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-700">Add a note</span>
         </div>
         <div className="mt-5 flex gap-2">
           <span className="rounded-md bg-brand px-4 py-2 text-sm font-medium text-white">Pay now</span>
           <span className="rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-800">Later</span>
         </div>
-        <p className="mt-4 text-sm text-gray-600">
-          Paid bills move to <span className="text-blue-700 underline">history</span>.
+        <p className="mt-4 text-sm text-gray-700">
+          Paid bills move to <span className="text-blue-800 underline">history</span>.
         </p>
       </div>
     </figure>
@@ -56,7 +58,7 @@ export default function ThemesPage() {
       <Header active="Themes" />
       <main id="main" tabIndex={-1} className="mx-auto w-full max-w-7xl px-6 pb-24 pt-14">
         <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">Themes</h1>
-        <p className="mt-5 max-w-2xl text-lg leading-relaxed text-gray-600">
+        <p className="mt-5 max-w-2xl text-lg leading-relaxed text-gray-700">
           Light and dark mode come from the same tokens. Components ask for a role, such as surface or primary
           text, and the mode decides the value. The same card is rendered in both modes below.
         </p>
@@ -76,7 +78,7 @@ export default function ThemesPage() {
           </p>
           <div className="mt-6 rounded-xl border border-gray-200 bg-surface">
             <table className="w-full table-fixed text-left text-sm">
-              <thead className="border-b border-gray-200 text-gray-600">
+              <thead className="border-b border-gray-200 text-gray-700">
                 <tr>
                   <th scope="col" className="w-[38%] px-3 py-3 font-medium sm:px-4">Role</th>
                   <th scope="col" className="px-3 py-3 font-medium sm:px-4">Light</th>
@@ -88,7 +90,7 @@ export default function ThemesPage() {
                   <tr key={r.role}>
                     <th scope="row" className="px-3 py-3 align-top font-medium text-gray-900 sm:px-4">
                       {r.role}
-                      <code className="mt-0.5 block font-mono-code text-xs font-normal text-gray-600">{r.token}</code>
+                      <code className="mt-0.5 block font-mono-code text-xs font-normal text-gray-700">{r.token}</code>
                     </th>
                     {[r.light, r.dark].map((hex, i) => (
                       <td key={i} className="px-3 py-3 align-top sm:px-4">
@@ -103,11 +105,12 @@ export default function ThemesPage() {
               </tbody>
             </table>
           </div>
-          <p className="mt-6 text-sm text-gray-600">
+          <p className="mt-6 text-sm text-gray-700">
             Switch this whole site between modes with the sun and moon button in the header. Custom brand themes
             are not part of the foundation yet.
           </p>
         </section>
+        <NextPage href="/components" title="Components" note="See each component in the mode you have switched to." />
       </main>
       <Footer />
     </div>

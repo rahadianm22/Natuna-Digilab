@@ -95,8 +95,9 @@ export default function CodeBlock({
   }
 
   function onKey(e: KeyboardEvent) {
-    if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
-      const next = lang === "ts" ? "js" : "ts";
+    if (["ArrowRight", "ArrowLeft", "Home", "End"].includes(e.key)) {
+      e.preventDefault();
+      const next: Lang = e.key === "Home" ? "ts" : e.key === "End" ? "js" : lang === "ts" ? "js" : "ts";
       setLang(next);
       document.getElementById(`${id}-${next}`)?.focus();
     }
@@ -117,7 +118,7 @@ export default function CodeBlock({
                 aria-controls={`${id}-panel`}
                 tabIndex={lang === l ? 0 : -1}
                 onClick={() => setLang(l)}
-                className={`min-h-11 sm:min-h-8 rounded-md px-3 text-xs font-semibold transition-colors ${
+                className={`min-h-11 rounded-md px-3 text-xs font-semibold transition-colors ${
                   lang === l ? "bg-[#015099] text-white" : "text-[#cdd5df] hover:text-white"
                 }`}
               >
@@ -135,7 +136,7 @@ export default function CodeBlock({
               onClick={() => setExpanded((v) => !v)}
               aria-expanded={expanded}
               aria-controls={`${id}-panel`}
-              className="min-h-11 sm:min-h-8 rounded-md px-3 text-xs font-medium text-[#cdd5df] transition-colors hover:bg-white/10 hover:text-white"
+              className="min-h-11 rounded-md px-3 text-xs font-medium text-[#cdd5df] transition-colors hover:bg-white/10 hover:text-white"
             >
               {expanded ? "Collapse code" : "Expand code"}
             </button>
@@ -143,7 +144,7 @@ export default function CodeBlock({
           <button
             type="button"
             onClick={copy}
-            className="min-h-11 sm:min-h-8 rounded-md bg-white/10 px-3 text-xs font-medium text-white transition-colors hover:bg-white/15 active:scale-[0.97]"
+            className="min-h-11 rounded-md bg-white/10 px-3 text-xs font-medium text-white transition-colors hover:bg-white/15 active:scale-[0.97]"
           >
             {copied === "done" ? "Copied" : copied === "failed" ? "Copy failed" : "Copy"}
           </button>
