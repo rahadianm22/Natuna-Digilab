@@ -82,29 +82,65 @@ function layerName(el: Element) {
 // children, and the first "Item" is "Item", the second "Item 2".
 const MARK = "\u0001";
 
+// Clip paths live outside the layer namespace: layer names never start with "_" (see `id`), so a layer
+// whose text reads "clip-1" cannot capture a `url(#...)` reference.
+const CLIP_PREFIX = "__clip-";
+
 function numberIds(svg: string) {
-  // One counter per group, the way Figma's layer list reads: siblings are "Label", "Label 2", while a
-  // label in another button starts again at "Label". Groups open a scope; their own name counts in the parent.
-  const scopes: Map<string, number>[] = [new Map()];
-  const name = (base: string) => {
-    const used = scopes[scopes.length - 1];
-    const count = used.get(base) ?? 0;
-    used.set(base, count + 1);
-    return esc(count ? `${base} ${count + 1}` : base);
-  };
-  const pattern = new RegExp(`<g\\b[^>]*>|</g>|${MARK}([^${MARK}]*)${MARK}`, "g");
-  return svg.replace(pattern, (token: string, base?: string) => {
-    if (token === "</g>") {
-      if (scopes.length > 1) scopes.pop();
-      return token;
-    }
-    if (token.startsWith("<g")) {
-      const named = token.replace(new RegExp(`${MARK}([^${MARK}]*)${MARK}`), (_, b: string) => name(b));
-      scopes.push(new Map());
-      return named;
-    }
-    return name(base ?? "Layer");
+  // Figma reads `id` as the layer name, and an SVG file needs every id unique, so one counter per name
+  // runs across the whole export: the first "Label" stays "Label", later ones are "Label 2", "Label 3".
+  // A name already taken, such as text that literally reads "Label 2", moves on to the next free number.
+  const counts = new Map<string, number>();
+  const used = new Set<string>();
+  return svg.replace(new RegExp(`${MARK}([^${MARK}]*)${MARK}`, "g"), (_, base: string) => {
+    let count = counts.get(base) ?? 0;
+    let candidate: string;
+    do {
+      count += 1;
+      candidate = count > 1 ? `${base} ${count}` : base;
+    } while (used.has(candidate));
+    counts.set(base, count);
+    used.add(candidate);
+    return esc(candidate);
   });
+}
+
+/** Degrees for a CSS angle in any unit (deg, rad, grad, turn); a bare 0 has no unit. */
+function degrees(angle: string) {
+  const value = parseFloat(angle) || 0;
+  if (angle.endsWith("grad")) return value * 0.9;
+  if (angle.endsWith("rad")) return (value * 180) / Math.PI;
+  if (angle.endsWith("turn")) return value * 360;
+  return value;
+}
+
+/**
+ * The on-screen rotation of an element, combining the individual `rotate` property (Tailwind 4) with
+ * `transform`. `rotate` comes as "90deg", "z 90deg" or the axis form "0 0 1 90deg"; only turns about the
+ * z axis show in a flat export. DOMMatrix reads both matrix() and matrix3d() transforms.
+ */
+function rotation(cs: CSSStyleDeclaration) {
+  let angle = 0;
+  if (cs.rotate && cs.rotate !== "none") {
+    const parts = cs.rotate.trim().split(/\s+/);
+    const turn = degrees(parts[parts.length - 1]);
+    if (parts.length === 1 || parts[0] === "z") angle += turn;
+    else if (parts.length === 4) {
+      // A turn about (x, y, z) shows as a flat turn only when the axis is the z axis; a negative z flips it.
+      const [x, y, z] = parts.slice(0, 3).map(Number);
+      if (Math.abs(x) < 1e-6 && Math.abs(y) < 1e-6 && z) angle += Math.sign(z) * turn;
+    }
+  }
+  if (cs.transform && cs.transform !== "none" && typeof DOMMatrix !== "undefined") {
+    try {
+      const m = new DOMMatrix(cs.transform);
+      angle += (Math.atan2(m.b, m.a) * 180) / Math.PI;
+    } catch {
+      // An unparsable transform leaves the icon upright rather than failing the whole export.
+    }
+  }
+  angle = Math.round(angle * 100) / 100;
+  return Object.is(angle, -0) ? 0 : angle;
 }
 
 /** Points on a circle, with 0 degrees at 3 o'clock and angles growing clockwise, as SVG draws them. */
@@ -119,7 +155,8 @@ export function domToSvg(root: HTMLElement, name = "Natuna component"): string {
   const H = Math.ceil(origin.height);
 
   function id(base: string) {
-    let clean = base.replace(/[^\w /&.,:%+-]/g, "").replace(/\s+/g, " ").trim() || "Layer";
+    // Leading underscores are dropped so no layer name can enter the clip path namespace.
+    let clean = base.replace(/[^\w /&.,:%+-]/g, "").replace(/\s+/g, " ").trim().replace(/^_+\s*/, "") || "Layer";
     // Long names are cut at a word, never mid-word, so the layer list stays readable.
     if (clean.length > 32) clean = `${clean.slice(0, 32).replace(/\s+\S*$/, "")}…`;
     return `${MARK}${clean}${MARK}`;
@@ -217,13 +254,7 @@ export function domToSvg(root: HTMLElement, name = "Natuna component"): string {
     const h = parseFloat(cs.height) || r.height;
     const cx = r.left - origin.left + r.width / 2;
     const cy = r.top - origin.top + r.height / 2;
-    // Tailwind 4 rotates with the individual `rotate` property; older code uses `transform`. Read both.
-    let angle = 0;
-    if (cs.rotate && cs.rotate !== "none") angle += parseFloat(cs.rotate) || 0;
-    if (cs.transform && cs.transform !== "none") {
-      const m = cs.transform.match(/matrix\(([^)]+)\)/)?.[1].split(",").map(Number);
-      if (m) angle += Math.round((Math.atan2(m[1], m[0]) * 180) / Math.PI);
-    }
+    const angle = rotation(cs);
     const clone = svg.cloneNode(true) as SVGSVGElement;
     clone.removeAttribute("class");
     clone.removeAttribute("aria-hidden");
@@ -349,7 +380,7 @@ export function domToSvg(root: HTMLElement, name = "Natuna component"): string {
     // A rounded box that clips its content (a drawer scrim inside a rounded frame) clips to its corners.
     const radius = parseFloat(cs.borderTopLeftRadius) || 0;
     if (clips && radius > 0 && kids.length) {
-      const cid = `clip-${++clipCount}`;
+      const cid = `${CLIP_PREFIX}${++clipCount}`;
       const shape = `<rect x="${n(rect.left - origin.left)}" y="${n(rect.top - origin.top)}" width="${n(rect.width)}" height="${n(rect.height)}" rx="${n(radius)}"/>`;
       kids = [`<clipPath id="${cid}">${shape}</clipPath><g id="${id("Content")}" clip-path="url(#${cid})">${kids.join("")}</g>`];
     }
