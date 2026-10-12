@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   description: "Light and dark mode from the Natuna Digilab Foundation Design System color tokens.",
 };
 
-const groups = ["Background", "Text", "Border", "Tone"] as const;
+const groups = ["Background", "Text", "Border", "Tone", "Status"] as const;
 
 function Specimen({ mode }: { mode: "light" | "dark" }) {
   return (
