@@ -26,8 +26,8 @@ const states = [
 
 const scale = [
   { name: "Header 1", spec: "32/44", cls: "font-display text-[32px] leading-[44px] font-bold" },
-  { name: "Body 1", spec: "18/26", cls: "text-[18px] leading-[26px]" },
-  { name: "Caption 1", spec: "14/20", cls: "text-[14px] leading-[20px]" },
+  { name: "Body 1", spec: "18/28", cls: "text-[18px] leading-[28px]" },
+  { name: "Caption 1", spec: "14/22", cls: "text-[14px] leading-[22px]" },
 ];
 
 /** The hero's right side: a bills screen that works, the Button in every state, and the type scale. */

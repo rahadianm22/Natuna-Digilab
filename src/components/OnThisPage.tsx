@@ -41,7 +41,7 @@ export default function OnThisPage({ items, className = "" }: { items: Item[]; c
   return (
     <nav aria-label="On this page" className={`sticky top-24 h-fit shrink-0 ${className}`}>
       <div className="text-sm font-semibold text-gray-900">On this page</div>
-      <ul className="mt-3 space-y-1 border-l border-gray-200 text-sm">
+      <ul className="mt-3 border-l border-gray-200 text-sm">
         {items.map((item) => {
           const current = item.id === active;
           return (
@@ -49,7 +49,7 @@ export default function OnThisPage({ items, className = "" }: { items: Item[]; c
               <a
                 href={`#${item.id}`}
                 aria-current={current ? "location" : undefined}
-                className={`-ml-px block border-l py-1 pl-3 transition-colors ${
+                className={`-ml-px flex min-h-11 items-center border-l py-1 pl-3 transition-colors ${
                   current
                     ? "border-blue-800 font-medium text-blue-800"
                     : "border-transparent text-gray-700 hover:border-gray-400 hover:text-gray-900"
