@@ -172,8 +172,8 @@ export default function FoundationPage() {
   return (
     <div className="flex min-h-screen flex-col bg-canvas">
       <Header active="Foundation" />
-      <div className="mx-auto flex w-full max-w-7xl gap-16 px-6 pb-24 pt-14">
-        <main id="main" tabIndex={-1} className="with-section-row min-w-0 flex-1">
+      <div className="mx-auto flex w-full max-w-7xl gap-16 px-6 pt-14">
+        <main id="main" tabIndex={-1} className="with-section-row min-w-0 flex-1 pb-24">
           <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">Foundation</h1>
           <p className="mt-5 max-w-2xl text-lg leading-relaxed text-gray-700">
             The tokens every component is drawn with, taken from the Foundation Design System v1.1 in Figma. Change
@@ -204,7 +204,7 @@ export default function FoundationPage() {
               text-safe; see &quot;Text-safe steps&quot; under Color.
             </p>
             <div className="mt-8 overflow-hidden rounded-xl border border-gray-200 bg-surface">
-              <table className="w-full text-left text-sm">
+              <table className="w-full text-left text-sm leading-relaxed">
                 <caption className="sr-only">Accessibility rules</caption>
                 <thead className="hidden border-b border-gray-200 text-gray-700 sm:table-header-group">
                   <tr>
@@ -242,7 +242,7 @@ export default function FoundationPage() {
               Text-safe steps
             </h3>
             <div tabIndex={0} role="region" aria-label="Text-safe steps table, scrollable" className="mt-3 max-w-full overflow-x-auto rounded-xl border border-gray-200 bg-surface">
-              <table className="w-full min-w-[44rem] text-left text-sm">
+              <table className="w-full min-w-[44rem] text-left text-sm leading-relaxed">
                 <caption className="sr-only">Text-safe steps</caption>
                 <thead className="border-b border-gray-200 text-gray-700">
                   <tr>
@@ -304,7 +304,7 @@ export default function FoundationPage() {
                   >
                     Navy text on Signal
                   </span>
-                  <p className="max-w-xl text-sm text-gray-700">
+                  <p className="max-w-xl text-sm leading-relaxed text-gray-700">
                     <code className="font-mono-code">{signal.hex}</code> is {contrast(signal.hex, signal.onNavy).toFixed(2)}:1
                     against navy <code className="font-mono-code">{signal.onNavy}</code> and {contrast(signal.hex, "#ffffff").toFixed(2)}:1
                     against white. Navy text only, never white, and never as text on a light page. Use it sparingly, for
@@ -334,7 +334,7 @@ export default function FoundationPage() {
                 <div role="listitem" key={t.token} className="grid gap-3 py-5 md:grid-cols-[1fr_16rem] md:items-baseline md:gap-8">
                   <div>
                     <div className={`${t.cls} text-gray-900`}>{t.token}: Send money to any account</div>
-                    <div className="mt-1 text-sm text-gray-700">{t.use} Class <code className="font-mono-code text-xs">{t.cls.split(" ")[0]}</code>.</div>
+                    <div className="mt-1 text-sm leading-relaxed text-gray-700">{t.use} Class <code className="font-mono-code text-xs">{t.cls.split(" ")[0]}</code>.</div>
                   </div>
                   <dl className="grid grid-cols-3 gap-2 font-mono-code text-xs text-gray-700">
                     {["Mobile", "Tablet", "Website"].map((device, i) => (
@@ -361,7 +361,7 @@ export default function FoundationPage() {
             <div className="mt-8 grid gap-x-12 gap-y-10 lg:grid-cols-2">
               <div>
                 <h3 className="text-lg font-semibold text-gray-900">Spacing and sizing</h3>
-                <p className="mt-1 text-sm text-gray-700">0 to 160px. Bars are drawn at true size.</p>
+                <p className="mt-1 text-sm leading-relaxed text-gray-700">0 to 160px. Bars are drawn at true size.</p>
                 <ul className="mt-4 divide-y divide-gray-200 border-y border-gray-200">
                   {numbers
                     .filter((px) => px <= 160)
@@ -376,7 +376,7 @@ export default function FoundationPage() {
               </div>
               <div>
                 <h3 className="text-lg font-semibold text-gray-900">Layout widths</h3>
-                <p className="mt-1 text-sm text-gray-700">178 to 1920px. Bars are relative to 1920px.</p>
+                <p className="mt-1 text-sm leading-relaxed text-gray-700">178 to 1920px. Bars are relative to 1920px.</p>
                 <ul className="mt-4 divide-y divide-gray-200 border-y border-gray-200">
                   {numbers
                     .filter((px) => px > 160)
@@ -402,7 +402,7 @@ export default function FoundationPage() {
               {variants.map((v) => (
                 <div key={v.name}>
                   <h3 className="text-lg font-semibold text-gray-900">{v.name}</h3>
-                  <p className="mt-1 max-w-2xl text-sm text-gray-700">{v.body}</p>
+                  <p className="mt-1 max-w-2xl text-sm leading-relaxed text-gray-700">{v.body}</p>
                   <code className="mt-2 block font-mono-code text-xs text-gray-700">{v.token}/{"{value}"}</code>
                   <ul className="mt-4 flex flex-wrap gap-2">
                     {v.values.map((n) => (
@@ -433,7 +433,7 @@ export default function FoundationPage() {
                   <code className="block font-mono-code text-xs text-gray-700">
                     Rounded/{r.px === "pill" ? "1920" : r.px.replace("px", "")}
                   </code>
-                  <div className="text-sm text-gray-700">{r.use}</div>
+                  <div className="text-sm leading-relaxed text-gray-700">{r.use}</div>
                 </li>
               ))}
             </ul>
@@ -478,7 +478,7 @@ export default function FoundationPage() {
             </p>
 
             <h3 className="mt-8 text-lg font-semibold text-gray-900">Shadow</h3>
-            <p className="mt-1 max-w-2xl text-sm text-gray-700">
+            <p className="mt-1 max-w-2xl text-sm leading-relaxed text-gray-700">
               Shadows are specified on light surfaces, so these samples stay light in both modes. In dark mode,
               elevation comes from a lighter surface instead.
             </p>

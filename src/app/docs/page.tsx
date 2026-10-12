@@ -34,8 +34,8 @@ export default function DocsPage() {
   return (
     <div className="flex min-h-screen flex-col bg-canvas">
       <Header active="Introduction" />
-      <div className="mx-auto flex w-full max-w-7xl gap-16 px-6 pb-24 pt-14">
-        <main id="main" tabIndex={-1} className="min-w-0 flex-1">
+      <div className="mx-auto flex w-full max-w-7xl gap-16 px-6 pt-14">
+        <main id="main" tabIndex={-1} className="min-w-0 flex-1 pb-24">
           {/* The measure is capped here, not on main, so the rail sits where it does on Foundation. */}
           <div className="max-w-3xl">
             <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">Introduction</h1>
@@ -87,7 +87,10 @@ export default function DocsPage() {
               <p className="mt-4 leading-relaxed text-gray-700">
                 The copied components expect a project that has Tailwind CSS v4, the color and radius tokens from{" "}
                 <code className="font-mono-code text-[15px]">src/app/globals.css</code> in its{" "}
-                <code className="font-mono-code text-[15px]">@theme</code> block, an{" "}
+                <code className="font-mono-code text-[15px]">@theme</code> block, with every{" "}
+                <code className="font-mono-code text-[15px]">--color-role-*</code> role in both light and dark mode
+                (the full list is <code className="font-mono-code text-[15px]">src/lib/color-roles.ts</code>) and the{" "}
+                <code className="font-mono-code text-[15px]">dark</code> variant, an{" "}
                 <code className="font-mono-code text-[15px]">@/ui</code> path alias for the folder you copy them to, and
                 a global <code className="font-mono-code text-[15px]">:focus-visible</code> outline, because the
                 components draw no focus ring of their own.

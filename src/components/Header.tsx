@@ -24,7 +24,7 @@ export default function Header({ active, tone = "surface" }: { active?: string; 
       {/* First stop for keyboard users, so they can pass the header and sidebar in one key press. */}
       <a
         href="#main"
-        className="sr-only rounded-md bg-brand px-4 py-2 text-sm font-medium text-white focus:not-sr-only focus:absolute focus:left-4 focus:top-3 focus:z-50"
+        className="sr-only rounded-md bg-brand px-4 py-2 text-sm font-medium text-white focus:not-sr-only focus:absolute focus:left-4 focus:top-3 focus:z-50 focus:inline-flex focus:min-h-11 focus:items-center"
       >
         Skip to content
       </a>

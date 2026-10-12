@@ -120,7 +120,7 @@ export default function CodeBlock({
                 aria-controls={`${id}-panel`}
                 tabIndex={lang === l ? 0 : -1}
                 onClick={() => setLang(l)}
-                className={`min-h-11 rounded-md px-3 text-xs font-semibold transition-colors ${
+                className={`min-h-11 min-w-11 rounded-md px-3 text-xs font-semibold transition-colors ${
                   lang === l ? "bg-[#015099] text-white" : "text-[#d0d5dd] hover:text-white"
                 }`}
               >

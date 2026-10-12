@@ -324,7 +324,7 @@
   --color-role-bg-surface: #27303f; /* gray/800 */
   --color-role-bg-subtle: #364152; /* gray/700 */
   --color-role-bg-subtle-hover: #4b5565; /* gray/600 */
-  --color-role-bg-hover: #27303f; /* gray/800 */
+  --color-role-bg-hover: #364152; /* gray/700 */
   --color-role-bg-brand: #015099; /* blue/800 */
   --color-role-bg-brand-hover: #013566; /* blue/900 */
   --color-role-bg-danger: #8c2b2c; /* red/800 */
@@ -579,6 +579,7 @@ body {
   /* Keyboard focus and in-page jumps clear the sticky header (65px), so a focused control is never hidden under it. */
   html {
     scroll-padding-top: 5rem;
+    scroll-padding-bottom: 1rem;
   }
   @media (width < 64rem) {
     html:has(.with-section-row) {
@@ -617,7 +618,14 @@ body {
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+
+  /* A loop cut to 0.01ms would strobe, so spinners and pulses stop instead of repeating. */
+  .animate-spin,
+  .animate-pulse {
+    animation: none !important;
   }
 }
 
@@ -720,7 +728,7 @@ body {
     cursor: none !important;
   }
 
-  html.dot-cursor :is(input:not([type="checkbox"], [type="radio"], [type="button"], [type="submit"]), textarea) {
+  html.dot-cursor :is(input:is(:not([type]), [type="text"], [type="search"], [type="email"], [type="url"], [type="tel"], [type="password"], [type="number"]), textarea) {
     cursor: text !important;
   }
 

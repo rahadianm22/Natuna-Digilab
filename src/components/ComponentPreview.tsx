@@ -486,7 +486,7 @@ const previews: Record<string, () => ReactElement> = {
     <div className="flex justify-center py-6">
       <label className="flex w-64 flex-col gap-1.5">
         <span className="text-xs font-semibold text-gray-700">Amount</span>
-        <span className="flex items-center rounded-md border border-gray-500 bg-surface px-3 focus-within:border-blue-600">
+        <span className="flex items-center rounded-md border border-gray-500 bg-surface px-3 focus-within:border-role-border-focus focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-role-border-focus">
           <span className="text-base font-semibold text-gray-700">Rp</span>
           <input inputMode="numeric" placeholder="0" className="w-full bg-transparent min-h-11 px-2 text-lg font-semibold text-gray-900 outline-none placeholder:text-gray-700" />
         </span>

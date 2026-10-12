@@ -37,7 +37,7 @@ export const colorRoles: ColorRole[] = [
   r("role-bg-surface", "bg/surface", "Background", "Cards, fields, panels.", "#ffffff", "white", "#27303f", "gray/800"),
   r("role-bg-subtle", "bg/subtle", "Background", "Secondary button, disabled fill.", "#ebf0f4", "gray/100", "#364152", "gray/700"),
   r("role-bg-subtle-hover", "bg/subtle-hover", "Background", "Hover on a subtle fill.", "#d0d5dd", "gray/200", "#4b5565", "gray/600"),
-  r("role-bg-hover", "bg/hover", "Background", "Hover on an unfilled control.", "#f1f5f9", "gray/50", "#27303f", "gray/800"),
+  r("role-bg-hover", "bg/hover", "Background", "Hover on an unfilled control.", "#f1f5f9", "gray/50", "#364152", "gray/700"),
   r("role-bg-brand", "bg/brand", "Background", "Primary action. Carries white text.", "#015099", "blue/800", "#015099", "blue/800"),
   r("role-bg-brand-hover", "bg/brand-hover", "Background", "Hover on the primary action.", "#013566", "blue/900", "#013566", "blue/900"),
   r("role-bg-danger", "bg/danger", "Background", "Destructive action. Carries white text.", "#8c2b2c", "red/800", "#8c2b2c", "red/800"),

@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 
 // What makes the ring grow: anything a click does something to.
 const interactive = 'a[href], button:not(:disabled), summary, [role="button"], [role="tab"], [role="option"], label[for], select';
-const textField = 'input:not([type="checkbox"], [type="radio"], [type="button"], [type="submit"]), textarea';
+const textField = 'input:is(:not([type]), [type="text"], [type="search"], [type="email"], [type="url"], [type="tel"], [type="password"], [type="number"]), textarea, select';
 
 /**
  * A small dot that sits on the pointer and a soft ring that trails behind it. Only on mouse-like pointers:

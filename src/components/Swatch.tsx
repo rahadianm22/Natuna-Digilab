@@ -39,7 +39,7 @@ export default function Swatch({
       type="button"
       onClick={copy}
       aria-label={`${step}${anchor ? ", anchor" : ""}, ${hex}, ${onWhite.toFixed(2)} to 1 on white, ${onDark.toFixed(2)} to 1 on dark canvas. Copy hex`}
-      className="group flex w-18 shrink-0 flex-col rounded-md text-left sm:w-auto"
+      className="group relative flex w-18 shrink-0 flex-col rounded-md text-left sm:w-auto"
     >
       <span
         className={`block h-14 w-full rounded-md transition-transform group-hover:-translate-y-0.5 ${
@@ -58,6 +58,7 @@ export default function Swatch({
       <span aria-hidden="true" className="hidden text-xs tabular-nums text-gray-700 dark:inline">
         {ratioText(onDark)}
       </span>
+      <span role="status" className="sr-only">{copied ? `Copied ${hex}` : ""}</span>
     </button>
   );
 }

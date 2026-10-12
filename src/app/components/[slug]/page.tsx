@@ -100,11 +100,11 @@ export default async function ComponentDetail({ params }: Props) {
               <nav aria-label="Breadcrumb" className="text-sm text-gray-700">
                 <ol className="flex flex-wrap items-center gap-1.5">
                   <li>
-                    <Link href="/components" className="inline-flex min-h-11 items-center rounded-sm hover:text-blue-800">Components</Link>
+                    <Link href="/components" className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-sm hover:text-blue-800">Components</Link>
                   </li>
                   <li aria-hidden="true">/</li>
                   <li>
-                    <Link href={`/components#group-${group.replace(/\s+/g, "-")}`} className="inline-flex min-h-11 items-center rounded-sm hover:text-blue-800">
+                    <Link href={`/components#group-${group.replace(/\s+/g, "-")}`} className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-sm hover:text-blue-800">
                       {group}
                     </Link>
                   </li>

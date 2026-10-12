@@ -74,7 +74,7 @@ export default function CommandSearch({ entries }: { entries: Entry[] }) {
       <button
         type="button"
         onClick={open}
-        aria-label="Search the documentation"
+        aria-label="Search docs"
         className="flex h-11 min-w-11 items-center justify-center gap-2 rounded-md border border-gray-300 px-2.5 text-sm text-gray-700 transition-colors hover:bg-gray-50 lg:w-52 lg:justify-start"
       >
         <MagnifyingGlass size={16} aria-hidden="true" />
