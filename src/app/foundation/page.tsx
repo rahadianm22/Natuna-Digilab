@@ -6,13 +6,14 @@ import OnThisPage, { SectionChips } from "@/components/OnThisPage";
 import Swatch from "@/components/Swatch";
 import { palettes, signal } from "@/lib/natuna-palette";
 import { contrast } from "@/lib/contrast";
+import { DARK_CANVAS, LIGHT_CANVAS, textSafeRow } from "@/lib/contrast-modes";
 import { FIGMA_COMMUNITY_URL } from "@/lib/site";
 import { buttonStyles } from "@/ui";
 
 export const metadata: Metadata = {
   title: "Foundation",
   alternates: { canonical: "/foundation" },
-  description: "Color, typography, radius, number, and effect tokens from the Natuna Digilab Foundation Design System v1.0.",
+  description: "Color, typography, radius, number, and effect tokens from the Natuna Digilab Foundation Design System v1.1.",
 };
 
 // Size / line height at mobile, tablet, website. Static class strings so Tailwind can see them.
@@ -38,25 +39,25 @@ const type = [
   {
     token: "Body 1",
     cls: "type-body-1 font-medium",
-    scale: ["16 / 24", "18 / 26", "18 / 26"],
+    scale: ["16 / 24", "18 / 28", "18 / 28"],
     use: "Default reading text.",
   },
   {
     token: "Body 2",
     cls: "type-body-2 font-medium",
-    scale: ["14 / 20", "14 / 20", "14 / 20"],
+    scale: ["14 / 22", "14 / 22", "14 / 22"],
     use: "Dense UI text and table cells.",
   },
   {
     token: "Caption 1",
     cls: "type-caption-1 font-medium",
-    scale: ["12 / 16", "12 / 16", "14 / 20"],
+    scale: ["12 / 18", "12 / 18", "14 / 22"],
     use: "Labels, helper text, metadata.",
   },
   {
     token: "Caption 2",
     cls: "type-caption-2 font-medium",
-    scale: ["10 / 12", "10 / 12", "12 / 16"],
+    scale: ["12 / 16", "12 / 16", "12 / 16"],
     use: "Smallest metadata. Avoid for anything users must read.",
   },
 ];
@@ -134,17 +135,27 @@ const radii = [
   { name: "full", px: "pill", cls: "rounded-full", use: "Avatars, toggles" },
 ];
 
+// Colors cited in the rules below, looked up by ramp and step so the ratios are computed, not typed.
+function hexOf(token: string, step: string) {
+  return palettes.find((p) => p.token === token)!.steps.find((s) => s.step === step)!.hex;
+}
+const onBlue800 = contrast(LIGHT_CANVAS, hexOf("blue", "800")).toFixed(2);
+const onRed800 = contrast(LIGHT_CANVAS, hexOf("red", "800")).toFixed(2);
+
 // WCAG 2.2 AAA criteria the system commits to. Checked on every page by the axe tests (wcag2aaa).
 const aaa = [
-  { rule: "Text contrast", sc: "1.4.6 Contrast (Enhanced)", min: "7:1", how: "Body and secondary text use gray-900 and gray-700; links use blue-800. All clear 7:1 on canvas and surface, light and dark." },
-  { rule: "Large text contrast", sc: "1.4.6 Contrast (Enhanced)", min: "4.5:1", how: "Applies at 24px, or 19px bold, and up. Headings meet 7:1 anyway." },
-  { rule: "Text on fills", sc: "1.4.6 Contrast (Enhanced)", min: "7:1", how: "Brand fill is blue-800 #015099 (8.0:1 with white) and danger is red-800 #8c2b2c (8.4:1). Lime carries navy text only." },
-  { rule: "Non-text contrast", sc: "1.4.11 Non-text Contrast", min: "3:1", how: "Input borders use gray-500 and the focus ring blue-600 (blue-400 in dark), all above 3:1 on their surface." },
-  { rule: "Target size", sc: "2.5.5 Target Size (Enhanced)", min: "44 × 44px", how: "Buttons, links in lists, tabs and toggles are at least 44px tall at every screen width." },
-  { rule: "Focus", sc: "2.4.13 Focus Appearance", min: "2px, 3:1", how: "A 2px outline with a 2px offset on every focusable element: blue-600 in light, blue-400 in dark, so it clears 3:1 on both surfaces." },
-  { rule: "Motion", sc: "2.3.3 Animation from Interactions", min: "Can be turned off", how: "Every animation stops under prefers-reduced-motion; nothing essential depends on motion." },
-  { rule: "Color alone", sc: "1.4.1 Use of Color", min: "Never", how: "Status always pairs color with a text label or a shape." },
+  { rule: "Text contrast", sc: "1.4.6 Contrast (Enhanced)", min: "7:1", how: "Text tokens only: text/primary, secondary, tertiary and link. Light: gray-900 / gray-700 / gray-600 / blue-800 on canvas. Dark: gray-50 / gray-200 / gray-300 / blue-200 on gray-900. On surfaces, tertiary text steps up to secondary." },
+  { rule: "Large text", sc: "1.4.6 Contrast (Enhanced)", min: "4.5:1", how: "24px and up, or 19px bold and up. Headings still use text/primary (7:1+)." },
+  { rule: "Text on fills", sc: "1.4.6 Contrast (Enhanced)", min: "7:1", how: `White on blue-800 (${onBlue800}) and red-800 (${onRed800}). Navy on Signal, Jade 500, Amber 500 and Sky 500. Ramp anchors (step 600) are fills, not text colours.` },
+  { rule: "Non-text contrast", sc: "1.4.11 Non-text Contrast", min: "3:1", how: "Control borders gray-500 on canvas, gray-600 on surface, gray-400 in dark. Focus ring blue-600 (light) and blue-400 (dark)." },
+  { rule: "Target size", sc: "2.5.5 Target Size (Enhanced)", min: "44 × 44px", how: "Every button, tab, toggle and list link, including the in-page navigation. Inline links in sentences are exempt." },
+  { rule: "Focus", sc: "2.4.13 Focus Appearance", min: "2px, 3:1", how: "2px solid outline in focus/ring, 2px offset, on every focusable element in both modes." },
+  { rule: "Line spacing", sc: "1.4.8 Visual Presentation", min: "1.5", how: "Body and caption styles used for paragraphs run at 1.5 or more. Caption 2 (12/16) is for single-line metadata only." },
+  { rule: "Motion", sc: "2.3.3 Animation from Interactions", min: "Can be turned off", how: "All animation stops under prefers-reduced-motion." },
+  { rule: "Color alone", sc: "1.4.1 Use of Color", min: "Never", how: "Status pairs colour with a label or icon, and links inside text are underlined." },
 ];
+
+const textSafe = palettes.map(textSafeRow);
 
 const sections = [
   { id: "accessibility", label: "Accessibility" },
@@ -165,7 +176,7 @@ export default function FoundationPage() {
         <main id="main" tabIndex={-1} className="with-section-row min-w-0 flex-1">
           <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">Foundation</h1>
           <p className="mt-5 max-w-2xl text-lg leading-relaxed text-gray-700">
-            The tokens every component is drawn with, taken from the Foundation Design System v1.0 in Figma. Change
+            The tokens every component is drawn with, taken from the Foundation Design System v1.1 in Figma. Change
             a token and every component that uses it follows.
           </p>
           <a
@@ -189,11 +200,12 @@ export default function FoundationPage() {
             <h2 id="accessibility" className="type-h2 font-bold tracking-tight text-gray-900">Accessibility</h2>
             <p className="mt-3 max-w-2xl leading-relaxed text-gray-700">
               Natuna targets WCAG 2.2 level AAA wherever it is a property of the design: contrast, target size,
-              focus, and motion. Every token below is chosen to pass it in light and in dark mode, and every page of
-              this site is checked against it automatically.
+              focus, line spacing and motion. Text tokens pass 7:1 in light and dark mode. Ramp steps are not all
+              text-safe; see &quot;Text-safe steps&quot; under Color.
             </p>
             <div className="mt-8 overflow-hidden rounded-xl border border-gray-200 bg-surface">
               <table className="w-full text-left text-sm">
+                <caption className="sr-only">Accessibility rules</caption>
                 <thead className="hidden border-b border-gray-200 text-gray-700 sm:table-header-group">
                   <tr>
                     <th scope="col" className="w-[28%] px-4 py-3 font-medium">Rule</th>
@@ -220,11 +232,43 @@ export default function FoundationPage() {
             <h2 id="color" className="type-h2 font-bold tracking-tight text-gray-900">Color</h2>
             <p className="mt-3 max-w-2xl leading-relaxed text-gray-700">
               Three brand ramps carry identity and five utility ramps carry meaning. Step 600 anchors each ramp.
-              The ratio under each swatch is its contrast against white. Text needs 7:1, marked AAA. Steps that reach only 4.5:1 are marked AA and suit large text alone. The
-              first AAA step differs per ramp: 800 for Azure and Imperial, 900 for Jade and Amber. Select a swatch to
-              copy its hex. One flat accent, Signal, follows the ramps.
+              The ratio under each swatch is its contrast against the page canvas in the active mode: white in
+              light, gray-900 in dark. Text needs 7:1, marked AAA. Steps that reach only 4.5:1 are marked AA and
+              suit large text alone. Ramp steps are not all text-safe, and the first safe step differs per ramp, so
+              the table below lists it for each one. Select a swatch to copy its hex. One flat accent, Signal,
+              follows the ramps.
             </p>
-            <div className="mt-8 space-y-10">
+            <h3 id="text-safe-steps" className="mt-8 scroll-mt-40 text-lg font-semibold text-gray-900 lg:scroll-mt-24">
+              Text-safe steps
+            </h3>
+            <div tabIndex={0} role="region" aria-label="Text-safe steps table, scrollable" className="mt-3 max-w-full overflow-x-auto rounded-xl border border-gray-200 bg-surface">
+              <table className="w-full min-w-[44rem] text-left text-sm">
+                <caption className="sr-only">Text-safe steps</caption>
+                <thead className="border-b border-gray-200 text-gray-700">
+                  <tr>
+                    <th scope="col" className="px-4 py-3 font-medium">Ramp</th>
+                    <th scope="col" className="px-4 py-3 font-medium">Anchor 600 on white</th>
+                    <th scope="col" className="px-4 py-3 font-medium">UI &ge; 3:1 from</th>
+                    <th scope="col" className="px-4 py-3 font-medium">Text AA from</th>
+                    <th scope="col" className="px-4 py-3 font-medium">Text AAA from</th>
+                    <th scope="col" className="px-4 py-3 font-medium">AAA text in dark (on gray-900)</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-200">
+                  {textSafe.map((r) => (
+                    <tr key={r.label}>
+                      <th scope="row" className="px-4 py-3 font-semibold text-gray-900">{r.label}</th>
+                      <td className="px-4 py-3 tabular-nums text-gray-900">{r.anchorRatio.toFixed(2)} &middot; {r.anchorNote}</td>
+                      <td className="px-4 py-3 tabular-nums text-gray-900">{r.uiFrom}</td>
+                      <td className="px-4 py-3 tabular-nums text-gray-900">{r.aaFrom}</td>
+                      <td className="px-4 py-3 tabular-nums text-gray-900">{r.aaaFrom}</td>
+                      <td className="px-4 py-3 tabular-nums text-gray-900">{r.darkAaaTo}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <div className="mt-10 space-y-10">
               {palettes.map((p) => (
                 <div key={p.token}>
                   <div className="mb-3 flex flex-wrap items-baseline gap-x-3 gap-y-1">
@@ -240,7 +284,8 @@ export default function FoundationPage() {
                         step={step}
                         hex={hex}
                         anchor={step === "600"}
-                        onWhite={contrast(hex, "#ffffff")}
+                        onWhite={contrast(hex, LIGHT_CANVAS)}
+                        onDark={contrast(hex, DARK_CANVAS)}
                       />
                     ))}
                   </div>
@@ -274,7 +319,7 @@ export default function FoundationPage() {
             <h2 id="typography" className="type-h2 font-bold tracking-tight text-gray-900">Typography</h2>
             <p className="mt-3 max-w-2xl leading-relaxed text-gray-700">
               Urbanist, a geometric sans with open forms that stays legible at caption sizes. Each style has a
-              size and line height for mobile, tablet, and website; line height opens up on larger screens. The
+              size and line height for mobile, tablet, and website. Caption 2 is for single-line metadata only. The
               samples below resize with your window, and each one is a class (type-h1 to type-caption-2) built from the --text-* tokens. Four weights give emphasis without changing the size.
             </p>
             <ul className="mt-6 flex flex-wrap gap-x-6 gap-y-2" aria-label="Font weights">
@@ -284,9 +329,9 @@ export default function FoundationPage() {
                 </li>
               ))}
             </ul>
-            <div className="mt-8 divide-y divide-gray-200 border-y border-gray-200">
+            <div role="list" aria-label="Type scale" className="mt-8 divide-y divide-gray-200 border-y border-gray-200">
               {type.map((t) => (
-                <div key={t.token} className="grid gap-3 py-5 md:grid-cols-[1fr_16rem] md:items-baseline md:gap-8">
+                <div role="listitem" key={t.token} className="grid gap-3 py-5 md:grid-cols-[1fr_16rem] md:items-baseline md:gap-8">
                   <div>
                     <div className={`${t.cls} text-gray-900`}>{t.token}: Send money to any account</div>
                     <div className="mt-1 text-sm text-gray-700">{t.use} Class <code className="font-mono-code text-xs">{t.cls.split(" ")[0]}</code>.</div>

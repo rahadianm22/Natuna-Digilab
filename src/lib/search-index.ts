@@ -19,6 +19,7 @@ const pages: SearchEntry[] = [
   { href: "/themes", title: "Themes", group: "Page", note: "Light and dark mode" },
   { href: "/naming", title: "Naming", group: "Page", note: "Property and page names", keywords: "property properties figma variant boolean show label tone state" },
   { href: "/privacy", title: "Privacy statement", group: "Page" },
+  { href: "/foundation#text-safe-steps", title: "Text-safe steps", group: "Section", note: "First AA and AAA step per color ramp", keywords: "contrast wcag aaa aa text safe ramp anchor dark light" },
   { href: "/foundation#accessibility", title: "Accessibility", group: "Section", note: "WCAG 2.2 AAA rules", keywords: "wcag aaa contrast a11y focus target size motion" },
   { href: "/themes", title: "Dark mode", group: "Section", note: "Themes", keywords: "dark light theme mode color roles" },
   { href: "/docs#use", title: "Using it today", group: "Section", note: "Figma file and React code", keywords: "install npm package react figma duplicate start setup" },

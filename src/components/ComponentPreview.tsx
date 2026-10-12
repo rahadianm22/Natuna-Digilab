@@ -600,7 +600,7 @@ const previews: Record<string, () => ReactElement> = {
       <div className="flex aspect-video w-72 flex-col items-center justify-center rounded-md bg-blue-50 text-center">
         <span className="text-xs font-semibold text-blue-900">Natuna Digilab</span>
         <span className="text-2xl font-bold text-gray-900">Foundation</span>
-        <span className="text-xs text-gray-700">Design System, Version 1.0</span>
+        <span className="text-xs text-gray-700">Design System, Version 1.1</span>
       </div>
     </div>
   ),
