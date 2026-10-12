@@ -44,7 +44,7 @@ function SidebarBody({ idPrefix, onNavigate, items: sorted, groups, statusText }
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Filter components"
-          className="min-h-11 w-full rounded-md border border-gray-500 bg-surface py-2 pl-9 pr-3 text-sm text-gray-900 placeholder:text-gray-700 focus-visible:border-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
+          className="min-h-11 w-full rounded-md border border-gray-500 bg-surface py-2 pl-9 pr-3 text-sm text-gray-900 placeholder:text-gray-700 focus-visible:border-role-border-focus"
         />
       </label>
 

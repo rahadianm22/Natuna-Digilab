@@ -171,8 +171,8 @@ test("overview filter and status chips", async ({ page }) => {
 
 test("foundation swatch copies its hex", async ({ page }) => {
   await page.goto("/foundation");
-  await page.getByRole("button", { name: /^600, anchor, #0276e3/ }).click();
-  expect(await page.evaluate(() => navigator.clipboard.readText())).toBe("#0276e3");
+  await page.getByRole("button", { name: /^600, anchor, #0274e0/ }).click();
+  expect(await page.evaluate(() => navigator.clipboard.readText())).toBe("#0274e0");
 });
 
 test.describe("phone", () => {

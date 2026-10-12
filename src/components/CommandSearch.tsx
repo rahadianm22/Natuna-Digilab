@@ -88,7 +88,7 @@ export default function CommandSearch({ entries }: { entries: Entry[] }) {
         onClick={(e) => e.target === dialog.current && close()}
         className="m-auto mt-[12vh] w-[min(36rem,calc(100vw-2rem))] rounded-xl border border-gray-200 bg-surface p-0 text-gray-900 backdrop:bg-ink/60"
       >
-        <div className="flex items-center gap-3 border-b border-gray-200 px-4 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-blue-600">
+        <div className="flex items-center gap-3 border-b border-gray-200 px-4 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-role-border-focus">
           <MagnifyingGlass size={18} aria-hidden="true" className="text-gray-500" />
           <input
             ref={input}

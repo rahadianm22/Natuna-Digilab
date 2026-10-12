@@ -4,13 +4,13 @@
 @custom-variant dark (&:where(.dark, .dark *, .theme-dark, .theme-dark *));
 
 /*
-  Natuna Digilab Foundation Design System v1.0 (Figma community file).
+  Natuna Digilab Foundation Design System v1.1 (Figma community file).
   The Figma palettes are mapped onto the Tailwind color names the site already uses,
   so existing classes pick up the brand colors:
     blue -> Azure Blue, gray -> Slate Gray, emerald -> Jade Green, red -> Imperial Red,
     orange -> Tomato Red, teal -> Sky Blue, violet -> Amethyst Purple, amber -> Amber Yellow.
   Brand anchor is step 600 (surfaces, icons, focus). Text and white-on-color fills use 800 (700 for gray),
-  because 600 is 4.47:1 on white and misses even AA for small text, and 700 reaches only 5.3:1 (AAA needs 7:1).
+  because 600 is 4.59:1 on white (AA for small text, short of AAA) and 700 reaches only 5.3:1 (AAA needs 7:1).
 */
 
 @theme {
@@ -39,7 +39,7 @@
   --color-inverse-line: #243049;
   --color-inverse-line-strong: #364460;
   --color-inverse-text: #f4f6f8;
-  --color-inverse-muted: #cdd5df;
+  --color-inverse-muted: #d0d5dd;
   --color-inverse-subtle: #b7c0cc;
   --color-lime: #c6f432;
 
@@ -59,7 +59,7 @@
   --color-blue-300: #67b6ff;
   --color-blue-400: #359dff;
   --color-blue-500: #0285ff;
-  --color-blue-600: #0276e3;
+  --color-blue-600: #0274e0;
   --color-blue-700: #026acc;
   --color-blue-800: #015099;
   --color-blue-900: #013566;
@@ -69,7 +69,7 @@
   --color-gray-50: #f1f5f9;
   --color-gray-100: #ebf0f4;
   --color-gray-200: #d0d5dd;
-  --color-gray-300: #cdd5df;
+  --color-gray-300: #b4bbc7;
   --color-gray-400: #9aa4b2;
   --color-gray-500: #697586;
   --color-gray-600: #4b5565;
@@ -125,7 +125,7 @@
   --color-orange-400: #ff836f;
   --color-orange-500: #ff644b;
   --color-orange-600: #e04b33;
-  --color-orange-700: #cc503c;
+  --color-orange-700: #c64e3a;
   --color-orange-800: #993c2d;
   --color-orange-900: #66281e;
   --color-orange-950: #33140f;
@@ -199,9 +199,23 @@
   --color-role-text-link: #015099; /* blue/800 */
   --color-role-border-default: #d0d5dd; /* gray/200 */
   --color-role-border-input: #697586; /* gray/500 */
-  --color-role-border-disabled: #cdd5df; /* gray/300 */
-  --color-role-border-focus: #0276e3; /* blue/600 */
+  --color-role-border-disabled: #b4bbc7; /* gray/300 */
+  --color-role-border-focus: #0274e0; /* blue/600 */
   --color-role-border-danger: #8c2b2c; /* red/800 */
+  --color-role-text-tertiary: #4b5565; /* gray/600 */
+  --color-role-text-on-danger: #ffffff; /* white */
+  --color-role-text-on-accent: #0b1220; /* navy */
+  --color-role-status-success: #25490f; /* emerald/900 */
+  --color-role-status-success-bg: #f7fbf3; /* emerald/50 */
+  --color-role-status-warning: #644800; /* amber/900 */
+  --color-role-status-warning-bg: #fffbf0; /* amber/50 */
+  --color-role-status-danger: #5e1d1e; /* red/900 */
+  --color-role-status-danger-bg: #fef1f2; /* red/50 */
+  --color-role-status-info: #003f66; /* teal/950 */
+  --color-role-status-info-bg: #f0f9ff; /* teal/50 */
+  --color-role-status-solid-success: #5db725; /* emerald/500 */
+  --color-role-status-solid-warning: #fab400; /* amber/500 */
+  --color-role-status-solid-info: #24abff; /* teal/500 */
   --color-role-bg-tone-neutral: #ebf0f4; /* gray/100 */
   --color-role-text-tone-neutral: #364152; /* gray/700 */
   --color-role-bg-tone-info: #d1e9ff; /* blue/100 */
@@ -269,8 +283,8 @@
   --color-gray-200: #4b5565;
   --color-gray-300: #697586;
   --color-gray-400: #697586;
-  --color-gray-500: #cdd5df;
-  --color-gray-600: #cdd5df;
+  --color-gray-500: #d0d5dd;
+  --color-gray-600: #d0d5dd;
   --color-gray-700: #d0d5dd;
   --color-gray-800: #ebf0f4;
   --color-gray-900: #f1f5f9;
@@ -280,7 +294,7 @@
   --color-blue-100: #013566;
   --color-blue-200: #015099;
   --color-blue-300: #026acc;
-  /* Focus rings: #0276e3 is under 3:1 on the dark surface, #359dff clears it. */
+  /* Focus rings: #0274e0 is under 3:1 on the dark surface, #359dff clears it. */
   --color-blue-600: #359dff;
   --color-blue-700: #67b6ff;
   --color-blue-800: #9aceff;
@@ -321,15 +335,30 @@
   --color-role-text-secondary: #d0d5dd; /* gray/200 */
   --color-role-text-strong: #ebf0f4; /* gray/100 */
   --color-role-text-strong-hover: #ffffff; /* white */
-  --color-role-text-disabled: #cdd5df; /* gray/300 */
+  --color-role-text-disabled: #b4bbc7; /* gray/300 */
   --color-role-text-on-brand: #ffffff; /* white */
   --color-role-text-danger: #f7b6b7; /* red/200 */
   --color-role-text-link: #9aceff; /* blue/200 */
   --color-role-border-default: #4b5565; /* gray/600 */
-  --color-role-border-input: #cdd5df; /* gray/300 */
+  --color-role-border-input: #9aa4b2; /* gray/400 */
   --color-role-border-disabled: #697586; /* gray/500 */
   --color-role-border-focus: #359dff; /* blue/400 */
   --color-role-border-danger: #f7b6b7; /* red/200 */
+  /* Dark text-tertiary is 8.37:1 on the canvas but under 7:1 on the surface: on a card or panel use text-secondary. */
+  --color-role-text-tertiary: #b4bbc7; /* gray/300 */
+  --color-role-text-on-danger: #ffffff; /* white */
+  --color-role-text-on-accent: #0b1220; /* navy */
+  --color-role-status-success: #d4ecc5; /* emerald/200 */
+  --color-role-status-success-bg: #132507; /* emerald/950 */
+  --color-role-status-warning: #fde5a5; /* amber/200 */
+  --color-role-status-warning-bg: #322400; /* amber/950 */
+  --color-role-status-danger: #f7b6b7; /* red/200 */
+  --color-role-status-danger-bg: #2f0e0f; /* red/950 */
+  --color-role-status-info: #b2e2ff; /* teal/200 */
+  --color-role-status-info-bg: #003f66; /* teal/950 */
+  --color-role-status-solid-success: #5db725; /* emerald/500 */
+  --color-role-status-solid-warning: #fab400; /* amber/500 */
+  --color-role-status-solid-info: #24abff; /* teal/500 */
   --color-role-bg-tone-neutral: #364152; /* gray/700 */
   --color-role-text-tone-neutral: #d0d5dd; /* gray/200 */
   --color-role-bg-tone-info: #013566; /* blue/900 */
@@ -358,7 +387,7 @@
   --color-gray-50: #f1f5f9;
   --color-gray-100: #ebf0f4;
   --color-gray-200: #d0d5dd;
-  --color-gray-300: #cdd5df;
+  --color-gray-300: #b4bbc7;
   --color-gray-400: #9aa4b2;
   --color-gray-500: #697586;
   --color-gray-600: #4b5565;
@@ -371,7 +400,7 @@
   --color-blue-100: #d1e9ff;
   --color-blue-200: #9aceff;
   --color-blue-300: #67b6ff;
-  --color-blue-600: #0276e3;
+  --color-blue-600: #0274e0;
   --color-blue-700: #026acc;
   --color-blue-800: #015099;
   --color-blue-900: #013566;
@@ -417,9 +446,23 @@
   --color-role-text-link: #015099; /* blue/800 */
   --color-role-border-default: #d0d5dd; /* gray/200 */
   --color-role-border-input: #697586; /* gray/500 */
-  --color-role-border-disabled: #cdd5df; /* gray/300 */
-  --color-role-border-focus: #0276e3; /* blue/600 */
+  --color-role-border-disabled: #b4bbc7; /* gray/300 */
+  --color-role-border-focus: #0274e0; /* blue/600 */
   --color-role-border-danger: #8c2b2c; /* red/800 */
+  --color-role-text-tertiary: #4b5565; /* gray/600 */
+  --color-role-text-on-danger: #ffffff; /* white */
+  --color-role-text-on-accent: #0b1220; /* navy */
+  --color-role-status-success: #25490f; /* emerald/900 */
+  --color-role-status-success-bg: #f7fbf3; /* emerald/50 */
+  --color-role-status-warning: #644800; /* amber/900 */
+  --color-role-status-warning-bg: #fffbf0; /* amber/50 */
+  --color-role-status-danger: #5e1d1e; /* red/900 */
+  --color-role-status-danger-bg: #fef1f2; /* red/50 */
+  --color-role-status-info: #003f66; /* teal/950 */
+  --color-role-status-info-bg: #f0f9ff; /* teal/50 */
+  --color-role-status-solid-success: #5db725; /* emerald/500 */
+  --color-role-status-solid-warning: #fab400; /* amber/500 */
+  --color-role-status-solid-info: #24abff; /* teal/500 */
   --color-role-bg-tone-neutral: #ebf0f4; /* gray/100 */
   --color-role-text-tone-neutral: #364152; /* gray/700 */
   --color-role-bg-tone-info: #d1e9ff; /* blue/100 */

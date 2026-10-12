@@ -121,7 +121,7 @@ export default function CodeBlock({
                 tabIndex={lang === l ? 0 : -1}
                 onClick={() => setLang(l)}
                 className={`min-h-11 rounded-md px-3 text-xs font-semibold transition-colors ${
-                  lang === l ? "bg-[#015099] text-white" : "text-[#cdd5df] hover:text-white"
+                  lang === l ? "bg-[#015099] text-white" : "text-[#d0d5dd] hover:text-white"
                 }`}
               >
                 {l.toUpperCase()}
@@ -129,7 +129,7 @@ export default function CodeBlock({
             ))}
           </div>
         ) : (
-          <span className="px-1 text-xs font-medium text-[#cdd5df]">{label}</span>
+          <span className="px-1 text-xs font-medium text-[#d0d5dd]">{label}</span>
         )}
         <div className="flex items-center gap-1">
           {collapsible && (
@@ -138,7 +138,7 @@ export default function CodeBlock({
               onClick={() => setExpanded((v) => !v)}
               aria-expanded={expanded}
               aria-controls={`${id}-panel`}
-              className="min-h-11 rounded-md px-3 text-xs font-medium text-[#cdd5df] transition-colors hover:bg-white/10 hover:text-white"
+              className="min-h-11 rounded-md px-3 text-xs font-medium text-[#d0d5dd] transition-colors hover:bg-white/10 hover:text-white"
             >
               {expanded ? "Collapse code" : "Expand code"}
             </button>
