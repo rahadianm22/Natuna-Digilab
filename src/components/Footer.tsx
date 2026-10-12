@@ -27,11 +27,11 @@ export default function Footer() {
         <div className="flex flex-[1_1_260px] flex-col gap-4">
           <Link
             href="/"
-            className="self-start font-display text-2xl font-extrabold leading-tight tracking-[-0.01em] text-gray-900 sm:text-[32px]"
+            className="inline-flex min-h-11 items-center self-start font-display text-2xl font-extrabold leading-tight tracking-[-0.01em] text-gray-900 sm:text-[32px]"
           >
             Natuna Digilab
           </Link>
-          <p className="text-sm text-gray-700">&copy; {new Date().getFullYear()} Natuna Digilab. Site in beta, built on Foundation Design System v1.0.</p>
+          <p className="text-sm text-gray-700">&copy; {new Date().getFullYear()} Natuna Digilab. Site in beta, built on Foundation Design System v1.1.</p>
         </div>
 
         <div className="flex flex-col items-start gap-8 sm:items-end">

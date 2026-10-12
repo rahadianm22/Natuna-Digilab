@@ -235,17 +235,15 @@
   --text-body-1: 1rem;
   --text-body-1--line-height: 1.5rem;
   --text-body-1-md: 1.125rem;
-  --text-body-1-md--line-height: 1.625rem;
+  --text-body-1-md--line-height: 1.75rem;
   --text-body-2: 0.875rem;
-  --text-body-2--line-height: 1.25rem;
+  --text-body-2--line-height: 1.375rem;
   --text-caption-1: 0.75rem;
-  --text-caption-1--line-height: 1rem;
+  --text-caption-1--line-height: 1.125rem;
   --text-caption-1-lg: 0.875rem;
-  --text-caption-1-lg--line-height: 1.25rem;
-  --text-caption-2: 0.625rem;
-  --text-caption-2--line-height: 0.75rem;
-  --text-caption-2-lg: 0.75rem;
-  --text-caption-2-lg--line-height: 1rem;
+  --text-caption-1-lg--line-height: 1.375rem;
+  --text-caption-2: 0.75rem;
+  --text-caption-2--line-height: 1rem;
 }
 
 /*
@@ -498,10 +496,6 @@
 @utility type-caption-2 {
   font-size: var(--text-caption-2);
   line-height: var(--text-caption-2--line-height);
-  @media (width >= 64rem) {
-    font-size: var(--text-caption-2-lg);
-    line-height: var(--text-caption-2-lg--line-height);
-  }
 }
 
 /* In the base layer, so a utility such as bg-[#0d121c] on a themed element still wins. */
