@@ -62,7 +62,7 @@ export default function DocsPage() {
                 ] as const).map(([term, desc, href]) => (
                   <div key={term} className="grid gap-1 py-4 sm:grid-cols-[10rem_1fr] sm:gap-6">
                     <dt>
-                      <Link href={href} className={linkClass}>{term}</Link>
+                      <Link href={href} className={`${linkClass} inline-flex min-h-11 items-center`}>{term}</Link>
                     </dt>
                     <dd className="text-gray-700">{desc}</dd>
                   </div>

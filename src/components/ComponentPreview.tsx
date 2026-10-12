@@ -43,8 +43,8 @@ const previews: Record<string, () => ReactElement> = {
   "button-group": () => (
     <div className="flex justify-center py-6">
       <div className="inline-flex overflow-hidden rounded-md border border-gray-300">
-        <button className="border-r border-gray-300 bg-brand px-4 py-2 text-sm font-medium text-white">Grid</button>
-        <button className="px-4 py-2 text-sm text-gray-700">List</button>
+        <button className="border-r border-gray-300 bg-brand min-h-11 px-4 text-sm font-medium text-white">Grid</button>
+        <button className="min-h-11 px-4 text-sm text-gray-700">List</button>
       </div>
     </div>
   ),
@@ -146,7 +146,7 @@ const previews: Record<string, () => ReactElement> = {
   ),
   select: () => (
     <div className="flex justify-center py-6">
-      <select aria-label="City" className="w-48 rounded-md border border-gray-300 bg-surface px-3 py-2 text-sm">
+      <select aria-label="City" className="w-48 rounded-md border border-gray-500 bg-surface px-3 text-sm min-h-11">
         <option>Harbor</option>
         <option>Meadow</option>
         <option>Ridgeway</option>
@@ -260,7 +260,7 @@ const previews: Record<string, () => ReactElement> = {
       {["Harbor", "This month", "Transfer"].map((c) => (
         <span key={c} className="inline-flex items-center gap-1 rounded-full border border-blue-200 bg-blue-50 py-1 pl-3 pr-1.5 text-xs font-medium text-blue-900">
           {c}
-          <button type="button" aria-label={`Remove ${c}`} className="rounded-full p-1 hover:bg-blue-100">
+          <button type="button" aria-label={`Remove ${c}`} className="-my-3 -mr-3 inline-flex h-11 w-11 items-center justify-center rounded-full hover:bg-blue-100">
             <X size={12} weight="bold" />
           </button>
         </span>
@@ -356,7 +356,7 @@ const previews: Record<string, () => ReactElement> = {
         {/* The code always sits on white with a quiet zone, in both modes, as the guidance requires. */}
         <div className="theme-light mx-auto flex w-fit flex-col items-center rounded-lg border border-gray-200 bg-white p-3">
           <QrCode size={96} weight="regular" aria-hidden="true" className="text-[#0d121c]" />
-          <span className="mt-1 text-[10px] text-gray-700">Sample, not a scannable code</span>
+          <span className="mt-1 text-xs text-gray-700">Sample, not a scannable code</span>
         </div>
         <div className="mt-3 text-lg font-bold tabular-nums text-gray-900">Rp 25.000</div>
         <div className="text-sm font-semibold text-gray-900">Warung Bu Sari</div>
@@ -389,7 +389,7 @@ const previews: Record<string, () => ReactElement> = {
     <div className="flex justify-center py-6">
       <label className="flex w-72 flex-col gap-1.5">
         <span className="text-xs font-semibold text-gray-700">Note</span>
-        <textarea rows={3} maxLength={120} placeholder="Add a note for the recipient" className="rounded-md border border-gray-300 bg-surface px-3 py-2 text-sm text-gray-900 placeholder:text-gray-700" />
+        <textarea rows={3} maxLength={120} placeholder="Add a note for the recipient" className="rounded-md border border-gray-500 bg-surface px-3 py-2 text-sm text-gray-900 placeholder:text-gray-700" />
         <span className="text-right text-xs text-gray-700">Up to 120 characters</span>
       </label>
     </div>
@@ -400,7 +400,7 @@ const previews: Record<string, () => ReactElement> = {
         <span className="flex justify-between text-xs font-semibold text-gray-700">
           Daily limit <span className="font-normal text-gray-700">Rp 0 to 10 jt</span>
         </span>
-        <input type="range" min={0} max={100} defaultValue={60} className="w-full accent-blue-600" />
+        <input type="range" min={0} max={100} defaultValue={60} className="min-h-11 w-full accent-blue-600" />
       </label>
     </div>
   ),
@@ -436,7 +436,7 @@ const previews: Record<string, () => ReactElement> = {
             inputMode="numeric"
             maxLength={1}
             aria-label={`PIN digit ${i + 1}`}
-            className="h-11 w-10 rounded-md border border-gray-300 bg-surface text-center text-lg font-semibold text-gray-900"
+            className="h-11 w-11 rounded-md border border-gray-500 bg-surface text-center text-lg font-semibold text-gray-900"
           />
         ))}
       </div>
@@ -447,7 +447,7 @@ const previews: Record<string, () => ReactElement> = {
       <label className="relative block w-72">
         <span className="sr-only">Search transactions</span>
         <MagnifyingGlass size={16} aria-hidden="true" className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-gray-700" />
-        <input type="search" placeholder="Search by name or amount" className="w-full rounded-md border border-gray-300 bg-surface py-2 pl-9 pr-3 text-sm text-gray-900 placeholder:text-gray-700" />
+        <input type="search" placeholder="Search by name or amount" className="w-full rounded-md border min-h-11 border-gray-500 bg-surface pl-9 pr-3 text-sm text-gray-900 placeholder:text-gray-700" />
       </label>
     </div>
   ),
@@ -465,7 +465,7 @@ const previews: Record<string, () => ReactElement> = {
     <div className="flex justify-center py-6">
       <label className="flex w-56 flex-col gap-1.5">
         <span className="text-xs font-semibold text-gray-700">Transfer date</span>
-        <input type="date" className="rounded-md border border-gray-300 bg-surface px-3 py-2 text-sm text-gray-900" />
+        <input type="date" className="rounded-md border min-h-11 border-gray-500 bg-surface px-3 text-sm text-gray-900" />
       </label>
     </div>
   ),
@@ -473,7 +473,7 @@ const previews: Record<string, () => ReactElement> = {
     <div className="flex justify-center py-6">
       <label className="flex w-64 flex-col gap-1.5">
         <span className="text-xs font-semibold text-gray-700">City</span>
-        <input list="preview-cities" placeholder="Type to search" className="rounded-md border border-gray-300 bg-surface px-3 py-2 text-sm text-gray-900 placeholder:text-gray-700" />
+        <input list="preview-cities" placeholder="Type to search" className="rounded-md border min-h-11 border-gray-500 bg-surface px-3 text-sm text-gray-900 placeholder:text-gray-700" />
         <datalist id="preview-cities">
           {["Harbor", "Meadow", "Natuna", "Ridgeway", "Summit", "Valley", "Westfield"].map((c) => (
             <option key={c} value={c} />
@@ -486,9 +486,9 @@ const previews: Record<string, () => ReactElement> = {
     <div className="flex justify-center py-6">
       <label className="flex w-64 flex-col gap-1.5">
         <span className="text-xs font-semibold text-gray-700">Amount</span>
-        <span className="flex items-center rounded-md border border-gray-300 bg-surface px-3 focus-within:border-blue-600">
+        <span className="flex items-center rounded-md border border-gray-500 bg-surface px-3 focus-within:border-blue-600">
           <span className="text-base font-semibold text-gray-700">Rp</span>
-          <input inputMode="numeric" placeholder="0" className="w-full bg-transparent px-2 py-2 text-lg font-semibold text-gray-900 outline-none placeholder:text-gray-700" />
+          <input inputMode="numeric" placeholder="0" className="w-full bg-transparent min-h-11 px-2 text-lg font-semibold text-gray-900 outline-none placeholder:text-gray-700" />
         </span>
         <span className="text-xs text-gray-700">Balance Rp 2.450.000</span>
       </label>
@@ -498,7 +498,7 @@ const previews: Record<string, () => ReactElement> = {
     <div className="flex flex-col items-center gap-1 py-6">
       <div role="img" aria-label="4 out of 5 stars" className="flex gap-1 text-amber-500">
         {[1, 2, 3, 4, 5].map((n) => (
-          <Star key={n} size={24} weight={n <= 4 ? "fill" : "regular"} className={n <= 4 ? "" : "text-gray-300"} />
+          <Star key={n} size={24} weight={n <= 4 ? "fill" : "regular"} className={n <= 4 ? "" : "text-gray-500"} />
         ))}
       </div>
       <span className="text-xs text-gray-700">4 of 5</span>
@@ -526,7 +526,7 @@ const previews: Record<string, () => ReactElement> = {
   ),
   "navigation-bar": () => (
     <div className="flex justify-center py-6">
-      <div className="flex w-72 justify-around rounded-md border border-gray-200 bg-surface py-2 text-[11px] font-medium">
+      <div className="flex w-72 justify-around rounded-md border border-gray-200 bg-surface py-2 text-xs font-medium">
         {[
           { label: "Home", icon: <House size={20} weight="fill" aria-hidden="true" />, active: true },
           { label: "Wallet", icon: <Wallet size={20} aria-hidden="true" /> },

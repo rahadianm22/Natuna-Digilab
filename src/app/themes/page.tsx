@@ -64,7 +64,8 @@ export default function ThemesPage() {
             The values each role takes in light and dark, each one a --color-role-* token that holds its own value in both modes, so a copied component needs no dark-mode rewrite of the ramps. bg/brand and bg/danger stay put in both modes
             because they carry white text: {contrast("#ffffff", "#015099").toFixed(2)}:1 and{" "}
             {contrast("#ffffff", "#8c2b2c").toFixed(2)}:1. text/link lightens in dark mode to stay readable on the
-            dark surface.
+            dark surface. Some roles, such as the status pairs and tertiary text, are specified here for the
+            products built on Natuna and are not drawn by every component in src/ui yet.
           </p>
           <div className="mt-6 rounded-xl border border-gray-200 bg-surface">
             <table className="w-full table-fixed text-left text-sm">

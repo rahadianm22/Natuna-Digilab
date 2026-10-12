@@ -22,8 +22,8 @@ export function Input({ label, hint, error, className = "", ...rest }: InputProp
         aria-invalid={error ? true : undefined}
         aria-describedby={describedBy}
         // Border and focus ring both clear 3:1 against the surface (WCAG 1.4.11), in light and dark.
-        className={`min-h-11 rounded-md border bg-role-bg-surface px-3 text-sm text-role-text-primary placeholder:text-role-text-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-offset-role-bg-surface disabled:border-role-border-disabled disabled:bg-role-bg-subtle disabled:text-role-text-disabled ${
-          error ? "border-role-border-danger focus-visible:ring-role-border-danger" : "border-role-border-input focus-visible:border-role-border-focus focus-visible:ring-role-border-focus"
+        className={`min-h-11 rounded-md border bg-role-bg-surface px-3 text-sm text-role-text-primary placeholder:text-role-text-secondary disabled:border-role-border-disabled disabled:bg-role-bg-subtle disabled:text-role-text-disabled ${
+          error ? "border-role-border-danger focus-visible:outline-role-border-danger" : "border-role-border-input focus-visible:border-role-border-focus"
         } ${className}`}
         {...rest}
       />

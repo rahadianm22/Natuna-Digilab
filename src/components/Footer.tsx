@@ -61,7 +61,7 @@ export default function Footer() {
         </div>
           <a
             href="#main"
-            className="inline-flex min-h-11 items-center gap-2 rounded-full border border-gray-300 px-4 text-sm font-medium text-gray-900 transition-colors hover:border-gray-500"
+            className="inline-flex min-h-11 items-center gap-2 rounded-full border border-role-border-input px-4 text-sm font-medium text-gray-900 transition-colors hover:border-gray-500"
           >
             <ArrowUp size={16} aria-hidden="true" />
             Back to top

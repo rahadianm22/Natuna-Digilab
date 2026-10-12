@@ -176,7 +176,7 @@ export default function StatusBoard({ items }: { items: Item[] }) {
                 // Collapsing a long list leaves the toggle far below the viewport; bring it back.
                 if (expanded) requestAnimationFrame(() => toggle.current?.scrollIntoView({ block: "nearest" }));
               }}
-              className="mt-3 flex min-h-11 w-full items-center justify-center rounded-md border border-gray-300 bg-surface text-sm font-semibold text-gray-900 hover:border-gray-500 sm:hidden"
+              className="mt-3 flex min-h-11 w-full items-center justify-center rounded-md border border-role-border-input bg-surface text-sm font-semibold text-gray-900 hover:border-gray-500 sm:hidden"
             >
               {expanded ? "Show fewer" : `Show all ${rowCount}`}
             </button>

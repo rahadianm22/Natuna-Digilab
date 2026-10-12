@@ -16,9 +16,14 @@ function useActiveSection(items: Item[], offset = 140) {
       const atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4;
       if (atBottom) return setActive(items[items.length - 1]?.id);
       let current = items[0]?.id;
+      // A heading is current once it has reached the spot the browser scrolls it to: the page's
+      // scroll-padding plus the heading's own scroll-margin. Fixed numbers drift out of step with those.
+      const padding = parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0;
       for (const item of items) {
         const el = document.getElementById(item.id);
-        if (el && el.getBoundingClientRect().top <= offset) current = item.id;
+        if (!el) continue;
+        const landing = padding + (parseFloat(getComputedStyle(el).scrollMarginTop) || 0);
+        if (el.getBoundingClientRect().top <= Math.max(offset, landing + 4)) current = item.id;
       }
       setActive(current);
     }
