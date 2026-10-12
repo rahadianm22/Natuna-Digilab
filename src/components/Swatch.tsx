@@ -1,17 +1,25 @@
 "use client";
 
 import { useState } from "react";
+import { textLabel } from "@/lib/contrast-modes";
+
+function ratioText(ratio: number) {
+  const label = textLabel(ratio);
+  return `${ratio.toFixed(2)}:1${label ? ` ${label}` : ""}`;
+}
 
 export default function Swatch({
   step,
   hex,
   anchor,
   onWhite,
+  onDark,
 }: {
   step: string;
   hex: string;
   anchor: boolean;
   onWhite: number;
+  onDark: number;
 }) {
   const [copied, setCopied] = useState(false);
 
@@ -30,7 +38,7 @@ export default function Swatch({
     <button
       type="button"
       onClick={copy}
-      aria-label={`${step}${anchor ? ", anchor" : ""}, ${hex}, ${onWhite.toFixed(2)} to 1 on white. Copy hex`}
+      aria-label={`${step}${anchor ? ", anchor" : ""}, ${hex}, ${onWhite.toFixed(2)} to 1 on white, ${onDark.toFixed(2)} to 1 on dark canvas. Copy hex`}
       className="group flex w-18 shrink-0 flex-col rounded-md text-left sm:w-auto"
     >
       <span
@@ -44,8 +52,11 @@ export default function Swatch({
         {anchor && <span className="ml-1 font-normal text-gray-700">anchor</span>}
       </span>
       <span className="font-mono-code text-xs text-gray-700">{copied ? "Copied" : hex}</span>
-      <span className="text-xs tabular-nums text-gray-700">
-        {onWhite.toFixed(2)}:1{onWhite >= 7 ? " AAA" : onWhite >= 4.5 ? " AA" : ""}
+      <span aria-hidden="true" className="text-xs tabular-nums text-gray-700 dark:hidden">
+        {ratioText(onWhite)}
+      </span>
+      <span aria-hidden="true" className="hidden text-xs tabular-nums text-gray-700 dark:inline">
+        {ratioText(onDark)}
       </span>
     </button>
   );

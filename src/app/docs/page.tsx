@@ -49,7 +49,7 @@ export default function DocsPage() {
               <h2 id="contents" className="type-h2 font-bold tracking-tight text-gray-900">What is in it</h2>
               <dl className="mt-5 divide-y divide-gray-200 border-y border-gray-200">
                 {([
-                  ["Foundation", "Color, typography, radius, number, device, and effect tokens from the Foundation Design System v1.0 in Figma.", "/foundation"],
+                  ["Foundation", "Color, typography, radius, number, device, and effect tokens from the Foundation Design System v1.1 in Figma.", "/foundation"],
                   [
                     "Components",
                     <>
