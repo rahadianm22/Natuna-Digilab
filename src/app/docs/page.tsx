@@ -9,6 +9,7 @@ import { codeMeaning, statusLabel, statusMeaning, statusOrder } from "@/lib/natu
 import { trackerTone } from "@/lib/status-tone";
 import { Badge } from "@/ui";
 import { hasReactCode, productTracker } from "@/lib/components-data";
+import { componentDocs } from "@/lib/component-docs";
 import { FIGMA_COMMUNITY_URL, ISSUES_URL, REPO_URL, TRACKER_SNAPSHOT } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -26,6 +27,9 @@ const sections = [
 ];
 
 const linkClass = "font-medium text-blue-800 underline underline-offset-4 hover:text-blue-900";
+
+// Every component with an entry in component-docs.ts has React code in src/ui, so the count never needs typing.
+const CODED = Object.keys(componentDocs).length;
 
 export default function DocsPage() {
   const ready = productTracker.filter((t) => t.status === "Selesai").length;
@@ -80,8 +84,8 @@ export default function DocsPage() {
               </p>
               <p className="mt-4 leading-relaxed text-gray-700">
                 A React package named <code className="font-mono-code text-[15px]">@natuna/ui</code> is planned but not
-                published to npm yet. Button, Badge, Input, Avatar, and Accordion already exist as React code in this
-                repository, and their pages show the exact code that runs each demo. You can copy that code today, but
+                published to npm yet. {CODED} components already exist as React code in this
+                repository (the ones marked In React on the Components page), and their pages show the exact code that runs each demo. You can copy that code today, but
                 you cannot install it as a package.
               </p>
               <p className="mt-4 leading-relaxed text-gray-700">

@@ -58,14 +58,14 @@ export function Stepper({ steps, current, errorAt, type = "horizontal", classNam
           >
             {horizontal ? (
               <>
-                <div className="flex min-w-24 flex-col items-center gap-2 text-center">
+                <div className="flex min-w-20 flex-col items-center gap-2 text-center">
                   <Marker state={state} n={i + 1} />
                   <div>
                     <p className={`text-xs font-medium leading-4 ${text}`}>{s.title}</p>
                     {s.description && <p className={`mt-0.5 text-xs leading-[18px] ${state === "error" ? "text-role-text-danger" : "text-role-text-secondary"}`}>{s.description}</p>}
                   </div>
                 </div>
-                {!last && <span aria-hidden="true" className={`mt-3 h-0.5 min-w-8 grow ${line}`} />}
+                {!last && <span aria-hidden="true" className={`mt-3 h-0.5 min-w-4 grow ${line}`} />}
               </>
             ) : (
               <>

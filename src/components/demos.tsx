@@ -414,7 +414,7 @@ const code = "font-mono-code text-[13px] text-gray-900";
 
 function Specimen({ label, detail, children, className = "" }: { label: string; detail?: string; children: ReactNode; className?: string }) {
   return (
-    <figure className={`flex flex-col gap-3 rounded-lg border border-gray-200 bg-surface p-4 ${className}`}>
+    <figure className={`flex min-w-0 flex-col gap-3 rounded-lg border border-gray-200 bg-surface p-4 ${className}`}>
       <figcaption className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
         <span className="text-sm font-semibold text-gray-900">{label}</span>
         {detail && <span className={caption}>{detail}</span>}
