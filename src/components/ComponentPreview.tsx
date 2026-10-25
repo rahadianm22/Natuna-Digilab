@@ -1,3 +1,5 @@
+"use client";
+
 import type { ReactElement } from "react";
 import { Accordion, Avatar, Badge, Breadcrumbs, Button, Card, Changelog, Checkbox, Comment, Cover, Divider, DrawerPanel, FileInput, Input, LabelText, Pagination, ProgressBar, RadioButton, RadioGroup, Rating, Separator, Skeleton, Status, Stepper, Tabs, Toast, Toggle, buttonStyles } from "@/ui";
 import {
