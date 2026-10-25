@@ -177,7 +177,9 @@ export default async function ComponentDetail({ params }: Props) {
                       Every specimen is the real component from <code className="font-mono-code text-[13px]">src/ui</code>, held in one state.
                     </p>
                     <div className="mt-4">
-                      <StatesMatrix slug={component.slug} />
+                      <FigmaFrame name={component.name + " variants"} className="bg-surface p-4">
+                        <StatesMatrix slug={component.slug} />
+                      </FigmaFrame>
                     </div>
                   </section>
                 </>

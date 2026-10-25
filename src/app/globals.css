@@ -784,3 +784,13 @@ body {
 :focus-visible {
   transition-property: none;
 }
+
+/* Indeterminate progress bar and skeleton wave. Both are switched off by motion-safe: in the components. */
+@keyframes nd-indeterminate {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(340%); }
+}
+@keyframes nd-wave {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}

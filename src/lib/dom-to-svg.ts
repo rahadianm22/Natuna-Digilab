@@ -149,6 +149,50 @@ function polar(cx: number, cy: number, r: number, deg: number) {
   return [n(cx + r * Math.cos(a)), n(cy + r * Math.sin(a))];
 }
 
+/** Splits a CSS list on the commas that are not inside parentheses. */
+function splitTop(value: string) {
+  return value.split(/,(?![^(]*\))/).map((s) => s.trim()).filter(Boolean);
+}
+
+/**
+ * A simple linear-gradient(): an optional direction or angle, then two or more colors, each with an optional
+ * position. Anything else (radial, conic, repeating, several layers) returns null and the box keeps its flat color.
+ */
+function parseLinearGradient(image: string, w: number, h: number) {
+  const m = /^linear-gradient\((.*)\)$/.exec(image.trim());
+  if (!m) return null;
+  const parts = splitTop(m[1]);
+  let angle = 180;
+  const first = parts[0].replace(/\s+in\s+\S+$/, "");
+  const dir = /^to\s+(.+)$/.exec(first);
+  if (dir) {
+    const d = dir[1].split(/\s+/).sort().join(" ");
+    const map: Record<string, number> = { top: 0, "right top": 45, right: 90, "bottom right": 135, bottom: 180, "bottom left": 225, left: 270, "left top": 315 };
+    if (!(d in map)) return null;
+    angle = map[d];
+    parts.shift();
+  } else if (/^-?[\d.]+(deg|rad|grad|turn)$/.test(first)) {
+    angle = degrees(first);
+    parts.shift();
+  } else {
+    parts[0] = first;
+  }
+  const stops = parts.map((s) => {
+    const pos = /\s+(-?[\d.]+)%$/.exec(s);
+    const color = parseColor(pos ? s.slice(0, pos.index) : s);
+    return color ? { color, offset: pos ? parseFloat(pos[1]) / 100 : null } : null;
+  });
+  if (stops.length < 2 || stops.some((s) => !s)) return null;
+  const list = stops as { color: Rgba; offset: number | null }[];
+  list.forEach((s, i) => (s.offset ??= i / (list.length - 1)));
+  // The CSS gradient line is centered on the box, turned to the angle, and long enough to reach the corners.
+  const rad = (angle * Math.PI) / 180;
+  const len = Math.abs(w * Math.sin(rad)) + Math.abs(h * Math.cos(rad));
+  const dx = (Math.sin(rad) * len) / 2;
+  const dy = (-Math.cos(rad) * len) / 2;
+  return { list, x1: w / 2 - dx, y1: h / 2 - dy, x2: w / 2 + dx, y2: h / 2 + dy };
+}
+
 export function domToSvg(root: HTMLElement, name = "Natuna component"): string {
   const origin = root.getBoundingClientRect();
   const W = Math.ceil(origin.width);
@@ -163,6 +207,7 @@ export function domToSvg(root: HTMLElement, name = "Natuna component"): string {
   }
 
   let clipCount = 0;
+  let gradientCount = 0;
 
   /** Dash pattern for a CSS border style, scaled to the border width. */
   function dash(style: string, width: number) {
@@ -287,6 +332,7 @@ export function domToSvg(root: HTMLElement, name = "Natuna component"): string {
     let out = "";
 
     const bg = parseColor(cs.backgroundColor);
+    const grad = cs.backgroundImage && cs.backgroundImage !== "none" ? parseLinearGradient(cs.backgroundImage, w, h) : null;
     const widths = [cs.borderTopWidth, cs.borderRightWidth, cs.borderBottomWidth, cs.borderLeftWidth].map(parseFloat);
     const colors = [cs.borderTopColor, cs.borderRightColor, cs.borderBottomColor, cs.borderLeftColor].map(parseColor);
     const styles = [cs.borderTopStyle, cs.borderRightStyle, cs.borderBottomStyle, cs.borderLeftStyle];
@@ -295,7 +341,13 @@ export function domToSvg(root: HTMLElement, name = "Natuna component"): string {
 
     const round = Math.abs(w - h) < 1 && rx >= w / 2 - 0.5;
 
-    if (bg || uniform) {
+    if (grad) {
+      const gid = `ndGradient${++gradientCount}`;
+      const stops = grad.list.map((s) => `<stop offset="${n(s.offset!)}" stop-color="${s.color.hex}"${s.color.a < 1 ? ` stop-opacity="${n(s.color.a)}"` : ""}/>`).join("");
+      out += `<defs><linearGradient id="${gid}" gradientUnits="userSpaceOnUse" x1="${n(x + grad.x1)}" y1="${n(y + grad.y1)}" x2="${n(x + grad.x2)}" y2="${n(y + grad.y2)}">${stops}</linearGradient></defs>`;
+      out += `<rect id="${id("Gradient")}" x="${x}" y="${y}" width="${w}" height="${h}"${rx ? ` rx="${rx}"` : ""} fill="url(#${gid})"${opacity < 1 ? ` opacity="${n(opacity)}"` : ""}/>`;
+    }
+    if (!grad && (bg || uniform)) {
       const stroke = uniform && colors[0] ? ` ${fill(colors[0], opacity, "stroke")} stroke-width="${widths[0]}"${dash(styles[0], widths[0])}` : "";
       const inset = uniform ? widths[0] / 2 : 0;
       out += `<rect id="${id(uniform && !bg ? "Border" : "Background")}" x="${n(x + inset)}" y="${n(y + inset)}" width="${n(w - inset * 2)}" height="${n(h - inset * 2)}"${rx ? ` rx="${n(Math.max(rx - inset, 0))}"` : ""} ${bg ? fill(bg, opacity) : 'fill="none"'}${stroke}/>`;

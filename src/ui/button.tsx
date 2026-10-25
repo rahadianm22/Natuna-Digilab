@@ -16,7 +16,7 @@ const variants: Record<ButtonVariant, string> = {
   // Fills that carry white text keep the same value in both modes.
   destructive: "bg-role-bg-danger text-role-text-on-brand hover:bg-role-bg-danger-hover",
   // The page-ink fill: navy in light mode, near white in dark. For the main action on a landing page, where brand blue is kept for in-product use.
-  inverse: "bg-inverse text-inverse-text hover:bg-gray-800 dark:bg-inverse-text dark:text-inverse",
+  inverse: "bg-inverse text-inverse-text hover:bg-inverse-raised dark:bg-inverse-text dark:text-inverse dark:hover:bg-inverse-muted",
 };
 
 const sizes: Record<ButtonSize, string> = {

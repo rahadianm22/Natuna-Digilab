@@ -1,13 +1,15 @@
 import type { ReactElement } from "react";
-import { Accordion, Avatar, Badge, Button, Input, buttonStyles } from "@/ui";
+import { Accordion, Avatar, Badge, Breadcrumbs, Button, Card, Changelog, Checkbox, Comment, Cover, Divider, DrawerPanel, FileInput, Input, LabelText, Pagination, ProgressBar, RadioButton, RadioGroup, Rating, Separator, Skeleton, Status, Stepper, Tabs, Toast, Toggle, buttonStyles } from "@/ui";
 import {
   ArrowDownLeft,
   ArrowUpRight,
   Check,
   CheckCircle,
+  Dot,
   DotsThree,
   DownloadSimple,
   House,
+  Info,
   List,
   MagnifyingGlass,
   PencilSimple,
@@ -97,21 +99,30 @@ const previews: Record<string, () => ReactElement> = {
     </div>
   ),
   badge: () => (
-    <div className="flex flex-wrap justify-center gap-2 py-6">
-      <Badge tone="success">Paid</Badge>
-      <Badge tone="warning">Pending</Badge>
-      <Badge tone="danger">Overdue</Badge>
-      <Badge tone="info">Draft</Badge>
-      <Badge>Archived</Badge>
+    <div className="flex flex-col items-center gap-3 py-6">
+      <div className="flex flex-wrap justify-center gap-2">
+        <Badge type="solid" tone="primary">Primary</Badge>
+        <Badge type="solid" tone="success">Success</Badge>
+        <Badge type="solid" tone="warning">Warning</Badge>
+        <Badge type="solid" tone="danger">Danger</Badge>
+      </div>
+      <div className="flex flex-wrap justify-center gap-2">
+        <Badge tone="primary">Primary</Badge>
+        <Badge tone="success">Paid</Badge>
+        <Badge tone="warning">Pending</Badge>
+        <Badge tone="danger">Overdue</Badge>
+        <Badge>Archived</Badge>
+      </div>
+      <div className="flex flex-wrap justify-center gap-2">
+        <Badge type="outline" tone="primary" iconRight={<X size={12} />}>Filter</Badge>
+        <Badge type="outline" tone="success" size="sm">Active</Badge>
+      </div>
     </div>
   ),
   card: () => (
-    <div className="flex justify-center py-6">
-      <div className="w-64 rounded-xl border border-gray-200 bg-surface p-4">
-        <div className="mb-2 flex items-center justify-between text-sm font-semibold text-gray-900">Electricity bill <span className="tabular-nums">Rp 412.500</span></div>
-        <div className="text-xs text-gray-700">PLN postpaid, due 12 Oct</div>
-        <span className="mt-3 flex min-h-9 w-full items-center justify-center rounded-md bg-brand text-xs font-medium text-white">Pay now</span>
-      </div>
+    <div className="mx-auto grid w-72 gap-4 py-4">
+      <Card type="media" label="KPR" title="Subsidized Home" description="Installments from Rp1.2M/month over a 20-year term." linkLabel="See more" href="#" />
+      <Card type="action" label="Promo" title="Time Savings" description="4% p.a. interest on regular deposits." actions={<><Button variant="ghost">Skip</Button><Button>Apply</Button></>} />
     </div>
   ),
   "code-block": () => (
@@ -120,7 +131,11 @@ const previews: Record<string, () => ReactElement> = {
     </div>
   ),
   divider: () => (
-    <div className="mx-auto w-2/3 border-t border-gray-300 py-6" />
+    <div className="mx-auto grid w-full max-w-xs gap-4 py-6">
+      <Divider />
+      <Divider label="or" />
+      <Divider icon={<Dot size={12} weight="fill" />} />
+    </div>
   ),
   "empty-state": () => (
     <div className="flex flex-col items-center justify-center py-8 text-center">
@@ -138,10 +153,12 @@ const previews: Record<string, () => ReactElement> = {
     </div>
   ),
   checkbox: () => (
-    <div className="flex justify-center py-6">
-      <label className="flex min-h-11 cursor-pointer items-center gap-2 text-sm text-gray-700">
-        <input type="checkbox" defaultChecked className="h-4 w-4 accent-blue-600" /> Remember me
-      </label>
+    <div className="mx-auto grid w-fit gap-3 py-4">
+      <Checkbox size="md" label="Label" />
+      <Checkbox size="md" label="Remember me" hint="Stay signed in on this device." defaultChecked />
+      <Checkbox size="md" label="Select all" indeterminate />
+      <Checkbox size="md" label="I agree to the terms" error="Accept the terms to continue." />
+      <Checkbox size="md" label="Disabled" disabled />
     </div>
   ),
   select: () => (
@@ -154,34 +171,34 @@ const previews: Record<string, () => ReactElement> = {
     </div>
   ),
   toggle: () => (
-    <div className="flex justify-center py-6">
-      <span className="inline-flex h-6 w-11 items-center rounded-full bg-brand p-1">
-        <span className="h-4 w-4 translate-x-5 rounded-full bg-white" />
-      </span>
+    <div className="mx-auto grid w-fit gap-3 py-4">
+      <Toggle size="md" label="Email notifications" />
+      <Toggle size="md" label="Transaction notifications" hint="Helper text" defaultChecked />
+      <Toggle size="md" label="Disabled" disabled />
     </div>
   ),
   tabs: () => (
-    <div className="py-6">
-      {/* The active underline overlaps the 1px track, so the indicator sits on the line it belongs to. */}
-      <div className="mx-auto flex max-w-sm justify-center gap-6 border-b border-gray-200 text-sm">
-        <span className="-mb-px border-b-2 border-blue-600 pb-3 font-medium text-blue-800">Bills</span>
-        <span className="-mb-px border-b-2 border-transparent pb-3 text-gray-700">Transfers</span>
-        <span className="-mb-px border-b-2 border-transparent pb-3 text-gray-700">Top up</span>
-      </div>
+    <div className="mx-auto grid w-fit gap-5 py-4">
+      <Tabs label="Transactions" items={[{ id: "all", label: "All", value: "12" }, { id: "in", label: "Incoming" }, { id: "out", label: "Outgoing" }]} />
+      <Tabs label="Transactions, pill" type="pill" items={[{ id: "all", label: "All" }, { id: "in", label: "Incoming" }, { id: "out", label: "Outgoing" }]} />
+      <Tabs label="Transactions, segmented" type="segmented" items={[{ id: "all", label: "All" }, { id: "in", label: "Incoming" }]} />
     </div>
   ),
   breadcrumbs: () => (
-    <div className="flex justify-center gap-2 py-6 text-sm text-gray-700">
-      <span>Home</span> / <span>Transfers</span> / <span className="text-gray-900">Details</span>
+    <div className="mx-auto grid w-fit gap-4 py-6">
+      <Breadcrumbs items={[{ label: "Home", href: "#" }, { label: "Product", href: "#" }, { label: "KPR Digital" }]} />
+      <Breadcrumbs separator="slash" items={[{ label: "Home", href: "#" }, { label: "Product", href: "#" }, { label: "KPR Digital" }]} />
+      <Breadcrumbs
+        maxItems={4}
+        items={[{ label: "Home", href: "#" }, { label: "Product", href: "#" }, { label: "KPR Digital", href: "#" }, { label: "Simulation", href: "#" }, { label: "Detail" }]}
+      />
     </div>
   ),
   pagination: () => (
-    <div className="flex justify-center gap-1 py-6 text-sm">
-      {[1, 2, 3].map((n) => (
-        <span key={n} className={`flex h-8 w-8 items-center justify-center rounded-md ${n === 1 ? "bg-brand text-white" : "border border-gray-200 text-gray-700"}`}>
-          {n}
-        </span>
-      ))}
+    <div className="mx-auto grid w-fit gap-3 py-4">
+      <Pagination page={1} pageCount={10} onPageChange={() => {}} />
+      <Pagination type="arrow" page={2} pageCount={10} onPageChange={() => {}} />
+      <Pagination type="loadMore" page={1} pageCount={10} onPageChange={() => {}} />
     </div>
   ),
   modal: () => (
@@ -217,8 +234,10 @@ const previews: Record<string, () => ReactElement> = {
     </div>
   ),
   toast: () => (
-    <div className="flex justify-center py-6">
-      <div className="w-64 rounded-md bg-ink px-3 py-2 text-xs text-white">Changes saved successfully</div>
+    <div className="mx-auto grid w-fit gap-3 py-4">
+      <Toast tone="success" title="Transfer successful" description="Rp500,000 to Andi Pratama" actionLabel="Undo" onAction={() => {}} onClose={() => {}} />
+      <Toast tone="danger" type="solid" title="Connection lost" onClose={() => {}} />
+      <Toast tone="warning" type="solid" title="Session ends in 1 minute" />
     </div>
   ),
   spinner: () => (
@@ -235,24 +254,23 @@ const previews: Record<string, () => ReactElement> = {
     </div>
   ),
   "label-text": () => (
-    <div className="mx-auto flex max-w-xs flex-col gap-4 py-6">
-      <div>
-        <div className="text-xs font-semibold text-gray-700">Account number</div>
-        <div className="text-base font-medium text-gray-900">1234 5678 90</div>
-      </div>
-      <div>
-        <div className="text-xs font-semibold text-gray-700">Account holder</div>
-        <div className="text-base font-medium text-gray-900">Rina Putri</div>
-      </div>
+    <div className="mx-auto flex max-w-xs flex-col items-start gap-3 py-6">
+      <LabelText indicator="required">Full name</LabelText>
+      <LabelText indicator="optional">Email</LabelText>
+      <LabelText icon={<Info size={16} />}>Interest rate</LabelText>
+      <LabelText indicator="required" error>Phone number</LabelText>
+      <LabelText disabled>Cannot be changed</LabelText>
     </div>
   ),
   separator: () => (
-    <div className="flex justify-center py-6 text-sm text-gray-700">
-      <span>30 Sep 2026</span>
-      <span aria-hidden="true" className="mx-2 text-gray-300">•</span>
-      <span>Transfer</span>
-      <span aria-hidden="true" className="mx-2 text-gray-300">•</span>
-      <span>Mobile</span>
+    <div className="mx-auto grid w-full max-w-xs gap-4 py-6">
+      <Separator />
+      <Separator label="or" />
+      <div className="flex h-12 items-center gap-4 text-sm text-gray-700">
+        Left
+        <Separator orientation="vertical" />
+        Right
+      </div>
     </div>
   ),
   chip: () => (
@@ -268,31 +286,27 @@ const previews: Record<string, () => ReactElement> = {
     </div>
   ),
   status: () => (
-    <div className="flex flex-wrap justify-center gap-4 py-6 text-sm font-medium">
-      {[
-        ["Success", "bg-emerald-600", "text-emerald-900"],
-        ["Processing", "bg-amber-500", "text-amber-900"],
-        ["Failed", "bg-danger", "text-red-900"],
-      ].map(([label, dot, text]) => (
-        <span key={label} className={`inline-flex items-center gap-2 ${text}`}>
-          <span aria-hidden="true" className={`h-2 w-2 rounded-full ${dot}`} />
-          {label}
-        </span>
-      ))}
+    <div className="mx-auto grid w-fit gap-4 py-4">
+      <div className="flex flex-wrap gap-2">
+        {(["pending", "processing", "success", "failed", "expired", "refunded"] as const).map((s) => (
+          <Status key={s} status={s} />
+        ))}
+      </div>
+      <div className="flex flex-wrap gap-4">
+        <Status status="pending" type="inline" timestamp="18 Sep, 14:02" />
+        <Status status="success" type="dot" />
+        <Status status="failed" type="dot" />
+      </div>
     </div>
   ),
   comment: () => (
-    <div className="flex justify-center py-6">
-      <div className="flex w-72 gap-3">
-        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-100 text-xs font-semibold text-blue-900">R</span>
-        <div>
-          <div className="text-sm">
-            <span className="font-semibold text-gray-900">Rina Putri</span>
-            <span className="ml-2 text-xs text-gray-700">2 hours ago</span>
-          </div>
-          <p className="mt-1 text-sm text-gray-700">Please check the daily transfer limit before we release this flow.</p>
-        </div>
-      </div>
+    <div className="mx-auto grid w-full max-w-sm gap-3 py-4">
+      <Comment author="Rahadian" role="Approver" timestamp="2 hours ago" onReply={() => {}} onToggleResolved={() => {}}>
+        Payslip documents check out. Moving on to collateral verification.
+      </Comment>
+      <Comment type="annotation" state="highlight" author="CS note" role="CS" timestamp="18 Sep, 09:12">
+        Customer asked to reschedule the site survey.
+      </Comment>
     </div>
   ),
   accordion: () => (
@@ -365,24 +379,17 @@ const previews: Record<string, () => ReactElement> = {
     </div>
   ),
   "radio-button": () => (
-    <div className="flex justify-center py-6">
-      <label className="flex min-h-11 cursor-pointer items-center gap-2 text-sm text-gray-800">
-        <input type="radio" name="preview-radio-single" defaultChecked className="h-4 w-4 accent-blue-600" />
-        Transfer now
-      </label>
+    <div className="mx-auto grid w-fit gap-3 py-4">
+      <RadioButton size="md" name="preview-radio-single" label="10 years" />
+      <RadioButton size="md" name="preview-radio-single" label="15 years" hint="Helper text" defaultChecked />
+      <RadioButton size="md" name="preview-radio-state" label="Error" error="Choose a term." defaultChecked />
+      <RadioButton size="md" name="preview-radio-state" label="Disabled" disabled />
     </div>
   ),
   "radio-group": () => (
-    <div className="flex justify-center py-6">
-      <fieldset className="space-y-1">
-        <legend className="mb-2 text-xs font-semibold text-gray-700">Transfer schedule</legend>
-        {["Now", "Later today", "Pick a date"].map((o, i) => (
-          <label key={o} className="flex min-h-11 cursor-pointer items-center gap-2 text-sm text-gray-800">
-            <input type="radio" name="preview-radio-group" defaultChecked={i === 0} className="h-4 w-4 accent-blue-600" />
-            {o}
-          </label>
-        ))}
-      </fieldset>
+    <div className="mx-auto grid w-fit gap-5 py-4">
+      <RadioGroup label="Loan term" name="preview-rg-a" defaultValue="15" options={[{ value: "10", label: "10 years" }, { value: "15", label: "15 years" }, { value: "20", label: "20 years" }]} />
+      <RadioGroup label="Do you have a tax ID (NPWP)?" name="preview-rg-b" orientation="horizontal" error="Choose one term." options={[{ value: "10", label: "10 years" }, { value: "15", label: "15 years" }]} />
     </div>
   ),
   textarea: () => (
@@ -452,13 +459,9 @@ const previews: Record<string, () => ReactElement> = {
     </div>
   ),
   "file-input": () => (
-    <div className="flex justify-center py-6">
-      <label className="flex w-72 cursor-pointer flex-col items-center gap-2 rounded-md border-2 border-dashed border-gray-300 bg-surface px-4 py-5 text-center hover:border-blue-400">
-        <UploadSimple size={24} aria-hidden="true" className="text-blue-800" />
-        <span className="text-sm font-semibold text-gray-900">Choose a file</span>
-        <span className="text-xs text-gray-700">JPG, PNG, or PDF, up to 5 MB</span>
-        <input type="file" accept=".jpg,.jpeg,.png,.pdf" className="sr-only" />
-      </label>
+    <div className="mx-auto grid w-full max-w-sm gap-4 py-4">
+      <FileInput description="PNG, JPG maks. 5 MB" accept="image/png,image/jpeg" />
+      <FileInput type="inline" />
     </div>
   ),
   "date-picker": () => (
@@ -495,33 +498,17 @@ const previews: Record<string, () => ReactElement> = {
     </div>
   ),
   rating: () => (
-    <div className="flex flex-col items-center gap-1 py-6">
-      <div role="img" aria-label="4 out of 5 stars" className="flex gap-1 text-amber-500">
-        {[1, 2, 3, 4, 5].map((n) => (
-          <Star key={n} size={24} weight={n <= 4 ? "fill" : "regular"} className={n <= 4 ? "" : "text-gray-500"} />
-        ))}
-      </div>
-      <span className="text-xs text-gray-700">4 of 5</span>
+    <div className="mx-auto grid w-fit gap-3 py-4">
+      <Rating score={4} value="4,5" />
+      <Rating score={3} type="heart" showValue={false} />
+      <Rating score={4} type="number" value="4,0" />
+      <Rating score={4} value="4,5" disabled />
     </div>
   ),
   stepper: () => (
-    <div className="flex justify-center py-6">
-      <ol className="flex items-center gap-2 text-xs font-medium">
-        {["Identity", "Selfie", "Review"].map((s, i) => (
-          <li key={s} className="flex items-center gap-2">
-            <span
-              aria-current={i === 1 ? "step" : undefined}
-              className={`flex h-7 w-7 items-center justify-center rounded-full ${
-                i === 0 ? "bg-brand text-white" : i === 1 ? "border-2 border-blue-600 text-blue-900" : "border border-gray-300 text-gray-700"
-              }`}
-            >
-              {i === 0 ? <Check size={14} weight="bold" aria-label="Done" /> : i + 1}
-            </span>
-            <span className={i === 2 ? "text-gray-700" : "text-gray-900"}>{s}</span>
-            {i < 2 && <span aria-hidden="true" className="h-px w-6 bg-gray-300" />}
-          </li>
-        ))}
-      </ol>
+    <div className="mx-auto grid w-fit gap-6 py-4">
+      <Stepper current={1} steps={[{ title: "Personal details" }, { title: "Documents" }, { title: "Verification" }]} />
+      <Stepper type="vertical" current={2} errorAt={2} steps={[{ title: "Personal details" }, { title: "Documents" }, { title: "Face verification", description: "Photo is unclear. Please retake it." }]} />
     </div>
   ),
   "navigation-bar": () => (
@@ -542,46 +529,35 @@ const previews: Record<string, () => ReactElement> = {
     </div>
   ),
   drawer: () => (
-    <div className="flex justify-center py-6">
-      <div className="relative h-40 w-72 overflow-hidden rounded-md border border-gray-200 bg-gray-100">
-        <div className="absolute inset-0 bg-ink/50" />
-        <div className="absolute inset-y-0 right-0 w-40 border-l border-gray-200 bg-surface p-3">
-          <div className="flex items-center justify-between">
-            <span className="text-sm font-semibold text-gray-900">Filters</span>
-            <X size={14} aria-hidden="true" className="text-gray-700" />
-          </div>
-          <ul className="mt-3 space-y-1.5 text-xs text-gray-700">
-            {["Transfer", "Top up", "QRIS payment"].map((f, i) => (
-              <li key={f} className="flex items-center gap-2">
-                <span aria-hidden="true" className={`h-3 w-3 rounded-sm border ${i === 0 ? "border-blue-600 bg-brand" : "border-gray-400"}`} />
-                {f}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
+    <div className="mx-auto w-fit py-2">
+      <DrawerPanel
+        title="Filter transactions"
+        description="Choose a date range and transaction type."
+        onClose={() => {}}
+        footer={
+          <>
+            <Button variant="ghost">Cancel</Button>
+            <Button>Save</Button>
+          </>
+        }
+      >
+        <div className="flex h-24 items-center justify-center rounded-md border border-dashed border-role-border-input bg-role-bg-hover text-xs text-role-text-secondary">Drawer content</div>
+      </DrawerPanel>
     </div>
   ),
   "progress-bar": () => (
-    <div className="flex justify-center py-6">
-      <div className="w-64">
-        <div className="mb-1.5 flex justify-between text-xs font-medium text-gray-700">
-          <span>Uploading receipt</span>
-          <span className="tabular-nums">60%</span>
-        </div>
-        <div role="progressbar" aria-valuenow={60} aria-valuemin={0} aria-valuemax={100} aria-label="Upload progress" className="h-2 rounded-full bg-gray-100">
-          <div className="h-2 w-3/5 rounded-full bg-brand" />
-        </div>
+    <div className="mx-auto grid w-full max-w-xs gap-4 py-4">
+      <ProgressBar label="Uploading" value={60} />
+      <ProgressBar label="Done" value={100} tone="success" />
+      <div className="flex gap-4">
+        <ProgressBar type="circular" label="Uploading" value={60} showLabel={false} />
+        <ProgressBar type="circular" label="Loading" mode="indeterminate" showLabel={false} />
       </div>
     </div>
   ),
   skeleton: () => (
-    <div role="status" aria-label="Loading" className="mx-auto flex w-64 items-center gap-3 py-6">
-      <span className="h-10 w-10 shrink-0 animate-pulse rounded-full bg-gray-200" />
-      <span className="flex-1 space-y-2">
-        <span className="block h-3 w-3/4 animate-pulse rounded bg-gray-200" />
-        <span className="block h-3 w-1/2 animate-pulse rounded bg-gray-200" />
-      </span>
+    <div className="mx-auto w-64 py-4" aria-busy="true">
+      <Skeleton type="card" />
     </div>
   ),
   artboard: () => (
@@ -596,12 +572,8 @@ const previews: Record<string, () => ReactElement> = {
     </div>
   ),
   cover: () => (
-    <div className="flex justify-center py-6">
-      <div className="flex aspect-video w-72 flex-col items-center justify-center rounded-md bg-blue-50 text-center">
-        <span className="text-xs font-semibold text-blue-900">Natuna Digilab</span>
-        <span className="text-2xl font-bold text-gray-900">Foundation</span>
-        <span className="text-xs text-gray-700">Design System, Version 1.1</span>
-      </div>
+    <div className="mx-auto w-full max-w-md py-4">
+      <Cover size="sm" title="Natuna Digilab" description="Design System — Component Library" />
     </div>
   ),
   guideline: () => (
@@ -629,14 +601,17 @@ const previews: Record<string, () => ReactElement> = {
     </div>
   ),
   changelog: () => (
-    <div className="flex justify-center py-6">
-      <ol className="w-64 border-l-2 border-gray-200 pl-4 text-sm">
-        <li className="relative">
-          <span aria-hidden="true" className="absolute -left-[21px] top-1.5 h-2 w-2 rounded-full bg-brand" />
-          <div className="font-semibold text-gray-900">v1.0</div>
-          <div className="text-xs text-gray-700">Foundation Design System: color, typography, number, effect, and icon variables.</div>
-        </li>
-      </ol>
+    <div className="mx-auto w-full max-w-md py-4">
+      <Changelog
+        type="added"
+        version="v2.4.0"
+        timestamp="18 Sep 2026"
+        title="Scheduled transfers"
+        description="Set up recurring monthly transfers right from the account page."
+        actionLabel="View details"
+        actionHref="#"
+      />
+      <Changelog type="fixed" version="v2.3.1" timestamp="2 Sep 2026" title="Fixed delayed balance updates" connector={false} />
     </div>
   ),
 };
