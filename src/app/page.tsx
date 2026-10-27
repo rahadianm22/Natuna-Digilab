@@ -194,7 +194,7 @@ export default function Home() {
         <Reveal>
           <section
             aria-labelledby="figma"
-            className="mx-auto w-full max-w-7xl px-6 pb-24"
+            className="mx-auto w-full max-w-7xl px-6 py-24"
           >
             <FigmaPanel />
           </section>
