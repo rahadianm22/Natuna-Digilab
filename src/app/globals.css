@@ -668,15 +668,6 @@ body {
   }
 }
 
-/* In progress on the build bar: navy hatching, so it reads apart from Ready without relying on color. */
-.hatch {
-  background: repeating-linear-gradient(45deg, var(--color-inverse) 0 3px, transparent 3px 7px);
-}
-
-:root.dark .hatch {
-  background: repeating-linear-gradient(45deg, var(--color-inverse-text) 0 3px, transparent 3px 7px);
-}
-
 /*
   Motion. Entrances run once on load, staggered through --d, and only use transform and opacity.
   Nothing bounces.

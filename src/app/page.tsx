@@ -5,28 +5,20 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Reveal from "@/components/home/Reveal";
 import HeroBento from "@/components/home/HeroBento";
-import StatusBoard, { type Group, type Item } from "@/components/home/StatusBoard";
 import FigmaPanel from "@/components/home/FigmaPanel";
 import { buttonStyles } from "@/ui";
-import { getComponent, hasReactCode, productTracker } from "@/lib/components-data";
+import { productTracker } from "@/lib/components-data";
 import { componentDocs } from "@/lib/component-docs";
 import { palettes } from "@/lib/natuna-palette";
 import { roleByToken } from "@/lib/color-roles";
-import { lastBuildDay, type TrackerStatus } from "@/lib/natuna-tracker";
-import { FIGMA_COMMUNITY_URL, REPO_URL, TRACKER_SNAPSHOT } from "@/lib/site";
+import { lastBuildDay } from "@/lib/natuna-tracker";
+import { FIGMA_COMMUNITY_URL, REPO_URL } from "@/lib/site";
 
 export const metadata: Metadata = { alternates: { canonical: "/" } };
 
 // Everything counted here comes from the tracker snapshot and the palette, never typed in by hand.
-const groupOf: Record<TrackerStatus, Group> = { Selesai: "ready", "On Review": "review", OnProgress: "progress", Belum: "planned" };
-const rank: Record<Group, number> = { ready: 0, review: 1, progress: 2, planned: 3 };
-const items: Item[] = productTracker
-  .map((t) => ({ name: (t.slug && getComponent(t.slug)?.name) || t.name, slug: t.slug, group: groupOf[t.status], code: hasReactCode(t.slug), kind: t.group === "Atoms" ? "Atom" as const : "Molecule" as const }))
-  .sort((a, b) => rank[a.group] - rank[b.group] || a.name.localeCompare(b.name));
-
-const ready = items.filter((i) => i.group === "ready").length;
-const progress = items.filter((i) => i.group === "progress" || i.group === "review").length;
-const total = items.length;
+const ready = productTracker.filter((t) => t.status === "Selesai").length;
+const total = productTracker.length;
 const days = lastBuildDay();
 const inCode = Object.keys(componentDocs).length;
 const azure = palettes.find((p) => p.token === "blue")!;
@@ -195,38 +187,6 @@ export default function Home() {
                   Pay Rp&nbsp;860.500
                 </span>
               </div>
-            </div>
-          </section>
-        </Reveal>
-
-        <Reveal>
-          <section id="components" aria-labelledby="components-title" className="mx-auto flex w-full max-w-7xl flex-col gap-9 px-6 py-24">
-            <div className="flex flex-wrap items-end justify-between gap-x-16 gap-y-6">
-              <div className="flex flex-[1_1_520px] flex-col gap-4" data-reveal-item>
-                <span className={`${eyebrow} text-blue-800`}>Components</span>
-                <h2 id="components-title" className={h2}>
-                  Built in public, one day at a time.
-                </h2>
-              </div>
-              <div className="flex max-w-[440px] flex-[1_1_360px] flex-col gap-2.5" data-reveal-item>
-                <div className="flex justify-between text-sm">
-                  <span className="font-semibold">
-                    {ready} of {total} ready in Figma
-                  </span>
-                  <span className="text-gray-700">Snapshot of {TRACKER_SNAPSHOT}</span>
-                </div>
-                <div
-                  className="flex h-3 overflow-hidden rounded-full bg-gray-200"
-                  role="img"
-                  aria-label={`${ready} ready, ${progress} in progress, ${total - ready - progress} planned`}
-                >
-                  <span className="bg-inverse dark:bg-inverse-text" style={{ width: `${(ready / total) * 100}%` }} />
-                  <span className="hatch" style={{ width: `${(progress / total) * 100}%` }} />
-                </div>
-              </div>
-            </div>
-            <div data-reveal-item>
-              <StatusBoard items={items} />
             </div>
           </section>
         </Reveal>
