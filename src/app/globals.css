@@ -31,20 +31,21 @@
   --color-danger: #8c2b2c;
   --color-danger-hover: #5e1d1e;
 
-  /* Landing palette: a cool paper ground, deep navy inverse sections, and a lime signal used sparingly.
+  /* Landing palette, all from the Foundation ramps: a Slate Gray paper ground, deep navy inverse sections
+     (Signal navy, then Slate Gray 900 to 300), and a lime signal used sparingly.
      Lime always carries navy text, never white. */
-  --color-paper: #f4f6f8;
+  --color-paper: #f1f5f9;
   --color-inverse: #0b1220;
-  --color-inverse-raised: #131c2e;
-  --color-inverse-line: #243049;
-  --color-inverse-line-strong: #364460;
-  --color-inverse-text: #f4f6f8;
+  --color-inverse-raised: #19212e;
+  --color-inverse-line: #27303f;
+  --color-inverse-line-strong: #364152;
+  --color-inverse-text: #f1f5f9;
   --color-inverse-muted: #d0d5dd;
-  --color-inverse-subtle: #b7c0cc;
+  --color-inverse-subtle: #b4bbc7;
   --color-lime: #c6f432;
 
-  /* Code panel ground, a step between inverse and inverse-raised. */
-  --color-code: #141b26;
+  /* Code panel ground, Slate Gray 950. */
+  --color-code: #0d121c;
 
   --font-display: var(--font-urbanist), ui-sans-serif, system-ui, sans-serif;
   --font-body: var(--font-urbanist), ui-sans-serif, system-ui, sans-serif;
@@ -380,7 +381,7 @@
   --color-surface: #ffffff;
   --color-ink: #19212e;
   --color-well: #f1f5f9;
-  --color-paper: #f4f6f8;
+  --color-paper: #f1f5f9;
 
   --color-gray-50: #f1f5f9;
   --color-gray-100: #ebf0f4;

@@ -36,7 +36,7 @@ const tone = {
   string: "text-[#aad98c]",
   tag: "text-[#85d0ff]",
   attr: "text-[#fcd97d]",
-  comment: "text-[#b7c0cc] italic",
+  comment: "text-[#b4bbc7] italic",
   number: "text-[#ffa293]",
   plain: "text-[#f1f5f9]",
 };

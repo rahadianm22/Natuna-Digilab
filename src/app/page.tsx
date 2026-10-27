@@ -282,7 +282,7 @@ export default function Home() {
                 </p>
                 {/* Same token colors as the docs CodeBlock: violet keywords, green strings, sky tags, amber attributes. */}
                 <pre tabIndex={0} aria-label="Importing Button from src/ui" className="overflow-x-auto rounded-xl border border-inverse-line bg-inverse-raised p-4.5 font-label text-sm leading-[1.7] text-[#f1f5f9]">
-                  <span className="italic text-[#b7c0cc]">{"// src/ui"}</span>
+                  <span className="italic text-[#b4bbc7]">{"// src/ui"}</span>
                   {"\n"}
                   <span className="text-[#cfaaff]">import</span> {"{ Button } "}
                   <span className="text-[#cfaaff]">from</span> <span className="text-[#aad98c]">{'"@/ui"'}</span>

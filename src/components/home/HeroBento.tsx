@@ -8,9 +8,9 @@ type Bill = { id: string; code: string; tint: string; name: string; due: string;
 
 const start: Bill[] = [
   { id: "power", code: "PWR", tint: "bg-[#aad98c]", name: "Electricity", due: "Due 8 Oct", amount: 412_500, selected: true, paid: false },
-  { id: "water", code: "H2O", tint: "bg-[#9bc6f5]", name: "Water", due: "Due 10 Oct", amount: 98_000, selected: true, paid: false },
-  { id: "net", code: "NET", tint: "bg-[#ffd089]", name: "Internet", due: "Due 12 Oct", amount: 350_000, selected: true, paid: false },
-  { id: "health", code: "INS", tint: "bg-[#e1e5eb]", name: "Health insurance", due: "Due 15 Oct", amount: 150_000, selected: false, paid: false },
+  { id: "water", code: "H2O", tint: "bg-[#9aceff]", name: "Water", due: "Due 10 Oct", amount: 98_000, selected: true, paid: false },
+  { id: "net", code: "NET", tint: "bg-[#fde5a5]", name: "Internet", due: "Due 12 Oct", amount: 350_000, selected: true, paid: false },
+  { id: "health", code: "INS", tint: "bg-[#d0d5dd]", name: "Health insurance", due: "Due 15 Oct", amount: 150_000, selected: false, paid: false },
 ];
 
 const rupiah = (n: number) => `Rp ${String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
