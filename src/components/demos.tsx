@@ -4,7 +4,43 @@
 // so what people copy is what they just used.
 
 import { useState, type ReactElement, type ReactNode } from "react";
-import { Accordion, Avatar, Badge, Breadcrumbs, Button, Card, Changelog, Checkbox, Comment, Cover, Divider, Drawer, DrawerPanel, FileInput, Input, LabelText, Pagination, ProgressBar, RadioButton, RadioGroup, Rating, Separator, Skeleton, Status, Stepper, Tabs, Toast, Toggle, type AvatarSize, type BadgeTone, type BadgeType, type ButtonVariant, type CheckboxSize, type LabelTextIndicator, type RadioButtonSize } from "@/ui";
+import { ArrowDownLeft, ArrowUpRight, ClockCounterClockwise, Copy, DotsThree, DownloadSimple, House, PencilSimple, ShareNetwork, Tag, Trash, User, Wallet } from "@phosphor-icons/react/ssr";
+import { Accordion, Alert, AmountInput, Avatar, Badge, BottomNav, Breadcrumbs, Button, Calendar, Card, Changelog, Checkbox, Chip, Combobox, Comment, Cover, DatePicker, Divider, Drawer, DrawerPanel, EmptyState, FileInput, Input, LabelText, Menu, MenuList, Modal, ModalPanel, OtpInput, Pagination, PinInput, ProgressBar, QrCodeDisplay, RadioButton, RadioGroup, Rating, SearchField, Separator, Skeleton, Slider, Spinner, Status, Stepper, Table, Tabs, Textarea, Toast, Toggle, Tooltip, TooltipBubble, TopAppBar, TransactionListItem, type AvatarSize, type BadgeTone, type BadgeType, type ButtonVariant, type CheckboxSize, type LabelTextIndicator, type RadioButtonSize } from "@/ui";
+
+const TODAY = new Date(2026, 8, 13);
+const BANKS = [
+  { value: "bri", label: "Bank Rakyat Indonesia" },
+  { value: "bni", label: "Bank Negara Indonesia" },
+  { value: "bsi", label: "Bank Syariah Indonesia" },
+  { value: "bca", label: "Bank Central Asia" },
+  { value: "mandiri", label: "Bank Mandiri" },
+];
+const TX_COLUMNS = [
+  { key: "customer", header: "Customer" },
+  { key: "date", header: "Date" },
+  { key: "status", header: "Status" },
+];
+const TX_ROWS = [
+  { customer: "Andi P.", date: "18 Sep", status: <Status status="success" size="sm" /> },
+  { customer: "Sari W.", date: "17 Sep", status: <Status status="processing" size="sm" /> },
+  { customer: "Budi S.", date: "16 Sep", status: <Status status="failed" size="sm" /> },
+  { customer: "Rina K.", date: "15 Sep", status: <Status status="pending" size="sm" /> },
+];
+const MENU_ITEMS = [
+  { label: "Edit", icon: <PencilSimple size={18} /> },
+  { label: "Duplicate", icon: <Copy size={18} /> },
+  { label: "Share", icon: <ShareNetwork size={18} /> },
+  { label: "Download", icon: <DownloadSimple size={18} />, disabled: true, separatorBefore: true },
+  { label: "Remove", icon: <Trash size={18} />, danger: true },
+];
+const NAV_ITEMS = [
+  { label: "Home", href: "#home", icon: <House size={24} /> },
+  { label: "Accounts", href: "#accounts", icon: <Wallet size={24} /> },
+  { label: "History", href: "#history", icon: <ClockCounterClockwise size={24} />, count: 3 },
+  { label: "Account", href: "#account", icon: <User size={24} /> },
+];
+const rupiahYears = (n: number) => n + " yrs";
+const rupiahShort = (n: number) => (n >= 1000 ? "Rp" + n / 1000 + " M" : "Rp" + n + " jt");
 
 function ButtonDemo() {
   const [saving, setSaving] = useState(false);
@@ -343,6 +379,252 @@ function FileInputDemo() {
   );
 }
 
+function TooltipDemo() {
+  return (
+    <div className="flex justify-center py-10">
+      <Tooltip title="Effective interest rate" description="Calculated from the outstanding principal.">
+        <Button variant="ghost">Interest rate</Button>
+      </Tooltip>
+    </div>
+  );
+}
+
+function SearchDemo() {
+  const [query, setQuery] = useState("");
+  const [last, setLast] = useState("");
+
+  return (
+    <div className="mx-auto grid w-full max-w-sm gap-2">
+      <SearchField label="Search transactions" placeholder="Search transactions" type="withButton" value={query} onValueChange={setQuery} onSearch={setLast} error={last && last.length < 3 ? "Enter at least 3 characters" : undefined} />
+      {last.length >= 3 && <p className="text-sm text-role-text-secondary">Searching for “{last}”.</p>}
+    </div>
+  );
+}
+
+function AlertDemo() {
+  const [open, setOpen] = useState(true);
+
+  return open ? (
+    <div className="mx-auto w-full max-w-md">
+      <Alert tone="warning" title="Your session ends in 5 minutes" description="Save your changes to keep them." action={<a href="#" className="font-medium underline">Stay signed in</a>} onClose={() => setOpen(false)} />
+    </div>
+  ) : (
+    <div className="mx-auto w-fit">
+      <Button variant="ghost" onClick={() => setOpen(true)}>Show the alert again</Button>
+    </div>
+  );
+}
+
+function TextareaDemo() {
+  const [note, setNote] = useState("");
+
+  return (
+    <div className="mx-auto w-full max-w-sm">
+      <Textarea label="Approval notes" placeholder="Write a note…" maxLength={500} value={note} onChange={(e) => setNote(e.target.value)} hint="Up to 500 characters" />
+    </div>
+  );
+}
+
+function ChipDemo() {
+  const [filters, setFilters] = useState(["KPR", "10-year term", "Approved"]);
+
+  return (
+    <div className="flex flex-wrap justify-center gap-2">
+      {filters.map((f) => (
+        <Chip key={f} label={f} tone="primary" onRemove={() => setFilters(filters.filter((x) => x !== f))} />
+      ))}
+      {filters.length === 0 && <Button variant="ghost" onClick={() => setFilters(["KPR", "10-year term", "Approved"])}>Reset filters</Button>}
+    </div>
+  );
+}
+
+function SliderDemo() {
+  return (
+    <div className="mx-auto grid w-full max-w-xs gap-4">
+      <Slider label="Term" min={1} max={30} defaultValue={15} format={rupiahYears} />
+      <Slider mode="range" label="Credit limit" min={0} max={2000} step={50} defaultValue={[100, 1000]} format={rupiahShort} />
+    </div>
+  );
+}
+
+function SpinnerDemo() {
+  return (
+    <div className="flex justify-center">
+      <Button loading>Processing</Button>
+    </div>
+  );
+}
+
+function OtpInputDemo() {
+  const [code, setCode] = useState("");
+  const [state, setState] = useState<"idle" | "ok" | "wrong">("idle");
+
+  return (
+    <div className="mx-auto grid w-fit gap-2">
+      <OtpInput
+        label="Verification code"
+        value={code}
+        onChange={(v) => {
+          setCode(v);
+          setState("idle");
+        }}
+        onComplete={(v) => setState(v === "482719" ? "ok" : "wrong")}
+        hint={state === "ok" ? "Verified." : "Try 482719. Resend code in 00:45"}
+        error={state === "wrong" ? "Incorrect OTP. 2 attempts left." : undefined}
+      />
+    </div>
+  );
+}
+
+function PinInputDemo() {
+  const [pin, setPin] = useState("");
+  const keys = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "", "0", "⌫"];
+
+  return (
+    <div className="mx-auto flex w-fit flex-col items-center gap-4">
+      <PinInput label="Enter transaction PIN" value={pin} onChange={setPin} hint="Never share your PIN with anyone" />
+      <div className="grid grid-cols-3 gap-2 rounded-lg border border-role-border-default p-2">
+        {keys.map((k, i) =>
+          k ? (
+            <button
+              key={i}
+              type="button"
+              aria-label={k === "⌫" ? "Delete" : k}
+              onClick={() => setPin(k === "⌫" ? pin.slice(0, -1) : (pin + k).slice(0, 6))}
+              className="flex h-12 w-16 items-center justify-center rounded-md bg-role-bg-subtle text-lg text-role-text-primary hover:bg-role-bg-subtle-hover"
+            >
+              {k}
+            </button>
+          ) : (
+            <span key={i} />
+          ),
+        )}
+      </div>
+    </div>
+  );
+}
+
+function ModalDemo() {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div className="flex justify-center">
+      <Button variant="destructive" onClick={() => setOpen(true)}>Remove saved account</Button>
+      <Modal
+        open={open}
+        onClose={() => setOpen(false)}
+        title="Remove saved account?"
+        description="“Andi Pratama” will be removed from your saved accounts."
+        footer={
+          <>
+            <Button variant="ghost" onClick={() => setOpen(false)}>Cancel</Button>
+            <Button variant="destructive" onClick={() => setOpen(false)}>Remove</Button>
+          </>
+        }
+      />
+    </div>
+  );
+}
+
+function TableDemo() {
+  return (
+    <div className="mx-auto w-full max-w-lg">
+      <Table caption="Recent transfers" showCaption type="striped" columns={TX_COLUMNS} rows={TX_ROWS} />
+    </div>
+  );
+}
+
+function DatePickerDemo() {
+  const [date, setDate] = useState<Date | null>(new Date(2026, 8, 18));
+
+  return (
+    <div className="mx-auto grid w-full max-w-xs gap-2 pb-80">
+      <DatePicker label="Due date" today={TODAY} value={date} onChange={setDate} hint="Format DD MMM YYYY" />
+    </div>
+  );
+}
+
+function ComboboxDemo() {
+  const [bank, setBank] = useState<string | null>(null);
+
+  return (
+    <div className="mx-auto grid w-full max-w-xs gap-2 pb-64">
+      <Combobox label="Destination bank" placeholder="Search banks…" options={BANKS} value={bank} onChange={setBank} hint="Type at least 3 characters" />
+    </div>
+  );
+}
+
+function MenuDemo() {
+  const [last, setLast] = useState("");
+  const items = MENU_ITEMS.map((it) => ({ ...it, onSelect: () => setLast(it.label) }));
+
+  return (
+    <div className="flex flex-col items-center gap-2 pb-72">
+      <Menu label="More actions" trigger={<DotsThree size={24} weight="bold" />} items={items} />
+      <p className="text-sm text-role-text-secondary" aria-live="polite">{last ? "Chose " + last + "." : "Open the menu."}</p>
+    </div>
+  );
+}
+
+function EmptyStateDemo() {
+  return (
+    <EmptyState scope="error" title="Couldn’t load transactions" description="Check your connection and try again." action={<Button variant="secondary">Try again</Button>} />
+  );
+}
+
+function NavigationBarDemo() {
+  const [current, setCurrent] = useState("#home");
+  const items = NAV_ITEMS.map((n) => ({ ...n }));
+
+  return (
+    <div
+      className="mx-auto w-full max-w-sm overflow-hidden rounded-lg border border-role-border-default"
+      onClick={(e) => {
+        const a = (e.target as HTMLElement).closest("a");
+        if (a?.getAttribute("href")?.startsWith("#")) {
+          e.preventDefault();
+          setCurrent(a.getAttribute("href")!);
+        }
+      }}
+    >
+      <TopAppBar title="Transaction History" onBack={() => {}} />
+      <div className="flex h-24 items-center justify-center bg-role-bg-hover text-sm text-role-text-secondary">{items.find((i) => i.href === current)?.label}</div>
+      <BottomNav items={items} current={current} />
+    </div>
+  );
+}
+
+function TransactionListItemDemo() {
+  return (
+    <div className="mx-auto w-full max-w-sm divide-y divide-role-border-default overflow-hidden rounded-lg border border-role-border-default">
+      <TransactionListItem href="#" tone="success" icon={<ArrowDownLeft size={16} />} title="Transfer from Andi" label="Transfer" timestamp="18 Sep, 14:02" amount="Rp500.000" />
+      <TransactionListItem href="#" tone="danger" icon={<ArrowUpRight size={16} />} title="QRIS Kopi Natuna" label="Shopping" timestamp="18 Sep, 14:02" amount="Rp35.000" />
+    </div>
+  );
+}
+
+function AmountInputDemo() {
+  const [amount, setAmount] = useState<number | null>(150000);
+  const low = amount !== null && amount < 10000;
+
+  return (
+    <div className="mx-auto w-full max-w-xs">
+      <AmountInput label="Amount" value={amount} onChange={setAmount} hint="Minimum Rp10.000" error={low ? "Minimum Rp10.000" : undefined} />
+    </div>
+  );
+}
+
+function QrCodeDemo() {
+  const [saved, setSaved] = useState(false);
+
+  return (
+    <div className="flex flex-col items-center gap-2">
+      <QrCodeDisplay type="dynamic" size="sm" label="Warung Natuna" value="Rp150.000" expiry="Valid for 04:59" onSave={() => setSaved(true)} />
+      <p className="text-sm text-role-text-secondary" aria-live="polite">{saved ? "Saved to your gallery." : ""}</p>
+    </div>
+  );
+}
+
 function AvatarDemo() {
   const [name, setName] = useState("Natuna Digilab");
 
@@ -379,6 +661,25 @@ export const demos: Record<string, () => ReactElement> = {
   checkbox: CheckboxDemo,
   "radio-button": RadioDemo,
   "label-text": LabelTextDemo,
+  tooltip: TooltipDemo,
+  search: SearchDemo,
+  alert: AlertDemo,
+  textarea: TextareaDemo,
+  chip: ChipDemo,
+  slider: SliderDemo,
+  spinner: SpinnerDemo,
+  "otp-input": OtpInputDemo,
+  "pin-input": PinInputDemo,
+  modal: ModalDemo,
+  table: TableDemo,
+  "date-picker": DatePickerDemo,
+  combobox: ComboboxDemo,
+  "more-menu": MenuDemo,
+  "empty-state": EmptyStateDemo,
+  "navigation-bar": NavigationBarDemo,
+  "transaction-list-item": TransactionListItemDemo,
+  "amount-input": AmountInputDemo,
+  "qr-code": QrCodeDemo,
   tabs: TabsDemo,
   rating: RatingDemo,
   stepper: StepperDemo,
@@ -1073,6 +1374,349 @@ function FileInputMatrix() {
   );
 }
 
+const tooltipPlacements = ["top", "bottom", "left", "right"] as const;
+
+function TooltipMatrix() {
+  return (
+    <div className="grid gap-4 sm:grid-cols-2">
+      {tooltipPlacements.map((p) => (
+        <Specimen key={p} label={"placement " + p} detail="sm, md, and without arrow">
+          <div className="flex flex-wrap items-start gap-4 p-2">
+            <TooltipBubble size="sm" placement={p} title="Effective interest rate" description="Calculated from the outstanding principal." />
+            <TooltipBubble placement={p} title="Effective interest rate" description="Calculated from the outstanding principal." />
+            <TooltipBubble placement={p} arrow={false} title="Copy account number" />
+          </div>
+        </Specimen>
+      ))}
+    </div>
+  );
+}
+
+function SearchMatrix() {
+  return (
+    <div className="grid gap-4 lg:grid-cols-3">
+      {(["basic", "withButton", "inline"] as const).map((type) => (
+        <Specimen key={type} label={"type " + type} detail="default, filled, error, disabled">
+          <div className="grid gap-3">
+            <SearchField type={type} label="Search transactions" placeholder="Search transactions" />
+            <SearchField type={type} label="Search transactions" placeholder="Search transactions" defaultValue="bank transfer" />
+            <SearchField type={type} label="Search transactions" placeholder="Search transactions" error="Enter at least 3 characters" />
+            <SearchField type={type} label="Search transactions" placeholder="Search transactions" disabled />
+          </div>
+        </Specimen>
+      ))}
+    </div>
+  );
+}
+
+function AlertMatrix() {
+  return (
+    <div className="grid gap-3">
+      {(["info", "success", "warning", "danger"] as const).map((tone) => (
+        <Alert key={tone} tone={tone} title={tone[0].toUpperCase() + tone.slice(1) + " alert"} description="Stays on the page until the problem is gone." action={<a href="#" className="font-medium underline">Learn more</a>} onClose={() => {}} />
+      ))}
+    </div>
+  );
+}
+
+function TextareaMatrix() {
+  return (
+    <div className="grid gap-4 lg:grid-cols-3">
+      {(["sm", "md", "lg"] as const).map((size) => (
+        <Specimen key={size} label={"size " + size} detail={{ sm: "64", md: "88", lg: "120" }[size] + "px tall"}>
+          <div className="grid gap-4">
+            <Textarea size={size} label="Approval notes" placeholder="Write a note…" maxLength={500} />
+            <Textarea size={size} label="Approval notes" defaultValue="Documents have been verified." maxLength={500} />
+            <Textarea size={size} label="Approval notes" placeholder="Write a note…" error="A note is required" maxLength={500} />
+            <Textarea size={size} label="Approval notes" placeholder="Write a note…" disabled maxLength={500} />
+          </div>
+        </Specimen>
+      ))}
+    </div>
+  );
+}
+
+const chipTones = ["neutral", "primary", "success", "warning", "danger"] as const;
+
+function ChipMatrix() {
+  return (
+    <div className="grid gap-4 lg:grid-cols-2">
+      {(["filled", "outline"] as const).map((type) => (
+        <Specimen key={type} label={"type " + type} detail="sm and md">
+          <div className="grid gap-3">
+            {(["sm", "md"] as const).map((size) => (
+              <div key={size} className="flex flex-wrap items-center gap-2">
+                {chipTones.map((tone) => (
+                  <Chip key={tone} type={type} size={size} tone={tone} label={tone[0].toUpperCase() + tone.slice(1)} onRemove={() => {}} />
+                ))}
+              </div>
+            ))}
+          </div>
+        </Specimen>
+      ))}
+    </div>
+  );
+}
+
+function SliderMatrix() {
+  return (
+    <div className="grid gap-4 lg:grid-cols-3">
+      {(["sm", "md", "lg"] as const).map((size) => (
+        <Specimen key={size} label={"size " + size} detail="single, range, disabled">
+          <div className="grid gap-3">
+            <Slider size={size} label="Term" min={1} max={30} defaultValue={15} format={rupiahYears} />
+            <Slider size={size} mode="range" label="Credit limit" min={0} max={2000} step={50} defaultValue={[100, 1000]} format={rupiahShort} />
+            <Slider size={size} label="Term" min={1} max={30} defaultValue={15} format={rupiahYears} disabled />
+          </div>
+        </Specimen>
+      ))}
+    </div>
+  );
+}
+
+function SpinnerMatrix() {
+  return (
+    <div className="grid gap-4 sm:grid-cols-2">
+      {(["circular", "dots"] as const).map((type) => (
+        <Specimen key={type} label={"type " + type} detail="neutral, primary, on-primary · xs to lg">
+          <div className="grid gap-3">
+            {(["neutral", "primary", "onPrimary"] as const).map((tone) => (
+              <div key={tone} className={"flex items-center gap-4 rounded-md p-2 " + (tone === "onPrimary" ? "bg-role-bg-brand" : "")}>
+                {(["xs", "sm", "md", "lg"] as const).map((size) => (
+                  <Spinner key={size} type={type} tone={tone} size={size} />
+                ))}
+              </div>
+            ))}
+          </div>
+        </Specimen>
+      ))}
+    </div>
+  );
+}
+
+function OtpInputMatrix() {
+  return (
+    <div className="grid gap-4 lg:grid-cols-3">
+      {(["sm", "md", "lg"] as const).map((size) => (
+        <Specimen key={size} label={"size " + size} detail="empty, filled, error, disabled">
+          <div className="grid gap-4 overflow-x-auto">
+            <OtpInput size={size} length={4} label="Code" />
+            <OtpInput size={size} length={4} label="Code" value="4827" />
+            <OtpInput size={size} length={4} label="Code" value="4827" error="Incorrect OTP. 2 attempts left." />
+            <OtpInput size={size} length={4} label="Code" disabled />
+          </div>
+        </Specimen>
+      ))}
+    </div>
+  );
+}
+
+function PinInputMatrix() {
+  return (
+    <div className="grid gap-4 sm:grid-cols-2">
+      {([4, 6] as const).map((length) => (
+        <Specimen key={length} label={length + " digit"} detail="empty, filled, error, disabled">
+          <div className="grid gap-5">
+            <PinInput length={length} label="Enter transaction PIN" hint="Never share your PIN with anyone" />
+            <PinInput length={length} label="Enter transaction PIN" value="48" hint="Never share your PIN with anyone" />
+            <PinInput length={length} label="Enter transaction PIN" value={"4827".slice(0, length) + "19".slice(0, length - 4)} error="Incorrect PIN. 2 attempts left." />
+            <PinInput length={length} label="Enter transaction PIN" disabled hint="Never share your PIN with anyone" />
+          </div>
+        </Specimen>
+      ))}
+    </div>
+  );
+}
+
+function ModalMatrix() {
+  const confirm = (
+    <>
+      <Button variant="ghost">Cancel</Button>
+      <Button variant="destructive">Remove</Button>
+    </>
+  );
+  const save = (
+    <>
+      <Button variant="ghost">Cancel</Button>
+      <Button>Save</Button>
+    </>
+  );
+  return (
+    <div className="space-y-4">
+      <p className="text-sm text-gray-700">These are the dialog box on its own. Modal adds the backdrop, the focus trap, and Escape.</p>
+      <div className="grid gap-4 lg:grid-cols-3">
+        {(["confirmation", "form", "alert"] as const).map((type) => (
+          <Specimen key={type} label={"type " + type} detail="size sm">
+            <ModalPanel type={type} size="sm" title="Remove saved account?" description="“Andi Pratama” will be removed from your saved accounts." onClose={() => {}} footer={type === "form" ? save : confirm}>
+              {type === "form" ? <div className="flex h-24 items-center justify-center rounded-md border border-dashed border-role-border-input bg-role-bg-hover text-xs text-role-text-secondary">Form content</div> : null}
+            </ModalPanel>
+          </Specimen>
+        ))}
+      </div>
+      <Specimen label="size md, lg, xl" detail="560, 720, 960 wide, never wider than the screen">
+        <div className="grid gap-4 overflow-x-auto">
+          {(["md", "lg", "xl"] as const).map((size) => (
+            <ModalPanel key={size} size={size} title="Remove saved account?" description="“Andi Pratama” will be removed from your saved accounts." onClose={() => {}} footer={confirm} />
+          ))}
+        </div>
+      </Specimen>
+    </div>
+  );
+}
+
+function TableMatrix() {
+  return (
+    <div className="grid gap-4 lg:grid-cols-3">
+      {(["basic", "striped", "bordered"] as const).map((type) => (
+        <Specimen key={type} label={"type " + type} detail="sm, md, lg">
+          <div className="grid gap-4">
+            {(["sm", "md", "lg"] as const).map((size) => (
+              <Table key={size} caption={type + " table, " + size} type={type} size={size} columns={TX_COLUMNS} rows={TX_ROWS} selectedRow={size === "md" ? 1 : undefined} />
+            ))}
+          </div>
+        </Specimen>
+      ))}
+    </div>
+  );
+}
+
+function DatePickerMatrix() {
+  return (
+    <div className="space-y-4">
+      <div className="grid gap-4 lg:grid-cols-2">
+        <Specimen label="Calendar single" detail="13 Sep is today, 18 Sep is picked">
+          <Calendar today={TODAY} value={new Date(2026, 8, 18)} />
+        </Specimen>
+        <Specimen label="Calendar range" detail="18 to 24 Sep">
+          <Calendar mode="range" today={TODAY} value={[new Date(2026, 8, 18), new Date(2026, 8, 24)]} />
+        </Specimen>
+      </div>
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <Specimen label="Default"><DatePicker label="Date" today={TODAY} /></Specimen>
+        <Specimen label="Filled"><DatePicker label="Date" today={TODAY} defaultValue={new Date(2026, 8, 18)} /></Specimen>
+        <Specimen label="Range filled"><DatePicker mode="range" label="Date" today={TODAY} defaultValue={[new Date(2026, 8, 18), new Date(2026, 8, 24)]} /></Specimen>
+        <Specimen label="Error"><DatePicker label="Date" today={TODAY} error="Choose a date" /></Specimen>
+        <Specimen label="Disabled"><DatePicker label="Date" today={TODAY} disabled /></Specimen>
+      </div>
+    </div>
+  );
+}
+
+function ComboboxMatrix() {
+  return (
+    <div className="grid gap-4 sm:grid-cols-2">
+      {(["single", "multiple"] as const).map((mode) => (
+        <Specimen key={mode} label={"mode " + mode} detail="default, error, disabled">
+          <div className="grid gap-4">
+            {mode === "single" ? (
+              <>
+                <Combobox label="Destination bank" placeholder="Search banks…" options={BANKS} />
+                <Combobox label="Destination bank" placeholder="Search banks…" options={BANKS} error="Choose a bank" />
+                <Combobox label="Destination bank" placeholder="Search banks…" options={BANKS} disabled />
+              </>
+            ) : (
+              <>
+                <Combobox mode="multiple" label="Destination bank" placeholder="Search banks…" options={BANKS} value={["bri", "bsi"]} />
+                <Combobox mode="multiple" label="Destination bank" placeholder="Search banks…" options={BANKS} value={["bri", "bsi"]} error="Choose at most two" />
+                <Combobox mode="multiple" label="Destination bank" placeholder="Search banks…" options={BANKS} value={["bri", "bsi"]} disabled />
+              </>
+            )}
+          </div>
+        </Specimen>
+      ))}
+    </div>
+  );
+}
+
+function MenuMatrix() {
+  return (
+    <div className="grid gap-4 sm:grid-cols-2">
+      {(["sm", "md"] as const).map((size) => (
+        <Specimen key={size} label={"size " + size} detail="default, disabled, danger, and a group divider">
+          <MenuList size={size} items={MENU_ITEMS} />
+        </Specimen>
+      ))}
+    </div>
+  );
+}
+
+function EmptyStateMatrix() {
+  return (
+    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {(["search", "list", "error", "custom"] as const).map((scope) => (
+        <Specimen key={scope} label={"scope " + scope} detail="sm, md, lg">
+          <div className="grid gap-2">
+            {(["sm", "md", "lg"] as const).map((size) => (
+              <EmptyState key={size} scope={scope} size={size} title="No transactions yet" description="Your transactions will appear here." action={<Button variant="secondary">Try again</Button>} />
+            ))}
+          </div>
+        </Specimen>
+      ))}
+    </div>
+  );
+}
+
+function NavigationBarMatrix() {
+  return (
+    <div className="grid gap-4 lg:grid-cols-2">
+      <Specimen label="type top" detail="with back and an action">
+        <TopAppBar title="Transaction History" onBack={() => {}} actions={<button type="button" aria-label="More" className="flex size-11 items-center justify-center text-role-text-secondary"><DotsThree size={22} /></button>} />
+      </Specimen>
+      <Specimen label="type bottom" detail="active, a count, and a disabled item">
+        <BottomNav items={NAV_ITEMS.map((n, i) => (i === 1 ? { ...n, disabled: true } : n))} current="#home" />
+      </Specimen>
+    </div>
+  );
+}
+
+function TransactionListItemMatrix() {
+  return (
+    <div className="grid gap-4 lg:grid-cols-3">
+      {(["neutral", "success", "danger"] as const).map((tone) => (
+        <Specimen key={tone} label={"tone " + tone} detail="static, then a link you can hover and press">
+          <div className="divide-y divide-role-border-default overflow-hidden rounded-md border border-role-border-default">
+            <TransactionListItem tone={tone} title="Transfer to Andi Pratama" label="Transfer" timestamp="18 Sep, 14:02" amount="Rp150.000" />
+            <TransactionListItem href="#" tone={tone} title="Transfer to Andi Pratama" label="Transfer" timestamp="18 Sep, 14:02" amount="Rp150.000" />
+          </div>
+        </Specimen>
+      ))}
+    </div>
+  );
+}
+
+function AmountInputMatrix() {
+  return (
+    <div className="grid gap-4 lg:grid-cols-3">
+      {(["sm", "md", "lg"] as const).map((size) => (
+        <Specimen key={size} label={"size " + size} detail="empty, filled, error, disabled">
+          <div className="grid gap-4">
+            <AmountInput size={size} label="Amount" />
+            <AmountInput size={size} label="Amount" defaultValue={150000} />
+            <AmountInput size={size} label="Amount" defaultValue={5000} error="Minimum Rp10.000" />
+            <AmountInput size={size} label="Amount" disabled />
+          </div>
+        </Specimen>
+      ))}
+    </div>
+  );
+}
+
+function QrCodeMatrix() {
+  return (
+    <div className="grid gap-4 lg:grid-cols-2">
+      {(["static", "dynamic"] as const).map((type) => (
+        <Specimen key={type} label={"type " + type} detail="sm, md, lg">
+          <div className="flex flex-wrap items-start gap-4 overflow-x-auto">
+            {(["sm", "md", "lg"] as const).map((size) => (
+              <QrCodeDisplay key={size} type={type} size={size} label="Warung Natuna" value="Rp150.000" expiry="Valid for 04:59" onSave={() => {}} />
+            ))}
+          </div>
+        </Specimen>
+      ))}
+    </div>
+  );
+}
+
 const avatarSizes: { size: AvatarSize; px: string }[] = [
   { size: "sm", px: "32px" },
   { size: "md", px: "40px" },
@@ -1140,6 +1784,25 @@ const matrices: Record<string, () => ReactElement> = {
   checkbox: CheckboxMatrix,
   "radio-button": RadioMatrix,
   "label-text": LabelTextMatrix,
+  tooltip: TooltipMatrix,
+  search: SearchMatrix,
+  alert: AlertMatrix,
+  textarea: TextareaMatrix,
+  chip: ChipMatrix,
+  slider: SliderMatrix,
+  spinner: SpinnerMatrix,
+  "otp-input": OtpInputMatrix,
+  "pin-input": PinInputMatrix,
+  modal: ModalMatrix,
+  table: TableMatrix,
+  "date-picker": DatePickerMatrix,
+  combobox: ComboboxMatrix,
+  "more-menu": MenuMatrix,
+  "empty-state": EmptyStateMatrix,
+  "navigation-bar": NavigationBarMatrix,
+  "transaction-list-item": TransactionListItemMatrix,
+  "amount-input": AmountInputMatrix,
+  "qr-code": QrCodeMatrix,
   tabs: TabsMatrix,
   rating: RatingMatrix,
   stepper: StepperMatrix,

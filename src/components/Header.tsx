@@ -12,6 +12,7 @@ const nav = [
   { href: "/foundation", label: "Foundation" },
   { href: "/components", label: "Components" },
   { href: "/themes", label: "Themes" },
+  { href: "/build-report", label: "Build report" },
 ];
 
 const mobileNav = [...nav.slice(0, 3), { href: "/naming", label: "Naming" }, ...nav.slice(3)];

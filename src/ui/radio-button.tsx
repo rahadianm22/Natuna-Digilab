@@ -42,7 +42,6 @@ export function RadioButton({ label, hint, error, invalid, size = "sm", classNam
           id={id}
           type="radio"
           disabled={disabled}
-          aria-invalid={bad ? true : undefined}
           aria-describedby={note ? `${id}-note` : undefined}
           className={`peer absolute m-0 cursor-pointer appearance-none rounded-full disabled:cursor-not-allowed ${s.hit}`}
           {...rest}

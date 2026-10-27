@@ -1,32 +1,43 @@
 "use client";
 
 import type { ReactElement } from "react";
-import { Accordion, Avatar, Badge, Breadcrumbs, Button, Card, Changelog, Checkbox, Comment, Cover, Divider, DrawerPanel, FileInput, Input, LabelText, Pagination, ProgressBar, RadioButton, RadioGroup, Rating, Separator, Skeleton, Status, Stepper, Tabs, Toast, Toggle, buttonStyles } from "@/ui";
-import {
-  ArrowDownLeft,
-  ArrowUpRight,
-  Check,
-  CheckCircle,
-  Dot,
-  DotsThree,
-  DownloadSimple,
-  House,
-  Info,
-  List,
-  MagnifyingGlass,
-  PencilSimple,
-  Plus,
-  QrCode,
-  Star,
-  Trash,
-  Tray,
-  UploadSimple,
-  User,
-  Wallet,
-  Warning,
-  X,
-  XCircle,
-} from "@phosphor-icons/react/ssr";
+import { Accordion, Alert, AmountInput, Avatar, Badge, BottomNav, Breadcrumbs, Button, Calendar, Card, Changelog, Checkbox, Chip, Combobox, Comment, Cover, DatePicker, Divider, DrawerPanel, EmptyState, FileInput, Input, LabelText, MenuList, ModalPanel, OtpInput, Pagination, PinInput, ProgressBar, QrCodeDisplay, RadioButton, RadioGroup, Rating, SearchField, Separator, Skeleton, Slider, Spinner, Status, Stepper, Table, Tabs, Textarea, Toast, Toggle, TooltipBubble, TopAppBar, TransactionListItem, buttonStyles } from "@/ui";
+import { ArrowDownLeft, ArrowUpRight, Check, CheckCircle, ClockCounterClockwise, Copy, Dot, DotsThree, DownloadSimple, House, Info, List, MagnifyingGlass, PencilSimple, Plus, QrCode, ShareNetwork, Star, Tag, Trash, Tray, UploadSimple, User, Wallet, Warning, X, XCircle } from "@phosphor-icons/react/ssr";
+
+const TODAY = new Date(2026, 8, 13);
+const BANKS = [
+  { value: "bri", label: "Bank Rakyat Indonesia" },
+  { value: "bni", label: "Bank Negara Indonesia" },
+  { value: "bsi", label: "Bank Syariah Indonesia" },
+  { value: "bca", label: "Bank Central Asia" },
+  { value: "mandiri", label: "Bank Mandiri" },
+];
+const TX_COLUMNS = [
+  { key: "customer", header: "Customer" },
+  { key: "date", header: "Date" },
+  { key: "status", header: "Status" },
+];
+const TX_ROWS = [
+  { customer: "Andi P.", date: "18 Sep", status: <Status status="success" size="sm" /> },
+  { customer: "Sari W.", date: "17 Sep", status: <Status status="processing" size="sm" /> },
+  { customer: "Budi S.", date: "16 Sep", status: <Status status="failed" size="sm" /> },
+  { customer: "Rina K.", date: "15 Sep", status: <Status status="pending" size="sm" /> },
+];
+const MENU_ITEMS = [
+  { label: "Edit", icon: <PencilSimple size={18} /> },
+  { label: "Duplicate", icon: <Copy size={18} /> },
+  { label: "Share", icon: <ShareNetwork size={18} /> },
+  { label: "Download", icon: <DownloadSimple size={18} />, disabled: true, separatorBefore: true },
+  { label: "Remove", icon: <Trash size={18} />, danger: true },
+];
+const NAV_ITEMS = [
+  { label: "Home", href: "#home", icon: <House size={24} /> },
+  { label: "Accounts", href: "#accounts", icon: <Wallet size={24} /> },
+  { label: "History", href: "#history", icon: <ClockCounterClockwise size={24} />, count: 3 },
+  { label: "Account", href: "#account", icon: <User size={24} /> },
+];
+const rupiahYears = (n: number) => n + " yrs";
+const rupiahShort = (n: number) => (n >= 1000 ? "Rp" + n / 1000 + " M" : "Rp" + n + " jt");
 
 const previews: Record<string, () => ReactElement> = {
   button: () => (
@@ -87,10 +98,8 @@ const previews: Record<string, () => ReactElement> = {
     </p>
   ),
   "more-menu": () => (
-    <div className="flex justify-center py-6 text-gray-700">
-      <span role="img" aria-label="More actions">
-        <DotsThree size={28} weight="bold" />
-      </span>
+    <div className="flex justify-center py-4">
+      <MenuList items={MENU_ITEMS} />
     </div>
   ),
   avatar: () => (
@@ -140,12 +149,9 @@ const previews: Record<string, () => ReactElement> = {
     </div>
   ),
   "empty-state": () => (
-    <div className="flex flex-col items-center justify-center py-8 text-center">
-      <span className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-blue-50 text-blue-800">
-        <Tray size={24} />
-      </span>
-      <div className="text-sm font-medium text-gray-700">No results found</div>
-      <div className="text-xs text-gray-700">Try adjusting your search or filters.</div>
+    <div className="grid gap-2 py-2 sm:grid-cols-2">
+      <EmptyState scope="list" size="sm" title="No transactions yet" description="Your transactions will appear here." action={<Button variant="secondary">Try again</Button>} />
+      <EmptyState scope="search" size="sm" title="No results" description="Try a different keyword." />
     </div>
   ),
   input: () => (
@@ -204,35 +210,30 @@ const previews: Record<string, () => ReactElement> = {
     </div>
   ),
   modal: () => (
-    // A scrim, a close control, and the system's own button styles, as the guidance on this page asks.
-    // Spans styled as buttons keep the picture inert: nothing here is a focusable control that does nothing.
-    <div className="relative mx-auto flex max-w-md justify-center overflow-hidden rounded-xl bg-ink/40 px-4 py-8">
-      <div className="w-full max-w-xs rounded-xl bg-surface p-5 shadow-lg">
-        <div className="flex items-start justify-between gap-3">
-          <div className="text-base font-semibold text-gray-900">Cancel this transfer?</div>
-          <span aria-hidden="true" className="-m-2 flex h-11 w-11 shrink-0 items-center justify-center rounded-md text-gray-700">
-            <X size={18} />
-          </span>
-        </div>
-        <p className="mt-2 text-sm text-gray-700">Rp&nbsp;500.000 to Budi Santoso will not be sent. You can start it again later.</p>
-        <div className="mt-5 flex justify-end gap-2">
-          <span className={buttonStyles({ variant: "ghost" })}>Keep it</span>
-          <span className={buttonStyles({ variant: "destructive" })}>Cancel transfer</span>
-        </div>
-      </div>
+    <div className="flex justify-center py-4">
+      <ModalPanel
+        title="Remove saved account?"
+        description="“Andi Pratama” will be removed from your saved accounts."
+        onClose={() => {}}
+        footer={
+          <>
+            <Button variant="ghost">Cancel</Button>
+            <Button variant="destructive">Remove</Button>
+          </>
+        }
+      />
     </div>
   ),
   tooltip: () => (
-    <div className="flex justify-center py-6">
-      <span className="rounded-md bg-ink px-3 py-1.5 text-xs text-white">Save changes</span>
+    <div className="flex flex-wrap items-start justify-center gap-6 py-8">
+      <TooltipBubble title="Effective interest rate" description="Calculated from the outstanding principal." />
+      <TooltipBubble size="sm" placement="bottom" title="Copy account number" />
     </div>
   ),
   alert: () => (
-    <div className="flex justify-center py-6">
-      <div role="status" className="flex w-80 items-start gap-2.5 rounded-md border border-amber-200 bg-amber-50 px-3 py-2.5 text-sm text-amber-900">
-        <Warning size={18} weight="fill" aria-hidden="true" className="mt-0.5 shrink-0" />
-        <span>Your session ends in 5 minutes. Save your draft to keep it.</span>
-      </div>
+    <div className="mx-auto grid w-full max-w-md gap-3 py-4">
+      <Alert tone="info" title="Scheduled maintenance" description="Transfers pause on Sunday, 01:00 to 03:00." />
+      <Alert tone="danger" title="Verification failed" description="The ID photo is unclear. Upload it again." />
     </div>
   ),
   toast: () => (
@@ -243,8 +244,20 @@ const previews: Record<string, () => ReactElement> = {
     </div>
   ),
   spinner: () => (
-    <div className="flex justify-center py-6">
-      <span className="h-6 w-6 animate-spin rounded-full border-2 border-gray-300 border-t-blue-600" />
+    <div className="flex flex-col items-center gap-5 py-6">
+      <div className="flex items-center gap-4">
+        <Spinner size="xs" />
+        <Spinner size="sm" />
+        <Spinner size="md" />
+        <Spinner size="lg" />
+      </div>
+      <div className="flex items-center gap-4">
+        <Spinner type="dots" tone="neutral" />
+        <span className="inline-flex min-h-11 items-center gap-2 rounded-md bg-role-bg-brand px-4 text-sm font-medium text-role-text-on-brand">
+          <Spinner tone="onPrimary" size="sm" label="Processing" />
+          Processing…
+        </span>
+      </div>
     </div>
   ),
 
@@ -276,15 +289,17 @@ const previews: Record<string, () => ReactElement> = {
     </div>
   ),
   chip: () => (
-    <div className="flex flex-wrap justify-center gap-2 py-6">
-      {["Harbor", "This month", "Transfer"].map((c) => (
-        <span key={c} className="inline-flex items-center gap-1 rounded-full border border-blue-200 bg-blue-50 py-1 pl-3 pr-1.5 text-xs font-medium text-blue-900">
-          {c}
-          <button type="button" aria-label={`Remove ${c}`} className="-my-3 -mr-3 inline-flex h-11 w-11 items-center justify-center rounded-full hover:bg-blue-100">
-            <X size={12} weight="bold" />
-          </button>
-        </span>
-      ))}
+    <div className="flex flex-col items-center gap-3 py-6">
+      <div className="flex flex-wrap justify-center gap-2">
+        <Chip label="KPR" tone="primary" onRemove={() => {}} />
+        <Chip label="10-year term" onRemove={() => {}} />
+        <Chip label="Approved" tone="success" onRemove={() => {}} />
+        <Chip label="Rejected" tone="danger" onRemove={() => {}} />
+      </div>
+      <div className="flex flex-wrap justify-center gap-2">
+        <Chip label="Promo" type="outline" tone="primary" icon={<Tag size={16} />} />
+        <Chip label="sm" type="outline" size="sm" onRemove={() => {}} />
+      </div>
     </div>
   ),
   status: () => (
@@ -321,63 +336,20 @@ const previews: Record<string, () => ReactElement> = {
     />
   ),
   table: () => (
-    <div className="flex justify-center py-6">
-      <div className="w-full max-w-md overflow-x-auto rounded-md border border-gray-200 bg-surface">
-        <table className="w-full text-left text-sm">
-          <thead className="bg-gray-50 text-xs font-semibold text-gray-700">
-            <tr>
-              <th scope="col" className="px-3 py-2">Invoice</th>
-              <th scope="col" className="px-3 py-2">Status</th>
-              <th scope="col" className="px-3 py-2 text-right">Amount</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-100 text-gray-800">
-            <tr>
-              <td className="px-3 py-2 font-mono-code text-xs">INV-0001</td>
-              <td className="px-3 py-2">Paid</td>
-              <td className="px-3 py-2 text-right tabular-nums">Rp 250.000</td>
-            </tr>
-            <tr>
-              <td className="px-3 py-2 font-mono-code text-xs">INV-0002</td>
-              <td className="px-3 py-2">Pending</td>
-              <td className="px-3 py-2 text-right tabular-nums">Rp 1.200.000</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+    <div className="mx-auto w-full max-w-md py-4">
+      <Table caption="Recent transfers" type="striped" size="sm" columns={TX_COLUMNS} rows={TX_ROWS} />
     </div>
   ),
   "transaction-list-item": () => (
-    <div className="mx-auto w-full max-w-sm divide-y divide-gray-100 py-4">
-      {[
-        { name: "Warung Bu Sari", meta: "QRIS payment, 09:41", amount: "-Rp 125.000", out: true },
-        { name: "Budi Santoso", meta: "Transfer in, 08:10", amount: "+Rp 500.000", out: false },
-      ].map((t) => (
-        <div key={t.name} className="flex items-center gap-3 py-3">
-          <span className={`flex h-9 w-9 items-center justify-center rounded-full ${t.out ? "bg-gray-100 text-gray-700" : "bg-emerald-100 text-emerald-900"}`}>
-            {t.out ? <ArrowUpRight size={18} aria-hidden="true" /> : <ArrowDownLeft size={18} aria-hidden="true" />}
-          </span>
-          <div className="min-w-0 flex-1">
-            <div className="truncate text-sm font-semibold text-gray-900">{t.name}</div>
-            <div className="text-xs text-gray-700">{t.meta}</div>
-          </div>
-          <span className={`text-sm font-semibold tabular-nums ${t.out ? "text-gray-900" : "text-emerald-900"}`}>{t.amount}</span>
-        </div>
-      ))}
+    <div className="mx-auto w-full max-w-sm divide-y divide-role-border-default overflow-hidden rounded-lg border border-role-border-default">
+      <TransactionListItem tone="success" icon={<ArrowDownLeft size={16} />} title="Transfer from Andi" label="Transfer" timestamp="18 Sep, 14:02" amount="Rp500.000" />
+      <TransactionListItem tone="danger" icon={<ArrowUpRight size={16} />} title="QRIS Kopi Natuna" label="Shopping" timestamp="18 Sep, 14:02" amount="Rp35.000" />
+      <TransactionListItem title="Top up e-wallet" label="Processing" timestamp="18 Sep, 14:02" amount="Rp100.000" />
     </div>
   ),
   "qr-code": () => (
-    <div className="flex justify-center py-6">
-      <div className="w-52 rounded-xl border border-gray-200 bg-surface p-4 text-center">
-        {/* The code always sits on white with a quiet zone, in both modes, as the guidance requires. */}
-        <div className="theme-light mx-auto flex w-fit flex-col items-center rounded-lg border border-gray-200 bg-white p-3">
-          <QrCode size={96} weight="regular" aria-hidden="true" className="text-[#0d121c]" />
-          <span className="mt-1 text-xs text-gray-700">Sample, not a scannable code</span>
-        </div>
-        <div className="mt-3 text-lg font-bold tabular-nums text-gray-900">Rp 25.000</div>
-        <div className="text-sm font-semibold text-gray-900">Warung Bu Sari</div>
-        <div className="text-xs text-gray-700">Expires at 15:00 WIB</div>
-      </div>
+    <div className="flex justify-center py-4">
+      <QrCodeDisplay type="dynamic" size="sm" label="Warung Natuna" value="Rp150.000" expiry="Valid for 04:59" onSave={() => {}} />
     </div>
   ),
   "radio-button": () => (
@@ -395,69 +367,33 @@ const previews: Record<string, () => ReactElement> = {
     </div>
   ),
   textarea: () => (
-    <div className="flex justify-center py-6">
-      <label className="flex w-72 flex-col gap-1.5">
-        <span className="text-xs font-semibold text-gray-700">Note</span>
-        <textarea rows={3} maxLength={120} placeholder="Add a note for the recipient" className="rounded-md border border-gray-500 bg-surface px-3 py-2 text-sm text-gray-900 placeholder:text-gray-700" />
-        <span className="text-right text-xs text-gray-700">Up to 120 characters</span>
-      </label>
+    <div className="mx-auto grid w-full max-w-sm gap-4 py-4">
+      <Textarea label="Approval notes" placeholder="Write a note…" hint="Up to 500 characters" maxLength={500} />
+      <Textarea label="Approval notes" placeholder="Write a note…" error="A note is required" maxLength={500} />
     </div>
   ),
   slider: () => (
-    <div className="flex justify-center py-6">
-      <label className="flex w-64 flex-col gap-2">
-        <span className="flex justify-between text-xs font-semibold text-gray-700">
-          Daily limit <span className="font-normal text-gray-700">Rp 0 to 10 jt</span>
-        </span>
-        <input type="range" min={0} max={100} defaultValue={60} className="min-h-11 w-full accent-blue-600" />
-      </label>
+    <div className="mx-auto grid w-full max-w-xs gap-4 py-4">
+      <Slider label="Term" min={1} max={30} defaultValue={15} format={(n) => n + " yrs"} />
+      <Slider mode="range" label="Credit limit" min={0} max={2000} step={50} defaultValue={[100, 1000]} format={(n) => (n >= 1000 ? "Rp" + n / 1000 + " M" : "Rp" + n + " jt")} />
     </div>
   ),
   "otp-input": () => (
-    // A picture of the pattern, not a working field: three digits entered, focus on the fourth.
-    <div className="flex flex-col items-center gap-2 py-6">
-      <span className="text-xs font-semibold text-gray-700">Code sent to ••• •••• 4821</span>
-      <div role="img" aria-label="Six-digit code, three digits entered" className="flex gap-2">
-        {["4", "8", "2", "", "", ""].map((d, i) => (
-          <span
-            key={i}
-            className={`flex h-11 w-10 items-center justify-center rounded-md border bg-surface text-lg font-semibold tabular-nums text-gray-900 ${
-              i === 3 ? "border-blue-600 ring-2 ring-blue-600" : "border-gray-500"
-            }`}
-          >
-            {d}
-          </span>
-        ))}
-      </div>
-      <span className="text-xs text-gray-700">
-        Resend code in <span className="tabular-nums">0:45</span>
-      </span>
+    <div className="mx-auto grid w-fit gap-5 py-4">
+      <OtpInput label="Verification code" value="4827" hint="Resend code in 00:45" />
+      <OtpInput label="Verification code" length={4} value="4827" error="Incorrect OTP. 2 attempts left." />
     </div>
   ),
   "pin-input": () => (
-    <div className="flex flex-col items-center gap-2 py-6">
-      <span id="pin-preview-label" className="text-xs font-semibold text-gray-700">Enter your PIN</span>
-      <div role="group" aria-labelledby="pin-preview-label" className="flex gap-2">
-        {Array.from({ length: 6 }, (_, i) => (
-          <input
-            key={i}
-            type="password"
-            inputMode="numeric"
-            maxLength={1}
-            aria-label={`PIN digit ${i + 1}`}
-            className="h-11 w-11 rounded-md border border-gray-500 bg-surface text-center text-lg font-semibold text-gray-900"
-          />
-        ))}
-      </div>
+    <div className="mx-auto w-fit py-4">
+      <PinInput label="Enter transaction PIN" value="4827" hint="Never share your PIN with anyone" />
     </div>
   ),
   search: () => (
-    <div className="flex justify-center py-6">
-      <label className="relative block w-72">
-        <span className="sr-only">Search transactions</span>
-        <MagnifyingGlass size={16} aria-hidden="true" className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-gray-700" />
-        <input type="search" placeholder="Search by name or amount" className="w-full rounded-md border min-h-11 border-gray-500 bg-surface pl-9 pr-3 text-sm text-gray-900 placeholder:text-gray-700" />
-      </label>
+    <div className="mx-auto grid w-full max-w-sm gap-3 py-4">
+      <SearchField label="Search transactions" placeholder="Search transactions" />
+      <SearchField label="Search transactions" placeholder="Search transactions" defaultValue="bank transfer" />
+      <SearchField label="Search transactions" placeholder="Search transactions" type="withButton" />
     </div>
   ),
   "file-input": () => (
@@ -467,36 +403,20 @@ const previews: Record<string, () => ReactElement> = {
     </div>
   ),
   "date-picker": () => (
-    <div className="flex justify-center py-6">
-      <label className="flex w-56 flex-col gap-1.5">
-        <span className="text-xs font-semibold text-gray-700">Transfer date</span>
-        <input type="date" className="rounded-md border min-h-11 border-gray-500 bg-surface px-3 text-sm text-gray-900" />
-      </label>
+    <div className="mx-auto flex w-fit flex-col items-center gap-4 py-4">
+      <Calendar today={TODAY} value={new Date(2026, 8, 18)} />
     </div>
   ),
   combobox: () => (
-    <div className="flex justify-center py-6">
-      <label className="flex w-64 flex-col gap-1.5">
-        <span className="text-xs font-semibold text-gray-700">City</span>
-        <input list="preview-cities" placeholder="Type to search" className="rounded-md border min-h-11 border-gray-500 bg-surface px-3 text-sm text-gray-900 placeholder:text-gray-700" />
-        <datalist id="preview-cities">
-          {["Harbor", "Meadow", "Natuna", "Ridgeway", "Summit", "Valley", "Westfield"].map((c) => (
-            <option key={c} value={c} />
-          ))}
-        </datalist>
-      </label>
+    <div className="mx-auto grid w-full max-w-xs gap-4 py-4">
+      <Combobox label="Destination bank" placeholder="Search banks…" options={BANKS} />
+      <Combobox mode="multiple" label="Destination bank" placeholder="Search banks…" options={BANKS} value={["bri", "bsi"]} />
     </div>
   ),
   "amount-input": () => (
-    <div className="flex justify-center py-6">
-      <label className="flex w-64 flex-col gap-1.5">
-        <span className="text-xs font-semibold text-gray-700">Amount</span>
-        <span className="flex items-center rounded-md border border-gray-500 bg-surface px-3 focus-within:border-role-border-focus focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-role-border-focus">
-          <span className="text-base font-semibold text-gray-700">Rp</span>
-          <input inputMode="numeric" placeholder="0" className="w-full bg-transparent min-h-11 px-2 text-lg font-semibold text-gray-900 outline-none placeholder:text-gray-700" />
-        </span>
-        <span className="text-xs text-gray-700">Balance Rp 2.450.000</span>
-      </label>
+    <div className="mx-auto grid w-full max-w-xs gap-4 py-4">
+      <AmountInput label="Amount" defaultValue={150000} />
+      <AmountInput label="Amount" defaultValue={5000} error="Minimum Rp10.000" />
     </div>
   ),
   rating: () => (
@@ -514,20 +434,10 @@ const previews: Record<string, () => ReactElement> = {
     </div>
   ),
   "navigation-bar": () => (
-    <div className="flex justify-center py-6">
-      <div className="flex w-72 justify-around rounded-md border border-gray-200 bg-surface py-2 text-xs font-medium">
-        {[
-          { label: "Home", icon: <House size={20} weight="fill" aria-hidden="true" />, active: true },
-          { label: "Wallet", icon: <Wallet size={20} aria-hidden="true" /> },
-          { label: "History", icon: <List size={20} aria-hidden="true" /> },
-          { label: "Profile", icon: <User size={20} aria-hidden="true" /> },
-        ].map((n) => (
-          <span key={n.label} className={`flex flex-col items-center gap-0.5 ${n.active ? "text-blue-900" : "text-gray-700"}`}>
-            {n.icon}
-            <span className={n.active ? "font-semibold" : ""}>{n.label}</span>
-          </span>
-        ))}
-      </div>
+    <div className="mx-auto w-full max-w-sm overflow-hidden rounded-lg border border-role-border-default py-0">
+      <TopAppBar title="Transaction History" onBack={() => {}} actions={<button type="button" aria-label="More" className="flex size-11 items-center justify-center text-role-text-secondary"><DotsThree size={22} /></button>} />
+      <div className="h-16 bg-role-bg-hover" />
+      <BottomNav items={NAV_ITEMS} current="#home" />
     </div>
   ),
   drawer: () => (

@@ -403,7 +403,7 @@ import { RadioButton } from "@/ui";`,
     props: [
       { name: "label", type: "string", description: "Required visible label, connected to the radio button." },
       { name: "hint", type: "string", description: "Helper text under the label." },
-      { name: "error", type: "string", description: "Marks the radio button invalid, sets aria-invalid, and replaces the hint." },
+      { name: "error", type: "string", description: "Shows the error look and replaces the hint. The message is linked with aria-describedby." },
       { name: "size", type: '"sm" | "md" | "lg"', default: '"sm"', description: "Circle and text size: 16px, 20px, or 24px." },
       { name: "className", type: "string", default: '""', description: "Extra classes for the wrapper." },
       { name: "...rest", type: "InputHTMLAttributes", description: "Every other native input attribute, such as name, value, checked, defaultChecked, onChange, and disabled. Not id or type." },
@@ -424,7 +424,7 @@ import { RadioButton } from "@/ui";`,
       screenReader: [
         "The label is linked with for and a generated id, so it is the accessible name. Clicking the label selects the option.",
         "The hint, or the error when there is one, is linked with aria-describedby and read after the name.",
-        "error sets aria-invalid=\"true\".",
+        "The error is linked with aria-describedby and read after the name.",
       ],
       youMust: [
         "Give every option in a set the same name, and wrap the set in a fieldset with a legend or a role=\"radiogroup\" with a label.",
@@ -1689,7 +1689,7 @@ export default function RadioGroupDemo() {
           ],
           "screenReader": [
                 "A fieldset with a legend, so the label is read when focus enters the group.",
-                "The hint or error is linked to the fieldset with aria-describedby. Every option has aria-invalid when there is an error."
+                "The hint or error is linked to the fieldset with aria-describedby, so it is read when focus enters the group. Every option shows the error look."
           ],
           "youMust": [
                 "Keep a choice selected by default when one is safe. A radio group cannot be cleared by the user.",
@@ -2402,6 +2402,1965 @@ import { Pagination } from "@/ui";`,
           "youMust": [
                 "Check the type and size in your code too. accept is only a hint for the file picker.",
                 "Show uploaded files with the Document component, below the dropzone."
+          ]
+    },
+  },
+  tooltip: {
+    importCode: {
+      js: `import { Button, Tooltip } from "@/ui";`,
+      ts: `import { Button, Tooltip, type TooltipPlacement } from "@/ui";`,
+    },
+    usage: {
+      js: `export default function TooltipDemo() {
+  return (
+    <Tooltip title="Effective interest rate" description="Calculated from the outstanding principal.">
+      <Button variant="ghost">Interest rate</Button>
+    </Tooltip>
+  );
+}`,
+      ts: `const placement: TooltipPlacement = "top";
+
+export default function TooltipDemo() {
+  return (
+    <Tooltip placement={placement} title="Effective interest rate" description="Calculated from the outstanding principal.">
+      <Button variant="ghost">Interest rate</Button>
+    </Tooltip>
+  );
+}`,
+    },
+    props: [
+          {
+                "name": "title",
+                "type": "string",
+                "description": "Required. The hint."
+          },
+          {
+                "name": "description",
+                "type": "string",
+                "description": "A second line."
+          },
+          {
+                "name": "placement",
+                "type": "\"top\" | \"bottom\" | \"left\" | \"right\"",
+                "default": "\"top\"",
+                "description": "Side of the trigger."
+          },
+          {
+                "name": "size",
+                "type": "\"sm\" | \"md\"",
+                "default": "\"md\"",
+                "description": "Padding and text size."
+          },
+          {
+                "name": "arrow",
+                "type": "boolean",
+                "default": "true",
+                "description": "The 12x6 pointer."
+          },
+          {
+                "name": "children",
+                "type": "ReactNode",
+                "description": "The trigger. It must be focusable, such as a button."
+          },
+          {
+                "name": "TooltipBubble",
+                "type": "component",
+                "description": "The bubble on its own, for documentation."
+          }
+    ],
+    figma: [
+          {
+                "figma": "📐 Size",
+                "prop": "size",
+                "note": "sm or md."
+          },
+          {
+                "figma": "🧰 Type",
+                "prop": "placement",
+                "note": "Top, Bottom, Left, Right."
+          },
+          {
+                "figma": "🔺 Show Arrow",
+                "prop": "arrow",
+                "note": "Boolean."
+          },
+          {
+                "figma": "Title, Show Description, Description",
+                "prop": "title, description",
+                "note": "Same text."
+          }
+    ],
+    a11y: {
+          "keyboard": [
+                "Shows when the trigger gets keyboard focus, hides on blur and on Escape."
+          ],
+          "screenReader": [
+                "The bubble has role=tooltip and is linked to the trigger with aria-describedby, so it is read after the trigger's name."
+          ],
+          "youMust": [
+                "Put nothing in a tooltip that the user needs to finish a task; it is a hint.",
+                "The bubble stays while the pointer is over it, so it can be read and copied (WCAG 1.4.13).",
+                "Do not put links or buttons in a tooltip. Use a popover or a Modal instead."
+          ]
+    },
+  },
+  search: {
+    importCode: {
+      js: `import { useState } from "react";
+import { SearchField } from "@/ui";`,
+      ts: `import { useState } from "react";
+import { SearchField, type SearchFieldType } from "@/ui";`,
+    },
+    usage: {
+      js: `export default function SearchDemo() {
+  const [query, setQuery] = useState("");
+
+  return (
+    <SearchField
+      label="Search transactions"
+      placeholder="Search transactions"
+      type="withButton"
+      value={query}
+      onValueChange={setQuery}
+      onSearch={(q) => console.log(q)}
+    />
+  );
+}`,
+      ts: `const type: SearchFieldType = "withButton";
+
+export default function SearchDemo() {
+  const [query, setQuery] = useState<string>("");
+
+  return (
+    <SearchField
+      label="Search transactions"
+      placeholder="Search transactions"
+      type={type}
+      value={query}
+      onValueChange={setQuery}
+      onSearch={(q: string) => console.log(q)}
+    />
+  );
+}`,
+    },
+    props: [
+          {
+                "name": "label",
+                "type": "string",
+                "description": "Required. The accessible name; the design has no visible label."
+          },
+          {
+                "name": "type",
+                "type": "\"basic\" | \"withButton\" | \"inline\"",
+                "default": "\"basic\"",
+                "description": "Inline is a rounded, unbordered field."
+          },
+          {
+                "name": "value, onValueChange",
+                "type": "string, (value) => void",
+                "description": "Controlled text. Leave out value for uncontrolled."
+          },
+          {
+                "name": "onSearch",
+                "type": "(value) => void",
+                "description": "Called on Enter and on the Search button."
+          },
+          {
+                "name": "error",
+                "type": "string",
+                "description": "Marks the field invalid and shows the message."
+          },
+          {
+                "name": "buttonLabel",
+                "type": "string",
+                "default": "\"Search\"",
+                "description": ""
+          },
+          {
+                "name": "showIcon",
+                "type": "boolean",
+                "default": "true",
+                "description": "The left search icon."
+          },
+          {
+                "name": "...rest",
+                "type": "InputHTMLAttributes",
+                "description": "placeholder, disabled, name, and so on."
+          }
+    ],
+    figma: [
+          {
+                "figma": "🧰 Type",
+                "prop": "type",
+                "note": "basic, withButton, or inline."
+          },
+          {
+                "figma": "🎯 State",
+                "prop": "value, error, disabled",
+                "note": "Filled is any text, which also shows the clear button. Hover and focus come from the browser."
+          },
+          {
+                "figma": "Placeholder",
+                "prop": "placeholder",
+                "note": "Native attribute."
+          },
+          {
+                "figma": "Show Icon Left",
+                "prop": "showIcon",
+                "note": "Boolean."
+          },
+          {
+                "figma": "Button Value",
+                "prop": "buttonLabel",
+                "note": "With Button only."
+          }
+    ],
+    a11y: {
+          "keyboard": [
+                "A native search input in a form with role=search: Enter searches, the clear button and Search button are reachable with Tab."
+          ],
+          "screenReader": [
+                "The field is named by label. The clear button is named Clear search. The error is linked with aria-describedby."
+          ],
+          "youMust": [
+                "Announce the number of results when they change, for example in a live region."
+          ]
+    },
+  },
+  alert: {
+    importCode: {
+      js: `import { useState } from "react";
+import { Alert } from "@/ui";`,
+      ts: `import { useState } from "react";
+import { Alert, type AlertTone } from "@/ui";`,
+    },
+    usage: {
+      js: `export default function AlertDemo() {
+  const [open, setOpen] = useState(true);
+
+  if (!open) return null;
+  return (
+    <Alert
+      tone="warning"
+      title="Your session ends in 5 minutes"
+      description="Save your changes to keep them."
+      onClose={() => setOpen(false)}
+    />
+  );
+}`,
+      ts: `const tone: AlertTone = "warning";
+
+export default function AlertDemo() {
+  const [open, setOpen] = useState<boolean>(true);
+
+  if (!open) return null;
+  return (
+    <Alert
+      tone={tone}
+      title="Your session ends in 5 minutes"
+      description="Save your changes to keep them."
+      onClose={() => setOpen(false)}
+    />
+  );
+}`,
+    },
+    props: [
+          {
+                "name": "title",
+                "type": "string",
+                "description": "Required."
+          },
+          {
+                "name": "description",
+                "type": "ReactNode",
+                "description": "Detail under the title."
+          },
+          {
+                "name": "tone",
+                "type": "\"info\" | \"success\" | \"warning\" | \"danger\"",
+                "default": "\"info\"",
+                "description": "Color and icon, locked together."
+          },
+          {
+                "name": "action",
+                "type": "ReactNode",
+                "description": "A link or button for the next step."
+          },
+          {
+                "name": "onClose",
+                "type": "() => void",
+                "description": "Shows the dismiss button."
+          }
+    ],
+    figma: [
+          {
+                "figma": "Tone",
+                "prop": "tone",
+                "note": "info, success, warning, or danger."
+          },
+          {
+                "figma": "Title, Description",
+                "prop": "title, description",
+                "note": "Same text."
+          },
+          {
+                "figma": "Action",
+                "prop": "action",
+                "note": "Pass a link or button."
+          }
+    ],
+    a11y: {
+          "keyboard": [
+                "The dismiss button and any action are reachable with Tab."
+          ],
+          "screenReader": [
+                "Danger uses role=alert and is read at once. Other tones use role=status."
+          ],
+          "youMust": [
+                "An alert stays until the problem is gone. For a short confirmation that disappears, use Toast."
+          ]
+    },
+  },
+  textarea: {
+    importCode: {
+      js: `import { useState } from "react";
+import { Textarea } from "@/ui";`,
+      ts: `import { useState, type ChangeEvent } from "react";
+import { Textarea } from "@/ui";`,
+    },
+    usage: {
+      js: `export default function TextareaDemo() {
+  const [note, setNote] = useState("");
+
+  return (
+    <Textarea
+      label="Approval notes"
+      placeholder="Write a note…"
+      maxLength={500}
+      value={note}
+      onChange={(e) => setNote(e.target.value)}
+    />
+  );
+}`,
+      ts: `export default function TextareaDemo() {
+  const [note, setNote] = useState<string>("");
+
+  return (
+    <Textarea
+      label="Approval notes"
+      placeholder="Write a note…"
+      maxLength={500}
+      value={note}
+      onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setNote(e.target.value)}
+    />
+  );
+}`,
+    },
+    props: [
+          {
+                "name": "label",
+                "type": "string",
+                "description": "Required."
+          },
+          {
+                "name": "hint",
+                "type": "string",
+                "description": "Helper text."
+          },
+          {
+                "name": "error",
+                "type": "string",
+                "description": "Marks the field invalid and replaces the hint."
+          },
+          {
+                "name": "size",
+                "type": "\"sm\" | \"md\" | \"lg\"",
+                "default": "\"md\"",
+                "description": "Height 64, 88, 120."
+          },
+          {
+                "name": "showCounter",
+                "type": "boolean",
+                "default": "true",
+                "description": "Shows used/max. Needs maxLength."
+          },
+          {
+                "name": "...rest",
+                "type": "TextareaHTMLAttributes",
+                "description": "value, onChange, maxLength, placeholder, disabled, and so on."
+          }
+    ],
+    figma: [
+          {
+                "figma": "📐 Size",
+                "prop": "size",
+                "note": "sm, md, or lg."
+          },
+          {
+                "figma": "🎯 State",
+                "prop": "value, error, disabled",
+                "note": "Hover and focus come from the browser."
+          },
+          {
+                "figma": "Show Label, Label",
+                "prop": "label",
+                "note": "Always shown in code."
+          },
+          {
+                "figma": "Show Helper Text, Helper Text",
+                "prop": "hint",
+                "note": "Pass to show."
+          },
+          {
+                "figma": "Placeholder",
+                "prop": "placeholder",
+                "note": "Native."
+          },
+          {
+                "figma": "Show Counter",
+                "prop": "showCounter",
+                "note": "Needs maxLength."
+          }
+    ],
+    a11y: {
+          "keyboard": [
+                "A native textarea."
+          ],
+          "screenReader": [
+                "Label linked with for. The hint, error and counter are linked with aria-describedby."
+          ],
+          "youMust": [
+                "maxLength stops typing at the limit; say the limit in the hint so it is not a surprise."
+          ]
+    },
+  },
+  chip: {
+    importCode: {
+      js: `import { useState } from "react";
+import { Chip } from "@/ui";`,
+      ts: `import { useState } from "react";
+import { Chip } from "@/ui";`,
+    },
+    usage: {
+      js: `export default function ChipDemo() {
+  const [filters, setFilters] = useState(["KPR", "10-year term"]);
+
+  return filters.map((f) => (
+    <Chip key={f} label={f} tone="primary" onRemove={() => setFilters(filters.filter((x) => x !== f))} />
+  ));
+}`,
+      ts: `export default function ChipDemo() {
+  const [filters, setFilters] = useState<string[]>(["KPR", "10-year term"]);
+
+  return filters.map((f: string) => (
+    <Chip key={f} label={f} tone="primary" onRemove={() => setFilters(filters.filter((x) => x !== f))} />
+  ));
+}`,
+    },
+    props: [
+          {
+                "name": "label",
+                "type": "string",
+                "description": "Required. Also names the remove button."
+          },
+          {
+                "name": "tone",
+                "type": "\"neutral\" | \"primary\" | \"success\" | \"warning\" | \"danger\"",
+                "default": "\"neutral\"",
+                "description": ""
+          },
+          {
+                "name": "type",
+                "type": "\"filled\" | \"outline\"",
+                "default": "\"filled\"",
+                "description": ""
+          },
+          {
+                "name": "size",
+                "type": "\"sm\" | \"md\"",
+                "default": "\"md\"",
+                "description": "Height 24 or 32."
+          },
+          {
+                "name": "icon",
+                "type": "ReactNode",
+                "description": "Decorative icon before the label."
+          },
+          {
+                "name": "onRemove",
+                "type": "() => void",
+                "description": "Shows the remove button."
+          }
+    ],
+    figma: [
+          {
+                "figma": "🧰 Type",
+                "prop": "type",
+                "note": "filled or outline."
+          },
+          {
+                "figma": "📐 Size",
+                "prop": "size",
+                "note": "sm or md."
+          },
+          {
+                "figma": "🎨 Tone",
+                "prop": "tone",
+                "note": "Same five tones."
+          },
+          {
+                "figma": "Show Icon Left, Change Icon Left",
+                "prop": "icon",
+                "note": "Pass an icon."
+          },
+          {
+                "figma": "Show Close",
+                "prop": "onRemove",
+                "note": "Pass the handler to show it."
+          },
+          {
+                "figma": "Label",
+                "prop": "label",
+                "note": "Same."
+          }
+    ],
+    a11y: {
+          "keyboard": [
+                "The remove button is a native button with a 44px target."
+          ],
+          "screenReader": [
+                "The remove button is named Remove followed by the label."
+          ],
+          "youMust": [
+                "After removing a chip, move focus to the next chip or back to the field that made it.",
+                "Unlike Badge, which only labels, a chip stands for something the user chose."
+          ]
+    },
+  },
+  slider: {
+    importCode: {
+      js: `import { Slider } from "@/ui";`,
+      ts: `import { Slider } from "@/ui";`,
+    },
+    usage: {
+      js: `export default function SliderDemo() {
+  return <Slider label="Term" min={1} max={30} defaultValue={15} format={(n) => n + " yrs"} />;
+}`,
+      ts: `export default function SliderDemo() {
+  return <Slider label="Term" min={1} max={30} defaultValue={15} format={(n: number) => n + " yrs"} />;
+}`,
+    },
+    props: [
+          {
+                "name": "label",
+                "type": "string",
+                "description": "Required."
+          },
+          {
+                "name": "mode",
+                "type": "\"single\" | \"range\"",
+                "default": "\"single\"",
+                "description": "Range has two thumbs."
+          },
+          {
+                "name": "value, onChange",
+                "type": "number or [number, number]",
+                "description": "Controlled value."
+          },
+          {
+                "name": "defaultValue",
+                "type": "number or [number, number]",
+                "description": "Uncontrolled start."
+          },
+          {
+                "name": "min, max, step",
+                "type": "number",
+                "default": "0, 100, 1",
+                "description": ""
+          },
+          {
+                "name": "format",
+                "type": "(value) => string",
+                "description": "Text shown and read, such as 15 yrs."
+          },
+          {
+                "name": "size",
+                "type": "\"sm\" | \"md\" | \"lg\"",
+                "default": "\"md\"",
+                "description": "Track 2, 4, 6; thumb 12, 16, 20."
+          },
+          {
+                "name": "showLabel, showValue",
+                "type": "boolean",
+                "default": "true",
+                "description": ""
+          },
+          {
+                "name": "disabled",
+                "type": "boolean",
+                "description": ""
+          }
+    ],
+    figma: [
+          {
+                "figma": "🔀 Mode",
+                "prop": "mode",
+                "note": "single or range."
+          },
+          {
+                "figma": "📐 Size",
+                "prop": "size",
+                "note": "sm, md, or lg."
+          },
+          {
+                "figma": "🎯 State",
+                "prop": "disabled",
+                "note": "Hover and focus come from the browser."
+          },
+          {
+                "figma": "Show Label",
+                "prop": "showLabel",
+                "note": "Boolean."
+          },
+          {
+                "figma": "Show Value, Value",
+                "prop": "showValue, format",
+                "note": "The value text is computed."
+          }
+    ],
+    a11y: {
+          "keyboard": [
+                "Native range inputs: arrows step, Page Up and Page Down jump, Home and End go to the ends. Range has two inputs in Tab order."
+          ],
+          "screenReader": [
+                "Each thumb is named by the label, with minimum or maximum in range mode, and reads the formatted value through aria-valuetext."
+          ],
+          "youMust": [
+                "The row is 44px tall, so the whole width is the touch target."
+          ]
+    },
+  },
+  spinner: {
+    importCode: {
+      js: `import { Spinner } from "@/ui";`,
+      ts: `import { Spinner, type SpinnerSize } from "@/ui";`,
+    },
+    usage: {
+      js: `export default function SpinnerDemo() {
+  return <Spinner label="Loading transactions" />;
+}`,
+      ts: `const size: SpinnerSize = "md";
+
+export default function SpinnerDemo() {
+  return <Spinner size={size} label="Loading transactions" />;
+}`,
+    },
+    props: [
+          {
+                "name": "type",
+                "type": "\"circular\" | \"dots\"",
+                "default": "\"circular\"",
+                "description": ""
+          },
+          {
+                "name": "tone",
+                "type": "\"neutral\" | \"primary\" | \"onPrimary\"",
+                "default": "\"primary\"",
+                "description": "onPrimary is for a brand fill, such as inside a primary button."
+          },
+          {
+                "name": "size",
+                "type": "\"xs\" | \"sm\" | \"md\" | \"lg\"",
+                "default": "\"md\"",
+                "description": "12, 16, 24, 32."
+          },
+          {
+                "name": "label",
+                "type": "string",
+                "default": "\"Loading\"",
+                "description": "Read by screen readers."
+          }
+    ],
+    figma: [
+          {
+                "figma": "🧰 Type",
+                "prop": "type",
+                "note": "circular or dots."
+          },
+          {
+                "figma": "🎨 Tone",
+                "prop": "tone",
+                "note": "Neutral, Primary, On-Primary."
+          },
+          {
+                "figma": "📐 Size",
+                "prop": "size",
+                "note": "xs to lg."
+          }
+    ],
+    a11y: {
+          "keyboard": [
+                "Not focusable."
+          ],
+          "screenReader": [
+                "role=status with a hidden label, so Loading is announced once."
+          ],
+          "youMust": [
+                "Use it inline or in a button. For a whole area, use Skeleton; for measurable progress, use Progress Bar.",
+                "Motion stops for people who ask for reduced motion; the static ring still shows."
+          ]
+    },
+  },
+  "otp-input": {
+    importCode: {
+      js: `import { useState } from "react";
+import { OtpInput } from "@/ui";`,
+      ts: `import { useState } from "react";
+import { OtpInput } from "@/ui";`,
+    },
+    usage: {
+      js: `export default function OtpDemo() {
+  const [code, setCode] = useState("");
+
+  return (
+    <OtpInput
+      label="Verification code"
+      value={code}
+      onChange={setCode}
+      onComplete={(v) => console.log("submit", v)}
+      hint="Resend code in 00:45"
+    />
+  );
+}`,
+      ts: `export default function OtpDemo() {
+  const [code, setCode] = useState<string>("");
+
+  return (
+    <OtpInput
+      label="Verification code"
+      value={code}
+      onChange={setCode}
+      onComplete={(v: string) => console.log("submit", v)}
+      hint="Resend code in 00:45"
+    />
+  );
+}`,
+    },
+    props: [
+          {
+                "name": "label",
+                "type": "string",
+                "description": "Required. Names the group."
+          },
+          {
+                "name": "length",
+                "type": "4 | 6",
+                "default": "6",
+                "description": "Number of boxes."
+          },
+          {
+                "name": "value, onChange",
+                "type": "string, (value) => void",
+                "description": "Digits only."
+          },
+          {
+                "name": "onComplete",
+                "type": "(value) => void",
+                "description": "Called once every box is filled. Use it to submit."
+          },
+          {
+                "name": "size",
+                "type": "\"sm\" | \"md\" | \"lg\"",
+                "default": "\"md\"",
+                "description": ""
+          },
+          {
+                "name": "hint, error",
+                "type": "string",
+                "description": "Helper or error line."
+          },
+          {
+                "name": "disabled",
+                "type": "boolean",
+                "description": ""
+          }
+    ],
+    figma: [
+          {
+                "figma": "🔀 Count",
+                "prop": "length",
+                "note": "4 or 6 Digit."
+          },
+          {
+                "figma": "📐 Size",
+                "prop": "size",
+                "note": "OTP Cell size."
+          },
+          {
+                "figma": "🎯 State",
+                "prop": "value, error, disabled",
+                "note": "Focused is the browser."
+          },
+          {
+                "figma": "Show Helper Text, Helper Text",
+                "prop": "hint",
+                "note": "Pass to show."
+          }
+    ],
+    a11y: {
+          "keyboard": [
+                "Typing moves to the next box, Backspace goes back, arrows move, and pasting a code fills every box."
+          ],
+          "screenReader": [
+                "A group named by the label. Each box is named Digit 1 of 6 and so on. The first box has autocomplete=one-time-code."
+          ],
+          "youMust": [
+                "Tell people how long until they can resend, and do not clear the boxes on error without saying so."
+          ]
+    },
+  },
+  "pin-input": {
+    importCode: {
+      js: `import { useState } from "react";
+import { PinInput } from "@/ui";`,
+      ts: `import { useState } from "react";
+import { PinInput } from "@/ui";`,
+    },
+    usage: {
+      js: `export default function PinDemo() {
+  const [pin, setPin] = useState("");
+
+  return <PinInput label="Enter transaction PIN" value={pin} onChange={setPin} hint="Never share your PIN with anyone" />;
+}`,
+      ts: `export default function PinDemo() {
+  const [pin, setPin] = useState<string>("");
+
+  return <PinInput label="Enter transaction PIN" value={pin} onChange={setPin} hint="Never share your PIN with anyone" />;
+}`,
+    },
+    props: [
+          {
+                "name": "label",
+                "type": "string",
+                "description": "Required."
+          },
+          {
+                "name": "length",
+                "type": "4 | 6",
+                "default": "6",
+                "description": ""
+          },
+          {
+                "name": "value, onChange",
+                "type": "string, (value) => void",
+                "description": "A keypad outside the component can call onChange."
+          },
+          {
+                "name": "onComplete",
+                "type": "(value) => void",
+                "description": "Called at full length."
+          },
+          {
+                "name": "hint, error",
+                "type": "string",
+                "description": ""
+          },
+          {
+                "name": "showLabel",
+                "type": "boolean",
+                "default": "true",
+                "description": ""
+          },
+          {
+                "name": "disabled",
+                "type": "boolean",
+                "description": ""
+          }
+    ],
+    figma: [
+          {
+                "figma": "🔀 Count",
+                "prop": "length",
+                "note": "4 or 6 Digit."
+          },
+          {
+                "figma": "🎯 State",
+                "prop": "value, error, disabled",
+                "note": "Filled is the dot count."
+          },
+          {
+                "figma": "Show Label, Label",
+                "prop": "showLabel, label",
+                "note": "Same."
+          },
+          {
+                "figma": "Show Helper Text, Helper Text",
+                "prop": "hint",
+                "note": "Pass to show."
+          }
+    ],
+    a11y: {
+          "keyboard": [
+                "A real password input sits over the dots, so the system keyboard works and Tab reaches it."
+          ],
+          "screenReader": [
+                "Named by the label. The value is never shown or read. The helper line is a polite live region, so an error is announced."
+          ],
+          "youMust": [
+                "The numeric keypad lives outside this component. Give its buttons names, and its delete button the name Delete."
+          ]
+    },
+  },
+  modal: {
+    importCode: {
+      js: `import { useState } from "react";
+import { Button, Modal } from "@/ui";`,
+      ts: `import { useState } from "react";
+import { Button, Modal } from "@/ui";`,
+    },
+    usage: {
+      js: `export default function ModalDemo() {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <>
+      <Button variant="destructive" onClick={() => setOpen(true)}>Remove saved account</Button>
+      <Modal
+        open={open}
+        onClose={() => setOpen(false)}
+        title="Remove saved account?"
+        description="“Andi Pratama” will be removed from your saved accounts."
+        footer={<Button variant="destructive" onClick={() => setOpen(false)}>Remove</Button>}
+      />
+    </>
+  );
+}`,
+      ts: `export default function ModalDemo() {
+  const [open, setOpen] = useState<boolean>(false);
+
+  return (
+    <>
+      <Button variant="destructive" onClick={() => setOpen(true)}>Remove saved account</Button>
+      <Modal
+        open={open}
+        onClose={() => setOpen(false)}
+        title="Remove saved account?"
+        description="“Andi Pratama” will be removed from your saved accounts."
+        footer={<Button variant="destructive" onClick={() => setOpen(false)}>Remove</Button>}
+      />
+    </>
+  );
+}`,
+    },
+    props: [
+          {
+                "name": "open, onClose",
+                "type": "boolean, () => void",
+                "description": "Required on Modal. onClose runs for the close button, the backdrop, and Escape."
+          },
+          {
+                "name": "title",
+                "type": "string",
+                "description": "Required. Names the dialog."
+          },
+          {
+                "name": "description",
+                "type": "ReactNode",
+                "description": ""
+          },
+          {
+                "name": "type",
+                "type": "\"confirmation\" | \"form\" | \"alert\"",
+                "default": "\"confirmation\"",
+                "description": "Alert adds a warning icon."
+          },
+          {
+                "name": "size",
+                "type": "\"sm\" | \"md\" | \"lg\" | \"xl\"",
+                "default": "\"sm\"",
+                "description": "400, 560, 720, 960 wide."
+          },
+          {
+                "name": "children",
+                "type": "ReactNode",
+                "description": "The body, such as form fields."
+          },
+          {
+                "name": "footer",
+                "type": "ReactNode",
+                "description": "Buttons, right aligned."
+          },
+          {
+                "name": "ModalPanel",
+                "type": "component",
+                "description": "The box on its own, for documentation."
+          }
+    ],
+    figma: [
+          {
+                "figma": "🧰 Type",
+                "prop": "type",
+                "note": "confirmation, form, or alert."
+          },
+          {
+                "figma": "📐 Size",
+                "prop": "size",
+                "note": "sm to xl."
+          },
+          {
+                "figma": "Show Close",
+                "prop": "onClose",
+                "note": "On ModalPanel, pass onClose."
+          },
+          {
+                "figma": "Title, Show Description, Description",
+                "prop": "title, description",
+                "note": "Same."
+          },
+          {
+                "figma": "Show Button",
+                "prop": "footer",
+                "note": "Pass your buttons."
+          }
+    ],
+    a11y: {
+          "keyboard": [
+                "A native dialog: focus moves in, Tab stays inside, Escape closes, and focus returns to the trigger."
+          ],
+          "screenReader": [
+                "Named by its title. The page behind is inert."
+          ],
+          "youMust": [
+                "One primary action. A destructive one uses the destructive Button and a clear verb, such as Remove.",
+                "For something that is not critical, use a Drawer or the page itself."
+          ]
+    },
+  },
+  table: {
+    importCode: {
+      js: `import { Status, Table } from "@/ui";`,
+      ts: `import { Status, Table, type TableColumn } from "@/ui";`,
+    },
+    usage: {
+      js: `const columns = [
+  { key: "customer", header: "Customer" },
+  { key: "status", header: "Status" },
+];
+const rows = [{ customer: "Andi P.", status: <Status status="success" size="sm" /> }];
+
+export default function TableDemo() {
+  return <Table caption="Recent transfers" type="striped" columns={columns} rows={rows} />;
+}`,
+      ts: `const columns: TableColumn[] = [
+  { key: "customer", header: "Customer" },
+  { key: "status", header: "Status" },
+];
+const rows = [{ customer: "Andi P.", status: <Status status="success" size="sm" /> }];
+
+export default function TableDemo() {
+  return <Table caption="Recent transfers" type="striped" columns={columns} rows={rows} />;
+}`,
+    },
+    props: [
+          {
+                "name": "caption",
+                "type": "string",
+                "description": "Required. Describes the table for screen readers."
+          },
+          {
+                "name": "showCaption",
+                "type": "boolean",
+                "default": "false",
+                "description": "Shows the caption above the table."
+          },
+          {
+                "name": "columns",
+                "type": "{ key, header, align? }[]",
+                "description": "Required."
+          },
+          {
+                "name": "rows",
+                "type": "Record<string, ReactNode>[]",
+                "description": "Required."
+          },
+          {
+                "name": "type",
+                "type": "\"basic\" | \"striped\" | \"bordered\"",
+                "default": "\"basic\"",
+                "description": ""
+          },
+          {
+                "name": "size",
+                "type": "\"sm\" | \"md\" | \"lg\"",
+                "default": "\"md\"",
+                "description": "Row height 32, 40, 48."
+          },
+          {
+                "name": "stroke",
+                "type": "boolean",
+                "default": "true",
+                "description": "Outer border."
+          },
+          {
+                "name": "selectedRow",
+                "type": "number",
+                "description": "Index of the selected row."
+          }
+    ],
+    figma: [
+          {
+                "figma": "Table Cell · Type",
+                "prop": "columns",
+                "note": "Header cells come from columns, body cells from rows."
+          },
+          {
+                "figma": "🧰 Type",
+                "prop": "type",
+                "note": "basic, striped, or bordered."
+          },
+          {
+                "figma": "📐 Size",
+                "prop": "size",
+                "note": "sm, md, or lg."
+          },
+          {
+                "figma": "Stroke",
+                "prop": "stroke",
+                "note": "Boolean."
+          }
+    ],
+    a11y: {
+          "keyboard": [
+                "Scrolls sideways on its own when narrow; the scroll area is reachable."
+          ],
+          "screenReader": [
+                "A native table with a caption and th scope=col, so each cell is read with its column."
+          ],
+          "youMust": [
+                "Put an action in a row as a real button or link, with a name that says which row it acts on."
+          ]
+    },
+  },
+  "date-picker": {
+    importCode: {
+      js: `import { useState } from "react";
+import { DatePicker } from "@/ui";`,
+      ts: `import { useState } from "react";
+import { DatePicker } from "@/ui";`,
+    },
+    usage: {
+      js: `export default function DatePickerDemo() {
+  const [date, setDate] = useState(null);
+
+  return <DatePicker label="Due date" value={date} onChange={setDate} hint="Format DD MMM YYYY" />;
+}`,
+      ts: `export default function DatePickerDemo() {
+  const [date, setDate] = useState<Date | null>(null);
+
+  return <DatePicker label="Due date" value={date} onChange={setDate} hint="Format DD MMM YYYY" />;
+}`,
+    },
+    props: [
+          {
+                "name": "label",
+                "type": "string",
+                "description": "Required."
+          },
+          {
+                "name": "mode",
+                "type": "\"single\" | \"range\"",
+                "default": "\"single\"",
+                "description": ""
+          },
+          {
+                "name": "value, onChange",
+                "type": "Date or [Date, Date | null]",
+                "description": "Controlled."
+          },
+          {
+                "name": "defaultValue",
+                "type": "Date or [Date, Date | null]",
+                "description": ""
+          },
+          {
+                "name": "today",
+                "type": "Date",
+                "description": "For the outline. Pass it from the server to avoid a mismatch."
+          },
+          {
+                "name": "hint, error",
+                "type": "string",
+                "description": ""
+          },
+          {
+                "name": "placeholder",
+                "type": "string",
+                "default": "\"Select date\"",
+                "description": ""
+          },
+          {
+                "name": "disabled",
+                "type": "boolean",
+                "description": ""
+          },
+          {
+                "name": "Calendar",
+                "type": "component",
+                "description": "The month grid on its own."
+          }
+    ],
+    figma: [
+          {
+                "figma": "Calendar · Mode",
+                "prop": "mode",
+                "note": "single or range."
+          },
+          {
+                "figma": "🎯 State",
+                "prop": "value, error, disabled",
+                "note": "Focused is the open calendar."
+          },
+          {
+                "figma": "Label, Helper Text, Placeholder",
+                "prop": "label, hint, placeholder",
+                "note": "Same."
+          },
+          {
+                "figma": "Change Icon Left",
+                "note": "No prop. The calendar icon is fixed."
+          }
+    ],
+    a11y: {
+          "keyboard": [
+                "The field opens the calendar. In the grid, arrows move a day or a week, Page Up and Page Down a month, Home and End the week, Enter picks. Escape closes and returns focus."
+          ],
+          "screenReader": [
+                "The grid is a role=grid named by the month. Each day is named in full, such as Jumat, 18 September 2026. Today has aria-current=date."
+          ],
+          "youMust": [
+                "Dates show in id-ID format. If people type dates, add a text input next to it."
+          ]
+    },
+  },
+  combobox: {
+    importCode: {
+      js: `import { useState } from "react";
+import { Combobox } from "@/ui";`,
+      ts: `import { useState } from "react";
+import { Combobox, type ComboboxOption } from "@/ui";`,
+    },
+    usage: {
+      js: `const banks = [
+  { value: "bri", label: "Bank Rakyat Indonesia" },
+  { value: "bni", label: "Bank Negara Indonesia" },
+];
+
+export default function ComboboxDemo() {
+  const [bank, setBank] = useState(null);
+
+  return <Combobox label="Destination bank" options={banks} value={bank} onChange={setBank} />;
+}`,
+      ts: `const banks: ComboboxOption[] = [
+  { value: "bri", label: "Bank Rakyat Indonesia" },
+  { value: "bni", label: "Bank Negara Indonesia" },
+];
+
+export default function ComboboxDemo() {
+  const [bank, setBank] = useState<string | null>(null);
+
+  return <Combobox label="Destination bank" options={banks} value={bank} onChange={setBank} />;
+}`,
+    },
+    props: [
+          {
+                "name": "label",
+                "type": "string",
+                "description": "Required."
+          },
+          {
+                "name": "options",
+                "type": "{ value, label }[]",
+                "description": "Required."
+          },
+          {
+                "name": "mode",
+                "type": "\"single\" | \"multiple\"",
+                "default": "\"single\"",
+                "description": "Multiple shows picks as chips."
+          },
+          {
+                "name": "value, onChange",
+                "type": "string | null, or string[]",
+                "description": "Controlled."
+          },
+          {
+                "name": "placeholder",
+                "type": "string",
+                "description": ""
+          },
+          {
+                "name": "hint, error",
+                "type": "string",
+                "description": ""
+          },
+          {
+                "name": "emptyText",
+                "type": "string",
+                "default": "\"No results\"",
+                "description": "Shown when nothing matches."
+          },
+          {
+                "name": "disabled",
+                "type": "boolean",
+                "description": ""
+          }
+    ],
+    figma: [
+          {
+                "figma": "🔀 Mode",
+                "prop": "mode",
+                "note": "single or multiple."
+          },
+          {
+                "figma": "🎯 State",
+                "prop": "error, disabled",
+                "note": "Hover and focus come from the browser."
+          },
+          {
+                "figma": "Label, Helper Text, Placeholder",
+                "prop": "label, hint, placeholder",
+                "note": "Same."
+          }
+    ],
+    a11y: {
+          "keyboard": [
+                "Typing filters. Down opens and moves, Up moves, Enter picks, Escape closes. In multiple mode, Backspace in an empty field removes the last pick."
+          ],
+          "screenReader": [
+                "The ARIA combobox pattern: role=combobox with aria-expanded and aria-activedescendant, and a role=listbox of options."
+          ],
+          "youMust": [
+                "For a short fixed list, use Select. Show an Empty State when nothing matches."
+          ]
+    },
+  },
+  "more-menu": {
+    importCode: {
+      js: `import { Menu } from "@/ui";`,
+      ts: `import { Menu, type MenuItemData } from "@/ui";`,
+    },
+    usage: {
+      js: `export default function MenuDemo() {
+  return (
+    <Menu
+      label="More actions"
+      trigger="⋯"
+      items={[
+        { label: "Edit", onSelect: () => {} },
+        { label: "Remove", danger: true, separatorBefore: true, onSelect: () => {} },
+      ]}
+    />
+  );
+}`,
+      ts: `const items: MenuItemData[] = [
+  { label: "Edit", onSelect: () => {} },
+  { label: "Remove", danger: true, separatorBefore: true, onSelect: () => {} },
+];
+
+export default function MenuDemo() {
+  return <Menu label="More actions" trigger="⋯" items={items} />;
+}`,
+    },
+    props: [
+          {
+                "name": "label",
+                "type": "string",
+                "description": "Required. Names the trigger; needed when it is only an icon."
+          },
+          {
+                "name": "trigger",
+                "type": "ReactNode",
+                "description": "Required. Such as a kebab icon."
+          },
+          {
+                "name": "items",
+                "type": "{ label, icon?, onSelect?, danger?, disabled?, separatorBefore? }[]",
+                "description": "Required."
+          },
+          {
+                "name": "size",
+                "type": "\"sm\" | \"md\"",
+                "default": "\"md\"",
+                "description": "Text and icon size. Items stay 44px tall."
+          },
+          {
+                "name": "align",
+                "type": "\"start\" | \"end\"",
+                "default": "\"start\"",
+                "description": "Which edge the list lines up with."
+          },
+          {
+                "name": "MenuList",
+                "type": "component",
+                "description": "The open list on its own."
+          }
+    ],
+    figma: [
+          {
+                "figma": "Menu Item · 📐 Size",
+                "prop": "size",
+                "note": "sm or md."
+          },
+          {
+                "figma": "Menu Item · 🎯 State",
+                "prop": "disabled, danger",
+                "note": "Default, Hover (browser), Disabled, Danger."
+          },
+          {
+                "figma": "Show Icon Left, Change Icon Left",
+                "prop": "icon",
+                "note": "Per item."
+          },
+          {
+                "figma": "Label",
+                "prop": "label",
+                "note": "Per item."
+          }
+    ],
+    a11y: {
+          "keyboard": [
+                "The trigger opens the menu and focus goes to the first item. Up and Down move, Home and End jump, Escape closes and returns focus. Disabled items are skipped."
+          ],
+          "screenReader": [
+                "The ARIA menu pattern: aria-haspopup and aria-expanded on the trigger, role=menu and role=menuitem in the list."
+          ],
+          "youMust": [
+                "Use it for actions. For choosing a value in a form, use Select or Combobox."
+          ]
+    },
+  },
+  "empty-state": {
+    importCode: {
+      js: `import { Button, EmptyState } from "@/ui";`,
+      ts: `import { Button, EmptyState, type EmptyStateScope } from "@/ui";`,
+    },
+    usage: {
+      js: `export default function EmptyStateDemo() {
+  return (
+    <EmptyState
+      scope="list"
+      title="No transactions yet"
+      description="Your transactions will appear here."
+      action={<Button variant="secondary">Try again</Button>}
+    />
+  );
+}`,
+      ts: `const scope: EmptyStateScope = "list";
+
+export default function EmptyStateDemo() {
+  return (
+    <EmptyState
+      scope={scope}
+      title="No transactions yet"
+      description="Your transactions will appear here."
+      action={<Button variant="secondary">Try again</Button>}
+    />
+  );
+}`,
+    },
+    props: [
+          {
+                "name": "title",
+                "type": "string",
+                "description": "Required."
+          },
+          {
+                "name": "description",
+                "type": "string",
+                "description": "Up to 280px wide."
+          },
+          {
+                "name": "scope",
+                "type": "\"search\" | \"list\" | \"error\" | \"custom\"",
+                "default": "\"list\"",
+                "description": "Sets the icon; error uses the danger tone."
+          },
+          {
+                "name": "size",
+                "type": "\"sm\" | \"md\" | \"lg\"",
+                "default": "\"md\"",
+                "description": "Circle 48, 64, 80."
+          },
+          {
+                "name": "icon",
+                "type": "ReactNode",
+                "description": "Replaces the scope icon."
+          },
+          {
+                "name": "action",
+                "type": "ReactNode",
+                "description": "One action at most."
+          },
+          {
+                "name": "showImage",
+                "type": "boolean",
+                "default": "true",
+                "description": ""
+          }
+    ],
+    figma: [
+          {
+                "figma": "📐 Size",
+                "prop": "size",
+                "note": "sm, md, or lg."
+          },
+          {
+                "figma": "Scope",
+                "prop": "scope",
+                "note": "Search, List, Error, Custom."
+          },
+          {
+                "figma": "Show Image",
+                "prop": "showImage",
+                "note": "Boolean."
+          },
+          {
+                "figma": "Title, Show Description, Description",
+                "prop": "title, description",
+                "note": "Same."
+          },
+          {
+                "figma": "Show Button, Button Value",
+                "prop": "action",
+                "note": "Pass a Button."
+          }
+    ],
+    a11y: {
+          "keyboard": [
+                "Only the action is focusable."
+          ],
+          "screenReader": [
+                "The title is a heading. The icon is decorative."
+          ],
+          "youMust": [
+                "Say what happened and what to do next. After a failed load, the action should retry."
+          ]
+    },
+  },
+  "navigation-bar": {
+    importCode: {
+      js: `import { BottomNav, TopAppBar } from "@/ui";`,
+      ts: `import { BottomNav, TopAppBar, type NavItem } from "@/ui";`,
+    },
+    usage: {
+      js: `const items = [
+  { label: "Home", href: "/", icon: "🏠" },
+  { label: "History", href: "/history", icon: "🕘", count: 3 },
+];
+
+export default function NavDemo() {
+  return (
+    <>
+      <TopAppBar title="Transaction History" onBack={() => history.back()} />
+      <BottomNav items={items} current="/" />
+    </>
+  );
+}`,
+      ts: `const items: NavItem[] = [
+  { label: "Home", href: "/", icon: "🏠" },
+  { label: "History", href: "/history", icon: "🕘", count: 3 },
+];
+
+export default function NavDemo() {
+  return (
+    <>
+      <TopAppBar title="Transaction History" onBack={() => history.back()} />
+      <BottomNav items={items} current="/" />
+    </>
+  );
+}`,
+    },
+    props: [
+          {
+                "name": "TopAppBar title",
+                "type": "string",
+                "description": "Required. The page title, an h1."
+          },
+          {
+                "name": "TopAppBar onBack",
+                "type": "() => void",
+                "description": "Shows the back button."
+          },
+          {
+                "name": "TopAppBar actions",
+                "type": "ReactNode",
+                "description": "Buttons on the right."
+          },
+          {
+                "name": "BottomNav items",
+                "type": "{ label, href, icon, count?, disabled? }[]",
+                "description": "3 to 5 destinations."
+          },
+          {
+                "name": "BottomNav current",
+                "type": "string",
+                "description": "href of the current page."
+          },
+          {
+                "name": "BottomNav label",
+                "type": "string",
+                "default": "\"Main\"",
+                "description": "Names the nav."
+          }
+    ],
+    figma: [
+          {
+                "figma": "Navigation Bar · Type",
+                "note": "Two components in code: TopAppBar and BottomNav."
+          },
+          {
+                "figma": "Title",
+                "prop": "title",
+                "note": "TopAppBar."
+          },
+          {
+                "figma": "Nav Item · 🎯 State",
+                "prop": "current, disabled",
+                "note": "Active is current."
+          },
+          {
+                "figma": "Nav Item · Icon, Label",
+                "prop": "icon, label",
+                "note": "Per item."
+          },
+          {
+                "figma": "Show Value, Value",
+                "prop": "count",
+                "note": "Danger badge."
+          }
+    ],
+    a11y: {
+          "keyboard": [
+                "Every item is a link; Tab reaches each one. The back button is a button named Back."
+          ],
+          "screenReader": [
+                "BottomNav is a nav landmark. The current item has aria-current=page. A count is read, such as History, 3 new."
+          ],
+          "youMust": [
+                "Keep 3 to 5 items. Do not hide the label; an icon alone is not enough."
+          ]
+    },
+  },
+  "transaction-list-item": {
+    importCode: {
+      js: `import { TransactionListItem } from "@/ui";`,
+      ts: `import { TransactionListItem, type TransactionTone } from "@/ui";`,
+    },
+    usage: {
+      js: `export default function TxDemo() {
+  return (
+    <TransactionListItem
+      href="/transactions/123"
+      tone="success"
+      title="Transfer from Andi"
+      label="Transfer"
+      timestamp="18 Sep, 14:02"
+      amount="Rp500.000"
+    />
+  );
+}`,
+      ts: `const tone: TransactionTone = "success";
+
+export default function TxDemo() {
+  return (
+    <TransactionListItem
+      href="/transactions/123"
+      tone={tone}
+      title="Transfer from Andi"
+      label="Transfer"
+      timestamp="18 Sep, 14:02"
+      amount="Rp500.000"
+    />
+  );
+}`,
+    },
+    props: [
+          {
+                "name": "title",
+                "type": "string",
+                "description": "Required. One line, truncated."
+          },
+          {
+                "name": "timestamp",
+                "type": "string",
+                "description": "Required."
+          },
+          {
+                "name": "amount",
+                "type": "string",
+                "description": "Required. Formatted, without a sign."
+          },
+          {
+                "name": "tone",
+                "type": "\"neutral\" | \"success\" | \"danger\"",
+                "default": "\"neutral\"",
+                "description": "The sign is locked per tone: + in, − out."
+          },
+          {
+                "name": "label",
+                "type": "string",
+                "description": "Category or status."
+          },
+          {
+                "name": "icon",
+                "type": "ReactNode",
+                "description": "Defaults to a wallet."
+          },
+          {
+                "name": "href",
+                "type": "string",
+                "description": "Makes the row a link."
+          }
+    ],
+    figma: [
+          {
+                "figma": "🎨 Tone",
+                "prop": "tone",
+                "note": "Neutral, Success, Danger."
+          },
+          {
+                "figma": "🎯 State",
+                "prop": "href",
+                "note": "Hover and Pressed need a link row."
+          },
+          {
+                "figma": "Icon",
+                "prop": "icon",
+                "note": "Pass an icon."
+          },
+          {
+                "figma": "Title, Label, Timestamp, Value",
+                "prop": "title, label, timestamp, amount",
+                "note": "Same text."
+          }
+    ],
+    a11y: {
+          "keyboard": [
+                "With href, the row is one link."
+          ],
+          "screenReader": [
+                "The sign is read as Incoming or Outgoing, not as a plus or minus character."
+          ],
+          "youMust": [
+                "Do not rely on green and red alone: the sign and the spoken direction carry the meaning."
+          ]
+    },
+  },
+  "amount-input": {
+    importCode: {
+      js: `import { useState } from "react";
+import { AmountInput } from "@/ui";`,
+      ts: `import { useState } from "react";
+import { AmountInput } from "@/ui";`,
+    },
+    usage: {
+      js: `export default function AmountDemo() {
+  const [amount, setAmount] = useState(null);
+
+  return <AmountInput label="Amount" value={amount} onChange={setAmount} hint="Minimum Rp10.000" />;
+}`,
+      ts: `export default function AmountDemo() {
+  const [amount, setAmount] = useState<number | null>(null);
+
+  return <AmountInput label="Amount" value={amount} onChange={setAmount} hint="Minimum Rp10.000" />;
+}`,
+    },
+    props: [
+          {
+                "name": "label",
+                "type": "string",
+                "description": "Required."
+          },
+          {
+                "name": "value, onChange",
+                "type": "number | null",
+                "description": "The amount in rupiah, as a number."
+          },
+          {
+                "name": "defaultValue",
+                "type": "number | null",
+                "description": ""
+          },
+          {
+                "name": "size",
+                "type": "\"sm\" | \"md\" | \"lg\"",
+                "default": "\"md\"",
+                "description": "Field 44, 48, 56."
+          },
+          {
+                "name": "hint, error",
+                "type": "string",
+                "description": ""
+          },
+          {
+                "name": "placeholder",
+                "type": "string",
+                "default": "\"0\"",
+                "description": ""
+          },
+          {
+                "name": "disabled",
+                "type": "boolean",
+                "description": ""
+          }
+    ],
+    figma: [
+          {
+                "figma": "📐 Size",
+                "prop": "size",
+                "note": "sm, md, or lg."
+          },
+          {
+                "figma": "🎯 State",
+                "prop": "value, error, disabled",
+                "note": "Hover and focus come from the browser."
+          },
+          {
+                "figma": "Show Label, Label",
+                "prop": "label",
+                "note": "Same."
+          },
+          {
+                "figma": "Show Helper Text, Helper Text",
+                "prop": "hint",
+                "note": "Pass to show."
+          },
+          {
+                "figma": "Placeholder",
+                "prop": "placeholder",
+                "note": "Same."
+          }
+    ],
+    a11y: {
+          "keyboard": [
+                "A text input with inputMode=numeric, so phones show the number pad."
+          ],
+          "screenReader": [
+                "Named by the label. The Rp prefix is visual; say rupiah in the label if it is not obvious."
+          ],
+          "youMust": [
+                "Validate the minimum and maximum on the number, not on the formatted text."
+          ]
+    },
+  },
+  "qr-code": {
+    importCode: {
+      js: `import { QrCodeDisplay } from "@/ui";`,
+      ts: `import type { ReactNode } from "react";
+import { QrCodeDisplay } from "@/ui";`,
+    },
+    usage: {
+      js: `export default function QrDemo({ qrSvg }) {
+  return (
+    <QrCodeDisplay
+      type="dynamic"
+      label="Warung Natuna"
+      qr={qrSvg}
+      value="Rp150.000"
+      expiry="Valid for 04:59"
+      onSave={() => {}}
+    />
+  );
+}`,
+      ts: `export default function QrDemo({ qrSvg }: { qrSvg: ReactNode }) {
+  return (
+    <QrCodeDisplay
+      type="dynamic"
+      label="Warung Natuna"
+      qr={qrSvg}
+      value="Rp150.000"
+      expiry="Valid for 04:59"
+      onSave={() => {}}
+    />
+  );
+}`,
+    },
+    props: [
+          {
+                "name": "qr",
+                "type": "ReactNode",
+                "description": "The real QR from the backend. Leave out only in documentation."
+          },
+          {
+                "name": "label",
+                "type": "string",
+                "description": "Merchant or account."
+          },
+          {
+                "name": "value",
+                "type": "string",
+                "description": "Formatted amount."
+          },
+          {
+                "name": "expiry",
+                "type": "string",
+                "description": "Dynamic only. The countdown text."
+          },
+          {
+                "name": "type",
+                "type": "\"static\" | \"dynamic\"",
+                "default": "\"static\"",
+                "description": ""
+          },
+          {
+                "name": "size",
+                "type": "\"sm\" | \"md\" | \"lg\"",
+                "default": "\"md\"",
+                "description": "QR 160, 200, 240."
+          },
+          {
+                "name": "onSave, saveLabel",
+                "type": "() => void, string",
+                "description": "Shows the save button."
+          }
+    ],
+    figma: [
+          {
+                "figma": "🧰 Type",
+                "prop": "type",
+                "note": "static or dynamic."
+          },
+          {
+                "figma": "📐 Size",
+                "prop": "size",
+                "note": "sm, md, or lg."
+          },
+          {
+                "figma": "Show Label, Label",
+                "prop": "label",
+                "note": "Same."
+          },
+          {
+                "figma": "Show Value, Value",
+                "prop": "value",
+                "note": "Same."
+          },
+          {
+                "figma": "Show Button, Button Value",
+                "prop": "onSave, saveLabel",
+                "note": "Pass to show."
+          }
+    ],
+    a11y: {
+          "keyboard": [
+                "Only the save button is focusable."
+          ],
+          "screenReader": [
+                "The QR is an image named Payment QR code for the merchant."
+          ],
+          "youMust": [
+                "The placeholder pattern is illustrative and not scannable. Always render the real QR from the backend.",
+                "Do not announce the countdown every second."
           ]
     },
   },
