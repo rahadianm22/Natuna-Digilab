@@ -1,4 +1,4 @@
-export { Button, buttonStyles, type ButtonProps, type ButtonVariant, type ButtonSize } from "./button";
+export { Button, buttonStyles, buttonVariants, type ButtonProps, type ButtonVariant, type ButtonSize } from "./button";
 export { Badge, type BadgeProps, type BadgeTone, type BadgeType, type BadgeSize } from "./badge";
 export { RadioButton, type RadioButtonProps, type RadioButtonSize } from "./radio-button";
 export { LabelText, type LabelTextProps, type LabelTextSize, type LabelTextIndicator } from "./label-text";
@@ -44,3 +44,10 @@ export { TopAppBar, BottomNav, type TopAppBarProps, type BottomNavProps, type Na
 export { Menu, MenuList, type MenuProps, type MenuItemData, type MenuSize } from "./menu";
 export { Combobox, type ComboboxSingleProps, type ComboboxMultipleProps, type ComboboxOption } from "./combobox";
 export { Calendar, DatePicker, formatDate, type DateRange, type CalendarSingleProps, type CalendarRangeProps, type DatePickerSingleProps, type DatePickerRangeProps } from "./date-picker";
+export { DropdownMenu, type DropdownMenuProps } from "./menu";
+export { IconButton, type IconButtonProps, type IconButtonSize, type IconButtonShape } from "./icon-button";
+export { ButtonGroup, type ButtonGroupProps, type ButtonGroupOption, type ButtonGroupSize } from "./button-group";
+export { TextLink, type TextLinkProps, type TextLinkSize } from "./link";
+export { Select, type SelectProps, type SelectOption, type SelectSize } from "./select";
+export { Headline, type HeadlineProps, type HeadlineLevel, type HeadlineTag } from "./headline";
+export { CodeBlock, type CodeBlockProps } from "./code-block";

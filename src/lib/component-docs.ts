@@ -3744,6 +3744,482 @@ export default function ComboboxDemo() {
           ]
     },
   },
+  "button-group": {
+    importCode: {
+      js: `import { useState } from "react";
+import { ListBullets, SquaresFour } from "@phosphor-icons/react";
+import { ButtonGroup } from "@/ui";`,
+      ts: `import { useState } from "react";
+import { ListBullets, SquaresFour } from "@phosphor-icons/react";
+import { ButtonGroup, type ButtonGroupOption } from "@/ui";`,
+    },
+    usage: {
+      js: `const VIEW_OPTIONS = [
+  { value: "grid", label: "Grid", icon: <SquaresFour size={18} /> },
+  { value: "list", label: "List", icon: <ListBullets size={18} /> },
+];
+
+export default function ButtonGroupDemo() {
+  const [view, setView] = useState("grid");
+
+  return (
+    <>
+      <ButtonGroup label="View" value={view} onChange={setView} options={VIEW_OPTIONS} />
+      <p aria-live="polite">Showing the {view} view.</p>
+    </>
+  );
+}`,
+      ts: `const VIEW_OPTIONS: ButtonGroupOption[] = [
+  { value: "grid", label: "Grid", icon: <SquaresFour size={18} /> },
+  { value: "list", label: "List", icon: <ListBullets size={18} /> },
+];
+
+export default function ButtonGroupDemo() {
+  const [view, setView] = useState<string>("grid");
+
+  return (
+    <>
+      <ButtonGroup label="View" value={view} onChange={setView} options={VIEW_OPTIONS} />
+      <p aria-live="polite">Showing the {view} view.</p>
+    </>
+  );
+}`,
+    },
+    props: [
+      { name: "label", type: "string", description: "Required. Names the group for screen readers, such as \"View\"." },
+      { name: "options", type: "{ value, label, icon?, iconOnly?, disabled? }[]", description: "Required. Two to four segments. With iconOnly, the label becomes the button's aria-label." },
+      { name: "value", type: "string", description: "The chosen value, when you control it." },
+      { name: "defaultValue", type: "string", default: "first enabled option", description: "The starting value when uncontrolled. One segment is always chosen." },
+      { name: "onChange", type: "(value: string) => void", description: "Called with the value of the pressed segment." },
+      { name: "size", type: '"md" | "lg"', default: '"md"', description: "44px or 48px tall. Icon-only segments are square." },
+      { name: "fullWidth", type: "boolean", default: "false", description: "Stretch to the container with equal segments." },
+      { name: "className", type: "string", default: '""', description: "Extra classes on the group." },
+    ],
+    figma: [
+      { figma: "📐 Size", prop: "size", note: "md and lg." },
+      { figma: "🎯 State", prop: "value, options[].disabled", note: "Selected is the chosen value. Hover and focus come from the browser." },
+      { figma: "🖍 Label", prop: "options[].label", note: "Per segment." },
+      { figma: "☘️ Icon", prop: "options[].icon, options[].iconOnly", note: "Per segment. Icon-only keeps the label as the accessible name." },
+    ],
+    a11y: {
+      keyboard: [
+        "Tab moves through each segment. Enter and Space choose it. Disabled segments are skipped.",
+      ],
+      screenReader: [
+        "A group named by label. Each segment is a toggle button with aria-pressed, so the chosen one is read as pressed.",
+        "Icons are aria-hidden. An icon-only segment is named by its label.",
+      ],
+      youMust: [
+        "Show the result of the choice, such as switching the view, right away. A segment is a choice, not a submit.",
+        "Use Tabs instead when each choice shows a different panel of content.",
+        FOCUS_RULE,
+      ],
+    },
+  },
+  "dropdown-menu": {
+    importCode: {
+      js: `import { useState } from "react";
+import { DownloadSimple } from "@phosphor-icons/react";
+import { DropdownMenu } from "@/ui";`,
+      ts: `import { useState } from "react";
+import { DownloadSimple } from "@phosphor-icons/react";
+import { DropdownMenu, type MenuItemData } from "@/ui";`,
+    },
+    usage: {
+      js: `const EXPORT_ITEMS = [{ label: "CSV" }, { label: "PDF" }, { label: "Excel" }];
+
+export default function DropdownMenuDemo() {
+  const [format, setFormat] = useState("");
+  const items = EXPORT_ITEMS.map((it) => ({ ...it, onSelect: () => setFormat(it.label) }));
+
+  return (
+    <>
+      <DropdownMenu label="Export" icon={<DownloadSimple size={18} />} items={items} />
+      <p aria-live="polite">{format ? "Exporting as " + format + "." : "Choose a format."}</p>
+    </>
+  );
+}`,
+      ts: `const EXPORT_ITEMS: MenuItemData[] = [{ label: "CSV" }, { label: "PDF" }, { label: "Excel" }];
+
+export default function DropdownMenuDemo() {
+  const [format, setFormat] = useState<string>("");
+  const items: MenuItemData[] = EXPORT_ITEMS.map((it) => ({ ...it, onSelect: () => setFormat(it.label) }));
+
+  return (
+    <>
+      <DropdownMenu label="Export" icon={<DownloadSimple size={18} />} items={items} />
+      <p aria-live="polite">{format ? "Exporting as " + format + "." : "Choose a format."}</p>
+    </>
+  );
+}`,
+    },
+    props: [
+      { name: "label", type: "string", description: "Required. The button text, which also names the menu." },
+      { name: "items", type: "{ label, icon?, onSelect?, danger?, disabled?, separatorBefore? }[]", description: "Required. The actions. separatorBefore starts a new group with a divider." },
+      { name: "icon", type: "ReactNode", description: "An icon before the label." },
+      { name: "variant", type: '"secondary" | "ghost" | "primary" | "inverse"', default: '"secondary"', description: "The trigger's Button variant." },
+      { name: "size", type: '"sm" | "md"', default: '"md"', description: "Text and icon size of the items. Items stay 44px tall." },
+      { name: "align", type: '"start" | "end"', default: '"start"', description: "Which edge of the trigger the list lines up with. Use end near the right edge of the screen." },
+      { name: "className", type: "string", default: '""', description: "Extra classes on the wrapper." },
+    ],
+    figma: [
+      { figma: "🧰 Type", prop: "variant", note: "The trigger button's variant." },
+      { figma: "🖍 Label", prop: "label", note: "The trigger text." },
+      { figma: "Menu Item · 📐 Size", prop: "size", note: "sm or md." },
+      { figma: "Menu Item · 🎯 State", prop: "items[].disabled, items[].danger", note: "Default, Hover (browser), Disabled, Danger." },
+      { figma: "Show Icon Left, Change Icon Left", prop: "icon, items[].icon", note: "On the trigger and per item." },
+    ],
+    a11y: {
+      keyboard: [
+        "Enter or Space on the trigger opens the menu and moves focus to the first item.",
+        "Up and Down move between items, Home and End jump to the ends, and disabled items are skipped.",
+        "Enter picks an item. Escape or Tab closes the menu, and Escape returns focus to the trigger.",
+      ],
+      screenReader: [
+        "The ARIA menu pattern: aria-haspopup=\"menu\" and aria-expanded on the trigger, role=menu and role=menuitem in the list.",
+        "The caret and icons are aria-hidden, so the trigger is read by its label.",
+      ],
+      youMust: [
+        "Use it for actions. For choosing a value in a form, use Select or Combobox.",
+        "Confirm a destructive item before it runs.",
+        FOCUS_RULE,
+      ],
+    },
+  },
+  "icon-button": {
+    importCode: {
+      js: `import { useState } from "react";
+import { Heart, PencilSimple, ShareNetwork } from "@phosphor-icons/react";
+import { IconButton, Tooltip } from "@/ui";`,
+      ts: `import { useState } from "react";
+import { Heart, PencilSimple, ShareNetwork } from "@phosphor-icons/react";
+import { IconButton, Tooltip } from "@/ui";`,
+    },
+    usage: {
+      js: `export default function IconButtonDemo() {
+  const [liked, setLiked] = useState(false);
+
+  return (
+    <>
+      <Tooltip title="Edit">
+        <IconButton label="Edit" icon={<PencilSimple size={18} />} />
+      </Tooltip>
+      <Tooltip title="Share">
+        <IconButton label="Share" icon={<ShareNetwork size={18} />} />
+      </Tooltip>
+      <IconButton
+        label="Favorite"
+        aria-pressed={liked}
+        onClick={() => setLiked(!liked)}
+        icon={<Heart size={18} weight={liked ? "fill" : "regular"} />}
+      />
+    </>
+  );
+}`,
+      ts: `export default function IconButtonDemo() {
+  const [liked, setLiked] = useState<boolean>(false);
+
+  return (
+    <>
+      <Tooltip title="Edit">
+        <IconButton label="Edit" icon={<PencilSimple size={18} />} />
+      </Tooltip>
+      <Tooltip title="Share">
+        <IconButton label="Share" icon={<ShareNetwork size={18} />} />
+      </Tooltip>
+      <IconButton
+        label="Favorite"
+        aria-pressed={liked}
+        onClick={() => setLiked(!liked)}
+        icon={<Heart size={18} weight={liked ? "fill" : "regular"} />}
+      />
+    </>
+  );
+}`,
+    },
+    props: [
+      { name: "label", type: "string", description: "Required. The accessible name, set as aria-label, because there is no visible text." },
+      { name: "icon", type: "ReactNode", description: "Required. The icon. It is wrapped in aria-hidden." },
+      { name: "variant", type: '"primary" | "secondary" | "ghost" | "destructive" | "inverse"', default: '"ghost"', description: "The same colors as Button." },
+      { name: "size", type: '"md" | "lg"', default: '"md"', description: "44 × 44 or 48 × 48, so both are full touch targets." },
+      { name: "shape", type: '"square" | "circle"', default: '"square"', description: "Square uses the button radius; circle is fully round." },
+      { name: "loading", type: "boolean", default: "false", description: "Shows a spinner in place of the icon, sets aria-busy and aria-disabled, and blocks clicks. Focus stays." },
+      { name: "disabled", type: "boolean", default: "false", description: "The native disabled attribute." },
+      { name: "...rest", type: "ButtonHTMLAttributes", description: "Every other button attribute, such as onClick or aria-pressed for a toggle." },
+    ],
+    figma: [
+      { figma: "🧰 Type", prop: "variant", note: "Same values as Button." },
+      { figma: "📐 Size", prop: "size", note: "md and lg." },
+      { figma: "🎯 State", prop: "disabled, loading", note: "Hover, focus, and pressed come from the browser." },
+      { figma: "☘️ Icon", prop: "icon", note: "Any Phosphor icon, 18 at md and 20 at lg." },
+    ],
+    a11y: {
+      keyboard: [
+        "Tab reaches the button. Enter and Space press it.",
+        "A disabled button is skipped. A loading one keeps focus and ignores presses.",
+      ],
+      screenReader: [
+        "Announced as a button named by label. The icon is aria-hidden.",
+        "Pass aria-pressed for a toggle, such as Favorite, so its on and off state is read.",
+      ],
+      youMust: [
+        "Write a label that names the action, such as \"Delete transaction\", not the icon, such as \"Trash\".",
+        "Wrap it in a Tooltip when the icon is not universally known, so sighted users get the name too.",
+        "Keep the label the same for a toggle and use aria-pressed for the state.",
+        FOCUS_RULE,
+      ],
+    },
+  },
+  link: {
+    importCode: {
+      js: `import { TextLink } from "@/ui";`,
+      ts: `import { TextLink } from "@/ui";`,
+    },
+    usage: {
+      js: `export default function LinkDemo() {
+  return (
+    <>
+      <p>
+        Read the <TextLink href="#limits">transfer limits</TextLink> before you send.
+      </p>
+      <TextLink href="#history" standalone>See all transactions</TextLink>
+      <TextLink href="https://natunadigilab.vercel.app" standalone external>Natuna Digilab</TextLink>
+    </>
+  );
+}`,
+      ts: `export default function LinkDemo() {
+  return (
+    <>
+      <p>
+        Read the <TextLink href="#limits">transfer limits</TextLink> before you send.
+      </p>
+      <TextLink href="#history" standalone>See all transactions</TextLink>
+      <TextLink href="https://natunadigilab.vercel.app" standalone external>Natuna Digilab</TextLink>
+    </>
+  );
+}`,
+    },
+    props: [
+      { name: "href", type: "string", description: "Required. Where the link goes." },
+      { name: "children", type: "ReactNode", description: "Required. The link text. It must make sense out of context." },
+      { name: "size", type: '"sm" | "md"', default: '"md"', description: "14px or 16px. Match the text around an inline link." },
+      { name: "standalone", type: "boolean", default: "false", description: "A link on its own line: 44px tall, underlined on hover. Inline links are always underlined." },
+      { name: "external", type: "boolean", default: "false", description: "Opens in a new tab with rel=\"noopener noreferrer\", adds an arrow icon, and tells screen readers it opens in a new tab." },
+      { name: "as", type: "ElementType", default: '"a"', description: "Render through your router's link, such as next/link." },
+      { name: "...rest", type: "AnchorHTMLAttributes", description: "Every other anchor attribute." },
+    ],
+    figma: [
+      { figma: "📐 Size", prop: "size", note: "sm and md." },
+      { figma: "🧰 Type", prop: "standalone", note: "Inline or standalone." },
+      { figma: "🎯 State", note: "No prop. Hover and focus come from the browser." },
+      { figma: "▶️ Show Icon Right, 🖼 Change Icon Right", prop: "external", note: "The arrow for a link that leaves the site." },
+    ],
+    a11y: {
+      keyboard: [
+        "Tab reaches the link and Enter follows it. Both come from the native anchor.",
+      ],
+      screenReader: [
+        "Announced as a link named by its text.",
+        "An external link adds \"(opens in a new tab)\" in visually hidden text. The arrow is aria-hidden.",
+      ],
+      youMust: [
+        "Write link text that says where it goes. \"Click here\" and \"Read more\" mean nothing in a list of links.",
+        "Use Button for actions that stay on the page. Use buttonStyles() when a link must look like a button.",
+        "Keep inline links underlined; color alone does not mark them for people who cannot see the color.",
+        FOCUS_RULE,
+      ],
+    },
+  },
+  select: {
+    importCode: {
+      js: `import { useState } from "react";
+import { Select } from "@/ui";`,
+      ts: `import { useState, type ChangeEvent } from "react";
+import { Select, type SelectOption } from "@/ui";`,
+    },
+    usage: {
+      js: `const CITIES = [
+  { value: "harbor", label: "Harbor" },
+  { value: "meadow", label: "Meadow" },
+  { value: "ridgeway", label: "Ridgeway" },
+];
+
+export default function SelectDemo() {
+  const [city, setCity] = useState("");
+
+  return (
+    <>
+      <Select
+        label="City"
+        placeholder="Choose a city"
+        hint="We deliver the card here."
+        options={CITIES}
+        value={city}
+        onChange={(e) => setCity(e.target.value)}
+      />
+      <p aria-live="polite">{city ? "Chose " + city + "." : "Nothing chosen yet."}</p>
+    </>
+  );
+}`,
+      ts: `const CITIES: SelectOption[] = [
+  { value: "harbor", label: "Harbor" },
+  { value: "meadow", label: "Meadow" },
+  { value: "ridgeway", label: "Ridgeway" },
+];
+
+export default function SelectDemo() {
+  const [city, setCity] = useState<string>("");
+
+  return (
+    <>
+      <Select
+        label="City"
+        placeholder="Choose a city"
+        hint="We deliver the card here."
+        options={CITIES}
+        value={city}
+        onChange={(e: ChangeEvent<HTMLSelectElement>) => setCity(e.target.value)}
+      />
+      <p aria-live="polite">{city ? "Chose " + city + "." : "Nothing chosen yet."}</p>
+    </>
+  );
+}`,
+    },
+    props: [
+      { name: "label", type: "string", description: "Required. The visible label, tied to the select." },
+      { name: "options", type: "{ value, label, disabled? }[]", description: "Required. The choices." },
+      { name: "placeholder", type: "string", description: "An empty first option, shown in the secondary color and not choosable again. Add required yourself if a choice is needed." },
+      { name: "hint", type: "string", description: "Helper text under the field, linked with aria-describedby." },
+      { name: "error", type: "string", description: "Sets aria-invalid, the danger border, and replaces the hint." },
+      { name: "size", type: '"md" | "lg"', default: '"md"', description: "44px or 48px tall." },
+      { name: "disabled", type: "boolean", default: "false", description: "The native disabled attribute." },
+      { name: "...rest", type: "SelectHTMLAttributes", description: "Every other select attribute, such as value, defaultValue, onChange, name, and required." },
+    ],
+    figma: [
+      { figma: "📐 Size", prop: "size", note: "md and lg." },
+      { figma: "🎯 State", prop: "disabled, error", note: "Hover and focus come from the browser. The open list is the platform's own." },
+      { figma: "🖍 Label", prop: "label", note: "Always visible." },
+      { figma: "🔤 Placeholder", prop: "placeholder", note: "The empty first option." },
+      { figma: "🩹 Show Helper Text, Helper Text", prop: "hint, error", note: "Error replaces the hint." },
+    ],
+    a11y: {
+      keyboard: [
+        "The native select: Tab reaches it, Space or Alt+Down opens it, arrows move, typing a letter jumps to a match, Enter picks, Escape closes.",
+        "On phones the platform's own picker opens, such as the iOS wheel.",
+      ],
+      screenReader: [
+        "Announced as a popup button or combo box, named by the label, with the chosen option read as its value.",
+        "Hint and error are read after the name through aria-describedby. An error also sets aria-invalid.",
+      ],
+      youMust: [
+        "Use Combobox when the list is long enough that people would want to type to filter it, such as banks.",
+        "Use a Radio group for two to four options, so all of them are visible.",
+        "Pass required when a choice is needed; the placeholder alone does not block an empty submit.",
+      ],
+    },
+  },
+  headline: {
+    importCode: {
+      js: `import { Headline } from "@/ui";`,
+      ts: `import { Headline } from "@/ui";`,
+    },
+    usage: {
+      js: `export default function HeadlineDemo() {
+  // On a real page, leave out "as": the levels default to h1, h2 and h3.
+  // Here the demo sits under the page's own headings, so it starts at h3.
+  return (
+    <>
+      <Headline as="h3">Transfer money</Headline>
+      <Headline level="h2" as="h4">Recent recipients</Headline>
+      <Headline level="subheader" as="h5">Saved accounts</Headline>
+    </>
+  );
+}`,
+      ts: `export default function HeadlineDemo() {
+  // On a real page, leave out "as": the levels default to h1, h2 and h3.
+  // Here the demo sits under the page's own headings, so it starts at h3.
+  return (
+    <>
+      <Headline as="h3">Transfer money</Headline>
+      <Headline level="h2" as="h4">Recent recipients</Headline>
+      <Headline level="subheader" as="h5">Saved accounts</Headline>
+    </>
+  );
+}`,
+    },
+    props: [
+      { name: "level", type: '"h1" | "h2" | "subheader"', default: '"h1"', description: "The Foundation style: Header 1 and Header 2 in Bold, Subheader in SemiBold. Each steps up at tablet and website widths." },
+      { name: "as", type: '"h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p"', default: "h1, h2, h3", description: "The HTML element, when the document outline needs a different level than the look." },
+      { name: "children", type: "ReactNode", description: "Required. The title text." },
+      { name: "...rest", type: "HTMLAttributes", description: "Every other heading attribute, such as id for an in-page link." },
+    ],
+    figma: [
+      { figma: "🧰 Type", prop: "level", note: "Header 1, Header 2, Subheader. The text styles are Foundation Typography v1.1." },
+      { figma: "🖍 Label", prop: "children", note: "The title text." },
+    ],
+    a11y: {
+      keyboard: ["Not focusable. Screen reader users move between headings with their heading shortcut."],
+      screenReader: [
+        "Read as a heading at the level of its element, which is what as sets. The look does not change the level.",
+      ],
+      youMust: [
+        "Use one h1 per page and do not skip levels: h1, then h2, then h3.",
+        "Pick the element for the outline and the level for the look, not the other way round.",
+      ],
+    },
+  },
+  "code-block": {
+    importCode: {
+      js: `import { CodeBlock } from "@/ui";`,
+      ts: `import { CodeBlock } from "@/ui";`,
+    },
+    usage: {
+      js: `const SAMPLE_CODE = \`import { Button } from "@/ui";
+
+export function PayButton() {
+  return <Button size="lg">Pay Rp 412.500</Button>;
+}\`;
+
+export default function CodeBlockDemo() {
+  return <CodeBlock title="pay-button.tsx" language="TSX" showLineNumbers code={SAMPLE_CODE} />;
+}`,
+      ts: `const SAMPLE_CODE: string = \`import { Button } from "@/ui";
+
+export function PayButton() {
+  return <Button size="lg">Pay Rp 412.500</Button>;
+}\`;
+
+export default function CodeBlockDemo() {
+  return <CodeBlock title="pay-button.tsx" language="TSX" showLineNumbers code={SAMPLE_CODE} />;
+}`,
+    },
+    props: [
+      { name: "code", type: "string", description: "Required. The code, as plain text." },
+      { name: "language", type: "string", description: "Shown in the header, such as \"TSX\". Also names the scroll region." },
+      { name: "title", type: "string", description: "A file name or title in the header." },
+      { name: "showLineNumbers", type: "boolean", default: "false", description: "Numbers each line. The numbers are aria-hidden and not selected with the code." },
+      { name: "wrap", type: "boolean", default: "false", description: "Wrap long lines instead of scrolling sideways." },
+      { name: "copyable", type: "boolean", default: "true", description: "Show the Copy button. It says Copied for two seconds." },
+      { name: "className", type: "string", default: '""', description: "Extra classes on the figure." },
+    ],
+    figma: [
+      { figma: "🖍 Label", prop: "title, language", note: "The header text." },
+      { figma: "🎯 State", note: "Copied is shown for two seconds after a copy." },
+    ],
+    a11y: {
+      keyboard: [
+        "Tab reaches the Copy button, then the code region when it scrolls. Arrow keys scroll the focused region.",
+      ],
+      screenReader: [
+        "The Copy button's text changes to Copied in a polite live region, so the copy is announced.",
+        "A scrolling region is named by title and language.",
+      ],
+      youMust: [
+        "Keep the code short enough to read. Link to the full file for anything long.",
+        "Plain text only: there are no syntax colors, so meaning must not depend on color.",
+      ],
+    },
+  },
   "more-menu": {
     importCode: {
       js: `import { Menu } from "@/ui";`,

@@ -1,6 +1,8 @@
 "use client";
 
+import { CaretDown } from "@phosphor-icons/react/ssr";
 import { useEffect, useId, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
+import { buttonStyles, type ButtonVariant } from "./button";
 
 export type MenuSize = "sm" | "md";
 
@@ -90,11 +92,13 @@ export interface MenuProps {
   items: MenuItemData[];
   size?: MenuSize;
   align?: "start" | "end";
+  /** Replaces the trigger classes. DropdownMenu uses it to draw a labelled button. */
+  triggerClassName?: string;
   className?: string;
 }
 
 /** A list of actions opened from a button. For choosing a value in a form, use Select or Combobox instead. */
-export function Menu({ trigger, label, items, size = "md", align = "start", className = "" }: MenuProps) {
+export function Menu({ trigger, label, items, size = "md", align = "start", triggerClassName, className = "" }: MenuProps) {
   const [open, setOpen] = useState(false);
   const id = useId();
   const wrap = useRef<HTMLDivElement>(null);
@@ -124,7 +128,7 @@ export function Menu({ trigger, label, items, size = "md", align = "start", clas
         aria-expanded={open}
         aria-controls={open ? `${id}-menu` : undefined}
         onClick={() => setOpen(!open)}
-        className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-md text-role-text-secondary hover:bg-role-bg-hover"
+        className={triggerClassName ?? "inline-flex min-h-11 min-w-11 items-center justify-center rounded-md text-role-text-secondary hover:bg-role-bg-hover"}
       >
         {trigger}
       </button>
@@ -134,5 +138,35 @@ export function Menu({ trigger, label, items, size = "md", align = "start", clas
         </div>
       )}
     </div>
+  );
+}
+
+export interface DropdownMenuProps extends Omit<MenuProps, "trigger" | "triggerClassName"> {
+  /** The button text. It also names the menu. */
+  label: string;
+  /** An icon before the label. */
+  icon?: ReactNode;
+  variant?: Exclude<ButtonVariant, "destructive">;
+}
+
+/** A labelled button that opens a list of actions, such as "Export". For an icon-only trigger, use Menu. */
+export function DropdownMenu({ label, icon, variant = "secondary", ...menu }: DropdownMenuProps) {
+  return (
+    <Menu
+      {...menu}
+      label={label}
+      triggerClassName={`group ${buttonStyles({ variant })}`}
+      trigger={
+        <>
+          {icon && (
+            <span aria-hidden="true" className="inline-flex">
+              {icon}
+            </span>
+          )}
+          {label}
+          <CaretDown size={16} aria-hidden="true" className="transition-transform group-aria-expanded:rotate-180" />
+        </>
+      }
+    />
   );
 }

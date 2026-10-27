@@ -1,8 +1,8 @@
 "use client";
 
 import type { ReactElement } from "react";
-import { Accordion, Alert, AmountInput, Avatar, Badge, BottomNav, Breadcrumbs, Button, Calendar, Card, Changelog, Checkbox, Chip, Combobox, Comment, Cover, DatePicker, Divider, DrawerPanel, EmptyState, FileInput, Input, LabelText, MenuList, ModalPanel, OtpInput, Pagination, PinInput, ProgressBar, QrCodeDisplay, RadioButton, RadioGroup, Rating, SearchField, Separator, Skeleton, Slider, Spinner, Status, Stepper, Table, Tabs, Textarea, Toast, Toggle, TooltipBubble, TopAppBar, TransactionListItem, buttonStyles } from "@/ui";
-import { ArrowDownLeft, ArrowUpRight, Check, CheckCircle, ClockCounterClockwise, Copy, Dot, DotsThree, DownloadSimple, House, Info, List, MagnifyingGlass, PencilSimple, Plus, QrCode, ShareNetwork, Star, Tag, Trash, Tray, UploadSimple, User, Wallet, Warning, X, XCircle } from "@phosphor-icons/react/ssr";
+import { Accordion, Alert, ButtonGroup, CodeBlock, DropdownMenu, Headline, IconButton, Select, TextLink, AmountInput, Avatar, Badge, BottomNav, Breadcrumbs, Button, Calendar, Card, Changelog, Checkbox, Chip, Combobox, Comment, Cover, DatePicker, Divider, DrawerPanel, EmptyState, FileInput, Input, LabelText, MenuList, ModalPanel, OtpInput, Pagination, PinInput, ProgressBar, QrCodeDisplay, RadioButton, RadioGroup, Rating, SearchField, Separator, Skeleton, Slider, Spinner, Status, Stepper, Table, Tabs, Textarea, Toast, Toggle, TooltipBubble, TopAppBar, TransactionListItem, buttonStyles } from "@/ui";
+import { Bell, ListBullets, SquaresFour, ArrowDownLeft, ArrowUpRight, Check, CheckCircle, ClockCounterClockwise, Copy, Dot, DotsThree, DownloadSimple, House, Info, List, MagnifyingGlass, PencilSimple, Plus, QrCode, ShareNetwork, Star, Tag, Trash, Tray, UploadSimple, User, Wallet, Warning, X, XCircle } from "@phosphor-icons/react/ssr";
 
 const TODAY = new Date(2026, 8, 13);
 const BANKS = [
@@ -36,6 +36,11 @@ const NAV_ITEMS = [
   { label: "History", href: "#history", icon: <ClockCounterClockwise size={24} />, count: 3 },
   { label: "Account", href: "#account", icon: <User size={24} /> },
 ];
+const CITIES = [
+  { value: "harbor", label: "Harbor" },
+  { value: "meadow", label: "Meadow" },
+  { value: "ridgeway", label: "Ridgeway" },
+];
 const rupiahYears = (n: number) => n + " yrs";
 const rupiahShort = (n: number) => (n >= 1000 ? "Rp" + n / 1000 + " M" : "Rp" + n + " jt");
 
@@ -56,46 +61,34 @@ const previews: Record<string, () => ReactElement> = {
     </div>
   ),
   "button-group": () => (
-    <div className="flex justify-center py-6">
-      <div className="inline-flex overflow-hidden rounded-md border border-gray-300">
-        <button className="border-r border-gray-300 bg-brand min-h-11 px-4 text-sm font-medium text-white">Grid</button>
-        <button className="min-h-11 px-4 text-sm text-gray-700">List</button>
-      </div>
+    <div className="flex flex-col items-center gap-4 py-6">
+      <ButtonGroup label="View" defaultValue="grid" options={[{ value: "grid", label: "Grid", icon: <SquaresFour size={18} /> }, { value: "list", label: "List", icon: <ListBullets size={18} /> }]} />
+      <ButtonGroup label="Period" defaultValue="month" options={[{ value: "week", label: "Week" }, { value: "month", label: "Month" }, { value: "year", label: "Year" }]} />
     </div>
   ),
   "dropdown-menu": () => (
-    <div className="flex justify-center py-6">
-      <div className="w-48 rounded-md border border-gray-200 bg-surface shadow-sm">
-        <div className="border-b border-gray-100 px-3 py-2 text-sm text-gray-700">Edit</div>
-        <div className="border-b border-gray-100 px-3 py-2 text-sm text-gray-700">Duplicate</div>
-        <div className="px-3 py-2 text-sm text-red-800">Delete</div>
-      </div>
+    <div className="flex flex-col items-center gap-1 py-4">
+      <DropdownMenu label="Actions" items={MENU_ITEMS} />
+      <MenuList items={MENU_ITEMS} />
     </div>
   ),
   "icon-button": () => (
-    <div className="flex justify-center gap-3 py-6">
-      {[
-        { label: "Add", icon: <Plus size={18} /> },
-        { label: "Edit", icon: <PencilSimple size={18} /> },
-        { label: "Download", icon: <DownloadSimple size={18} /> },
-        { label: "Delete", icon: <Trash size={18} /> },
-      ].map(({ label, icon }) => (
-        <span
-          key={label}
-          role="img"
-          aria-label={label}
-          className="flex h-9 w-9 items-center justify-center rounded-md border border-gray-200 text-gray-700"
-        >
-          {icon}
-        </span>
-      ))}
+    <div className="flex flex-wrap items-center justify-center gap-3 py-6">
+      <IconButton label="Add" icon={<Plus size={18} />} variant="primary" />
+      <IconButton label="Edit" icon={<PencilSimple size={18} />} />
+      <IconButton label="Download" icon={<DownloadSimple size={18} />} variant="secondary" />
+      <IconButton label="Delete" icon={<Trash size={18} />} variant="destructive" />
+      <IconButton label="Notifications" icon={<Bell size={20} />} shape="circle" size="lg" />
     </div>
   ),
   link: () => (
-    <p className="mx-auto max-w-xs py-6 text-center text-sm text-gray-700">
-      Read the <span className="font-medium text-blue-800 underline underline-offset-4">transfer limits</span> before you
-      send.
-    </p>
+    <div className="mx-auto flex max-w-xs flex-col items-center gap-2 py-6 text-center">
+      <p className="text-sm text-role-text-secondary">
+        Read the <TextLink href="#" size="sm">transfer limits</TextLink> before you send.
+      </p>
+      <TextLink href="#" standalone>See all transactions</TextLink>
+      <TextLink href="#" standalone external size="sm">Help center</TextLink>
+    </div>
   ),
   "more-menu": () => (
     <div className="flex justify-center py-4">
@@ -137,8 +130,8 @@ const previews: Record<string, () => ReactElement> = {
     </div>
   ),
   "code-block": () => (
-    <div className="flex justify-center py-6">
-      <pre className="rounded-md bg-ink px-4 py-3 text-xs text-emerald-300">{`import { Button } from "@/ui";`}</pre>
+    <div className="mx-auto w-full max-w-sm py-4">
+      <CodeBlock language="TSX" title="pay-button.tsx" code={'import { Button } from "@/ui";\n\n<Button size="lg">Pay Rp 412.500</Button>'} />
     </div>
   ),
   divider: () => (
@@ -170,12 +163,9 @@ const previews: Record<string, () => ReactElement> = {
     </div>
   ),
   select: () => (
-    <div className="flex justify-center py-6">
-      <select aria-label="City" className="w-48 rounded-md border border-gray-500 bg-surface px-3 text-sm min-h-11">
-        <option>Harbor</option>
-        <option>Meadow</option>
-        <option>Ridgeway</option>
-      </select>
+    <div className="mx-auto grid w-full max-w-xs gap-5 py-4">
+      <Select label="City" placeholder="Choose a city" options={CITIES} />
+      <Select label="City" defaultValue="meadow" options={CITIES} error="Delivery is not available in this city yet." />
     </div>
   ),
   toggle: () => (
@@ -263,9 +253,9 @@ const previews: Record<string, () => ReactElement> = {
 
   headline: () => (
     <div className="mx-auto max-w-xs space-y-1 py-6 text-center">
-      <div className="text-2xl font-bold leading-9 text-gray-900">Header 1</div>
-      <div className="text-xl font-bold leading-[30px] text-gray-900">Header 2</div>
-      <div className="text-lg font-semibold leading-[26px] text-gray-700">Subheader</div>
+      <Headline as="p">Header 1</Headline>
+      <Headline as="p" level="h2">Header 2</Headline>
+      <Headline as="p" level="subheader">Subheader</Headline>
     </div>
   ),
   "label-text": () => (

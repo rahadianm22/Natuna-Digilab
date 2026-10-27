@@ -4,8 +4,8 @@
 // so what people copy is what they just used.
 
 import { useState, type ReactElement, type ReactNode } from "react";
-import { ArrowDownLeft, ArrowUpRight, ClockCounterClockwise, Copy, DotsThree, DownloadSimple, House, PencilSimple, ShareNetwork, Tag, Trash, User, Wallet } from "@phosphor-icons/react/ssr";
-import { Accordion, Alert, AmountInput, Avatar, Badge, BottomNav, Breadcrumbs, Button, Calendar, Card, Changelog, Checkbox, Chip, Combobox, Comment, Cover, DatePicker, Divider, Drawer, DrawerPanel, EmptyState, FileInput, Input, LabelText, Menu, MenuList, Modal, ModalPanel, OtpInput, Pagination, PinInput, ProgressBar, QrCodeDisplay, RadioButton, RadioGroup, Rating, SearchField, Separator, Skeleton, Slider, Spinner, Status, Stepper, Table, Tabs, Textarea, Toast, Toggle, Tooltip, TooltipBubble, TopAppBar, TransactionListItem, type AvatarSize, type BadgeTone, type BadgeType, type ButtonVariant, type CheckboxSize, type LabelTextIndicator, type RadioButtonSize } from "@/ui";
+import { Bell, Heart, ListBullets, SquaresFour, ArrowDownLeft, ArrowUpRight, ClockCounterClockwise, Copy, DotsThree, DownloadSimple, House, PencilSimple, ShareNetwork, Tag, Trash, User, Wallet } from "@phosphor-icons/react/ssr";
+import { Accordion, Alert, ButtonGroup, CodeBlock, DropdownMenu, Headline, IconButton, Select, TextLink, AmountInput, Avatar, Badge, BottomNav, Breadcrumbs, Button, Calendar, Card, Changelog, Checkbox, Chip, Combobox, Comment, Cover, DatePicker, Divider, Drawer, DrawerPanel, EmptyState, FileInput, Input, LabelText, Menu, MenuList, Modal, ModalPanel, OtpInput, Pagination, PinInput, ProgressBar, QrCodeDisplay, RadioButton, RadioGroup, Rating, SearchField, Separator, Skeleton, Slider, Spinner, Status, Stepper, Table, Tabs, Textarea, Toast, Toggle, Tooltip, TooltipBubble, TopAppBar, TransactionListItem, type AvatarSize, type BadgeTone, type BadgeType, type ButtonVariant, type CheckboxSize, type LabelTextIndicator, type RadioButtonSize } from "@/ui";
 
 const TODAY = new Date(2026, 8, 13);
 const BANKS = [
@@ -655,6 +655,13 @@ function AccordionDemo() {
 }
 
 export const demos: Record<string, () => ReactElement> = {
+  "button-group": ButtonGroupDemo,
+  "dropdown-menu": DropdownMenuDemo,
+  "icon-button": IconButtonDemo,
+  link: LinkDemo,
+  select: SelectDemo,
+  headline: HeadlineDemo,
+  "code-block": CodeBlockDemo,
   button: ButtonDemo,
   badge: BadgeDemo,
   input: InputDemo,
@@ -1777,7 +1784,275 @@ function AccordionMatrix() {
   );
 }
 
+const CITIES = [
+  { value: "harbor", label: "Harbor" },
+  { value: "meadow", label: "Meadow" },
+  { value: "ridgeway", label: "Ridgeway" },
+];
+const VIEW_OPTIONS = [
+  { value: "grid", label: "Grid", icon: <SquaresFour size={18} /> },
+  { value: "list", label: "List", icon: <ListBullets size={18} /> },
+];
+const EXPORT_ITEMS = [
+  { label: "CSV" },
+  { label: "PDF" },
+  { label: "Excel" },
+];
+const SAMPLE_CODE = `import { Button } from "@/ui";
+
+export function PayButton() {
+  return <Button size="lg">Pay Rp 412.500</Button>;
+}`;
+
+function ButtonGroupDemo() {
+  const [view, setView] = useState("grid");
+
+  return (
+    <div className="flex flex-col items-center gap-3">
+      <ButtonGroup label="View" value={view} onChange={setView} options={VIEW_OPTIONS} />
+      <p className="text-sm text-role-text-secondary" aria-live="polite">Showing the {view} view.</p>
+    </div>
+  );
+}
+
+function DropdownMenuDemo() {
+  const [format, setFormat] = useState("");
+  const items = EXPORT_ITEMS.map((it) => ({ ...it, onSelect: () => setFormat(it.label) }));
+
+  return (
+    <div className="flex flex-col items-center gap-2 pb-48">
+      <DropdownMenu label="Export" icon={<DownloadSimple size={18} />} items={items} />
+      <p className="text-sm text-role-text-secondary" aria-live="polite">{format ? "Exporting as " + format + "." : "Choose a format."}</p>
+    </div>
+  );
+}
+
+function IconButtonDemo() {
+  const [liked, setLiked] = useState(false);
+
+  return (
+    <div className="flex items-center justify-center gap-2">
+      <Tooltip title="Edit">
+        <IconButton label="Edit" icon={<PencilSimple size={18} />} />
+      </Tooltip>
+      <Tooltip title="Share">
+        <IconButton label="Share" icon={<ShareNetwork size={18} />} />
+      </Tooltip>
+      <IconButton
+        label="Favorite"
+        aria-pressed={liked}
+        onClick={() => setLiked(!liked)}
+        icon={<Heart size={18} weight={liked ? "fill" : "regular"} />}
+      />
+    </div>
+  );
+}
+
+function LinkDemo() {
+  return (
+    <div className="mx-auto flex max-w-sm flex-col items-start gap-2">
+      <p className="text-base text-role-text-primary">
+        Read the <TextLink href="#limits">transfer limits</TextLink> before you send.
+      </p>
+      <TextLink href="#history" standalone>See all transactions</TextLink>
+      <TextLink href="https://natunadigilab.vercel.app" standalone external>Natuna Digilab</TextLink>
+    </div>
+  );
+}
+
+function SelectDemo() {
+  const [city, setCity] = useState("");
+
+  return (
+    <div className="mx-auto flex w-full max-w-xs flex-col gap-3">
+      <Select
+        label="City"
+        placeholder="Choose a city"
+        hint="We deliver the card here."
+        options={CITIES}
+        value={city}
+        onChange={(e) => setCity(e.target.value)}
+      />
+      <p className="text-sm text-role-text-secondary" aria-live="polite">{city ? "Chose " + city + "." : "Nothing chosen yet."}</p>
+    </div>
+  );
+}
+
+function HeadlineDemo() {
+  // On a real page, leave out "as": the levels default to h1, h2 and h3.
+  // Here the demo sits under the page's own headings, so it starts at h3.
+  return (
+    <div className="mx-auto flex max-w-sm flex-col gap-2">
+      <Headline as="h3">Transfer money</Headline>
+      <Headline level="h2" as="h4">Recent recipients</Headline>
+      <Headline level="subheader" as="h5">Saved accounts</Headline>
+    </div>
+  );
+}
+
+function CodeBlockDemo() {
+  return <CodeBlock className="mx-auto max-w-lg" title="pay-button.tsx" language="TSX" showLineNumbers code={SAMPLE_CODE} />;
+}
+
+function ButtonGroupMatrix() {
+  return (
+    <div className="grid gap-4 sm:grid-cols-2">
+      {(["md", "lg"] as const).map((size) => (
+        <Specimen key={size} label={"size " + size} detail="text, icon and text, icon only">
+          <div className="flex flex-col items-start gap-3">
+            <ButtonGroup size={size} label="Period" defaultValue="month" options={[{ value: "week", label: "Week" }, { value: "month", label: "Month" }, { value: "year", label: "Year" }]} />
+            <ButtonGroup size={size} label="View" options={VIEW_OPTIONS} />
+            <ButtonGroup size={size} label="View" options={VIEW_OPTIONS.map((o) => ({ ...o, iconOnly: true }))} />
+          </div>
+        </Specimen>
+      ))}
+      <Specimen label="Disabled option" detail="one segment unavailable">
+        <ButtonGroup label="Period" options={[{ value: "week", label: "Week" }, { value: "month", label: "Month" }, { value: "year", label: "Year", disabled: true }]} />
+      </Specimen>
+      <Specimen label="fullWidth" detail="equal segments">
+        <ButtonGroup fullWidth label="Type" options={[{ value: "in", label: "Income" }, { value: "out", label: "Expense" }]} />
+      </Specimen>
+    </div>
+  );
+}
+
+function DropdownMenuMatrix() {
+  return (
+    <div className="grid gap-4 sm:grid-cols-2">
+      <Specimen label="Trigger" detail="secondary, ghost, primary, inverse, with an icon">
+        <div className="flex flex-wrap gap-2">
+          {(["secondary", "ghost", "primary", "inverse"] as const).map((v) => (
+            <DropdownMenu key={v} variant={v} label={capitalize(v)} items={EXPORT_ITEMS} />
+          ))}
+          <DropdownMenu label="Export" icon={<DownloadSimple size={18} />} items={EXPORT_ITEMS} />
+        </div>
+      </Specimen>
+      {(["sm", "md"] as const).map((size) => (
+        <Specimen key={size} label={"Open, size " + size} detail="default, disabled, danger, and a group divider">
+          <MenuList size={size} items={MENU_ITEMS} />
+        </Specimen>
+      ))}
+    </div>
+  );
+}
+
+function IconButtonMatrix() {
+  const variants = ["primary", "secondary", "ghost", "destructive", "inverse"] as const;
+  return (
+    <div className="grid gap-4 sm:grid-cols-2">
+      {(["md", "lg"] as const).map((size) => (
+        <Specimen key={size} label={"size " + size} detail={size === "md" ? "44 × 44" : "48 × 48"}>
+          <div className="flex flex-wrap gap-2">
+            {variants.map((v) => (
+              <IconButton key={v} size={size} variant={v} label={capitalize(v)} icon={<PencilSimple size={size === "md" ? 18 : 20} />} />
+            ))}
+          </div>
+        </Specimen>
+      ))}
+      <Specimen label="shape circle" detail="every variant">
+        <div className="flex flex-wrap gap-2">
+          {variants.map((v) => (
+            <IconButton key={v} shape="circle" variant={v} label={capitalize(v)} icon={<Bell size={18} />} />
+          ))}
+        </div>
+      </Specimen>
+      <Specimen label="State" detail="loading, disabled">
+        <div className="flex flex-wrap gap-2">
+          <IconButton loading variant="primary" label="Saving" icon={<PencilSimple size={18} />} />
+          <IconButton loading label="Saving" icon={<PencilSimple size={18} />} />
+          <IconButton disabled label="Edit" icon={<PencilSimple size={18} />} />
+          <IconButton disabled variant="primary" label="Edit" icon={<PencilSimple size={18} />} />
+        </div>
+      </Specimen>
+    </div>
+  );
+}
+
+function LinkMatrix() {
+  return (
+    <div className="grid gap-4 sm:grid-cols-2">
+      {(["sm", "md"] as const).map((size) => (
+        <Specimen key={size} label={"size " + size} detail="inline, standalone, external">
+          <div className="flex flex-col items-start gap-1">
+            <p className={`text-role-text-primary ${size === "sm" ? "text-sm" : "text-base"}`}>
+              Read the <TextLink href="#limits" size={size}>transfer limits</TextLink> first.
+            </p>
+            <TextLink href="#history" size={size} standalone>See all transactions</TextLink>
+            <TextLink href="#help" size={size} standalone external>Help center</TextLink>
+          </div>
+        </Specimen>
+      ))}
+    </div>
+  );
+}
+
+function SelectMatrix() {
+  return (
+    <div className="grid gap-4 sm:grid-cols-2">
+      {(["md", "lg"] as const).map((size) => (
+        <Specimen key={size} label={"size " + size} detail="placeholder, chosen, hint">
+          <div className="grid gap-4">
+            <Select size={size} label="City" placeholder="Choose a city" options={CITIES} />
+            <Select size={size} label="City" defaultValue="meadow" hint="We deliver the card here." options={CITIES} />
+          </div>
+        </Specimen>
+      ))}
+      <Specimen label="Error" detail="border, message, aria-invalid">
+        <Select label="City" defaultValue="ridgeway" error="Delivery is not available in this city yet." options={CITIES} />
+      </Specimen>
+      <Specimen label="Disabled">
+        <Select label="City" defaultValue="harbor" disabled options={CITIES} />
+      </Specimen>
+    </div>
+  );
+}
+
+function HeadlineMatrix() {
+  const levels = [
+    { level: "h1", name: "Header 1", spec: "24/36 · 28/40 · 32/44, Bold" },
+    { level: "h2", name: "Header 2", spec: "20/30 · 24/36 · 28/40, Bold" },
+    { level: "subheader", name: "Subheader", spec: "18/26 · 20/30 · 24/36, SemiBold" },
+  ] as const;
+  return (
+    <div className="grid gap-4">
+      {levels.map((l) => (
+        <Specimen key={l.level} label={"level " + l.level} detail={l.spec + " (mobile · tablet · website)"}>
+          <Headline as="p" level={l.level}>{l.name}: Transfer money</Headline>
+        </Specimen>
+      ))}
+    </div>
+  );
+}
+
+function CodeBlockMatrix() {
+  const short = 'import { Button } from "@/ui";';
+  const long = 'const message = "A long line keeps going past the edge of the panel, so it scrolls, or wraps when wrap is set.";';
+  return (
+    <div className="grid gap-4 sm:grid-cols-2">
+      <Specimen label="Default" detail="header, copy">
+        <CodeBlock language="TSX" code={short} />
+      </Specimen>
+      <Specimen label="showLineNumbers" detail="with a title">
+        <CodeBlock title="pay-button.tsx" language="TSX" showLineNumbers code={SAMPLE_CODE} />
+      </Specimen>
+      <Specimen label="Long line" detail="scrolls; the region is focusable">
+        <CodeBlock language="TS" code={long} />
+      </Specimen>
+      <Specimen label="wrap" detail="no copy button">
+        <CodeBlock language="TS" wrap copyable={false} code={long} />
+      </Specimen>
+    </div>
+  );
+}
+
 const matrices: Record<string, () => ReactElement> = {
+  "button-group": ButtonGroupMatrix,
+  "dropdown-menu": DropdownMenuMatrix,
+  "icon-button": IconButtonMatrix,
+  link: LinkMatrix,
+  select: SelectMatrix,
+  headline: HeadlineMatrix,
+  "code-block": CodeBlockMatrix,
   button: ButtonMatrix,
   badge: BadgeMatrix,
   input: InputMatrix,
