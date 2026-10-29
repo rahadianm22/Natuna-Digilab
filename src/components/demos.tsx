@@ -334,7 +334,7 @@ function CardDemo() {
 function CoverDemo() {
   return (
     <div className="mx-auto w-full max-w-md">
-      <Cover size="sm" title="Natuna Digilab" description="Design System — Component Library" />
+      <Cover size="sm" title="Natuna Digilab" description="Design System: Component Library" />
     </div>
   );
 }
@@ -587,7 +587,7 @@ function NavigationBarDemo() {
         }
       }}
     >
-      <TopAppBar title="Transaction History" onBack={() => {}} />
+      <TopAppBar titleAs="p" title="Transaction History" onBack={() => {}} />
       <div className="flex h-24 items-center justify-center bg-role-bg-hover text-sm text-role-text-secondary">{items.find((i) => i.href === current)?.label}</div>
       <BottomNav items={items} current={current} />
     </div>
@@ -1289,7 +1289,7 @@ function CoverMatrix() {
         <Specimen key={type} label={"type " + type} detail="sm, md, lg">
           <div className="grid gap-3">
             {(["sm", "md", "lg"] as const).map((size) => (
-              <Cover key={size} type={type} size={size} title="Natuna Digilab" description="Design System — Component Library" />
+              <Cover key={size} type={type} size={size} title="Natuna Digilab" description="Design System: Component Library" />
             ))}
           </div>
         </Specimen>
@@ -1667,7 +1667,7 @@ function NavigationBarMatrix() {
   return (
     <div className="grid gap-4 lg:grid-cols-2">
       <Specimen label="type top" detail="with back and an action">
-        <TopAppBar title="Transaction History" onBack={() => {}} actions={<button type="button" aria-label="More" className="flex size-11 items-center justify-center text-role-text-secondary"><DotsThree size={22} /></button>} />
+        <TopAppBar titleAs="p" title="Transaction History" onBack={() => {}} actions={<button type="button" aria-label="More" className="flex size-11 items-center justify-center text-role-text-secondary"><DotsThree size={22} /></button>} />
       </Specimen>
       <Specimen label="type bottom" detail="active, a count, and a disabled item">
         <BottomNav items={NAV_ITEMS.map((n, i) => (i === 1 ? { ...n, disabled: true } : n))} current="#home" />

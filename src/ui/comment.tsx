@@ -42,7 +42,7 @@ export function Comment({ type = "thread", state = "default", author, role, time
       {type === "thread" && (onReply || onToggleResolved) && (
         <div className="-mb-2 flex gap-3 text-sm">
           {onReply && (
-            <button type="button" onClick={onReply} className={`inline-flex min-h-11 items-center rounded-sm ${state === "default" ? "text-role-text-link" : "text-role-text-primary underline"}`}>
+            <button type="button" onClick={onReply} className={`inline-flex min-h-11 min-w-11 items-center justify-center rounded-sm ${state === "default" ? "text-role-text-link" : "text-role-text-primary underline"}`}>
               Reply
             </button>
           )}

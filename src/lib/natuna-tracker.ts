@@ -1,6 +1,5 @@
-// Snapshot of the "Natuna Component Tracker" Notion database (51 rows, fetched 2026-09-30).
-// On 2026-10-25 the 23 rows for the components added from the Figma frames (Checkbox to File Input) were set to Selesai here by hand. The Notion
-// database has not been updated to match, so re-syncing from Notion would turn them back. Update Notion first.
+// Snapshot of the "Natuna Component Tracker" Notion database (51 rows). On 2026-10-29 all 51 rows in Notion were set to Selesai, so this file
+// and Notion agree again.
 // Source: https://app.notion.com/p/d8d2440445804014b2d89d66856d69bc
 // Re-sync by re-running the Notion query; figmaLink is empty for every row so far.
 

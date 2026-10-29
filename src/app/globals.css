@@ -709,65 +709,6 @@ body {
 }
 
 
-/*
-  Dot cursor (see DotCursor.tsx): the system cursor is hidden only after the component has mounted on a
-  mouse-like pointer, so touch, keyboard, forced-colors, and no-JS visitors keep the normal cursor.
-  Text fields keep the I-beam, and the dot hides over them.
-*/
-@layer base {
-  html.dot-cursor,
-  html.dot-cursor * {
-    cursor: none !important;
-  }
-
-  html.dot-cursor :is(input:is(:not([type]), [type="text"], [type="search"], [type="email"], [type="url"], [type="tel"], [type="password"], [type="number"]), textarea) {
-    cursor: text !important;
-  }
-
-  html.dot-cursor select {
-    cursor: auto !important;
-  }
-}
-
-
-/* The outer element only moves; the inner span carries the look and the grow, so scale never shifts the position. */
-.dot-cursor-dot,
-.dot-cursor-ring {
-  position: fixed;
-  left: 0;
-  top: 0;
-  z-index: 2147483647;
-  width: 0;
-  height: 0;
-  pointer-events: none;
-  will-change: transform;
-  transition: opacity 150ms ease;
-}
-
-.dot-cursor-dot > span,
-.dot-cursor-ring > span {
-  position: absolute;
-  display: block;
-  border-radius: 9999px;
-  transition: scale 200ms ease;
-}
-
-.dot-cursor-dot > span {
-  width: 10px;
-  height: 10px;
-  left: -5px;
-  top: -5px;
-  background: var(--color-role-border-focus);
-  box-shadow: 0 0 0 2px rgb(255 255 255 / 0.95);
-}
-
-.dot-cursor-ring > span {
-  width: 40px;
-  height: 40px;
-  left: -20px;
-  top: -20px;
-  background: color-mix(in srgb, var(--color-role-border-focus) 16%, transparent);
-}
 
 /*
   A focus outline appears at once. Utilities such as transition-colors would otherwise animate outline-color

@@ -425,7 +425,7 @@ const previews: Record<string, () => ReactElement> = {
   ),
   "navigation-bar": () => (
     <div className="mx-auto w-full max-w-sm overflow-hidden rounded-lg border border-role-border-default py-0">
-      <TopAppBar title="Transaction History" onBack={() => {}} actions={<button type="button" aria-label="More" className="flex size-11 items-center justify-center text-role-text-secondary"><DotsThree size={22} /></button>} />
+      <TopAppBar titleAs="p" title="Transaction History" onBack={() => {}} actions={<button type="button" aria-label="More" className="flex size-11 items-center justify-center text-role-text-secondary"><DotsThree size={22} /></button>} />
       <div className="h-16 bg-role-bg-hover" />
       <BottomNav items={NAV_ITEMS} current="#home" />
     </div>
@@ -475,7 +475,7 @@ const previews: Record<string, () => ReactElement> = {
   ),
   cover: () => (
     <div className="mx-auto w-full max-w-md py-4">
-      <Cover size="sm" title="Natuna Digilab" description="Design System — Component Library" />
+      <Cover size="sm" title="Natuna Digilab" description="Design System: Component Library" />
     </div>
   ),
   guideline: () => (

@@ -32,32 +32,20 @@ export default function BuildReportPage() {
     <div className="flex min-h-screen flex-col bg-canvas">
       <Header active="Build report" />
       <main id="main" tabIndex={-1} className="w-full overflow-x-clip">
-        {/* Hero: always navy, like the Foundation band on the home page, with the signal lime used for the numbers that matter. */}
-        <section aria-labelledby="report-title" className="relative isolate overflow-hidden bg-inverse text-inverse-text">
-          <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(60%_80%_at_85%_10%,rgba(198,244,50,0.16),transparent_60%),radial-gradient(50%_70%_at_0%_100%,rgba(2,133,255,0.22),transparent_60%)]" />
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-0 -z-10 opacity-[0.07] [background-image:linear-gradient(var(--color-inverse-text)_1px,transparent_1px),linear-gradient(90deg,var(--color-inverse-text)_1px,transparent_1px)] [background-size:48px_48px]"
-          />
+        {/* Hero: always navy and flat, like the Foundation band on the home page. Signal lime marks the one number that matters. */}
+        <section aria-labelledby="report-title" className="bg-inverse text-inverse-text">
           <div className="mx-auto flex w-full max-w-7xl flex-col gap-12 px-6 pb-20 pt-16 sm:pt-24">
             <div className="flex flex-col gap-5">
-              <p className={`rise ${eyebrow} flex flex-wrap items-center gap-x-3 gap-y-1 text-lime`}>
-                <span className="inline-flex items-center gap-2">
-                  <span aria-hidden="true" className="size-2 rounded-full bg-lime motion-safe:animate-pulse" />
-                  Natuna Build Report
-                </span>
+              <p className={`rise ${eyebrow} flex flex-wrap items-center gap-x-3 gap-y-1 text-inverse-muted`}>
+                <span>Natuna Build Report</span>
                 <span className="text-inverse-subtle">{r.date}</span>
               </p>
-              <h1 id="report-title" className="rise font-display text-[clamp(44px,7vw,96px)] font-extrabold leading-[0.95] tracking-[-0.04em]" style={{ "--d": "60ms" } as CSSProperties}>
-                {builtCount} components.
-                <br />
-                <span className="text-lime">{variantCount} variants.</span>
-                <br />
-                Zero raw hex.
+              <h1 id="report-title" className="rise max-w-4xl font-display text-[clamp(36px,5.6vw,72px)] font-extrabold leading-[1.02] tracking-[-0.035em]" style={{ "--d": "60ms" } as CSSProperties}>
+                {builtCount} components, {variantCount} variants, every value bound to a variable.
               </h1>
               <p className="rise max-w-2xl text-lg text-inverse-muted" style={{ "--d": "120ms" } as CSSProperties}>
                 One run of the Figma build plugin drew the whole library on {r.foundation}, in {r.font}, from {r.semanticTokens} semantic tokens. It took{" "}
-                {duration(r.seconds)}, and every one of its {(r.colorsBound + r.numbersBound).toLocaleString("en-US")} values points at a variable.
+                {duration(r.seconds)}.
               </p>
             </div>
 
@@ -87,7 +75,6 @@ export default function BuildReportPage() {
           <section aria-labelledby="variants-title" className="mx-auto flex w-full max-w-7xl flex-col gap-10 px-6 py-24">
             <div className="flex flex-wrap items-end justify-between gap-x-16 gap-y-6">
               <div className="flex flex-[1_1_520px] flex-col gap-4" data-reveal-item>
-                <span className={`${eyebrow} text-role-text-link`}>Variants per component</span>
                 <h2 id="variants-title" className={`${h2} text-gray-900`}>
                   {variantCount} variants, drawn in one pass.
                 </h2>
@@ -115,7 +102,7 @@ export default function BuildReportPage() {
             <div className="mx-auto flex w-full max-w-7xl flex-col gap-10 px-6 py-24">
               <div className="flex flex-wrap items-end justify-between gap-x-16 gap-y-6">
                 <div className="flex flex-[1_1_520px] flex-col gap-4" data-reveal-item>
-                  <span className={`${eyebrow} text-lime`}>Interim mappings</span>
+                  <span className={`${eyebrow} text-inverse-muted`}>Interim mappings</span>
                   <h2 id="interim-title" className={h2}>
                     Four stand-ins until v1.2.
                   </h2>
@@ -131,9 +118,9 @@ export default function BuildReportPage() {
                     <span className="font-label text-xs text-inverse-subtle">0{i + 1}</span>
                     <p className="flex flex-wrap items-center gap-3 font-mono-code text-[15px]">
                       <span className="rounded-lg bg-inverse px-3 py-1.5 text-inverse-text">{m.from}</span>
-                      <span aria-hidden="true" className="text-lime">→</span>
+                      <span aria-hidden="true" className="text-inverse-subtle">→</span>
                       <span className="sr-only">maps to</span>
-                      <span className="rounded-lg bg-lime px-3 py-1.5 text-inverse">{m.to}</span>
+                      <span className="rounded-lg bg-inverse-line-strong px-3 py-1.5 text-inverse-text">{m.to}</span>
                     </p>
                     <p className="text-inverse-muted">{m.why[0].toUpperCase() + m.why.slice(1)}.</p>
                   </li>
@@ -147,7 +134,6 @@ export default function BuildReportPage() {
         <Reveal>
           <section aria-labelledby="styles-title" className="mx-auto flex w-full max-w-7xl flex-col gap-10 px-6 py-24">
             <div className="flex flex-col gap-4" data-reveal-item>
-              <span className={`${eyebrow} text-role-text-link`}>Styles and assets</span>
               <h2 id="styles-title" className={`${h2} max-w-3xl text-gray-900`}>
                 Text, effects and icons, all from the library.
               </h2>

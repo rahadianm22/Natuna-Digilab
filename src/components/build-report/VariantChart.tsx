@@ -74,8 +74,8 @@ export default function VariantChart({ rows }: { rows: ChartRow[] }) {
         {shown.map((r, i) => {
           const pct = (r.variants / max) * 100;
           const name = r.slug ? (
-            <Link href={`/components/${r.slug}`} className="truncate rounded-sm text-role-text-primary underline-offset-4 hover:underline">
-              {r.name}
+            <Link href={`/components/${r.slug}`} className="flex min-h-11 min-w-0 items-center rounded-sm text-role-text-primary underline-offset-4 hover:underline">
+              <span className="truncate">{r.name}</span>
             </Link>
           ) : (
             <span className="truncate text-role-text-primary">{r.name}</span>

@@ -3,7 +3,6 @@ import { Urbanist } from "next/font/google";
 import "./globals.css";
 import { SITE_URL } from "@/lib/site";
 import RouteFocus from "@/components/RouteFocus";
-import DotCursor from "@/components/DotCursor";
 
 const urbanist = Urbanist({
   subsets: ["latin"],
@@ -19,7 +18,7 @@ export const metadata: Metadata = {
     template: "%s · Natuna Digilab",
   },
   description:
-    "Open-source components, design tokens, and guidelines built by Natuna Digilab for modern digital products.",
+    "Open-source components, design tokens, and guidelines built by Natuna Digilab for banking, payments and consumer apps.",
 };
 
 const themeScript = `try{var t=localStorage.getItem("theme");var d=t?t==="dark":matchMedia("(prefers-color-scheme: dark)").matches;document.documentElement.classList.toggle("dark",d)}catch(e){}`;
@@ -37,7 +36,6 @@ export default function RootLayout({
       </head>
       <body className="min-h-full flex flex-col">
         <RouteFocus />
-        <DotCursor />
         {children}
       </body>
     </html>

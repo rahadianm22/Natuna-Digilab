@@ -122,18 +122,41 @@ function Thumbnail({ slug }: { slug?: string }) {
   );
 }
 
+// The card itself is not a link. A thumbnail can hold real links (Breadcrumbs, Pagination, Link), and a link inside a
+// link is invalid HTML that the browser re-parses, which breaks hydration. One link on the name stretches over the card.
 function Card({ entry }: { entry: Entry }) {
-  const body = (
-    <>
+  const href = entry.slug ? `/components/${entry.slug}` : entry.figmaLink;
+  const name = (
+    <span
+      className="block truncate text-sm font-semibold text-gray-900 group-hover:text-blue-800"
+      title={entry.sourceName && entry.sourceName !== entry.name ? `Tracker name: ${entry.sourceName}` : undefined}
+    >
+      {entry.name}
+    </span>
+  );
+  const stretched = "block outline-none after:absolute after:inset-0";
+
+  return (
+    <div
+      className={`group relative h-full min-w-0 rounded-xl border border-gray-200 bg-surface p-3 ${
+        href ? "transition-[border-color] hover:border-blue-400 has-[a:focus-visible]:outline-2 has-[a:focus-visible]:outline-offset-2 has-[a:focus-visible]:outline-role-border-focus" : "opacity-80"
+      }`}
+    >
       <Thumbnail slug={entry.slug} />
       <div className="mt-3 flex flex-col gap-2">
         <div className="min-w-0">
-          <div
-            className="truncate text-sm font-semibold text-gray-900 group-hover:text-blue-800"
-            title={entry.sourceName && entry.sourceName !== entry.name ? `Tracker name: ${entry.sourceName}` : undefined}
-          >
-            {entry.name}
-          </div>
+          {entry.slug ? (
+            <Link href={`/components/${entry.slug}`} prefetch={false} className={stretched}>
+              {name}
+            </Link>
+          ) : entry.figmaLink ? (
+            <a href={entry.figmaLink} target="_blank" rel="noreferrer" className={stretched}>
+              {name}
+              <span className="sr-only"> (opens in a new tab)</span>
+            </a>
+          ) : (
+            name
+          )}
           <div className="text-xs text-gray-700">{entry.meta}</div>
         </div>
         <div className="flex flex-wrap items-center gap-1.5">
@@ -141,25 +164,8 @@ function Card({ entry }: { entry: Entry }) {
           {entry.code && <CodeBadge />}
         </div>
       </div>
-    </>
+    </div>
   );
-  const base = "group block h-full min-w-0 rounded-xl border border-gray-200 bg-surface p-3";
-
-  if (entry.slug) {
-    return (
-      <Link href={`/components/${entry.slug}`} prefetch={false} className={`${base} transition-colors hover:border-blue-400`}>
-        {body}
-      </Link>
-    );
-  }
-  if (entry.figmaLink) {
-    return (
-      <a href={entry.figmaLink} target="_blank" rel="noreferrer" className={`${base} transition-colors hover:border-blue-400`}>
-        {body}
-      </a>
-    );
-  }
-  return <div className={`${base} opacity-80`}>{body}</div>;
 }
 
 export default function ComponentOverview() {

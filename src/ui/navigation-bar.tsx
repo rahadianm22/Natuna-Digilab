@@ -3,6 +3,8 @@ import type { ReactNode } from "react";
 
 export interface TopAppBarProps {
   title: string;
+  /** Tag for the title. Leave it as h1 on a real screen; use p for a demo inside a page that already has an h1. */
+  titleAs?: "h1" | "h2" | "p";
   /** Shows the back button. */
   onBack?: () => void;
   /** Buttons on the right, such as a more menu. Each needs its own accessible name. */
@@ -11,7 +13,7 @@ export interface TopAppBarProps {
 }
 
 /** The top app bar: 56 tall on phones, 64 on desktop. */
-export function TopAppBar({ title, onBack, actions, className = "" }: TopAppBarProps) {
+export function TopAppBar({ title, titleAs: Title = "h1", onBack, actions, className = "" }: TopAppBarProps) {
   return (
     <header className={`flex h-14 items-center gap-2 border-b border-role-border-default bg-role-bg-surface px-2 sm:h-16 ${className}`}>
       {onBack ? (
@@ -21,7 +23,7 @@ export function TopAppBar({ title, onBack, actions, className = "" }: TopAppBarP
       ) : (
         <span className="w-2" />
       )}
-      <h1 className="min-w-0 grow truncate text-lg font-semibold text-role-text-primary">{title}</h1>
+      <Title className="min-w-0 grow truncate text-lg font-semibold text-role-text-primary">{title}</Title>
       {actions && <div className="flex shrink-0 items-center">{actions}</div>}
     </header>
   );

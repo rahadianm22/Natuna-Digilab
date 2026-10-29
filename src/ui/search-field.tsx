@@ -54,6 +54,7 @@ export function SearchField({
   const inline = type === "inline";
   const field = (
     <div
+      onClick={(e) => e.target === e.currentTarget && input.current?.focus()}
       className={`relative flex min-h-11 grow items-center gap-2 border px-3 ${inline ? "rounded-full" : "rounded-md"} ${
         disabled
           ? "border-role-border-disabled bg-role-bg-subtle"
@@ -75,7 +76,7 @@ export function SearchField({
         aria-invalid={error ? true : undefined}
         aria-describedby={error ? `${id}-error` : undefined}
         // The field draws the focus ring, so the input itself does not.
-        className="min-w-0 grow self-stretch bg-transparent text-sm text-role-text-primary outline-none placeholder:text-role-text-secondary disabled:cursor-not-allowed disabled:text-role-text-disabled [&::-webkit-search-cancel-button]:hidden"
+        className="-my-px min-w-0 grow self-stretch bg-transparent text-sm text-role-text-primary outline-none placeholder:text-role-text-secondary disabled:cursor-not-allowed disabled:text-role-text-disabled [&::-webkit-search-cancel-button]:hidden"
         {...rest}
       />
       {query && !disabled && (

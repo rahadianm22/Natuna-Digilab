@@ -1966,10 +1966,10 @@ import { Button, Drawer } from "@/ui";`,
     },
     usage: {
       js: `export default function CoverDemo() {
-  return <Cover title="Natuna Digilab" description="Design System — Component Library" />;
+  return <Cover title="Natuna Digilab" description="Design System: Component Library" />;
 }`,
       ts: `export default function CoverDemo() {
-  return <Cover title="Natuna Digilab" description="Design System — Component Library" />;
+  return <Cover title="Natuna Digilab" description="Design System: Component Library" />;
 }`,
     },
     props: [
@@ -3638,7 +3638,8 @@ import { DatePicker } from "@/ui";`,
                 "The grid is a role=grid named by the month. Each day is named in full, such as Jumat, 18 September 2026. Today has aria-current=date."
           ],
           "youMust": [
-                "Dates show in id-ID format. If people type dates, add a text input next to it."
+                "Dates show in id-ID format. If people type dates, add a text input next to it.",
+                "Each day is 44px tall. On a screen narrower than about 400px the seven columns share the width, so a day can be 35 to 39px wide. Give the calendar the full width of the screen on phones."
           ]
     },
   },
@@ -4461,6 +4462,12 @@ export default function NavDemo() {
                 "name": "TopAppBar title",
                 "type": "string",
                 "description": "Required. The page title, an h1."
+          },
+          {
+                "name": "TopAppBar titleAs",
+                "type": "\"h1\" | \"h2\" | \"p\"",
+                "default": "\"h1\"",
+                "description": "The tag for the title. Leave it as h1 on a real screen. Use p for a demo inside a page that already has an h1."
           },
           {
                 "name": "TopAppBar onBack",

@@ -19,6 +19,7 @@ export const metadata: Metadata = { alternates: { canonical: "/" } };
 // Everything counted here comes from the tracker snapshot and the palette, never typed in by hand.
 const ready = productTracker.filter((t) => t.status === "Selesai").length;
 const total = productTracker.length;
+const allReady = ready === total;
 const days = lastBuildDay();
 const inCode = Object.keys(componentDocs).length;
 const azure = palettes.find((p) => p.token === "blue")!;
@@ -53,8 +54,17 @@ export default function Home() {
         >
           <div className="flex min-w-0 flex-col gap-7">
             <p className="rise text-sm text-gray-700">
-              <span className="font-semibold tabular-nums text-gray-900">{ready} of {total}</span> components ready in Figma.
-              The {days}-day build is in progress.
+              {allReady ? (
+                <>
+                  <span className="font-semibold tabular-nums text-gray-900">All {total}</span> components are ready in Figma.
+                  The {days}-day build is complete.
+                </>
+              ) : (
+                <>
+                  <span className="font-semibold tabular-nums text-gray-900">{ready} of {total}</span> components ready in Figma.
+                  The {days}-day build is in progress.
+                </>
+              )}
             </p>
             <h1 id="hero" className="rise font-display text-[clamp(42px,5vw,68px)] font-extrabold leading-[0.98] tracking-[-0.035em]" style={{ "--d": "60ms" } as CSSProperties}>
               One system.
@@ -65,7 +75,7 @@ export default function Home() {
             </h1>
             <p className="rise max-w-[520px] text-lg leading-[1.55] text-gray-700 md:text-xl" style={{ "--d": "120ms" } as CSSProperties}>
               Tokens, components, and usage rules for digital products, from banking and payments to everyday consumer
-              apps. Figma is the source of truth. Components move to Ready in Figma on the build schedule; React code follows separately, with {inCode} components so far.
+              apps. Figma is the source of truth{allReady ? ", and every component is Ready there" : ". Components move to Ready in Figma on the build schedule"}. React code follows separately, with {inCode} components so far.
             </p>
             <div className="rise flex flex-wrap gap-3" style={{ "--d": "180ms" } as CSSProperties}>
               <Link href="/components" className={`${buttonStyles({ variant: "inverse", size: "lg" })} w-full sm:w-auto`}>
@@ -80,7 +90,7 @@ export default function Home() {
               {[
                 [String(palettes.length), "color ramps"],
                 [String(total), "components tracked"],
-                ["440–1440", "responsive range"],
+                ["440 to 1440", "responsive range"],
               ].map(([v, k]) => (
                 <div key={k} className="flex flex-col-reverse justify-end gap-0.5">
                   <dt>{k}</dt>
@@ -103,7 +113,7 @@ export default function Home() {
                 <div className="flex flex-[1_1_520px] flex-col gap-4" data-reveal-item>
                   <span className={`${eyebrow} text-lime`}>Foundation</span>
                   <h2 id="foundation-title" className={h2}>
-                    Every pixel traces back to a token.
+                    Every color and number traces back to a token.
                   </h2>
                 </div>
                 <p className="max-w-[440px] flex-[1_1_360px] text-lg text-inverse-muted" data-reveal-item>
@@ -203,7 +213,6 @@ export default function Home() {
         <Reveal>
           <section id="intro" aria-labelledby="start-title" className="mx-auto flex w-full max-w-7xl flex-col gap-8 px-6 pb-24">
             <div className="flex flex-col gap-4" data-reveal-item>
-              <span className={`${eyebrow} text-blue-800`}>Get started</span>
               <h2 id="start-title" className={h2}>
                 Pick your starting point.
               </h2>

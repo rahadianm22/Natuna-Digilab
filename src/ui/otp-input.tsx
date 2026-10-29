@@ -5,7 +5,7 @@ import { useId, useRef, useState, type ClipboardEvent, type KeyboardEvent } from
 export type OtpSize = "sm" | "md" | "lg";
 
 // Cell 32x40, 40x48, 48x56. The sm cell keeps a 44px tall tap area by its height row, not its box.
-const CELL: Record<OtpSize, string> = { sm: "h-11 w-9 text-base", md: "h-12 w-10 text-lg", lg: "h-14 w-12 text-xl" };
+const CELL: Record<OtpSize, string> = { sm: "h-11 w-11 text-base", md: "h-12 w-11 text-lg", lg: "h-14 w-12 text-xl" };
 
 export interface OtpInputProps {
   /** Names the group, such as "Verification code". */

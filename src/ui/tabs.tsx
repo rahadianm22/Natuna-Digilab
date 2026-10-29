@@ -95,7 +95,7 @@ export function Tabs({ label, items, type = "underline", size = "md", value, def
               role="tab"
               type="button"
               aria-selected={on}
-              aria-controls={`${uid}-panel-${item.id}`}
+              aria-controls={on && item.content !== undefined ? `${uid}-panel-${item.id}` : undefined}
               tabIndex={on ? 0 : -1}
               disabled={item.disabled}
               onClick={() => select(item.id)}

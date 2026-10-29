@@ -18,7 +18,7 @@ test("copy to Figma puts valid, layered SVG on the clipboard", async ({ page }) 
   for (const slug of ["button", "accordion", "tabs"]) {
     await page.goto(`/components/${slug}`);
     await page.waitForLoadState("networkidle");
-    await page.getByRole("button", { name: "Copy to Figma" }).click();
+    await page.getByRole("button", { name: "Copy to Figma" }).first().click();
     await expect(page.getByRole("button", { name: "Copied" })).toBeVisible();
     const svg = await page.evaluate(() => navigator.clipboard.readText());
     const result = await page.evaluate((s) => {
@@ -97,23 +97,10 @@ test("home bills card: select, pay, and its own theme switch", async ({ page }) 
   await expect(page.getByRole("button", { name: "Bills card theme: Dark" })).toBeVisible();
 });
 
-test("home status filter: tabs filter the list and follow the arrow keys", async ({ page }) => {
-  await page.goto("/");
-  await page.waitForLoadState("networkidle");
-  const tabs = page.getByRole("tablist", { name: "Filter by status" });
-  await tabs.getByRole("tab", { name: /^Ready/ }).click();
-  const panel = page.getByRole("tabpanel");
-  await expect(panel.getByRole("link", { name: /Button/ })).toBeVisible();
-  await expect(panel.getByText("Tooltip")).toHaveCount(0);
-  await page.keyboard.press("ArrowRight");
-  await expect(tabs.getByRole("tab", { name: /^In progress/ })).toHaveAttribute("aria-selected", "true");
-  await expect(tabs.getByRole("tab", { name: /^In progress/ })).toBeFocused();
-});
-
-test("design-only component has no code tab", async ({ page }) => {
-  await page.goto("/components/tabs");
+test("documentation frame has no code tab", async ({ page }) => {
+  await page.goto("/components/artboard");
   await expect(page.getByRole("tab", { name: "code" })).toHaveCount(0);
-  await expect(page.getByText("The React component is not built yet")).toBeVisible();
+  await expect(page.getByText("This is a Figma documentation frame, so it has no code component.")).toBeVisible();
 });
 
 test("sidebar groups open and close", async ({ page }) => {
@@ -165,8 +152,10 @@ test("overview filter and status chips", async ({ page }) => {
   await expect(page.getByText("No components found")).toBeVisible();
   await page.getByRole("searchbox", { name: "Search components" }).fill("");
   await page.getByRole("button", { name: /^Ready/ }).click();
-  await expect(page.getByRole("link", { name: /^Button/ }).first()).toBeVisible();
-  await expect(page.getByText("Tabs", { exact: true })).toHaveCount(0);
+  await expect(page.getByRole("link", { name: /^Button$/ }).first()).toBeVisible();
+  await page.getByRole("button", { name: /^Not tracked/ }).click();
+  await expect(page.getByRole("link", { name: /^Select$/ })).toBeVisible();
+  await expect(page.getByRole("link", { name: /^Button$/ })).toHaveCount(0);
 });
 
 test("foundation swatch copies its hex", async ({ page }) => {
@@ -179,7 +168,7 @@ test.describe("phone", () => {
   test.use({ viewport: { width: 390, height: 800 } });
 
   test("no horizontal overflow on any page", async ({ page }) => {
-    for (const path of ["/", "/docs", "/foundation", "/components", "/components/button", "/themes", "/naming", "/templates", "/privacy"]) {
+    for (const path of ["/", "/docs", "/foundation", "/components", "/components/button", "/themes", "/naming", "/privacy"]) {
       await page.goto(path);
       const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
       expect(overflow, `${path} overflows by ${overflow}px`).toBeLessThanOrEqual(0);

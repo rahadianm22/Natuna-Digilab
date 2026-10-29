@@ -54,7 +54,7 @@ export function Toast({ tone = "info", type = "subtle", size = "md", title, desc
         {description && <p className="text-xs leading-[18px]">{description}</p>}
       </div>
       {actionLabel && onAction && (
-        <button type="button" onClick={onAction} className="-my-3 inline-flex min-h-11 items-center rounded-sm px-1 text-sm font-medium underline underline-offset-2">
+        <button type="button" onClick={onAction} className="-my-3 inline-flex min-h-11 min-w-11 items-center justify-center rounded-sm px-1 text-sm font-medium underline underline-offset-2">
           {actionLabel}
         </button>
       )}

@@ -43,6 +43,7 @@ export function AmountInput({ label, value, defaultValue = null, onChange, size 
         {label}
       </label>
       <div
+        onClick={(e) => e.target === e.currentTarget && e.currentTarget.querySelector("input")?.focus()}
         className={`flex items-center gap-1.5 rounded-md border px-3 ${HEIGHT[size]} ${
           disabled
             ? "border-role-border-disabled bg-role-bg-subtle"
@@ -65,7 +66,7 @@ export function AmountInput({ label, value, defaultValue = null, onChange, size 
           aria-invalid={error ? true : undefined}
           aria-describedby={note ? `${id}-note` : undefined}
           // The Rp prefix is visual only. Say rupiah in the label when the currency is not obvious from the page.
-          className="min-w-0 grow self-stretch bg-transparent font-semibold tabular-nums text-role-text-primary outline-none placeholder:font-normal placeholder:text-role-text-secondary disabled:cursor-not-allowed disabled:text-role-text-disabled"
+          className="-my-px min-w-0 grow self-stretch bg-transparent font-semibold tabular-nums text-role-text-primary outline-none placeholder:font-normal placeholder:text-role-text-secondary disabled:cursor-not-allowed disabled:text-role-text-disabled"
         />
       </div>
       {note && (

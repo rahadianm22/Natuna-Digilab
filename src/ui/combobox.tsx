@@ -129,7 +129,7 @@ export function Combobox(props: ComboboxSingleProps | ComboboxMultipleProps) {
       </label>
       <div
         onClick={() => !disabled && input.current?.focus()}
-        className={`flex min-h-11 flex-wrap items-center gap-1.5 rounded-md border px-3 py-1 ${
+        className={`flex min-h-11 flex-wrap items-center gap-1.5 rounded-md border px-3 ${
           disabled
             ? "border-role-border-disabled bg-role-bg-subtle"
             : error
@@ -163,7 +163,7 @@ export function Combobox(props: ComboboxSingleProps | ComboboxMultipleProps) {
             setOpen(true);
           }}
           onKeyDown={onKey}
-          className="min-h-9 min-w-24 grow self-stretch bg-transparent text-sm text-role-text-primary outline-none placeholder:text-role-text-secondary disabled:cursor-not-allowed"
+          className="-my-px min-h-11 min-w-24 grow self-stretch bg-transparent text-sm text-role-text-primary outline-none placeholder:text-role-text-secondary disabled:cursor-not-allowed"
         />
         <CaretDown size={16} aria-hidden="true" className={`shrink-0 text-role-text-secondary transition-transform ${open ? "rotate-180" : ""}`} />
       </div>
