@@ -74,8 +74,7 @@ export default function Home() {
               <span className="text-blue-800">built in React.</span>
             </h1>
             <p className="rise max-w-[520px] text-lg leading-[1.55] text-gray-700 md:text-xl" style={{ "--d": "120ms" } as CSSProperties}>
-              Tokens, components, and usage rules for digital products, from banking and payments to everyday consumer
-              apps. Figma is the source of truth{allReady ? ", and every component is Ready there" : ". Components move to Ready in Figma on the build schedule"}. React code follows separately, with {inCode} components so far.
+              Tokens, components, and usage rules for banking, payments and consumer apps. Figma is the source of truth{allReady ? ", and every component is Ready there" : ". Components move to Ready in Figma on the build schedule"}. React code follows separately, with {inCode} components so far.
             </p>
             <div className="rise flex flex-wrap gap-3" style={{ "--d": "180ms" } as CSSProperties}>
               <Link href="/components" className={`${buttonStyles({ variant: "inverse", size: "lg" })} w-full sm:w-auto`}>
@@ -211,67 +210,70 @@ export default function Home() {
         </Reveal>
 
         <Reveal>
-          <section id="intro" aria-labelledby="start-title" className="mx-auto flex w-full max-w-7xl flex-col gap-8 px-6 pb-24">
-            <div className="flex flex-col gap-4" data-reveal-item>
-              <h2 id="start-title" className={h2}>
-                Pick your starting point.
-              </h2>
-            </div>
-            <div className="grid grid-cols-[repeat(auto-fit,minmax(min(300px,100%),1fr))] gap-4">
-              {/* Brand blue gets its own surface here, paired with the navy "In code" card. White on #015099 is 8.0:1. */}
-              <div className="flex flex-col gap-4.5 rounded-3xl bg-brand p-8 text-white" data-reveal-item>
-                <span className="font-display text-[28px] font-bold">In Figma</span>
-                <p className="max-w-[420px]">
-                  Duplicate the Foundation Design System from Figma Community. Tokens, components and usage notes come
-                  with it.
-                </p>
-                {/* The Azure ramp this card is drawn from, so the empty middle carries the system instead of air. */}
-                <div aria-hidden="true" className="mt-auto grid h-14 grid-cols-7 gap-1">
-                  {azure.steps.slice(0, 7).map((s) => (
-                    <span key={s.step} className="rounded-sm" style={{ background: s.hex }} />
-                  ))}
-                </div>
-                <a
-                  href={FIGMA_COMMUNITY_URL}
-                  target="_blank"
-                  rel="noreferrer"
-                  className={`${buttonStyles({ variant: "secondary", size: "lg" })} self-start focus-visible:outline-white`}
-                >
-                  Open in Figma Community
-                </a>
+          {/* Navy like the Foundation section, so the page ends on the same layer it opened its tokens on. */}
+          <section id="intro" aria-labelledby="start-title" className="bg-inverse text-inverse-text">
+            <div className="mx-auto flex w-full max-w-7xl flex-col gap-8 px-6 py-24">
+              <div className="flex flex-col gap-4" data-reveal-item>
+                <h2 id="start-title" className={h2}>
+                  Pick your starting point.
+                </h2>
               </div>
-              <div className="flex flex-col gap-4.5 rounded-3xl bg-inverse p-8 text-inverse-text" data-reveal-item>
-                <div className="flex flex-col gap-1">
-                  <span className="font-display text-[28px] font-bold">In code</span>
-                  <span className="text-sm text-inverse-muted">Not on npm yet</span>
+              <div className="grid grid-cols-[repeat(auto-fit,minmax(min(300px,100%),1fr))] gap-4">
+                {/* Brand blue stands out on the navy section, paired with the raised "In code" card. White on #015099 is 8.0:1. */}
+                <div className="flex flex-col gap-4.5 rounded-3xl bg-brand p-8 text-white" data-reveal-item>
+                  <span className="font-display text-[28px] font-bold">In Figma</span>
+                  <p className="max-w-[420px]">
+                    Duplicate the Foundation Design System from Figma Community. Tokens, components and usage notes come
+                    with it.
+                  </p>
+                  {/* The Azure ramp this card is drawn from, so the empty middle carries the system instead of air. */}
+                  <div aria-hidden="true" className="mt-auto grid h-14 grid-cols-7 gap-1">
+                    {azure.steps.slice(0, 7).map((s) => (
+                      <span key={s.step} className="rounded-sm" style={{ background: s.hex }} />
+                    ))}
+                  </div>
+                  <a
+                    href={FIGMA_COMMUNITY_URL}
+                    target="_blank"
+                    rel="noreferrer"
+                    className={`${buttonStyles({ variant: "secondary", size: "lg" })} self-start focus-visible:outline-white`}
+                  >
+                    Open in Figma Community
+                  </a>
                 </div>
-                <p className="max-w-[440px] text-inverse-muted">
-                  {inCode} React components live in <code className="font-label text-inverse-text">src/ui</code>. Copy them into
-                  your project while the package is on its way.
-                </p>
-                {/* Same token colors as the docs CodeBlock: violet keywords, green strings, sky tags, amber attributes. */}
-                <pre tabIndex={0} aria-label="Importing Button from src/ui" className="overflow-x-auto rounded-xl border border-inverse-line bg-inverse-raised p-4.5 font-label text-sm leading-[1.7] text-[#f1f5f9]">
-                  <span className="italic text-[#b4bbc7]">{"// src/ui"}</span>
-                  {"\n"}
-                  <span className="text-[#cfaaff]">import</span> {"{ Button } "}
-                  <span className="text-[#cfaaff]">from</span> <span className="text-[#aad98c]">{'"@/ui"'}</span>
-                  {"\n\n"}
-                  {"<"}
-                  <span className="text-[#85d0ff]">Button</span> <span className="text-[#fcd97d]">size</span>
-                  {"="}
-                  <span className="text-[#aad98c]">{'"lg"'}</span>
-                  {">Pay Rp 860.500</"}
-                  <span className="text-[#85d0ff]">Button</span>
-                  {">"}
-                </pre>
-                <a
-                  href={REPO_URL}
-                  target="_blank"
-                  rel="noreferrer"
-                  className={`${buttonStyles({ variant: "secondary", size: "lg" })} self-start`}
-                >
-                  View source on GitHub
-                </a>
+                <div className="flex flex-col gap-4.5 rounded-3xl border border-inverse-line bg-inverse-raised p-8 text-inverse-text" data-reveal-item>
+                  <div className="flex flex-col gap-1">
+                    <span className="font-display text-[28px] font-bold">In code</span>
+                    <span className="text-sm text-inverse-muted">Not on npm yet</span>
+                  </div>
+                  <p className="max-w-[440px] text-inverse-muted">
+                    {inCode} React components live in <code className="font-label text-inverse-text">src/ui</code>. Copy them into
+                    your project while the package is on its way.
+                  </p>
+                  {/* Same token colors as the docs CodeBlock: violet keywords, green strings, sky tags, amber attributes. */}
+                  <pre tabIndex={0} aria-label="Importing Button from src/ui" className="overflow-x-auto rounded-xl border border-inverse-line bg-inverse p-4.5 font-label text-sm leading-[1.7] text-[#f1f5f9]">
+                    <span className="italic text-[#b4bbc7]">{"// src/ui"}</span>
+                    {"\n"}
+                    <span className="text-[#cfaaff]">import</span> {"{ Button } "}
+                    <span className="text-[#cfaaff]">from</span> <span className="text-[#aad98c]">{'"@/ui"'}</span>
+                    {"\n\n"}
+                    {"<"}
+                    <span className="text-[#85d0ff]">Button</span> <span className="text-[#fcd97d]">size</span>
+                    {"="}
+                    <span className="text-[#aad98c]">{'"lg"'}</span>
+                    {">Pay Rp 860.500</"}
+                    <span className="text-[#85d0ff]">Button</span>
+                    {">"}
+                  </pre>
+                  <a
+                    href={REPO_URL}
+                    target="_blank"
+                    rel="noreferrer"
+                    className={`${buttonStyles({ variant: "secondary", size: "lg" })} self-start`}
+                  >
+                    View source on GitHub
+                  </a>
+                </div>
               </div>
             </div>
           </section>
