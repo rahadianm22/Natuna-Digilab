@@ -19,8 +19,7 @@ export default function NotFound() {
           This page doesn&rsquo;t exist
         </h1>
         <p className="mt-5 text-lg leading-relaxed text-gray-700">
-          The page or component may have been renamed, moved, or never shipped. Every component, including the
-          planned ones, is listed on the components page.
+          The page or component may have been renamed, moved, or never shipped. Every component is listed on the components page.
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
           <Link

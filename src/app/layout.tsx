@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     template: "%s · Natuna Digilab",
   },
   description:
-    "Open-source components, design tokens, and guidelines built by Natuna Digilab for banking, payments and consumer apps.",
+    "Components, design tokens, and guidelines built by Natuna Digilab for banking, payments and consumer apps.",
 };
 
 const themeScript = `try{var t=localStorage.getItem("theme");var d=t?t==="dark":matchMedia("(prefers-color-scheme: dark)").matches;document.documentElement.classList.toggle("dark",d)}catch(e){}`;

@@ -17,7 +17,7 @@ export default function PrivacyPage() {
       <main id="main" tabIndex={-1} className="mx-auto w-full max-w-2xl px-6 pb-24 pt-14">
         <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">Privacy statement</h1>
         <p className="mt-5 text-lg leading-relaxed text-gray-700">
-          This documentation site is a static, open-source project. It does not collect,
+          This documentation site is a static site with its source on GitHub. It does not collect,
           store, or share personal data.
         </p>
 

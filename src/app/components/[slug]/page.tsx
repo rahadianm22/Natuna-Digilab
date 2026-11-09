@@ -126,7 +126,7 @@ export default async function ComponentDetail({ params }: Props) {
                     {row?.buildDay ? <span>Build day {row.buildDay} of {LAST_BUILD_DAY}</span> : null}
                   </dd>
                 </div>
-                {isFrame ? null : (
+                {isFrame && !doc ? null : (
                   <div className="flex items-center gap-2">
                     <dt className="text-gray-700">Code</dt>
                     <dd className="text-gray-900">{doc ? <CodeBadge /> : "Not in React yet"}</dd>

@@ -146,13 +146,13 @@ const onRed800 = contrast(LIGHT_CANVAS, hexOf("red", "800")).toFixed(2);
 const aaa = [
   { rule: "Text contrast", sc: "1.4.6 Contrast (Enhanced)", min: "7:1", how: "Text tokens only: text/primary, secondary, tertiary and link. Light: gray-900 / gray-700 / gray-600 / blue-800 on canvas. Dark: gray-50 / gray-200 / gray-300 / blue-200 on gray-900. On surfaces, tertiary text steps up to secondary." },
   { rule: "Large text", sc: "1.4.6 Contrast (Enhanced)", min: "4.5:1", how: "24px and up, or 19px bold and up. Headings still use text/primary (7:1+)." },
-  { rule: "Text on fills", sc: "1.4.6 Contrast (Enhanced)", min: "7:1", how: `White on blue-800 (${onBlue800}) and red-800 (${onRed800}). Navy on Signal, Jade 500, Amber 500 and Sky 500. Ramp anchors (step 600) are fills, not text colours.` },
+  { rule: "Text on fills", sc: "1.4.6 Contrast (Enhanced)", min: "7:1", how: `White on blue-800 (${onBlue800}) and red-800 (${onRed800}). Navy on Signal, Jade 500, Amber 500 and Sky 500. Ramp anchors (step 600) are fills, not text colors.` },
   { rule: "Non-text contrast", sc: "1.4.11 Non-text Contrast", min: "3:1", how: "Control borders gray-500 on canvas, gray-600 on surface, gray-400 in dark. Focus ring blue-600 (light) and blue-400 (dark)." },
   { rule: "Target size", sc: "2.5.5 Target Size (Enhanced)", min: "44 × 44px", how: "Every button, tab, toggle and list link, including the in-page navigation. Inline links in sentences are exempt." },
   { rule: "Focus", sc: "2.4.13 Focus Appearance", min: "2px, 3:1", how: "2px solid outline in focus/ring, 2px offset, on every focusable element in both modes." },
   { rule: "Line spacing", sc: "1.4.8 Visual Presentation", min: "1.5", how: "Body and caption styles used for paragraphs run at 1.5 or more. Caption 2 (12/16) is for single-line metadata only." },
   { rule: "Motion", sc: "2.3.3 Animation from Interactions", min: "Can be turned off", how: "All animation stops under prefers-reduced-motion." },
-  { rule: "Color alone", sc: "1.4.1 Use of Color", min: "Never", how: "Status pairs colour with a label or icon, and links inside text are underlined." },
+  { rule: "Color alone", sc: "1.4.1 Use of Color", min: "Never", how: "Status pairs color with a label or icon, and links inside text are underlined." },
 ];
 
 const textSafe = palettes.map(textSafeRow);

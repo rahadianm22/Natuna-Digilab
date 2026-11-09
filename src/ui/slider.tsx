@@ -80,7 +80,7 @@ export function Slider(props: SliderProps | RangeSliderProps) {
     }
   }
 
-  const text = range ? `${fmt(lo)} – ${fmt(hi)}` : fmt(hi);
+  const text = range ? `${fmt(lo)} to ${fmt(hi)}` : fmt(hi);
   const fill = disabled ? "bg-role-text-disabled" : "bg-role-bg-brand";
 
   return (

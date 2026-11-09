@@ -44,8 +44,7 @@ export default function DocsPage() {
           <div className="max-w-3xl">
             <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">Introduction</h1>
             <p className="mt-5 text-lg leading-relaxed text-gray-700">
-              Natuna Digilab is an open design system for digital products, from banking and payments to everyday
-              consumer apps. Figma is the source of truth, and React code follows component by component, so products
+              Natuna Digilab is a design system for banking, payments and consumer apps. Figma is the source of truth, and React code follows component by component, so products
               built by different teams look and behave the same.
             </p>
 
@@ -149,7 +148,7 @@ export default function DocsPage() {
               <p className="mt-4 leading-relaxed text-gray-700">
                 Found a gap, a wrong rule, or a bug on this site?{" "}
                 <a href={ISSUES_URL} target="_blank" rel="noreferrer" className={linkClass}>Open an issue</a> and
-                describe what you expected. The site itself is open source on{" "}
+                describe what you expected. The source of this site is on{" "}
                 <a href={REPO_URL} target="_blank" rel="noreferrer" className={linkClass}>GitHub</a>, where you can
                 propose a change with a pull request.
               </p>

@@ -79,7 +79,7 @@ const pages: { progress: string; figma: string; meaning: string; status?: Tracke
   { progress: "60%", figma: "🟨 Documentation", meaning: "Designed, being documented and reviewed.", status: "On Review" },
   { progress: "100%", figma: "🟩 Finish Component", meaning: "Signed off in Figma.", status: "Selesai" },
   { progress: "Pending", figma: "🟦 Pending", meaning: "Work on the component is paused." },
-  { progress: "Takedown", figma: "⬛ Takedown", meaning: "The component was taken down after it was crafted." },
+  { progress: "Takedown", figma: "⬛ Takedown", meaning: "The component was taken down after it was built." },
 ];
 
 const rules = [

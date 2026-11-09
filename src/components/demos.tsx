@@ -176,7 +176,7 @@ function ToastDemo() {
       <Toast
         tone="success"
         title="Transfer successful"
-        description="Rp500,000 to Andi Pratama"
+        description="Rp500.000 to Andi Pratama"
         actionLabel="Undo"
         onAction={() => setOpen(false)}
         onClose={() => setOpen(false)}
@@ -195,7 +195,7 @@ function CommentDemo() {
   return (
     <div className="mx-auto w-full max-w-sm">
       <Comment
-        author="Rahadian"
+        author="Siti Nur Aisyah"
         role="Approver"
         timestamp="2 hours ago"
         state={resolved ? "resolved" : "default"}
@@ -326,7 +326,18 @@ function DrawerDemo() {
 function CardDemo() {
   return (
     <div className="mx-auto w-72">
-      <Card type="media" label="KPR" title="Subsidized Home" description="Installments from Rp1.2M/month over a 20-year term." linkLabel="See more" href="#" />
+      <Card
+        type="action"
+        label="Promo"
+        title="Time Savings"
+        description="4% p.a. interest on regular deposits."
+        actions={
+          <>
+            <Button variant="ghost">Skip</Button>
+            <Button>Apply</Button>
+          </>
+        }
+      />
     </div>
   );
 }
@@ -374,7 +385,7 @@ function PaginationDemo() {
 function FileInputDemo() {
   return (
     <div className="mx-auto w-full max-w-sm">
-      <FileInput description="PNG, JPG maks. 5 MB" accept="image/png,image/jpeg" />
+      <FileInput description="PNG, JPG, max 5 MB" accept="image/png,image/jpeg" />
     </div>
   );
 }
@@ -450,7 +461,7 @@ function SliderDemo() {
 function SpinnerDemo() {
   return (
     <div className="flex justify-center">
-      <Button loading>Processing</Button>
+      <Spinner size="md" label="Loading transactions" />
     </div>
   );
 }
@@ -568,7 +579,7 @@ function MenuDemo() {
 
 function EmptyStateDemo() {
   return (
-    <EmptyState scope="error" title="Couldn’t load transactions" description="Check your connection and try again." action={<Button variant="secondary">Try again</Button>} />
+    <EmptyState scope="list" title="No transactions yet" description="Your transactions will appear here." action={<Button variant="secondary">Try again</Button>} />
   );
 }
 
@@ -1063,7 +1074,7 @@ function ToastMatrix() {
         <Specimen key={type} label={`type ${type}`} detail="four tones">
           <div className="grid gap-3">
             {(["info", "success", "warning", "danger"] as const).map((tone) => (
-              <Toast key={tone} type={type} tone={tone} title="Transfer successful" description="Rp500,000 to Andi Pratama" actionLabel="Undo" onAction={() => {}} onClose={() => {}} />
+              <Toast key={tone} type={type} tone={tone} title="Transfer successful" description="Rp500.000 to Andi Pratama" actionLabel="Undo" onAction={() => {}} onClose={() => {}} />
             ))}
           </div>
         </Specimen>
@@ -1079,7 +1090,7 @@ function CommentMatrix() {
         <Specimen key={type} label={`type ${type}`} detail="default, highlight, resolved">
           <div className="grid gap-3">
             {(["default", "highlight", "resolved"] as const).map((state) => (
-              <Comment key={state} type={type} state={state} author="Rahadian" role="Approver" timestamp="2 hours ago" onReply={() => {}} onToggleResolved={() => {}}>
+              <Comment key={state} type={type} state={state} author="Siti Nur Aisyah" role="Approver" timestamp="2 hours ago" onReply={() => {}} onToggleResolved={() => {}}>
                 Payslip documents check out. Moving on to collateral verification.
               </Comment>
             ))}
@@ -1268,7 +1279,7 @@ function CardMatrix() {
                 label="KPR"
                 title="Subsidized Home"
                 description="Installments from Rp1.2M/month over a 20-year term."
-                linkLabel="See more"
+                linkLabel="Check installment terms"
                 href="#"
                 actions={actions}
                 interactive={state === "interactive"}
@@ -1371,7 +1382,7 @@ function FileInputMatrix() {
             {states.map((s) => (
               <div key={s.label} className="grid gap-1">
                 <span className="text-xs text-gray-700">{s.label}</span>
-                <FileInput type={type} description="PNG, JPG maks. 5 MB" {...s.props} />
+                <FileInput type={type} description="PNG, JPG, max 5 MB" {...s.props} />
               </div>
             ))}
           </div>
@@ -1420,7 +1431,7 @@ function AlertMatrix() {
   return (
     <div className="grid gap-3">
       {(["info", "success", "warning", "danger"] as const).map((tone) => (
-        <Alert key={tone} tone={tone} title={tone[0].toUpperCase() + tone.slice(1) + " alert"} description="Stays on the page until the problem is gone." action={<a href="#" className="font-medium underline">Learn more</a>} onClose={() => {}} />
+        <Alert key={tone} tone={tone} title={tone[0].toUpperCase() + tone.slice(1) + " alert"} description="Stays on the page until the problem is gone." action={<a href="#" className="font-medium underline">Open activity log</a>} onClose={() => {}} />
       ))}
     </div>
   );
@@ -1755,7 +1766,7 @@ function AvatarMatrix() {
 function AccordionMatrix() {
   return (
     <div className="space-y-4">
-      <p className="text-sm text-gray-700">These specimens are inert, so each one stays in the state it is labelled with.</p>
+      <p className="text-sm text-gray-700">These specimens are inert, so each one stays in the state it is labeled with.</p>
       <div className="grid gap-4 sm:grid-cols-2">
         <Specimen label="Closed" detail="default">
           <div inert>

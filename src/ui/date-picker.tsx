@@ -208,7 +208,7 @@ export function DatePicker(props: DatePickerSingleProps | DatePickerRangeProps) 
   const value = range ? ((props as DatePickerRangeProps).value ?? pair) : ((props as DatePickerSingleProps).value ?? single);
   const text = range
     ? value && (value as DateRange)[1]
-      ? `${(value as DateRange)[0].getDate()} – ${formatDate((value as DateRange)[1]!)}`
+      ? `${(value as DateRange)[0].getDate()} to ${formatDate((value as DateRange)[1]!)}`
       : value
         ? formatDate((value as DateRange)[0])
         : ""

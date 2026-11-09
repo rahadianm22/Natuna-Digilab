@@ -125,7 +125,7 @@ const previews: Record<string, () => ReactElement> = {
   ),
   card: () => (
     <div className="mx-auto grid w-72 gap-4 py-4">
-      <Card type="media" label="KPR" title="Subsidized Home" description="Installments from Rp1.2M/month over a 20-year term." linkLabel="See more" href="#" />
+      <Card type="media" label="KPR" title="Subsidized Home" description="Installments from Rp1.2M/month over a 20-year term." linkLabel="Check installment terms" href="#" />
       <Card type="action" label="Promo" title="Time Savings" description="4% p.a. interest on regular deposits." actions={<><Button variant="ghost">Skip</Button><Button>Apply</Button></>} />
     </div>
   ),
@@ -228,7 +228,7 @@ const previews: Record<string, () => ReactElement> = {
   ),
   toast: () => (
     <div className="mx-auto grid w-fit gap-3 py-4">
-      <Toast tone="success" title="Transfer successful" description="Rp500,000 to Andi Pratama" actionLabel="Undo" onAction={() => {}} onClose={() => {}} />
+      <Toast tone="success" title="Transfer successful" description="Rp500.000 to Andi Pratama" actionLabel="Undo" onAction={() => {}} onClose={() => {}} />
       <Toast tone="danger" type="solid" title="Connection lost" onClose={() => {}} />
       <Toast tone="warning" type="solid" title="Session ends in 1 minute" />
     </div>
@@ -308,7 +308,7 @@ const previews: Record<string, () => ReactElement> = {
   ),
   comment: () => (
     <div className="mx-auto grid w-full max-w-sm gap-3 py-4">
-      <Comment author="Rahadian" role="Approver" timestamp="2 hours ago" onReply={() => {}} onToggleResolved={() => {}}>
+      <Comment author="Siti Nur Aisyah" role="Approver" timestamp="2 hours ago" onReply={() => {}} onToggleResolved={() => {}}>
         Payslip documents check out. Moving on to collateral verification.
       </Comment>
       <Comment type="annotation" state="highlight" author="CS note" role="CS" timestamp="18 Sep, 09:12">
@@ -388,7 +388,7 @@ const previews: Record<string, () => ReactElement> = {
   ),
   "file-input": () => (
     <div className="mx-auto grid w-full max-w-sm gap-4 py-4">
-      <FileInput description="PNG, JPG maks. 5 MB" accept="image/png,image/jpeg" />
+      <FileInput description="PNG, JPG, max 5 MB" accept="image/png,image/jpeg" />
       <FileInput type="inline" />
     </div>
   ),

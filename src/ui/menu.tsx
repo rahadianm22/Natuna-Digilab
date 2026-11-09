@@ -92,7 +92,7 @@ export interface MenuProps {
   items: MenuItemData[];
   size?: MenuSize;
   align?: "start" | "end";
-  /** Replaces the trigger classes. DropdownMenu uses it to draw a labelled button. */
+  /** Replaces the trigger classes. DropdownMenu uses it to draw a labeled button. */
   triggerClassName?: string;
   className?: string;
 }
@@ -149,7 +149,7 @@ export interface DropdownMenuProps extends Omit<MenuProps, "trigger" | "triggerC
   variant?: Exclude<ButtonVariant, "destructive">;
 }
 
-/** A labelled button that opens a list of actions, such as "Export". For an icon-only trigger, use Menu. */
+/** A labeled button that opens a list of actions, such as "Export". For an icon-only trigger, use Menu. */
 export function DropdownMenu({ label, icon, variant = "secondary", ...menu }: DropdownMenuProps) {
   return (
     <Menu

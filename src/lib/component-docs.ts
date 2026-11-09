@@ -428,7 +428,7 @@ import { RadioButton } from "@/ui";`,
       ],
       youMust: [
         "Give every option in a set the same name, and wrap the set in a fieldset with a legend or a role=\"radiogroup\" with a label.",
-        "This is a single option. Grouping and exclusivity belong to the Radio Group, which does not exist in code yet.",
+        "This is a single option. Grouping and exclusivity belong to the Radio Group.",
       ],
     },
   },
@@ -649,7 +649,7 @@ import { Toggle } from "@/ui";`,
           ],
           "screenReader": [
                 "Has role=separator with its orientation.",
-                "A labelled separator is read by its label, such as or. The text inside is aria-hidden so it is not read twice."
+                "A labeled separator is read by its label, such as or. The text inside is aria-hidden so it is not read twice."
           ],
           "youMust": [
                 "Use it for a real change of topic. For pure spacing, use margin."
@@ -750,7 +750,7 @@ export default function BreadcrumbsDemo() {
                 "Each link is a native anchor: Tab focuses it and Enter follows it. The current page is not focusable."
           ],
           "screenReader": [
-                "Wrapped in a nav labelled Breadcrumb, with the items in an ordered list.",
+                "Wrapped in a nav labeled Breadcrumb, with the items in an ordered list.",
                 "The last item has aria-current=\"page\".",
                 "Separators and the house icon are aria-hidden."
           ],
@@ -862,7 +862,7 @@ import { Toast } from "@/ui";`,
     <Toast
       tone="success"
       title="Transfer successful"
-      description="Rp500,000 to Andi Pratama"
+      description="Rp500.000 to Andi Pratama"
       actionLabel="Undo"
       onAction={() => setOpen(false)}
       onClose={() => setOpen(false)}
@@ -877,7 +877,7 @@ import { Toast } from "@/ui";`,
     <Toast
       tone="success"
       title="Transfer successful"
-      description="Rp500,000 to Andi Pratama"
+      description="Rp500.000 to Andi Pratama"
       actionLabel="Undo"
       onAction={() => setOpen(false)}
       onClose={() => setOpen(false)}
@@ -989,7 +989,7 @@ import { Comment, type CommentState } from "@/ui";`,
 
   return (
     <Comment
-      author="Rahadian"
+      author="Siti Nur Aisyah"
       role="Approver"
       timestamp="2 hours ago"
       state={resolved ? "resolved" : "default"}
@@ -1006,7 +1006,7 @@ import { Comment, type CommentState } from "@/ui";`,
 
   return (
     <Comment
-      author="Rahadian"
+      author="Siti Nur Aisyah"
       role="Approver"
       timestamp="2 hours ago"
       state={state}
@@ -1098,7 +1098,7 @@ import { Comment, type CommentState } from "@/ui";`,
                 "Reply and Resolve are native buttons: Tab focuses them and Enter or Space activates them."
           ],
           "screenReader": [
-                "An article labelled Comment by the author.",
+                "An article labeled Comment by the author.",
                 "The avatar is named by the author, so the name is read twice. Pass the avatar name only when it adds something."
           ],
           "youMust": [
@@ -2300,7 +2300,7 @@ import { Pagination } from "@/ui";`,
       js: `export default function FileInputDemo() {
   return (
     <FileInput
-      description="PNG, JPG maks. 5 MB"
+      description="PNG, JPG, max 5 MB"
       accept="image/png,image/jpeg"
       onFiles={(files) => console.log(files)}
     />
@@ -2311,7 +2311,7 @@ import { Pagination } from "@/ui";`,
     console.log(files.map((f) => f.name));
   }
 
-  return <FileInput description="PNG, JPG maks. 5 MB" accept="image/png,image/jpeg" onFiles={handleFiles} />;
+  return <FileInput description="PNG, JPG, max 5 MB" accept="image/png,image/jpeg" onFiles={handleFiles} />;
 }`,
     },
     props: [
@@ -4114,7 +4114,7 @@ export default function SelectDemo() {
       ],
       youMust: [
         "Use Combobox when the list is long enough that people would want to type to filter it, such as banks.",
-        "Use a Radio group for two to four options, so all of them are visible.",
+        "Use a Radio group for two to five options, so all of them are visible.",
         "Pass required when a choice is needed; the placeholder alone does not block an empty submit.",
       ],
     },
