@@ -5,7 +5,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { CaretDown, MagnifyingGlass } from "@phosphor-icons/react";
 import type { ComponentStatus } from "@/lib/components-data";
-import CodeBadge from "./CodeBadge";
 
 /** The few fields the sidebar reads, so the full catalogue and its prose stay on the server. */
 export interface SidebarItem {
@@ -14,8 +13,6 @@ export interface SidebarItem {
   tags: string[];
   group: string;
   status: ComponentStatus;
-  /** Has React code in src/ui. */
-  code: boolean;
 }
 
 export interface SidebarData {
@@ -109,12 +106,7 @@ function SidebarBody({ idPrefix, onNavigate, items: sorted, groups, statusText }
                         }`}
                       >
                         <span className="truncate">{c.name}</span>
-                        {(c.status !== "stable" || c.code) && (
-                          <span className="flex shrink-0 items-center gap-1.5">
-                            {c.status !== "stable" && <span className="text-xs text-gray-700">{statusText[c.status]}</span>}
-                            {c.code && <CodeBadge />}
-                          </span>
-                        )}
+                        {c.status !== "stable" && <span className="shrink-0 text-xs text-gray-700">{statusText[c.status]}</span>}
                       </Link>
                     </li>
                   );
