@@ -38,6 +38,8 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  // Set by the security upgrade so dev and build stop repeating the advisory nudge.
+  experimental: { agentUpgrade: "security" },
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },
