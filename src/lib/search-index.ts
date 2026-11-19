@@ -14,6 +14,7 @@ export interface SearchEntry {
 
 const pages: SearchEntry[] = [
   { href: "/docs", title: "Introduction", group: "Page" },
+  { href: "/tanya", title: "Tanya Natuna", group: "Page", note: "Ask about the design system", keywords: "ask question help assistant tanya natuna" },
   { href: "/foundation", title: "Foundation", group: "Page", note: "Color, type, number, effect" },
   { href: "/components", title: "Components overview", group: "Page" },
   { href: "/themes", title: "Themes", group: "Page", note: "Light and dark mode" },

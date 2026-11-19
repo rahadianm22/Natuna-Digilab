@@ -10,7 +10,8 @@ test("every main nav link opens its page", async ({ page }) => {
     ["Themes", "Themes"],
   ]) {
     await nav.getByRole("link", { name: label, exact: true }).click();
-    await expect(page.getByRole("heading", { level: 1, name: heading })).toBeVisible();
+    // Dev compiles each route on first visit; parallel workers can make that take longer than 5s.
+    await expect(page.getByRole("heading", { level: 1, name: heading })).toBeVisible({ timeout: 20_000 });
   }
 });
 

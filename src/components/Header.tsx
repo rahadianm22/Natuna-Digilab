@@ -13,6 +13,7 @@ const nav = [
   { href: "/components", label: "Components" },
   { href: "/themes", label: "Themes" },
   { href: "/build-report", label: "Build report" },
+  { href: "/tanya", label: "Tanya Natuna" },
 ];
 
 const mobileNav = [...nav.slice(0, 3), { href: "/naming", label: "Naming" }, ...nav.slice(3)];

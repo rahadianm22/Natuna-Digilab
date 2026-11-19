@@ -1,7 +1,7 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 
-const paths = ["/", "/docs", "/foundation", "/components", "/components/button", "/components/input", "/components/tabs", "/themes", "/naming", "/privacy"];
+const paths = ["/", "/docs", "/foundation", "/components", "/components/button", "/components/input", "/components/tabs", "/themes", "/naming", "/privacy", "/tanya"];
 
 for (const mode of ["light", "dark"] as const) {
   for (const path of paths) {
@@ -9,6 +9,12 @@ for (const mode of ["light", "dark"] as const) {
       await page.addInitScript((m) => localStorage.setItem("theme", m), mode);
       await page.goto(path);
       await page.waitForLoadState("networkidle");
+      // A cold dev cache can surface Turbopack's error overlay while it compiles the route for the
+      // first time. Production builds have no overlay, so reload once and measure the real page.
+      if (await page.getByRole("dialog", { name: /error/i }).count()) {
+        await page.reload();
+        await page.waitForLoadState("networkidle");
+      }
       // Let one-off entrance animations settle, so contrast is measured at full opacity.
       await page.waitForFunction(() =>
         document
