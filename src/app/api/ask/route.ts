@@ -83,7 +83,12 @@ async function callProvider(provider: AskProvider, apiKey: string, messages: Chu
   return fetch(`${provider.baseUrl}/chat/completions`, {
     method: "POST",
     signal,
-    headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      "Content-Type": "application/json",
+      // Z.ai sits behind Cloudflare; a bare Node user agent gets challenged from datacenter IPs.
+      "User-Agent": "NatunaDigilab/1.0 (+https://natunadigilab.vercel.app)",
+    },
     body: JSON.stringify(body),
   }).catch(() => null);
 }
@@ -174,7 +179,10 @@ export async function POST(request: Request) {
       const code = await upstreamErrorCode(upstream);
       if (code === "1113") noBalance = true;
       if (code === "1305" || upstream.status === 429) busy = true;
+      console.error(`[ask] ${provider.id} answered ${upstream.status}${code ? ` code ${code}` : ""}`);
       await upstream.body?.cancel().catch(() => {});
+    } else {
+      console.error(`[ask] ${provider.id} did not respond`);
     }
     markFailed(provider.id);
   }
