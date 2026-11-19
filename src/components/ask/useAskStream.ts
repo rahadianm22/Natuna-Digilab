@@ -2,23 +2,23 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 
-export interface TanyaMessage {
+export interface AskMessage {
   role: "user" | "assistant";
   content: string;
 }
 
-export type TanyaStatus = "idle" | "streaming" | "error";
+export type AskStatus = "idle" | "streaming" | "error";
 
 const FALLBACK_ERROR = "The answer could not be loaded. Try again in a moment.";
 
-/** Streams answers from /api/tanya and keeps the message list. One conversation per mount. */
-export function useTanyaStream() {
-  const [messages, setMessages] = useState<TanyaMessage[]>([]);
-  const [status, setStatus] = useState<TanyaStatus>("idle");
+/** Streams answers from /api/ask and keeps the message list. One conversation per mount. */
+export function useAskStream() {
+  const [messages, setMessages] = useState<AskMessage[]>([]);
+  const [status, setStatus] = useState<AskStatus>("idle");
   const [error, setError] = useState<string | null>(null);
   const controllerRef = useRef<AbortController | null>(null);
   // A mirror for callbacks, so send and retry always see the latest list without re-creating them.
-  const messagesRef = useRef<TanyaMessage[]>([]);
+  const messagesRef = useRef<AskMessage[]>([]);
   useEffect(() => {
     messagesRef.current = messages;
   }, [messages]);
@@ -27,7 +27,7 @@ export function useTanyaStream() {
     controllerRef.current?.abort();
   }, []);
 
-  const run = useCallback(async (history: TanyaMessage[]) => {
+  const run = useCallback(async (history: AskMessage[]) => {
     const controller = new AbortController();
     controllerRef.current = controller;
     setStatus("streaming");
@@ -36,7 +36,7 @@ export function useTanyaStream() {
     setMessages([...history, { role: "assistant", content: "" }]);
     let content = "";
     try {
-      const res = await fetch("/api/tanya", {
+      const res = await fetch("/api/ask", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ messages: history }),

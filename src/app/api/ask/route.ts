@@ -1,5 +1,5 @@
-import { buildTanyaSystemPrompt } from "@/lib/tanya-knowledge";
-import { providerKey, providerTimeoutMs, resolveTanyaProviders, type TanyaProvider } from "@/lib/tanya-providers";
+import { buildAskSystemPrompt } from "@/lib/ask-knowledge";
+import { providerKey, providerTimeoutMs, resolveAskProviders, type AskProvider } from "@/lib/ask-providers";
 
 // The only caller of the model providers. Keys stay server-side; the browser talks to this route.
 export const maxDuration = 60;
@@ -71,7 +71,7 @@ async function upstreamErrorCode(res: Response): Promise<string | undefined> {
   }
 }
 
-async function callProvider(provider: TanyaProvider, apiKey: string, messages: Chunk[], signal: AbortSignal) {
+async function callProvider(provider: AskProvider, apiKey: string, messages: Chunk[], signal: AbortSignal) {
   const body = {
     model: provider.model,
     stream: true,
@@ -101,9 +101,9 @@ export async function POST(request: Request) {
     return Response.json({ error: "Too many questions from this address for now. Try again in an hour." }, { status: 429 });
   }
 
-  const providers = resolveTanyaProviders();
+  const providers = resolveAskProviders();
   if (!providers.length) {
-    return Response.json({ error: "Tanya Natuna is not available right now. Try again later." }, { status: 503 });
+    return Response.json({ error: "Ask Natuna is not available right now. Try again later." }, { status: 503 });
   }
 
   let raw: unknown;
@@ -146,7 +146,7 @@ export async function POST(request: Request) {
       upstream = await callProvider(
         provider,
         apiKey,
-        [{ role: "system", content: buildTanyaSystemPrompt() }, ...messages.slice(-MAX_MESSAGES)],
+        [{ role: "system", content: buildAskSystemPrompt() }, ...messages.slice(-MAX_MESSAGES)],
         AbortSignal.any([request.signal, controller.signal]),
       );
     } finally {
@@ -185,7 +185,7 @@ export async function POST(request: Request) {
       : !busy && noBalance
         ? "Natuna is unavailable right now. Try again later."
         : attempted === 0
-          ? "Tanya Natuna is not available right now. Try again later."
+          ? "Ask Natuna is not available right now. Try again later."
           : "Natuna could not answer. Try again in a moment.";
   return Response.json({ error }, { status: attempted === 0 ? 503 : 502 });
 }

@@ -1,4 +1,4 @@
-# Tanya Natuna: design
+# Ask Natuna: design
 
 Date: 17 November 2026
 Status: draft for review
@@ -7,7 +7,7 @@ Status: draft for review
 
 A conversational AI agent on the Natuna Digilab site. Visitors ask about the design system (components, tokens, build status, usage) and get answers in their own language. Backend is GLM through the Z.ai OpenAI-compatible API, called from a server route so the API key never reaches the browser. The default model is the free GLM-4.7-Flash.
 
-Name in the UI: "Tanya Natuna". Site copy stays English; the name is a brand.
+Name in the UI: "Ask Natuna". Site copy stays English; the name is a brand.
 
 ## Goals
 
@@ -29,9 +29,9 @@ Name in the UI: "Tanya Natuna". Site copy stays English; the name is a brand.
 
 ```
 Browser
-  ├─ /tanya page (full-page chat)
+  ├─ /ask page (full-page chat)
   └─ floating launcher on every page (opens a Drawer)
-        └─ POST /api/tanya ──► Z.ai chat/completions (stream: true)
+        └─ POST /api/ask ──► Z.ai chat/completions (stream: true)
                                    ▲
                     system prompt built from site data
 ```
@@ -42,19 +42,19 @@ The route is the only caller of Z.ai. It validates input, applies rate limits, a
 
 | File | Purpose |
 |---|---|
-| `src/lib/tanya-knowledge.ts` | Builds the system prompt from `componentDocs`, `productTracker`, `palettes`, `roleByToken`, `components-data`, `site.ts`. One source of truth; no hand-copied facts. |
-| `src/app/api/tanya/route.ts` | POST handler. Validation, rate limit, upstream call, SSE passthrough, error JSON. |
-| `src/components/tanya/useTanyaStream.ts` | Client hook: fetch with AbortController, SSE parser, streaming state. |
-| `src/components/tanya/TanyaChat.tsx` | Message list, input, send/stop/retry, suggested questions, empty state, disclaimer. |
-| `src/components/tanya/TanyaLauncher.tsx` | Floating button + Drawer, reusing `src/ui/drawer.tsx`. |
-| `src/app/tanya/page.tsx` | Full-page chat, same chat component without the Drawer. |
+| `src/lib/ask-knowledge.ts` | Builds the system prompt from `componentDocs`, `productTracker`, `palettes`, `roleByToken`, `components-data`, `site.ts`. One source of truth; no hand-copied facts. |
+| `src/app/api/ask/route.ts` | POST handler. Validation, rate limit, upstream call, SSE passthrough, error JSON. |
+| `src/components/ask/useAskStream.ts` | Client hook: fetch with AbortController, SSE parser, streaming state. |
+| `src/components/ask/AskChat.tsx` | Message list, input, send/stop/retry, suggested questions, empty state, disclaimer. |
+| `src/components/ask/AskLauncher.tsx` | Floating button + Drawer, reusing `src/ui/drawer.tsx`. |
+| `src/app/ask/page.tsx` | Full-page chat, same chat component without the Drawer. |
 | `src/app/layout.tsx` | Mounts the launcher globally. |
-| `Header.tsx`, `Footer.tsx` | "Tanya Natuna" links. |
-| `e2e/tanya.spec.ts` | UI tests with the API route mocked. |
+| `Header.tsx`, `Footer.tsx` | "Ask Natuna" links. |
+| `e2e/ask.spec.ts` | UI tests with the API route mocked. |
 
 ## API contract
 
-`POST /api/tanya`
+`POST /api/ask`
 
 Request: `{ messages: Array<{ role: "user" | "assistant", content: string }> }`
 - Maximum 8 messages kept; the route trims older ones.
@@ -108,7 +108,7 @@ Grounded facts injected into the prompt: page list, tracked components and their
 
 ## Testing
 
-- Playwright intercepts `**/api/tanya` with a fake SSE stream: open launcher, send a message, see streamed text, Stop, Escape close, /tanya page, axe checks in light and dark.
+- Playwright intercepts `**/api/ask` with a fake SSE stream: open launcher, send a message, see streamed text, Stop, Escape close, /ask page, axe checks in light and dark.
 - CI never calls Z.ai; no tokens spent.
 - Checks: `npx tsc --noEmit`, `npm run lint`, `npm run build`, `npm run test:e2e`.
 

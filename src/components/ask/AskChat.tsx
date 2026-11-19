@@ -4,8 +4,8 @@ import Image from "next/image";
 import { useEffect, useRef, useState, type FormEvent, type KeyboardEvent, type ReactNode } from "react";
 import { ArrowCounterClockwise, PaperPlaneRight, Stop } from "@phosphor-icons/react";
 import { IconButton } from "@/ui";
-import { tanyaSuggestions } from "@/lib/tanya-knowledge";
-import { useTanyaStream } from "./useTanyaStream";
+import { askSuggestions } from "@/lib/ask-knowledge";
+import { useAskStream } from "./useAskStream";
 
 // Inline markdown: bold, inline code. Everything else stays plain text, so no HTML can sneak in.
 function inline(text: string, keyBase: string): ReactNode[] {
@@ -75,8 +75,8 @@ function richText(text: string, keyBase: string): ReactNode[] {
   return blocks;
 }
 
-export default function TanyaChat({ autoFocus = false, className = "" }: { autoFocus?: boolean; className?: string }) {
-  const { messages, status, error, send, stop, retry } = useTanyaStream();
+export default function AskChat({ autoFocus = false, className = "" }: { autoFocus?: boolean; className?: string }) {
+  const { messages, status, error, send, stop, retry } = useAskStream();
   const [draft, setDraft] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
   const areaRef = useRef<HTMLTextAreaElement>(null);
@@ -133,7 +133,7 @@ export default function TanyaChat({ autoFocus = false, className = "" }: { autoF
               </p>
             </div>
             <div className="flex flex-col items-stretch gap-2 pt-1">
-              {tanyaSuggestions.map((s) => (
+              {askSuggestions.map((s) => (
                 <button
                   key={s}
                   type="button"

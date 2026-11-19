@@ -1,8 +1,8 @@
-// The model chain behind /api/tanya, in the spirit of a small 9router: providers are tried in
+// The model chain behind /api/ask, in the spirit of a small 9router: providers are tried in
 // order, the first one that answers wins, and a busy or failing one is skipped for a while.
 // Every entry speaks the OpenAI chat-completions dialect, so one request builder fits all.
 
-export interface TanyaProvider {
+export interface AskProvider {
   /** Stable id, also used by TANYA_PROVIDERS to set the order. */
   id: string;
   /** Shown to the visitor as "Answered by <label>". */
@@ -39,8 +39,8 @@ function splitList(value: string | undefined, fallback: string[]): string[] {
   return source.map((s) => s.trim()).filter(Boolean).filter((s, i, all) => all.indexOf(s) === i);
 }
 
-function base(): TanyaProvider[] {
-  const list: TanyaProvider[] = [];
+function base(): AskProvider[] {
+  const list: AskProvider[] = [];
 
   if (process.env.ZAI_API_KEY) {
     const baseUrl = stripSlash(process.env.ZAI_BASE_URL ?? "https://api.z.ai/api/paas/v4");
@@ -132,11 +132,11 @@ function base(): TanyaProvider[] {
  * The chain for this request. Providers without a key are dropped. TANYA_PROVIDERS, when set,
  * lists provider ids in priority order and narrows the chain to them.
  */
-export function resolveTanyaProviders(): TanyaProvider[] {
+export function resolveAskProviders(): AskProvider[] {
   const all = base();
   const wanted = splitList(process.env.TANYA_PROVIDERS, []);
   if (!wanted.length) return all;
-  return wanted.map((id) => all.find((p) => p.id === id)).filter((p): p is TanyaProvider => !!p);
+  return wanted.map((id) => all.find((p) => p.id === id)).filter((p): p is AskProvider => !!p);
 }
 
 /** How long to wait for response headers before trying the next provider. */
@@ -146,6 +146,6 @@ export function providerTimeoutMs(): number {
   return Math.min(Math.max(raw, 1000), 30000);
 }
 
-export function providerKey(provider: TanyaProvider): string | undefined {
+export function providerKey(provider: AskProvider): string | undefined {
   return process.env[provider.keyEnv];
 }

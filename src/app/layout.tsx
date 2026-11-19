@@ -3,7 +3,7 @@ import { Urbanist } from "next/font/google";
 import "./globals.css";
 import { SITE_URL } from "@/lib/site";
 import RouteFocus from "@/components/RouteFocus";
-import TanyaLauncher from "@/components/tanya/TanyaLauncher";
+import AskLauncher from "@/components/ask/AskLauncher";
 
 const urbanist = Urbanist({
   subsets: ["latin"],
@@ -37,7 +37,7 @@ export default function RootLayout({
       </head>
       <body className="min-h-full flex flex-col">
         <RouteFocus />
-        <TanyaLauncher />
+        <AskLauncher />
         {children}
       </body>
     </html>

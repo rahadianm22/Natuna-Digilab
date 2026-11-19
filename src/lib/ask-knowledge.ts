@@ -15,6 +15,7 @@ const PAGES = `Site pages:
 - /themes: light and dark mode, and the 32 semantic color roles with their values.
 - /naming: Figma property and page naming rules.
 - /build-report: progress of the build, counted from the tracker.
+- /ask: a full-page chat with Natuna, the same assistant as the floating launcher.
 - /privacy: privacy statement.`;
 
 const SYSTEM_FACTS = `Facts about Natuna Digilab:
@@ -48,13 +49,13 @@ ${palettes.map((p) => `- ${p.label} (token ${p.token}, ${p.steps.length} steps)`
 Semantic color roles (token, Figma name, what it is used for; values are on /themes):
 ${colorRoles.map((r) => `- --color-${r.token} (${r.figma}): ${r.use}`).join("\n")}`;
 
-export const tanyaSuggestions = [
+export const askSuggestions = [
   "Which components are ready in React?",
   "How do I use the Button component?",
   "Which color tokens make up a card?",
 ];
 
-export function buildTanyaSystemPrompt(): string {
+export function buildAskSystemPrompt(): string {
   return `You are Natuna, the assistant of the Natuna Digilab design system website. You help designers and engineers who browse the site.
 
 ${SYSTEM_FACTS}
